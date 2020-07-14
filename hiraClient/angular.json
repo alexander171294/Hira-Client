@@ -123,6 +123,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "hiraClient"
+    }
+  },
+  "defaultProject": "hiraClient",
+  "cli": {
+    "analytics": "3be1fa57-8590-49f9-b1f7-5b89ae217482"
+  }
 }
