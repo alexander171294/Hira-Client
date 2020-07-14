@@ -35,6 +35,11 @@ main {
   section {
     height: calc(92vh - 78px);
     overflow-y: auto;
+    display: flex;
+    flex-flow: column nowrap;
+    > :first-child {
+        margin-top: auto !important;
+    }
     .messageItem {
       margin: 2vh 2vw;
       font-family: helvetica;
