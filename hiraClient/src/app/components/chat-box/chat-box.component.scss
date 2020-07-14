@@ -4,6 +4,99 @@ main {
   height: 100vh;
   overflow: hidden;
   vertical-align: top;
-  background: #eef0f3;
+  background: linear-gradient(170deg, #eff2f5, #e7e9ef);
   box-shadow: 0px 0px 2vw black;
+  position: relative;
+  header {
+    height: 60px;
+    padding: 2vh 2vw;
+    background: #212429;
+    svg, img {
+      width: 30px;
+      color: #797a7d;
+    }
+    h3 {
+      margin: 0px 15px;
+      display: inline-block;
+      color: #ffffff;
+      font-family: Helvetica;
+      span {
+        color: #797a7d;
+        font-family: Helvetica;
+        font-weight: normal;
+      }
+    }
+    .subtitle {
+      margin: 0px 45px;
+      color: #797a7d;
+      font-family: Helvetica;
+    }
+  }
+  section {
+    height: calc(92vh - 78px);
+    overflow-y: auto;
+    .messageItem {
+      margin: 2vh 2vw;
+      font-family: helvetica;
+      .messageBody {
+        display: inline-block;
+        vertical-align: top;
+        margin-left: 6px;
+        .author {
+          font-weight: bolder;
+          span {
+            font-weight: normal;
+            font-size: 12px;
+            color: #4e4e4e;
+            margin-left: 5px;
+          }
+        }
+        img {
+          display: block;
+          max-width: 150px;
+          max-height: 150px;
+          width: initial;
+          border: 1px solid #cccccc;
+          border-radius: 5px;
+        }
+      }
+    }
+  }
+  footer {
+    position: absolute;
+    bottom: 0px;
+    width: 100%;
+    background: #fbfbfc;
+    border-top: 1px solid #c3c3c3;
+    input {
+      border: none;
+      padding: 2vh 2vw;
+      font-family: Helvetica;
+      font-size: 15px;
+      outline: none;
+      width: calc(100% - 4vw);
+    }
+    button {
+      position: absolute;
+      width: 35px;
+      height: 36px;
+      border-radius: 50%;
+      border: none;
+      background: #5d6976;
+      text-align: center;
+      color: white;
+      outline: none;
+      right: 1vw;
+      bottom: calc(50% - 18px);
+      cursor: pointer;
+      svg {
+        width: 19px;
+      }
+    }
+  }
+}
+
+img, svg {
+  width: 50px;
+  vertical-align: middle;
 }

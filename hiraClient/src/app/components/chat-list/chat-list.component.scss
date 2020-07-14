@@ -4,15 +4,22 @@ aside {
   height: 100vh;
   display: inline-block;
   > header {
-    padding: 2vh 2vw;
     text-align: center;
+    height: 60px;
+    padding: 2vh 2vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border-bottom: 1px solid #0f1316;
+    margin-bottom: 1vh;
     input {
       background: #363d44;
       border: none;
       border-radius: 50px;
-      padding: 0.5vh 0.5vw;
+      padding: 1vh 0.5vw;
       font-size: 16px;
       outline: none;
+      color: white;
     }
   }
   section {
