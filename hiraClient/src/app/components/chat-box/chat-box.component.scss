@@ -7,6 +7,7 @@ main {
   background: linear-gradient(170deg, #eff2f5, #e7e9ef);
   box-shadow: 0px 0px 2vw black;
   position: relative;
+  float: left;
   header {
     height: 60px;
     padding: 2vh 2vw;
@@ -30,6 +31,8 @@ main {
       margin: 0px 45px;
       color: #797a7d;
       font-family: Helvetica;
+      height: 17px;
+      overflow: hidden;
     }
   }
   section {
@@ -63,6 +66,30 @@ main {
           width: initial;
           border: 1px solid #cccccc;
           border-radius: 5px;
+          margin-top: 5px;
+        }
+        a.vcard {
+          display: block;
+          width: 100%;
+          border: 1px solid #cccccc;
+          background: white;
+          text-decoration: none;
+          padding: 5px;
+          border-radius: 5px;
+          color: #2d2d2d;
+          margin-top: 5px;
+          h3 {
+            margin: 0px;
+            margin-bottom: 5px;
+          }
+          span {
+            font-size: 12px;
+          }
+        }
+        iframe {
+          margin-top: 5px;
+          display: block;
+          max-width: 100%;
         }
       }
     }
