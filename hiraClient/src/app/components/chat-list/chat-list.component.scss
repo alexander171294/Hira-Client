@@ -4,6 +4,7 @@ aside {
   height: 100vh;
   display: inline-block;
   float: left;
+  overflow: hidden;
   > header {
     text-align: center;
     height: 60px;

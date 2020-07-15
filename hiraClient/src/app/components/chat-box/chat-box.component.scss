@@ -26,6 +26,15 @@ main {
         font-family: Helvetica;
         font-weight: normal;
       }
+      svg {
+        position: absolute;
+        right: 2vw;
+        width: 25px;
+        cursor: pointer;
+        &:hover {
+          color: #fad56e;
+        }
+      }
     }
     .subtitle {
       margin: 0px 45px;
