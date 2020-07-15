@@ -83,7 +83,7 @@ main {
           border: 1px solid #cccccc;
           background: white;
           text-decoration: none;
-          padding: 5px;
+          padding: 10px;
           border-radius: 5px;
           color: #2d2d2d;
           margin-top: 5px;
@@ -101,6 +101,20 @@ main {
           max-width: 100%;
         }
       }
+    }
+    &::-webkit-scrollbar-thumb {
+      background: #242a31;
+    }
+    &::-webkit-scrollbar-thumb:hover {
+      background: #242a31;
+      box-shadow: 0 0 2px 1px #212429;
+    }
+    &::-webkit-scrollbar-track {
+      background: #e7e9ef;
+      border-left: 1px solid #c3c3c3;
+    }
+    &::-webkit-scrollbar {
+      width: 10px;
     }
   }
   footer {

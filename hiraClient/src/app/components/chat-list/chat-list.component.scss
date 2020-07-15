@@ -5,6 +5,7 @@ aside {
   display: inline-block;
   float: left;
   overflow: hidden;
+  position: relative;
   > header {
     text-align: center;
     height: 60px;
@@ -83,6 +84,34 @@ aside {
           }
         }
       }
+    }
+  }
+
+  footer {
+    text-align: right;
+    margin-right: 1vw;
+    position: absolute;
+    bottom: 0px;
+    width: calc(100% - 2vw);
+    padding: 1vh 1vw;
+    background: #212429;
+    box-shadow: 0px 0px 5px black;
+    svg {
+      width: 35px;
+      color: #797a7d;
+      margin: 0px 5px;
+      cursor: pointer;
+      vertical-align: middle;
+      &.fa-exchange-alt {
+        transform: rotate(-45deg);
+      }
+      &:hover {
+        color: #fad56e;
+      }
+    }
+    span {
+      color: #797a7d;
+      font-family: Poppins;
     }
   }
 }
