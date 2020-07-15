@@ -23,6 +23,17 @@ aside {
       outline: none;
       color: white;
     }
+    .title {
+      color: #797a7d;
+      font-family: Poppins;
+      font-size: 25px;
+      margin-bottom: 5px;
+      svg {
+        width: 50px;
+        color: #797a7d;
+        vertical-align: bottom;
+      }
+    }
   }
   section {
     padding: 1vh 1vw;

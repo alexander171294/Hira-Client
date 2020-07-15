@@ -35,6 +35,9 @@ aside {
         padding: 1vh 5px;
         cursor: pointer;
         border-radius: 5px;
+        &.me {
+          color: #fad56e;
+        }
         &:hover {
           color: #aeb0b4;
           background-color: #343c44;
