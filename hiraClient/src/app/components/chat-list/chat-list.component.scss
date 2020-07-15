@@ -65,9 +65,21 @@ aside {
             width: 30px;
             margin-right: 4px;
           }
-          &:hover {
+          &:hover, &.active {
             color: #aeb0b4;
             background-color: #343c44;
+            position: relative;
+            &::after {
+              content: "";
+              display: block;
+              width: 10px;
+              height: 10px;
+              background: #343c43;
+              position: absolute;
+              top: calc(50% - 5px);
+              right: -5px;
+              transform: rotate(45deg);
+            }
           }
         }
       }
