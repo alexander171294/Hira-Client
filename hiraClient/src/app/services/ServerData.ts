@@ -1,0 +1,21 @@
+import { v4 as uuidv4 } from 'uuid';
+
+export class ServerData {
+  public id: string = ServerData.getRandomID();
+  public name: string;
+  public apodo: string;
+  public apodoSecundario: string;
+  public username: string;
+  public method: string;
+  public server: string;
+  public created: string;
+  public password: string;
+  public autoConnect: boolean;
+  public connected: boolean;
+  public submsg: string;
+  public autojoin: string;
+
+  public static getRandomID(): string {
+    return uuidv4();
+  }
+}
