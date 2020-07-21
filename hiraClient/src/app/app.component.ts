@@ -70,6 +70,9 @@ export class AppComponent implements OnInit {
       if (chatsDelta.changeType === DeltaChangeTypes.UPDATED) {
         const privateChatOpened = this.chatType === CBoxChatTypes.PRIVMSG;
         const deltaPrivate = chatsDelta.message.messageType === MessageTypes.PRIV_MSG;
+        if (chatsDelta.chat[0] === '#') {
+          chatsDelta.chat = chatsDelta.chat.slice(1);
+        }
         if (!this.isInServerLog && this.chatName === chatsDelta.chat && privateChatOpened === deltaPrivate) {
           if (privateChatOpened) {
             this.messages = this.msgPool.getPrivateMessages(chatsDelta.serverID, this.chatName);
@@ -78,10 +81,6 @@ export class AppComponent implements OnInit {
           }
           this.cbox.goBottom();
         } else {
-          console.log('Notificacion: ', deltaPrivate, chatsDelta.chat);
-          if (chatsDelta.chat[0] === '#') {
-            chatsDelta.chat = chatsDelta.chat.slice(1);
-          }
           if (deltaPrivate) {
             this.notifications.privates[chatsDelta.chat] = chatsDelta.message.data.mention ? 'mentioned' : 'normal';
           } else {
