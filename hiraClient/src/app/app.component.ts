@@ -25,7 +25,7 @@ export class AppComponent implements OnInit {
   inServerNotifications = false;
   chatName = 'Server';
   chatType = CBoxChatTypes.SERVER;
-  chatTopic: string;
+  chatTopic = 'Mensajes del servidor.';
   chatMembers: number;
 
   @ViewChild('cbox') cbox: ChatBoxComponent;
@@ -79,8 +79,10 @@ export class AppComponent implements OnInit {
     this.isInServerLog = false;
     if (cd.privateChat) {
       this.messages = this.msgPool.getPrivateMessages(this.actualServerID, this.chatName);
+      this.chatTopic = '';
     } else {
       this.messages = this.msgPool.getChannelMessages(this.actualServerID, this.chatName);
+      this.chatTopic = this.msgPool.getChannelTopic(this.actualServerID, this.chatName);
     }
     this.cbox.goBottom();
     this.channelUsers = this.msgPool.getChannelUsers(this.actualServerID, this.chatName);
@@ -88,6 +90,7 @@ export class AppComponent implements OnInit {
 
   selectServer() {
     this.chatName = 'Server';
+    this.chatTopic = 'Mensajes del servidor.';
     this.chatType = CBoxChatTypes.SERVER;
     this.isInServerLog = true;
     this.messages = this.msgPool.getServerMessages(this.actualServerID);

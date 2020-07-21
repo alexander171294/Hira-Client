@@ -10,17 +10,17 @@ export class IRCParser {
           im.code = partials[1];
           const target = /([^!]*!)?([^@]+@)?(.*)/.exec(partials[0]);
           const od = new OriginData();
-          if(!target[2]) {
+          if (!target[2]) {
               od.server = target[1];
               im.simplyOrigin = od.server;
-          } else if(!target[3]) {
+          } else if (!target[3]) {
               od.server = target[2];
-              od.identitity = target[1].slice(0, target[1].length-1);
+              od.identitity = target[1].slice(0, target[1].length - 1);
               im.simplyOrigin = od.identitity;
           } else {
               od.server = target[3];
-              od.identitity = target[2].slice(0, target[1].length-1);
-              od.nick = target[1].slice(0, target[1].length-1);
+              od.identitity = target[2].slice(0, target[1].length - 1);
+              od.nick = target[1].slice(0, target[1].length - 1);
               im.simplyOrigin = od.nick;
           }
           im.origin = od;
@@ -50,6 +50,7 @@ export class IRCParser {
                   UserLeavingDTO |
                   UserJoiningDTO |
                   IRCMessageDTO |
+                  ChannelTopicDTO |
                   IRCMessage // raw for server messages
                   > {
     const msg = new IRCMessage();
@@ -146,6 +147,7 @@ export class IRCParser {
         channel: channels[0],
         topic: parsedMessage.message,
       };
+      return out;
     }
 
     if (parsedMessage.code === 'PART') {

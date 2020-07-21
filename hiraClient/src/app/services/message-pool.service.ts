@@ -106,10 +106,14 @@ export class MessagePoolService {
       this.usersChanged.emit(ud);
     }
     if (message.messageType === MessageTypes.CHANNEL_TOPIC) {
-      // TODO: GUARDAR TOPIC PARA CANAL.
+      console.log('Channel topic');
       const data = message.data as ChannelTopicDTO;
       this.serversInfo[serverID].channelTopics[data.channel] = data.topic;
     }
+  }
+
+  public getChannelTopic(serverID: string, channel: string): string {
+    return this.serversInfo[serverID].channelTopics[channel];
   }
 
   private addChannelMessage(serverID, channel, message: ProcessedMessage<IRCMessageDTO | UserJoiningDTO | UserLeavingDTO>) {
@@ -168,7 +172,7 @@ export class ServerInfo {
   public channelUsers: UsersInChannelHash = {};
   public channels: string[] = [];
   public privateChats: string[] = [];
-  public channelTopics: TopicsHash;
+  public channelTopics: TopicsHash = {};
 
   public addChannelMessage(channel: string, message: ProcessedMessage<IRCMessageDTO | UserJoiningDTO | UserLeavingDTO>): boolean {
     channel = channel[0] === '#' ? channel.slice(1) : channel;
