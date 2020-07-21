@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { ServerData } from './ServerData';
 import { MessageHandlerService, MessageData } from './message-handler.service';
 import { IRCParser, MessageTypes, ProcessedMessage, IRCMessageDTO, IRCMessage } from './IRCParser';
-import { ServersHdlrService } from './servers-hdlr.service';
+import { ServersHdlrService, ServerDataConnected } from './servers-hdlr.service';
 import { MessagePoolService } from './message-pool.service';
 
 @Injectable({
@@ -97,6 +97,7 @@ export class IRCProtocolService {
       if (verb === 'me') {
         cmd = cmd.slice(2).trim();
         serverConnected.websocket.send('PRIVMSG ' + target + ' :' + String.fromCharCode(1) + 'ACTION ' + cmd + String.fromCharCode(1));
+        this.registerMessage(target, serverConnected, cmd, serverID, true);
         return;
       }
       if (verb === 'cs') {
@@ -108,26 +109,30 @@ export class IRCProtocolService {
       serverConnected.websocket.send(cmd);
     } else {
       serverConnected.websocket.send('PRIVMSG ' + target + ' :' + command);
-      const message = new ProcessedMessage<IRCMessageDTO>();
-      if (target[0] === '#') {
-        message.messageType = MessageTypes.CHANNEL_MSG;
-        message.data = {
-          author: serverConnected.actualNick,
-          message: command,
-          meAction: false,
-          channel: target
-        };
-      } else {
-        message.messageType = MessageTypes.PRIV_MSG;
-        message.data = {
-          author: target,
-          message: command,
-          meAction: false,
-          privateAuthor: serverConnected.actualNick
-        };
-      }
-      this.msgPool.registerMessage(message, serverID);
+      this.registerMessage(target, serverConnected, command, serverID, false);
     }
+  }
+
+  private registerMessage(target: string, serverConnected: ServerDataConnected, command: string, serverID: string, meAction: boolean) {
+    const message = new ProcessedMessage<IRCMessageDTO>();
+    if (target[0] === '#') {
+      message.messageType = MessageTypes.CHANNEL_MSG;
+      message.data = {
+        author: serverConnected.actualNick,
+        message: command,
+        meAction,
+        channel: target
+      };
+    } else {
+      message.messageType = MessageTypes.PRIV_MSG;
+      message.data = {
+        author: target,
+        message: command,
+        meAction,
+        privateAuthor: serverConnected.actualNick
+      };
+    }
+    this.msgPool.registerMessage(message, serverID);
   }
 
 }

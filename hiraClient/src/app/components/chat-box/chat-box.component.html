@@ -22,7 +22,9 @@
           {{message.data.message}}
         </div>
         <div class="messageBody actionOrigin" *ngIf="message.data.meAction">
-          <span>{{message.data.author}}</span> {{message.data.message}}
+          <span *ngIf="!message.data.privateAuthor">{{message.data.author}}</span>
+          <span *ngIf="message.data.privateAuthor">{{message.data.privateAuthor}}</span>
+          {{message.data.message}}
         </div>
       </div>
       <div class="serverMSG" *ngIf="message.messageType === 'SERVER' || message.messageType === 'NOTICE'">
