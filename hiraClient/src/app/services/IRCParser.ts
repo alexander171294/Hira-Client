@@ -307,4 +307,5 @@ export interface IRCMessageDTO {
   date?: string;
   channel?: string;
   mention?: boolean;
+  privateAuthor?: string; // when i send private message my nick is here.
 }

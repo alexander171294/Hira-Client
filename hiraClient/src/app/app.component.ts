@@ -56,8 +56,10 @@ export class AppComponent implements OnInit {
       if (chatsDelta.changeType === DeltaChangeTypes.ADDED) {
         if (chatsDelta.isPrivate) {
           this.privateChats = this.msgPool.getPrivateChats(chatsDelta.serverID);
+          this.cbox.goBottom();
         } else {
           this.chatsRooms = this.msgPool.getChannels(chatsDelta.serverID);
+          this.cbox.goBottom();
         }
       }
       if (chatsDelta.changeType === DeltaChangeTypes.DELETED) {
@@ -68,6 +70,7 @@ export class AppComponent implements OnInit {
         const privateChatOpened = this.chatType === CBoxChatTypes.PRIVMSG;
         if (!this.isInServerLog && this.chatName === chatsDelta.chat && privateChatOpened === chatsDelta.isPrivate) {
           this.messages = this.msgPool.getChannelMessages(chatsDelta.serverID, this.chatName);
+          this.cbox.goBottom();
         }
       }
     });
@@ -105,7 +108,16 @@ export class AppComponent implements OnInit {
   }
 
   send(command: string) {
-    this.ircproto.sendMessageOrCommand(this.actualServerID, command);
+    if (!this.isInServerLog) {
+      let target;
+      target = this.chatName;
+      if (this.chatType === CBoxChatTypes.CHANNEL) {
+        target = '#' + target;
+      }
+      this.ircproto.sendMessageOrCommand(this.actualServerID, command, target);
+    } else {
+      this.ircproto.sendMessageOrCommand(this.actualServerID, command);
+    }
   }
 
   openPrivateChat(user: string) {
