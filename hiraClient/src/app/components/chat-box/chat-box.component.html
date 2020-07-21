@@ -9,63 +9,22 @@
     <div class="subtitle">Bienvenidos a Underc0de! | https://underc0de.org |Sala para distraernos| No respodemos dudas. Puedes plantearlas en el foro.</div>
   </header>
   <section>
-    <div class="messageItem">
-      <img src="https://avatars.dicebear.com/api/jdenticon/Harkonidaz.svg?options[colorful]=1" />
-      <div class="messageBody">
-        <div class="author">Harkonidaz<span class="hs">17:23:03</span></div>
-        probando un mensaje bla bla bla.
-      </div>
-    </div>
-    <div class="messageItem">
-      <img src="https://avatars.dicebear.com/api/jdenticon/Harkonidaz.svg?options[colorful]=1" />
-      <div class="messageBody">
-        <div class="author">Harkonidaz<span class="hs">17:23:03</span></div>
-        probando un mensaje bla bla bla.
-      </div>
-    </div>
-    <div class="messageItem">
-      <img src="https://avatars.dicebear.com/api/jdenticon/Harkonidaz.svg?options[colorful]=1" />
-      <div class="messageBody">
-        <div class="author">
-          Harkonidaz<span class="hs">17:23:03</span>
+    <div class="messageItem" *ngFor="let message of messages">
+
+      <div class="channelMSG" *ngIf="message.messageType === 'CHANNEL_MSG' || message.messageType === 'PRIV_MSG'">
+        <img src="https://avatars.dicebear.com/api/jdenticon/{{message.data.author}}.svg?options[colorful]=1" />
+        <div class="messageBody">
+          <div class="author">{{message.data.author}}<span class="hs">{{message.data.date}}</span></div>
+          {{message.data.message}}
         </div>
-        probando un mensaje bla bla bla.
       </div>
-    </div>
-    <div class="messageItem">
-      <img src="https://avatars.dicebear.com/api/jdenticon/Harkonidaz.svg?options[colorful]=1" />
-      <div class="messageBody">
-        <div class="author">
-          Harkonidaz<span class="hs">17:23:03</span>
+      <div class="serverMSG" *ngIf="message.messageType === 'SERVER'">
+        <div class="messageBody">
+          <div class="author">{{message.data.simplyOrigin}}</div>
+          {{message.data.message}}
         </div>
-        probando un mensaje con foto al dar click se abre en una nueva pestaña
-        <a href="https://static.carrefour.es/hd_510x_/crs/cdn_static/catalog/hd/769460_00_1.jpg" target="_blank">
-          <img src="https://static.carrefour.es/hd_510x_/crs/cdn_static/catalog/hd/769460_00_1.jpg" class="banner" />
-        </a>
       </div>
-    </div>
-    <div class="messageItem">
-      <img src="https://avatars.dicebear.com/api/jdenticon/Harkonidaz.svg?options[colorful]=1" />
-      <div class="messageBody">
-        <div class="author">
-          Harkonidaz<span class="hs">17:23:03</span>
-        </div>
-        probando un mensaje con un link vcard
-        <a class="vcard" href="https://static.carrefour.es/hd_510x_/crs/cdn_static/catalog/hd/769460_00_1.jpg" target="_blank">
-          <h3>Probando link con vcard</h3>
-          <span>https://static.carrefour.es/hd_510x_/crs/cdn_static/catalog/hd/769460_00_1.jpg</span>
-        </a>
-      </div>
-    </div>
-    <div class="messageItem">
-      <img src="https://avatars.dicebear.com/api/jdenticon/Harkonidaz.svg?options[colorful]=1" />
-      <div class="messageBody">
-        <div class="author">
-          Harkonidaz<span class="hs">17:23:03</span>
-        </div>
-        probando un mensaje con un video de youtube
-        <iframe width="560" height="315" src="https://www.youtube.com/embed/NDhJfHhe3e4" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-      </div>
+
     </div>
   </section>
   <footer>

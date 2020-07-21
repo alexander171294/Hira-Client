@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { IRCProtocolService } from './services/ircprotocol.service';
 import { ServerData } from './services/ServerData';
 import { MessagePoolService, ChatsDelta, DeltaChangeTypes, ServersDelta } from './services/message-pool.service';
-import { ProcessedMessage, IRCMessage } from './services/IRCParser';
+import { ProcessedMessage, IRCMessage, IRCMessageDTO } from './services/IRCParser';
 
 @Component({
   selector: 'app-root',
@@ -15,7 +15,7 @@ export class AppComponent implements OnInit {
 
   privateChats: string[];
   chatsRooms: string[];
-  messages: ProcessedMessage<IRCMessage>[];
+  messages: ProcessedMessage<IRCMessage | IRCMessageDTO>[];
 
   isInServerLog = true;
   inServerNotifications = false;

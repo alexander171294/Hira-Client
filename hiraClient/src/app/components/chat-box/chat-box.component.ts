@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { ProcessedMessage, IRCMessage, IRCMessageDTO } from 'src/app/services/IRCParser';
 
 @Component({
   selector: 'app-chat-box',
@@ -6,6 +7,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./chat-box.component.scss']
 })
 export class ChatBoxComponent implements OnInit {
+
+  @Input() messages: ProcessedMessage<any>[];
 
   constructor() { }
 
