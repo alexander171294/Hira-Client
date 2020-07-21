@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { ProcessedMessage } from 'src/app/services/IRCParser';
 
 @Component({
@@ -13,6 +13,7 @@ export class ChatBoxComponent implements OnInit {
   @Input() chatType: CBoxChatTypes;
   @Input() members: number;
   @Input() topic: string;
+  @Output() sendCommand: EventEmitter<string> = new EventEmitter<string>();
 
   constructor() { }
 
@@ -24,6 +25,13 @@ export class ChatBoxComponent implements OnInit {
       const cbox = document.getElementById('cboxMessages');
       cbox.scrollTop = cbox.scrollHeight;
     }, 100);
+  }
+
+  send(evt) {
+    if (evt.keyCode === 13) {
+      const commandOrMessage = evt.srcElement.value;
+      this.sendCommand.emit(commandOrMessage);
+    }
   }
 
 }
