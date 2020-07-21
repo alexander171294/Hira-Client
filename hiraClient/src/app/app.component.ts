@@ -50,12 +50,15 @@ export class AppComponent implements OnInit {
     });
     this.msgPool.chatsChanged.subscribe((chatsDelta: ChatsDelta) => {
       console.log('Chat Delta', chatsDelta);
-      if (chatsDelta.changeType === DeltaChangeTypes.ADDED || chatsDelta.changeType === DeltaChangeTypes.DELETED) {
+      if (chatsDelta.changeType === DeltaChangeTypes.ADDED) {
         if (chatsDelta.isPrivate) {
           this.privateChats = this.msgPool.getPrivateChats(chatsDelta.serverID);
         } else {
           this.chatsRooms = this.msgPool.getChannels(chatsDelta.serverID);
         }
+      }
+      if (chatsDelta.changeType === DeltaChangeTypes.DELETED) {
+        this.chatsRooms = this.msgPool.getChannels(chatsDelta.serverID);
       }
     });
   }

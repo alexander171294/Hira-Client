@@ -31,6 +31,8 @@ export class ChatBoxComponent implements OnInit {
     if (evt.keyCode === 13) {
       const commandOrMessage = evt.srcElement.value;
       this.sendCommand.emit(commandOrMessage);
+      evt.srcElement.value = '';
+      evt.srcElement.focus();
     }
   }
 
