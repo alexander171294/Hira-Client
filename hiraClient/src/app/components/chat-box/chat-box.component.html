@@ -9,7 +9,7 @@
     <div class="subtitle">Bienvenidos a Underc0de! | https://underc0de.org |Sala para distraernos| No respodemos dudas. Puedes plantearlas en el foro.</div>
   </header>
   <section>
-    <div class="messageItem" *ngFor="let message of messages">
+    <div class="messageItem" *ngFor="let message of messages" [class.server]="message.messageType === 'SERVER'">
 
       <div class="channelMSG" *ngIf="message.messageType === 'CHANNEL_MSG' || message.messageType === 'PRIV_MSG'">
         <img src="https://avatars.dicebear.com/api/jdenticon/{{message.data.author}}.svg?options[colorful]=1" />
