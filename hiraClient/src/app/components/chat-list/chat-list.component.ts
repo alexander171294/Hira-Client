@@ -27,10 +27,16 @@ export class ChatListComponent implements OnInit {
     // this.actualChat = chatName;
     // this.actualIsPrivateChat = isPrivateChat;
     this.changeChat.emit(new ChatData(isPrivateChat, chatName));
+    if (isPrivateChat) {
+      this.notifications.privates[chatName] = undefined;
+    } else {
+      this.notifications.channels[chatName] = undefined;
+    }
   }
 
   deactiveChat() {
     this.selectServer.emit();
+    this.notifications.server = false;
   }
 
 }
@@ -51,5 +57,5 @@ export class NotificationsChats {
 }
 
 class NotificationHash {
-  [key: string]: boolean;
+  [key: string]: string;
 }
