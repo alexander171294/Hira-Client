@@ -11,7 +11,7 @@
     <div class="subtitle" *ngIf="topic">{{topic}}</div>
   </header>
   <section id="cboxMessages">
-    <div class="messageItem" *ngFor="let message of messages" [class.server]="message.messageType === 'SERVER'">
+    <div class="messageItem" *ngFor="let message of messages" [class.server]="message.messageType === 'SERVER'" [class.notice]="message.messageType === 'NOTICE'">
 
       <div class="channelMSG" *ngIf="message.messageType === 'CHANNEL_MSG' || message.messageType === 'PRIV_MSG'">
         <img *ngIf="!message.data.privateAuthor" src="https://avatars.dicebear.com/api/jdenticon/{{message.data.author}}.svg?options[colorful]=1" />
@@ -22,7 +22,7 @@
           {{message.data.message}}
         </div>
       </div>
-      <div class="serverMSG" *ngIf="message.messageType === 'SERVER'">
+      <div class="serverMSG" *ngIf="message.messageType === 'SERVER' || message.messageType === 'NOTICE'">
         <div class="messageBody">
           <div class="author"(click)="openPrivate(message.data.simplyOrigin)">{{message.data.simplyOrigin}}</div>
           {{message.data.message}}

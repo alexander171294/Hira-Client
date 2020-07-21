@@ -139,6 +139,13 @@ export class IRCParser {
       // this.websockets[server.id].users[channel] = users;
     }
 
+    if (parsedMessage.code === 'NOTICE') {
+      const out = new ProcessedMessage<IRCMessage>();
+      out.messageType = MessageTypes.NOTICE;
+      out.data = parsedMessage;
+      return out;
+    }
+
     if (parsedMessage.code === '332') {
       const channels = IRCParser.findChannels(rawMessage);
       const out = new ProcessedMessage<ChannelTopicDTO>();
@@ -268,6 +275,7 @@ export enum MessageTypes {
   PRIV_MSG = 'PRIV_MSG',
   CHANNEL_MSG = 'CHANNEL_MSG',
   SERVER = 'SERVER',
+  NOTICE = 'NOTICE',
   CHANNEL_TOPIC = 'CHANNEL_TOPIC'
 }
 
