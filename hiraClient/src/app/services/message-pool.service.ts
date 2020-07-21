@@ -10,7 +10,7 @@ export class MessagePoolService {
 
   public usersChanged: EventEmitter<UserDelta> = new EventEmitter<UserDelta>();
   public chatsChanged: EventEmitter<ChatsDelta> = new EventEmitter<ChatsDelta>();
-  public serverChanged: EventEmitter<ProcessedMessage<IRCMessage>> = new EventEmitter<ProcessedMessage<IRCMessage>>();
+  public serverChanged: EventEmitter<ServersDelta> = new EventEmitter<ServersDelta>();
 
   constructor() { }
 
@@ -67,7 +67,11 @@ export class MessagePoolService {
     }
     if (message.messageType === MessageTypes.SERVER) {
       this.serversInfo[serverID].serverMessages.push(message as ProcessedMessage<IRCMessage>);
-      this.serverChanged.emit(message as ProcessedMessage<IRCMessage>);
+      const sd = new ServersDelta();
+      sd.changeType = DeltaChangeTypes.UPDATED;
+      sd.serverID = serverID;
+      sd.message = message as ProcessedMessage<IRCMessage>;
+      this.serverChanged.emit(sd);
     }
     // special processed messages:
     if (message.messageType === MessageTypes.USER_JOINING) {
@@ -250,4 +254,8 @@ export class ChatsDelta extends ChangeDelta {
   public chat: string;
   public isPrivate?: boolean;
   public message?: ProcessedMessage<IRCMessageDTO>;
+}
+
+export class ServersDelta extends ChangeDelta {
+  public message: ProcessedMessage<IRCMessage>;
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'app-chat-list',
@@ -6,6 +6,11 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./chat-list.component.scss']
 })
 export class ChatListComponent implements OnInit {
+
+  @Input() channels: string[];
+  @Input() privateChats: string[];
+  @Input() actualChat?: string;
+  @Input() actualIsPrivateChat?: boolean;
 
   constructor() { }
 
