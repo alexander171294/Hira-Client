@@ -6,23 +6,23 @@
     <section>
       <div class="inputBox">
         <label>Server</label>
-        <input type="text" placeholder="irc.hira.li:+6697" value="irc.hira.io:+6697" />
+        <input type="text" placeholder="irc.hira.li:+6697" value="irc.hira.io:+6697" [(ngModel)]="server"/>
       </div>
       <div class="inputBox">
         <label>Apodo</label>
-        <input type="text" placeholder="Harkonidaz" value="harkonidaz_tst" />
+        <input type="text" placeholder="Harkonidaz" value="harkonidaz_tst" [(ngModel)]="apodo"/>
       </div>
       <div class="inputBox">
         <label>Apodo secundario</label>
-        <input type="text" placeholder="Harko" value="harkonidaz_tst02" />
+        <input type="text" placeholder="Harko" value="harkonidaz_tst02" [(ngModel)]="apodoSecundario"/>
       </div>
       <div class="inputBox">
         <label>Sala inicial</label>
-        <input type="text" placeholder="#underc0de" value="#harkolandia" />
+        <input type="text" placeholder="#underc0de" value="#harkolandia" [(ngModel)]="autojoin"/>
       </div>
     </section>
     <footer>
-      <button class="green">Connect</button>
+      <button class="green" (click)="connect()">Connect</button>
     </footer>
   </div>
 </main>

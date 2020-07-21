@@ -1,4 +1,4 @@
 <app-chat-list></app-chat-list>
 <app-chat-box></app-chat-box>
 <app-user-list></app-user-list>
-<app-server-box *ngIf="connectPopup"></app-server-box>
+<app-server-box *ngIf="connectPopup" (connected)="connect($event)"></app-server-box>

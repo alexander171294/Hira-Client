@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { IRCProtocolService } from './services/ircprotocol.service';
+import { ServerData } from './services/ServerData';
 
 @Component({
   selector: 'app-root',
@@ -13,4 +14,7 @@ export class AppComponent {
   constructor(private ircproto: IRCProtocolService) { }
 
 
+  connect(serverData: ServerData) {
+
+  }
 }
