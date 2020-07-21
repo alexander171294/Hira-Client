@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { IRCProtoService } from './ircproto.service';
+import { IRCProtocolService } from './ircprotocol.service';
 
-describe('IRCProtoService', () => {
-  let service: IRCProtoService;
+describe('IRCProtocolService', () => {
+  let service: IRCProtocolService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(IRCProtoService);
+    service = TestBed.inject(IRCProtocolService);
   });
 
   it('should be created', () => {

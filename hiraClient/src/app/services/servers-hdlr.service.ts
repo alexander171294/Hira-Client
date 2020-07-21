@@ -13,34 +13,30 @@ export class ServersHdlrService {
 
   constructor() { }
 
-  public getConnection(server: ServerData): Observable<string> {
+  public getConnection(server: ServerData): ServerDataConnected {
     if (!this.servers[server.id]) {
-      this.servers[server.id] = ServerDataWithWS.getSDWS(server,  new WebSocketHDLR());
+      this.servers[server.id] = ServerDataConnected.getSDWS(server,  new WebSocketHDLR());
       this.servers[server.id].rawObs = this.servers[server.id].websocket.connect(environment.gateway);
     }
-    return this.servers[server.id].rawObs;
+    return this.servers[server.id];
   }
 
-  public getConnectionFromID(serverID: string): Observable<string> | undefined {
-    if (this.servers[serverID]) {
-      return this.servers[serverID].rawObs;
-    }
-  }
-
-  public getServerFromID(serverID: string): ServerDataWithWS | undefined {
+  public getConnectionFromID(serverID: string): ServerDataConnected | undefined {
     if (this.servers[serverID]) {
       return this.servers[serverID];
     }
   }
+
 }
 
-export class ServerDataWithWS extends ServerData {
+export class ServerDataConnected extends ServerData {
 
   public websocket: WebSocketHDLR;
   public rawObs: Observable<string>;
+  public actualNick: string;
 
   public static getSDWS(server: ServerData, websocket: WebSocketHDLR) {
-    const srvws = server as ServerDataWithWS;
+    const srvws = server as ServerDataConnected;
     srvws.websocket = websocket;
     return srvws;
   }
@@ -48,5 +44,5 @@ export class ServerDataWithWS extends ServerData {
 }
 
 export interface ServerDataHash {
-  [key: string]: ServerDataWithWS;
+  [key: string]: ServerDataConnected;
 }
