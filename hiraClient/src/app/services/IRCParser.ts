@@ -208,7 +208,7 @@ export class IRCParser {
         out.messageType = MessageTypes.CHANNEL_MSG;
         out.data.channel = parsedMessage.target;
       }
-      out.data.mention = msg.message ? msg.message.indexOf(actualNick) >= 0 : false;
+      out.data.mention = out.data.message ? out.data.message.indexOf(actualNick) >= 0 : false;
       return out;
     }
 
