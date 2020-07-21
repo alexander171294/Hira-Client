@@ -8,6 +8,7 @@ import { ChatBoxComponent } from './components/chat-box/chat-box.component';
 import { ServerBoxComponent } from './components/server-box/server-box.component';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { SafePipe } from './utils/safe.pipe';
 
 @NgModule({
   declarations: [
@@ -15,7 +16,8 @@ import { RouterModule } from '@angular/router';
     ChatListComponent,
     UserListComponent,
     ChatBoxComponent,
-    ServerBoxComponent
+    ServerBoxComponent,
+    SafePipe
   ],
   imports: [
     BrowserModule,

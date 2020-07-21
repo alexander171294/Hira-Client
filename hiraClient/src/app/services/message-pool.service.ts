@@ -1,6 +1,6 @@
 import { Injectable, EventEmitter } from '@angular/core';
 import { ProcessedMessage, MessageTypes, ChannelUsersDTO, NickChangedDTO, UserLeavingDTO, UserJoiningDTO, IRCMessageDTO, IRCMessage, ChannelTopicDTO } from './IRCParser';
-import { UserWithMetadata, RichLayer } from './RichLayer';
+import { PostProcessor, UserWithMetadata } from './PostProcessor';
 
 @Injectable({
   providedIn: 'root'
@@ -33,7 +33,9 @@ export class MessagePoolService {
     // Standards messages:
     if (message.messageType === MessageTypes.PRIV_MSG) {
       const data = message.data as IRCMessageDTO;
-      const newChat = this.serversInfo[serverID].addPrivateMessage(data.author, message as ProcessedMessage<IRCMessageDTO>);
+      const messageProcessed = message as ProcessedMessage<IRCMessageDTO>;
+      messageProcessed.data.richMessage = PostProcessor.processMessage(messageProcessed.data.message);
+      const newChat = this.serversInfo[serverID].addPrivateMessage(data.author, messageProcessed);
       if (newChat) {
         const cd = new ChatsDelta();
         cd.changeType = DeltaChangeTypes.ADDED;
@@ -46,18 +48,20 @@ export class MessagePoolService {
       const cd = new ChatsDelta();
       cd.changeType = DeltaChangeTypes.UPDATED;
       cd.chat = data.author;
-      cd.message = message as ProcessedMessage<IRCMessageDTO>;
+      cd.message = messageProcessed;
       cd.serverID = serverID;
       this.chatsChanged.emit(cd);
     }
     if (message.messageType === MessageTypes.CHANNEL_MSG) {
       const data = message.data as IRCMessageDTO;
-      this.addChannelMessage(serverID, data.channel, message as ProcessedMessage<IRCMessageDTO>);
+      const messageProcessed = message as ProcessedMessage<IRCMessageDTO>;
+      messageProcessed.data.richMessage = PostProcessor.processMessage(messageProcessed.data.message);
+      this.addChannelMessage(serverID, data.channel, messageProcessed);
       // nuevo mensaje
       const cd = new ChatsDelta();
       cd.changeType = DeltaChangeTypes.UPDATED;
       cd.chat = data.channel;
-      cd.message = message as ProcessedMessage<IRCMessageDTO>;
+      cd.message = messageProcessed;
       cd.serverID = serverID;
       this.chatsChanged.emit(cd);
     }
@@ -77,7 +81,7 @@ export class MessagePoolService {
       if (newUser) {
         const ud = new UserDelta();
         ud.changeType = DeltaChangeTypes.ADDED;
-        ud.user = RichLayer.processUserMetadata(data.user);
+        ud.user = PostProcessor.processUserMetadata(data.user);
         ud.channel = data.channel;
         ud.serverID = serverID;
         this.usersChanged.emit(ud);
@@ -90,7 +94,7 @@ export class MessagePoolService {
       if (removedUser) {
         const ud = new UserDelta();
         ud.changeType = DeltaChangeTypes.DELETED;
-        ud.user = RichLayer.processUserMetadata(data.user);
+        ud.user = PostProcessor.processUserMetadata(data.user);
         ud.channel = data.channel;
         ud.serverID = serverID;
         this.usersChanged.emit(ud);
@@ -235,7 +239,7 @@ export class ServerInfo {
     if (!this.channelUsers[channel]) {
       this.channelUsers[channel] = [];
     }
-    const userMD = RichLayer.processUserMetadata(user);
+    const userMD = PostProcessor.processUserMetadata(user);
     console.log('Adding user, ', channel, this.channelUsers[channel], userMD);
     if (this.channelUsers[channel].findIndex(u => u.nick === userMD.nick) === -1) {
       this.channelUsers[channel].push(userMD);
@@ -250,7 +254,7 @@ export class ServerInfo {
       this.channelUsers[channel] = [];
     }
     users.forEach(user => {
-      const userMD = RichLayer.processUserMetadata(user);
+      const userMD = PostProcessor.processUserMetadata(user);
       if (this.channelUsers[channel].findIndex(u => u.nick === userMD.nick) === -1) {
         this.channelUsers[channel].push(userMD);
         return true;
@@ -261,7 +265,7 @@ export class ServerInfo {
 
   public removeChannelUser(channel: string, user: string): boolean {
     channel = channel[0] === '#' ? channel.slice(1) : channel;
-    const userMD = RichLayer.processUserMetadata(user);
+    const userMD = PostProcessor.processUserMetadata(user);
     if (!this.channelUsers[channel]) {
       this.channelUsers[channel] = [];
     }

@@ -1,3 +1,5 @@
+import { MessageWithMetadata } from './PostProcessor';
+
 export class IRCParser {
   public static parseMessage(message: string): IRCMessage[] {
       const out = [];
@@ -311,6 +313,7 @@ export interface UserJoiningDTO {
 export interface IRCMessageDTO {
   author: string;
   message: string;
+  richMessage?: MessageWithMetadata;
   meAction: boolean;
   time?: string;
   date?: string;

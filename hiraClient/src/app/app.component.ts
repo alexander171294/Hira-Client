@@ -5,9 +5,8 @@ import { MessagePoolService, ChatsDelta, DeltaChangeTypes, ServersDelta, UserDel
 import { ProcessedMessage, IRCMessage, IRCMessageDTO, UserJoiningDTO, UserLeavingDTO, MessageTypes } from './services/IRCParser';
 import { CBoxChatTypes, ChatBoxComponent } from './components/chat-box/chat-box.component';
 import { ChatData, NotificationsChats } from './components/chat-list/chat-list.component';
-import { UserWithMetadata } from './services/RichLayer';
-import { ActivatedRoute } from '@angular/router';
 import { ParamParse } from './services/ParamParse';
+import { UserWithMetadata } from './services/PostProcessor';
 
 @Component({
   selector: 'app-root',

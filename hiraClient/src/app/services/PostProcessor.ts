@@ -1,4 +1,21 @@
-export class RichLayer {
+export class PostProcessor {
+
+  public static processMessage(message: string): MessageWithMetadata {
+    const mwm = new MessageWithMetadata();
+    const youtubeLink = /((?:https?:)?\/\/)?((?:www|m)\.)?((?:youtube\.com|youtu.be))(\/(?:[\w\-]+\?v=|embed\/|v\/)?)([\w\-]+)(\S+)?/.exec(message);
+    if (youtubeLink) {
+      message = message.replace(youtubeLink[0], '');
+      mwm.youtube = youtubeLink[5];
+    }
+    const imageLink = /(http(s?):)([\/|.|\w|\s|-])*\.(?:jpg|gif|png)/.exec(message);
+    if (imageLink) {
+      message = message.replace(imageLink[0], '');
+      mwm.image = imageLink[0];
+    }
+    mwm.message = message;
+    return mwm;
+  }
+
   public static processUserMetadata(user: string): UserWithMetadata {
     const mod = user[0];
     if (mod === '~' ||
@@ -23,11 +40,19 @@ export class RichLayer {
     }
     return out;
   }
+
 }
+
 
 export class UserWithMetadata {
   public nick: string;
   public status: UserStatuses;
+}
+
+export class MessageWithMetadata {
+  public message: string;
+  public youtube?: string;
+  public image?: string;
 }
 
 export enum UserStatuses {

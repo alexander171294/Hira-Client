@@ -19,12 +19,23 @@
         <div class="messageBody" [class.mentioned]="message.data.mention" *ngIf="!message.data.meAction">
           <div class="author" *ngIf="!message.data.privateAuthor" (click)="openPrivate(message.data.author)">{{message.data.author}}<span class="hs">{{message.data.date}}</span></div>
           <div class="author" *ngIf="message.data.privateAuthor">{{message.data.privateAuthor}}<span class="hs">{{message.data.date}}</span></div>
-          {{message.data.message}}
+          <span *ngIf="!message.data.richMessage">
+            {{message.data.message}}
+          </span>
+          <span *ngIf="message.data.richMessage">
+            {{message.data.richMessage.message}}
+          </span>
+          <a *ngIf="message.data.richMessage.image" [href]="message.data.richMessage.image" target="_blank">
+            <img [src]="message.data.richMessage.image" class="banner" />
+          </a>
+          <iframe *ngIf="message.data.richMessage.youtube" width="560" height="315" [src]="'https://www.youtube.com/embed/' + message.data.richMessage.youtube | safe: 'resourceUrl'" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
         </div>
         <div class="messageBody actionOrigin" *ngIf="message.data.meAction">
           <span *ngIf="!message.data.privateAuthor">{{message.data.author}}</span>
           <span *ngIf="message.data.privateAuthor">{{message.data.privateAuthor}}</span>
-          {{message.data.message}}
+          <span>
+            {{message.data.message}}
+          </span>
         </div>
       </div>
       <div class="serverMSG" *ngIf="message.messageType === 'SERVER' || message.messageType === 'NOTICE'">

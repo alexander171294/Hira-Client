@@ -1,12 +1,13 @@
-- /me
 - Ordenar usuarios por rango
 - Cambiar nick y barra inferior
 - Configuración barra inferior
-- Tabulador
-- Autologin
-- Actualizar rangos cuando se le cambie el flag al usuario.
-- Procesar mensajes para obtener enlaces y otras cuestiones
 - Logs
 - Canales favoritos
 - ZNC fix?
+
+
+- Autologin
+- Actualizar rangos cuando se le cambie el flag al usuario.
 - Cambios de nicks
+
+- Tabulador
