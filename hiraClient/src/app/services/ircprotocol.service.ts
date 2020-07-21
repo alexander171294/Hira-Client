@@ -25,6 +25,7 @@ export class IRCProtocolService {
   }
 
   private onMessage(msgData: MessageData) {
+
     console.log('IRCProtocolService:: Message -> ', msgData);
 
     // AutoPong

@@ -23,6 +23,7 @@ export class MessagePoolService {
                                                    IRCMessageDTO |
                                                    IRCMessage>,
                          serverID: string) {
+    console.log('Register message', message);
     if (!this.serversInfo[serverID]) {
       this.serversInfo[serverID] = new ServerInfo();
     }
@@ -48,15 +49,7 @@ export class MessagePoolService {
     }
     if (message.messageType === MessageTypes.CHANNEL_MSG) {
       const data = message.data as IRCMessageDTO;
-      const newChat = this.serversInfo[serverID].addChannelMessage(data.channel, message as ProcessedMessage<IRCMessageDTO>);
-      if (newChat) {
-        const cd = new ChatsDelta();
-        cd.changeType = DeltaChangeTypes.ADDED;
-        cd.chat = data.channel;
-        cd.isPrivate = false;
-        cd.serverID = serverID;
-        this.chatsChanged.emit(cd);
-      }
+      this.addChannelMessage(serverID, data.channel, message as ProcessedMessage<IRCMessageDTO>);
       // nuevo mensaje
       const cd = new ChatsDelta();
       cd.changeType = DeltaChangeTypes.UPDATED;
@@ -76,7 +69,7 @@ export class MessagePoolService {
     // special processed messages:
     if (message.messageType === MessageTypes.USER_JOINING) {
       const data = message.data as UserJoiningDTO;
-      this.serversInfo[serverID].addChannelMessage(data.channel, message as ProcessedMessage<UserJoiningDTO>);
+      this.addChannelMessage(serverID, data.channel, message as ProcessedMessage<UserJoiningDTO>);
       const newUser = this.serversInfo[serverID].addChannelUser(data.channel, data.user);
       if (newUser) {
         const ud = new UserDelta();
@@ -89,7 +82,7 @@ export class MessagePoolService {
     }
     if (message.messageType === MessageTypes.USER_LEAVING) {
       const data = message.data as UserLeavingDTO;
-      this.serversInfo[serverID].addChannelMessage(data.channel, message as ProcessedMessage<UserLeavingDTO>);
+      this.addChannelMessage(serverID, data.channel, message as ProcessedMessage<UserLeavingDTO>);
       const removedUser = this.serversInfo[serverID].removeChannelUser(data.channel, data.user);
       if (removedUser) {
         const ud = new UserDelta();
@@ -109,6 +102,18 @@ export class MessagePoolService {
       ud.channel = data.channel;
       ud.serverID = serverID;
       this.usersChanged.emit(ud);
+    }
+  }
+
+  private addChannelMessage(serverID, channel, message: ProcessedMessage<IRCMessageDTO | UserJoiningDTO | UserLeavingDTO>) {
+    const newChat = this.serversInfo[serverID].addChannelMessage(channel, message);
+    if (newChat) {
+      const cd = new ChatsDelta();
+      cd.changeType = DeltaChangeTypes.ADDED;
+      cd.chat = channel;
+      cd.isPrivate = false;
+      cd.serverID = serverID;
+      this.chatsChanged.emit(cd);
     }
   }
 
@@ -234,10 +239,10 @@ export class MessagesHash<t> {
 }
 
 export enum DeltaChangeTypes {
-  UPDATED,
-  DELETED,
-  ADDED,
-  FULL_LIST
+  UPDATED = 'UPDATED',
+  DELETED = 'DELETED',
+  ADDED = 'ADDED',
+  FULL_LIST = 'FULL_LIST'
 }
 
 export class ChangeDelta {

@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { IRCProtocolService } from './services/ircprotocol.service';
 import { ServerData } from './services/ServerData';
-import { MessagePoolService, ChatsDelta, DeltaChangeTypes, ServersDelta } from './services/message-pool.service';
+import { MessagePoolService, ChatsDelta, DeltaChangeTypes, ServersDelta, UserDelta } from './services/message-pool.service';
 import { ProcessedMessage, IRCMessage, IRCMessageDTO } from './services/IRCParser';
 import { CBoxChatTypes, ChatBoxComponent } from './components/chat-box/chat-box.component';
 
@@ -27,14 +27,20 @@ export class AppComponent implements OnInit {
 
   @ViewChild('cbox') cbox: ChatBoxComponent;
 
+  actualServerID: string;
+
   constructor(private ircproto: IRCProtocolService,
               private msgPool: MessagePoolService) { }
 
   ngOnInit(): void {
-    this.msgPool.usersChanged.subscribe(usersDelta => {
+    this.msgPool.usersChanged.subscribe((usersDelta: UserDelta) => {
+      console.log('Users Delta', usersDelta);
+      // if (usersDelta.changeType === DeltaChangeTypes.ADDED) {
 
+      // }
     });
     this.msgPool.serverChanged.subscribe((serverDelta: ServersDelta) => {
+      console.log('Server Delta', serverDelta);
       if (this.isInServerLog) {
         this.messages = this.msgPool.getServerMessages(serverDelta.serverID);
         this.cbox.goBottom();
@@ -43,7 +49,8 @@ export class AppComponent implements OnInit {
       }
     });
     this.msgPool.chatsChanged.subscribe((chatsDelta: ChatsDelta) => {
-      if (chatsDelta.changeType === DeltaChangeTypes.ADDED) {
+      console.log('Chat Delta', chatsDelta);
+      if (chatsDelta.changeType === DeltaChangeTypes.ADDED || chatsDelta.changeType === DeltaChangeTypes.DELETED) {
         if (chatsDelta.isPrivate) {
           this.privateChats = this.msgPool.getPrivateChats(chatsDelta.serverID);
         } else {
@@ -55,7 +62,12 @@ export class AppComponent implements OnInit {
 
 
   connect(serverData: ServerData) {
+    this.actualServerID = serverData.id;
     this.ircproto.connect(serverData);
     this.connectPopup = false;
+  }
+
+  send(command: string) {
+    this.ircproto.sendMessageOrCommand(this.actualServerID, command);
   }
 }
