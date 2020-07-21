@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { IRCProtocolService } from './services/ircprotocol.service';
 import { ServerData } from './services/ServerData';
 import { MessagePoolService, ChatsDelta, DeltaChangeTypes, ServersDelta } from './services/message-pool.service';
 import { ProcessedMessage, IRCMessage, IRCMessageDTO } from './services/IRCParser';
+import { CBoxChatTypes, ChatBoxComponent } from './components/chat-box/chat-box.component';
 
 @Component({
   selector: 'app-root',
@@ -19,6 +20,12 @@ export class AppComponent implements OnInit {
 
   isInServerLog = true;
   inServerNotifications = false;
+  chatName = 'Server';
+  chatType = CBoxChatTypes.SERVER;
+  chatTopic: string;
+  chatMembers: number;
+
+  @ViewChild('cbox') cbox: ChatBoxComponent;
 
   constructor(private ircproto: IRCProtocolService,
               private msgPool: MessagePoolService) { }
@@ -30,6 +37,7 @@ export class AppComponent implements OnInit {
     this.msgPool.serverChanged.subscribe((serverDelta: ServersDelta) => {
       if (this.isInServerLog) {
         this.messages = this.msgPool.getServerMessages(serverDelta.serverID);
+        this.cbox.goBottom();
       } else {
         this.inServerNotifications = true;
       }

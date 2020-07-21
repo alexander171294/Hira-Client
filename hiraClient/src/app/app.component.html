@@ -1,4 +1,4 @@
 <app-chat-list [channels]="chatsRooms" [privateChats]="privateChats"></app-chat-list>
-<app-chat-box [messages]="messages"></app-chat-box>
+<app-chat-box #cbox [messages]="messages" [chatName]="chatName" [chatType]="chatType" [topic]="chatTopic" [members]="chatMembers"></app-chat-box>
 <app-user-list></app-user-list>
 <app-server-box *ngIf="connectPopup" (connected)="connect($event)"></app-server-box>
