@@ -79,6 +79,10 @@ main {
         display: inline-block;
         vertical-align: top;
         margin-left: 6px;
+        &.mentioned {
+          background: #ffe1a9;
+          color: #803000;
+        }
         .author {
           font-weight: bolder;
           &:hover {

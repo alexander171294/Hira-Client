@@ -91,9 +91,13 @@ export class AppComponent implements OnInit {
           this.cbox.goBottom();
         } else {
           if (deltaPrivate) {
-            this.notifications.privates[chatsDelta.chat] = chatsDelta.message.data.mention ? 'mentioned' : 'normal';
+            if (this.notifications.privates[chatsDelta.chat] !== 'mentioned') {
+              this.notifications.privates[chatsDelta.chat] = chatsDelta.message.data.mention ? 'mentioned' : 'normal';
+            }
           } else {
-            this.notifications.channels[chatsDelta.chat] = chatsDelta.message.data.mention ? 'mentioned' : 'normal';
+            if (this.notifications.channels[chatsDelta.chat] !== 'mentioned') {
+              this.notifications.channels[chatsDelta.chat] = chatsDelta.message.data.mention ? 'mentioned' : 'normal';
+            }
           }
         }
       }
