@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { IRCProtocolService } from './services/ircprotocol.service';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +7,10 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'hiraClient';
+
+  connectPopup = true;
+
+  constructor(private ircproto: IRCProtocolService) { }
+
+
 }
