@@ -16,6 +16,8 @@ export class ChatListComponent implements OnInit {
   @Output() changeChat: EventEmitter<ChatData> = new EventEmitter<ChatData>();
   @Output() selectServer: EventEmitter<undefined> = new EventEmitter<undefined>();
 
+  @Input() notifications: NotificationsChats;
+
   constructor() { }
 
   ngOnInit(): void {
@@ -40,4 +42,14 @@ export class ChatData {
     this.privateChat = privateChat;
     this.chatName = chatName;
   }
+}
+
+export class NotificationsChats {
+  channels: NotificationHash = {};
+  privates: NotificationHash = {};
+  server: boolean;
+}
+
+class NotificationHash {
+  [key: string]: boolean;
 }

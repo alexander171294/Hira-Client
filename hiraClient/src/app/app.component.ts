@@ -4,7 +4,7 @@ import { ServerData } from './services/ServerData';
 import { MessagePoolService, ChatsDelta, DeltaChangeTypes, ServersDelta, UserDelta } from './services/message-pool.service';
 import { ProcessedMessage, IRCMessage, IRCMessageDTO, UserJoiningDTO, UserLeavingDTO, MessageTypes } from './services/IRCParser';
 import { CBoxChatTypes, ChatBoxComponent } from './components/chat-box/chat-box.component';
-import { ChatData } from './components/chat-list/chat-list.component';
+import { ChatData, NotificationsChats } from './components/chat-list/chat-list.component';
 import { UserWithMetadata } from './services/RichLayer';
 
 @Component({
@@ -22,11 +22,12 @@ export class AppComponent implements OnInit {
   messages: ProcessedMessage<IRCMessage | IRCMessageDTO | UserJoiningDTO | UserLeavingDTO>[];
 
   isInServerLog = true;
-  inServerNotifications = false;
   chatName = 'Server';
   chatType = CBoxChatTypes.SERVER;
   chatTopic = 'Mensajes del servidor.';
   chatMembers: number;
+
+  notifications: NotificationsChats = new NotificationsChats();
 
   @ViewChild('cbox') cbox: ChatBoxComponent;
 
@@ -48,7 +49,7 @@ export class AppComponent implements OnInit {
         this.messages = this.msgPool.getServerMessages(serverDelta.serverID);
         this.cbox.goBottom();
       } else {
-        this.inServerNotifications = true;
+        this.notifications.server = true;
       }
     });
     this.msgPool.chatsChanged.subscribe((chatsDelta: ChatsDelta) => {
@@ -76,6 +77,12 @@ export class AppComponent implements OnInit {
             this.messages = this.msgPool.getChannelMessages(chatsDelta.serverID, this.chatName);
           }
           this.cbox.goBottom();
+        } else {
+          if (deltaPrivate) {
+            this.notifications.privates[chatsDelta.chat] = true;
+          } else {
+            this.notifications.channels[chatsDelta.chat] = true;
+          }
         }
       }
     });
