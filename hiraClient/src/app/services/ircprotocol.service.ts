@@ -21,6 +21,7 @@ export class IRCProtocolService {
 
   public connect(server: ServerData) {
     this.msgHdlr.connect(server);
+    this.sendInitialMessages(server.id);
   }
 
   private onMessage(msgData: MessageData) {

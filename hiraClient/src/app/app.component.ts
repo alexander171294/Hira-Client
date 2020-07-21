@@ -15,6 +15,7 @@ export class AppComponent {
 
 
   connect(serverData: ServerData) {
-
+    this.ircproto.connect(serverData);
+    this.connectPopup = false;
   }
 }

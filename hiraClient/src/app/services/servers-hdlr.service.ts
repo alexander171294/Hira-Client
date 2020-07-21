@@ -9,7 +9,7 @@ import { Observable } from 'rxjs';
 })
 export class ServersHdlrService {
 
-  public servers: ServerDataHash;
+  public servers: ServerDataHash = {};
 
   constructor() { }
 

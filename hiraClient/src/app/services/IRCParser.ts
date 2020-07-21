@@ -198,7 +198,7 @@ export class IRCParser {
     const out = new ProcessedMessage<IRCMessage>();
     out.messageType = MessageTypes.SERVER;
     out.data = parsedMessage;
-
+    return out;
   }
 
   public static getTime(): string {
