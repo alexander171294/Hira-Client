@@ -65,10 +65,11 @@ export class AppComponent implements OnInit {
       if (chatsDelta.changeType === DeltaChangeTypes.ADDED) {
         if (chatsDelta.isPrivate) {
           this.privateChats = this.msgPool.getPrivateChats(chatsDelta.serverID);
-          this.cbox.goBottom();
         } else {
           this.chatsRooms = this.msgPool.getChannels(chatsDelta.serverID);
-          this.cbox.goBottom();
+          setTimeout(() => {
+            this.changeChat(new ChatData(false, chatsDelta.chat));
+          }, 100);
         }
       }
       if (chatsDelta.changeType === DeltaChangeTypes.DELETED) {
@@ -100,7 +101,7 @@ export class AppComponent implements OnInit {
   }
 
   changeChat(cd: ChatData) {
-    this.chatName = cd.chatName;
+    this.chatName = cd.chatName[0] !== '#' ? cd.chatName : cd.chatName.slice(1);
     this.chatType = cd.privateChat ? CBoxChatTypes.PRIVMSG : CBoxChatTypes.CHANNEL;
     this.isInServerLog = false;
     if (cd.privateChat) {
