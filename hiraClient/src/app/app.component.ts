@@ -75,7 +75,7 @@ export class AppComponent implements OnInit {
     this.chatName = cd.chatName;
     this.chatType = cd.privateChat ? CBoxChatTypes.PRIVMSG : CBoxChatTypes.CHANNEL;
     this.isInServerLog = false;
-
+    this.messages = this.msgPool.getChannelMessages(this.actualServerID, this.chatName);
   }
 
   connect(serverData: ServerData) {

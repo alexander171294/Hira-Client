@@ -11,6 +11,7 @@ export class ChatListComponent implements OnInit {
   @Input() privateChats: string[];
   @Input() actualChat?: string;
   @Input() actualIsPrivateChat?: boolean;
+  @Input() serverSelected: boolean;
 
   @Output() changeChat: EventEmitter<ChatData> = new EventEmitter<ChatData>();
 
@@ -20,6 +21,8 @@ export class ChatListComponent implements OnInit {
   }
 
   activeChat(chatName: string, isPrivateChat: boolean) {
+    // this.actualChat = chatName;
+    // this.actualIsPrivateChat = isPrivateChat;
     this.changeChat.emit(new ChatData(isPrivateChat, chatName));
   }
 
