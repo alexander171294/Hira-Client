@@ -14,6 +14,7 @@ export class ChatBoxComponent implements OnInit {
   @Input() members: number;
   @Input() topic: string;
   @Output() sendCommand: EventEmitter<string> = new EventEmitter<string>();
+  @Output() openPrivateMessage: EventEmitter<string> = new EventEmitter<string>();
 
   constructor() { }
 
@@ -34,6 +35,10 @@ export class ChatBoxComponent implements OnInit {
       evt.srcElement.value = '';
       evt.srcElement.focus();
     }
+  }
+
+  openPrivate(user: string){
+    this.openPrivateMessage.emit(user);
   }
 
 }

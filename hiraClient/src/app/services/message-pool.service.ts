@@ -155,6 +155,17 @@ export class MessagePoolService {
   public getChannelUsers(serverID: string, channel: string): UserWithMetadata[] {
     return this.serversInfo[serverID].channelUsers[channel];
   }
+
+  public addPrivateMessage(serverID: string, user: string) {
+    if (this.serversInfo[serverID].addPrivateChat(user)) {
+      const cd = new ChatsDelta();
+      cd.changeType = DeltaChangeTypes.ADDED;
+      cd.chat = user;
+      cd.isPrivate = true;
+      cd.serverID = serverID;
+      this.chatsChanged.emit(cd);
+    }
+  }
 }
 
 export class ServerInfoHash {

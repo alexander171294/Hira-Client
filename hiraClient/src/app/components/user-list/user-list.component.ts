@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { UserWithMetadata } from 'src/app/services/RichLayer';
 
 @Component({
@@ -9,10 +9,15 @@ import { UserWithMetadata } from 'src/app/services/RichLayer';
 export class UserListComponent implements OnInit {
 
   @Input() users: UserWithMetadata[];
+  @Output() openPrivateChat: EventEmitter<string> = new EventEmitter<string>();
 
   constructor() { }
 
   ngOnInit(): void {
+  }
+
+  openPrivate(user: string) {
+    this.openPrivateChat.emit(user);
   }
 
 }

@@ -107,4 +107,9 @@ export class AppComponent implements OnInit {
   send(command: string) {
     this.ircproto.sendMessageOrCommand(this.actualServerID, command);
   }
+
+  openPrivateChat(user: string) {
+    this.msgPool.addPrivateMessage(this.actualServerID, user);
+    this.changeChat(new ChatData(true, user));
+  }
 }

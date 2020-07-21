@@ -16,27 +16,27 @@
       <div class="channelMSG" *ngIf="message.messageType === 'CHANNEL_MSG' || message.messageType === 'PRIV_MSG'">
         <img src="https://avatars.dicebear.com/api/jdenticon/{{message.data.author}}.svg?options[colorful]=1" />
         <div class="messageBody">
-          <div class="author">{{message.data.author}}<span class="hs">{{message.data.date}}</span></div>
+          <div class="author" (click)="openPrivate(message.data.author)">{{message.data.author}}<span class="hs">{{message.data.date}}</span></div>
           {{message.data.message}}
         </div>
       </div>
       <div class="serverMSG" *ngIf="message.messageType === 'SERVER'">
         <div class="messageBody">
-          <div class="author">{{message.data.simplyOrigin}}</div>
+          <div class="author"(click)="openPrivate(message.data.simplyOrigin)">{{message.data.simplyOrigin}}</div>
           {{message.data.message}}
         </div>
       </div>
       <div class="joinMSG" *ngIf="message.messageType === 'USER_JOINING'">
         <img src="https://avatars.dicebear.com/api/jdenticon/{{message.data.user}}.svg?options[colorful]=1" />
         <div class="messageBody">
-          <div class="author">{{message.data.user}}</div>
+          <div class="author" (click)="openPrivate(message.data.user)">{{message.data.user}}</div>
           Entré al canal, {{message.data.userMsg}}
         </div>
       </div>
       <div class="leaveMSG" *ngIf="message.messageType === 'USER_LEAVING'">
         <img src="https://avatars.dicebear.com/api/jdenticon/{{message.data.user}}.svg?options[colorful]=1" />
         <div class="messageBody">
-          <div class="author">{{message.data.user}}</div>
+          <div class="author" (click)="openPrivate(message.data.user)">{{message.data.user}}</div>
           Salí del canal, {{message.data.message}}
         </div>
       </div>

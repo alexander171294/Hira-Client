@@ -72,6 +72,10 @@ main {
         margin-left: 6px;
         .author {
           font-weight: bolder;
+          &:hover {
+            color: #004dff;
+            cursor: pointer;
+          }
           span {
             font-weight: normal;
             font-size: 12px;
