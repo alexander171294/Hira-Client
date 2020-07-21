@@ -12,6 +12,7 @@ export class MessagePoolService {
   public usersChanged: EventEmitter<UserDelta> = new EventEmitter<UserDelta>();
   public chatsChanged: EventEmitter<ChatsDelta> = new EventEmitter<ChatsDelta>();
   public serverChanged: EventEmitter<ServersDelta> = new EventEmitter<ServersDelta>();
+  public noticed: EventEmitter<string> = new EventEmitter<string>();
 
   constructor() { }
 
@@ -60,7 +61,7 @@ export class MessagePoolService {
       cd.serverID = serverID;
       this.chatsChanged.emit(cd);
     }
-    if (message.messageType === MessageTypes.SERVER) {
+    if (message.messageType === MessageTypes.SERVER || message.messageType === MessageTypes.NOTICE) {
       this.serversInfo[serverID].serverMessages.push(message as ProcessedMessage<IRCMessage>);
       const sd = new ServersDelta();
       sd.changeType = DeltaChangeTypes.UPDATED;
@@ -109,6 +110,13 @@ export class MessagePoolService {
       console.log('Channel topic');
       const data = message.data as ChannelTopicDTO;
       this.serversInfo[serverID].channelTopics[data.channel] = data.topic;
+    }
+    if (message.messageType === MessageTypes.NOTICE) {
+      // si es el primer notice avisamos
+      if (!this.serversInfo[serverID].noticed) {
+        this.serversInfo[serverID].noticed = true;
+        this.noticed.emit(serverID);
+      }
     }
   }
 
@@ -184,6 +192,7 @@ export class ServerInfo {
   public channels: string[] = [];
   public privateChats: string[] = [];
   public channelTopics: TopicsHash = {};
+  public noticed = false;
 
   public addChannelMessage(channel: string, message: ProcessedMessage<IRCMessageDTO | UserJoiningDTO | UserLeavingDTO>): boolean {
     channel = channel[0] === '#' ? channel.slice(1) : channel;

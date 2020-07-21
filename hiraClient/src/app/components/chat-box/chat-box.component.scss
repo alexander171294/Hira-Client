@@ -62,10 +62,11 @@ main {
         margin: 0px 2vw;
         font-family: monospace;
       }
-      &.NOTICE {
+      &.notice {
         margin: 0px 2vw;
         font-family: monospace;
         font-weight: bold;
+        font-style: italic;
       }
       .joinMSG, .leaveMSG {
         color: #490098;
