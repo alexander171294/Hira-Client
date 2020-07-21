@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'app-chat-list',
@@ -12,9 +12,24 @@ export class ChatListComponent implements OnInit {
   @Input() actualChat?: string;
   @Input() actualIsPrivateChat?: boolean;
 
+  @Output() changeChat: EventEmitter<ChatData> = new EventEmitter<ChatData>();
+
   constructor() { }
 
   ngOnInit(): void {
   }
 
+  activeChat(chatName: string, isPrivateChat: boolean) {
+    this.changeChat.emit(new ChatData(isPrivateChat, chatName));
+  }
+
+}
+
+export class ChatData {
+  privateChat: boolean;
+  chatName: string;
+  constructor(privateChat: boolean, chatName: string) {
+    this.privateChat = privateChat;
+    this.chatName = chatName;
+  }
 }

@@ -217,6 +217,7 @@ export class ServerInfo {
   }
 
   public addChannel(channel: string) {
+    channel = channel[0] === '#' ? channel.slice(1) : channel;
     if (this.channels.findIndex(c => c === channel) === -1) {
       this.channels.push(channel);
     }

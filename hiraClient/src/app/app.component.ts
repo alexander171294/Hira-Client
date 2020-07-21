@@ -2,8 +2,9 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { IRCProtocolService } from './services/ircprotocol.service';
 import { ServerData } from './services/ServerData';
 import { MessagePoolService, ChatsDelta, DeltaChangeTypes, ServersDelta, UserDelta } from './services/message-pool.service';
-import { ProcessedMessage, IRCMessage, IRCMessageDTO } from './services/IRCParser';
+import { ProcessedMessage, IRCMessage, IRCMessageDTO, UserJoiningDTO, UserLeavingDTO } from './services/IRCParser';
 import { CBoxChatTypes, ChatBoxComponent } from './components/chat-box/chat-box.component';
+import { ChatData } from './components/chat-list/chat-list.component';
 
 @Component({
   selector: 'app-root',
@@ -16,7 +17,7 @@ export class AppComponent implements OnInit {
 
   privateChats: string[];
   chatsRooms: string[];
-  messages: ProcessedMessage<IRCMessage | IRCMessageDTO>[];
+  messages: ProcessedMessage<IRCMessage | IRCMessageDTO | UserJoiningDTO | UserLeavingDTO>[];
 
   isInServerLog = true;
   inServerNotifications = false;
@@ -60,9 +61,22 @@ export class AppComponent implements OnInit {
       if (chatsDelta.changeType === DeltaChangeTypes.DELETED) {
         this.chatsRooms = this.msgPool.getChannels(chatsDelta.serverID);
       }
+      // new message
+      if (chatsDelta.changeType === DeltaChangeTypes.UPDATED) {
+        const privateChatOpened = this.chatType === CBoxChatTypes.PRIVMSG;
+        if (!this.isInServerLog && this.chatName === chatsDelta.chat && privateChatOpened === chatsDelta.isPrivate) {
+          this.messages = this.msgPool.getChannelMessages(chatsDelta.serverID, this.chatName);
+        }
+      }
     });
   }
 
+  changeChat(cd: ChatData) {
+    this.chatName = cd.chatName;
+    this.chatType = cd.privateChat ? CBoxChatTypes.PRIVMSG : CBoxChatTypes.CHANNEL;
+    this.isInServerLog = false;
+
+  }
 
   connect(serverData: ServerData) {
     this.actualServerID = serverData.id;
