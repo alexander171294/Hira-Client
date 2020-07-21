@@ -35,6 +35,7 @@ export class IRCProtocolService {
 
     IRCParser.parseMessage(msgData.message).forEach(parsedMessage => {
       const pMsg = IRCParser.processMessage(parsedMessage, msgData.message, msgData.server.actualNick);
+      // Sección reactiva (poner aquí las respuestas automatizadas a ciertos cambios) //
       if (pMsg.messageType === MessageTypes.OUR_NICK_CHANGED) { // nuevo nick
         msgData.server.actualNick = pMsg.data as string;
       }
@@ -42,18 +43,57 @@ export class IRCProtocolService {
         if (msgData.server.actualNick !== msgData.server.apodoSecundario) { // si no probamos el secundario
           this.changeNick(msgData.server.id, msgData.server.apodoSecundario);
         } else {
-          // probamos uno random?
-
+          // TODO: probamos uno random?
         }
       }
+      // fin de la sección reactiva //
       this.msgPool.registerMessage(pMsg, msgData.server.id);
     });
   }
 
-  changeNick(serverID: string, newNick: string) {
+  public changeNick(serverID: string, newNick: string) {
     const serverConnected = this.srvHdlr.getConnectionFromID(serverID);
     serverConnected.websocket.send('nick ' + newNick);
     serverConnected.actualNick = newNick;
+  }
+
+  public sendInitialMessages(serverID: string) {
+    const serverConnected = this.srvHdlr.getConnectionFromID(serverID);
+    serverConnected.websocket.send('ENCODING UTF-8');
+    serverConnected.websocket.send('HOST ' + serverConnected.server);
+    serverConnected.websocket.send('user ' + serverConnected.username + ' * * :HiraClient');
+    serverConnected.websocket.send('nick ' + serverConnected.apodo);
+  }
+
+  public sendMessageOrCommand(serverID: string, command: string, target?: string) {
+    const serverConnected = this.srvHdlr.getConnectionFromID(serverID);
+    if (command[0] === '/') {
+      let cmd = command.slice(1);
+      const verb = cmd.split(' ')[0].toLowerCase();
+      if (verb === 'query') {
+        cmd = cmd.slice(5).trim();
+        // TODO: query a cmd
+      }
+      if (verb === 'join') {
+        // enviar cmd esto es un join
+        serverConnected.websocket.send(cmd);
+        return;
+      }
+      if (verb === 'me') {
+        cmd = cmd.slice(2).trim();
+        serverConnected.websocket.send('PRIVMSG ' + target + ' :' + String.fromCharCode(1) + 'ACTION ' + cmd + String.fromCharCode(1));
+        return;
+      }
+      if (verb === 'cs') {
+        // chanserv?
+      }
+      if (verb === 'ns') {
+        // nickserv?
+      }
+      serverConnected.websocket.send(cmd);
+    } else {
+      serverConnected.websocket.send('PRIVMSG ' + target + ' :' + command);
+    }
   }
 
 }
