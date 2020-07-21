@@ -209,7 +209,7 @@ export class ServerInfo {
   public removePrivateChat(author: string) {
     const idx = this.privateChats.findIndex(a => a === author);
     if (idx >= 0) {
-      this.privateChats = this.privateChats.splice(idx, 1);
+      this.privateChats.splice(idx, 1);
     }
   }
 
@@ -227,6 +227,7 @@ export class ServerInfo {
       this.channelUsers[channel] = [];
     }
     const userMD = RichLayer.processUserMetadata(user);
+    console.log('Adding user, ', channel, this.channelUsers[channel], userMD);
     if (this.channelUsers[channel].findIndex(u => u.nick === userMD.nick) === -1) {
       this.channelUsers[channel].push(userMD);
       return true;
@@ -257,7 +258,7 @@ export class ServerInfo {
     }
     const idx = this.channelUsers[channel].findIndex(u => u.nick === userMD.nick);
     if (idx >= 0) {
-      this.channelUsers[channel] = this.channelUsers[channel].splice(idx, 1);
+      this.channelUsers[channel].splice(idx, 1);
       return true;
     }
     return false;
@@ -274,7 +275,7 @@ export class ServerInfo {
     channel = channel[0] === '#' ? channel.slice(1) : channel;
     const idx = this.channels.findIndex(c => c === channel);
     if (idx >= 0) {
-      this.channels = this.channels.splice(idx, 1);
+      this.channels.splice(idx, 1);
     }
   }
 }
