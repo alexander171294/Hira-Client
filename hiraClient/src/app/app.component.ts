@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { IRCProtocolService } from './services/ircprotocol.service';
 import { ServerData } from './services/ServerData';
 import { MessagePoolService, ChatsDelta, DeltaChangeTypes, ServersDelta, UserDelta } from './services/message-pool.service';
-import { ProcessedMessage, IRCMessage, IRCMessageDTO, UserJoiningDTO, UserLeavingDTO } from './services/IRCParser';
+import { ProcessedMessage, IRCMessage, IRCMessageDTO, UserJoiningDTO, UserLeavingDTO, MessageTypes } from './services/IRCParser';
 import { CBoxChatTypes, ChatBoxComponent } from './components/chat-box/chat-box.component';
 import { ChatData } from './components/chat-list/chat-list.component';
 import { UserWithMetadata } from './services/RichLayer';
@@ -68,8 +68,13 @@ export class AppComponent implements OnInit {
       // new message
       if (chatsDelta.changeType === DeltaChangeTypes.UPDATED) {
         const privateChatOpened = this.chatType === CBoxChatTypes.PRIVMSG;
-        if (!this.isInServerLog && this.chatName === chatsDelta.chat && privateChatOpened === chatsDelta.isPrivate) {
-          this.messages = this.msgPool.getChannelMessages(chatsDelta.serverID, this.chatName);
+        const deltaPrivate = chatsDelta.message.messageType === MessageTypes.PRIV_MSG;
+        if (!this.isInServerLog && this.chatName === chatsDelta.chat && privateChatOpened === deltaPrivate) {
+          if (privateChatOpened) {
+            this.messages = this.msgPool.getPrivateMessages(chatsDelta.serverID, this.chatName);
+          } else {
+            this.messages = this.msgPool.getChannelMessages(chatsDelta.serverID, this.chatName);
+          }
           this.cbox.goBottom();
         }
       }
