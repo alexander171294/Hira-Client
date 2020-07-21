@@ -17,6 +17,7 @@ export class AppComponent implements OnInit {
 
   privateChats: string[];
   chatsRooms: string[];
+  channelUsers: string[];
   messages: ProcessedMessage<IRCMessage | IRCMessageDTO | UserJoiningDTO | UserLeavingDTO>[];
 
   isInServerLog = true;
@@ -76,6 +77,17 @@ export class AppComponent implements OnInit {
     this.chatType = cd.privateChat ? CBoxChatTypes.PRIVMSG : CBoxChatTypes.CHANNEL;
     this.isInServerLog = false;
     this.messages = this.msgPool.getChannelMessages(this.actualServerID, this.chatName);
+    this.cbox.goBottom();
+    this.channelUsers = this.msgPool.getChannelUsers(this.actualServerID, this.chatName);
+  }
+
+  selectServer() {
+    this.chatName = 'Server';
+    this.chatType = CBoxChatTypes.SERVER;
+    this.isInServerLog = true;
+    this.messages = this.msgPool.getServerMessages(this.actualServerID);
+    this.cbox.goBottom();
+    this.channelUsers = [];
   }
 
   connect(serverData: ServerData) {

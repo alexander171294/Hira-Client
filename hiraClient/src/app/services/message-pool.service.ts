@@ -96,7 +96,7 @@ export class MessagePoolService {
     // only for changes
     if (message.messageType === MessageTypes.CHANNEL_USERS) {
       const data = message.data as ChannelUsersDTO;
-      this.serversInfo[serverID].channelUsers[data.channel] = data.users;
+      this.serversInfo[serverID].addChannelUsers(data.channel, data.users);
       const ud = new UserDelta();
       ud.changeType = DeltaChangeTypes.FULL_LIST;
       ud.channel = data.channel;
@@ -159,6 +159,7 @@ export class ServerInfo {
   public privateChats: string[] = [];
 
   public addChannelMessage(channel: string, message: ProcessedMessage<IRCMessageDTO | UserJoiningDTO | UserLeavingDTO>): boolean {
+    channel = channel[0] === '#' ? channel.slice(1) : channel;
     let isNew = false;
     if (!this.channelMessages[channel]) {
       this.channelMessages[channel] = [];
@@ -194,6 +195,7 @@ export class ServerInfo {
   }
 
   public addChannelUser(channel: string, user: string): boolean {
+    channel = channel[0] === '#' ? channel.slice(1) : channel;
     if (!this.channelUsers[channel]) {
       this.channelUsers[channel] = [];
     }
@@ -204,7 +206,22 @@ export class ServerInfo {
     return false;
   }
 
+  public addChannelUsers(channel: string, users: string[]): boolean {
+    channel = channel[0] === '#' ? channel.slice(1) : channel;
+    if (!this.channelUsers[channel]) {
+      this.channelUsers[channel] = [];
+    }
+    users.forEach(user => {
+      if (this.channelUsers[channel].findIndex(u => u === user) === -1) {
+        this.channelUsers[channel].push(user);
+        return true;
+      }
+    });
+    return false;
+  }
+
   public removeChannelUser(channel: string, user: string): boolean {
+    channel = channel[0] === '#' ? channel.slice(1) : channel;
     if (!this.channelUsers[channel]) {
       this.channelUsers[channel] = [];
     }
@@ -224,6 +241,7 @@ export class ServerInfo {
   }
 
   public removeChannel(channel: string) {
+    channel = channel[0] === '#' ? channel.slice(1) : channel;
     const idx = this.channels.findIndex(c => c === channel);
     if (idx >= 0) {
       delete this.channels[idx];

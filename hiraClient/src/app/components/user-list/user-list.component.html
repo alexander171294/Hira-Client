@@ -10,7 +10,11 @@
     </header>
     <nav>
       <ul>
-        <li class="channel me">
+        <li class="channel" *ngFor="let user of users">
+          <img src="https://avatars.dicebear.com/api/jdenticon/{{user}}.svg?options[colorful]=1" />
+          {{user}}
+        </li>
+        <!-- <li class="channel me">
           <img src="https://avatars.dicebear.com/api/jdenticon/Harkonidaz.svg?options[colorful]=1" />
           Harkonidaz
           <span class="badge founder">Founder</span>
@@ -47,7 +51,7 @@
         <li class="channel">
           <img src="https://avatars.dicebear.com/api/jdenticon/ProbandingUser.svg?options[colorful]=1" />
           ProbandingUser
-        </li>
+        </li> -->
       </ul>
     </nav>
   </section>

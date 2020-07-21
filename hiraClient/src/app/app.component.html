@@ -1,4 +1,4 @@
-<app-chat-list [channels]="chatsRooms" [actualChat]="chatName" [actualIsPrivateChat]="chatType === 'PRIVMSG'" [privateChats]="privateChats" (changeChat)="changeChat($event)" [serverSelected]="isInServerLog"></app-chat-list>
+<app-chat-list [channels]="chatsRooms" [actualChat]="chatName" [actualIsPrivateChat]="chatType === 'PRIVMSG'" [privateChats]="privateChats" (changeChat)="changeChat($event)" (selectServer)="selectServer()" [serverSelected]="isInServerLog"></app-chat-list>
 <app-chat-box #cbox [messages]="messages" [chatName]="chatName" [chatType]="chatType" [topic]="chatTopic" [members]="chatMembers" (sendCommand)="send($event)"></app-chat-box>
-<app-user-list></app-user-list>
+<app-user-list [users]="channelUsers"></app-user-list>
 <app-server-box *ngIf="connectPopup" (connected)="connect($event)"></app-server-box>
