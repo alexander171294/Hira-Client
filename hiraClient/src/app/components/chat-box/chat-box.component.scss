@@ -59,6 +59,13 @@ main {
         margin: 0px 2vw;
         font-family: monospace;
       }
+      .joinMSG, .leaveMSG {
+        color: #490098;
+        font-size: 10px;
+        img {
+          width: 30px;
+        }
+      }
       .messageBody {
         display: inline-block;
         vertical-align: top;

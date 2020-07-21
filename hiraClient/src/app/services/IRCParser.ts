@@ -31,6 +31,12 @@ export class IRCParser {
       return out;
   }
 
+  public static findChannels(message: string): string[] {
+    let channels = /#([^\s]+)/g.exec(message) as Array<string>;
+    channels = channels.slice(1);
+    return channels;
+  }
+
   public static getChannelOfUsers(message: string) {
       return /=([^:]+):/.exec(message)[1].trim();
   }
@@ -130,6 +136,16 @@ export class IRCParser {
       // const channel = IRCParser.getChannelOfUsers(message);
       // const users = parsedMessage.message.trim().split(' ');
       // this.websockets[server.id].users[channel] = users;
+    }
+
+    if (parsedMessage.code === '332') {
+      const channels = IRCParser.findChannels(rawMessage);
+      const out = new ProcessedMessage<ChannelTopicDTO>();
+      out.messageType = MessageTypes.CHANNEL_TOPIC;
+      out.data = {
+        channel: channels[0],
+        topic: parsedMessage.message,
+      };
     }
 
     if (parsedMessage.code === 'PART') {
@@ -249,7 +265,13 @@ export enum MessageTypes {
   USER_JOINING = 'USER_JOINING',
   PRIV_MSG = 'PRIV_MSG',
   CHANNEL_MSG = 'CHANNEL_MSG',
-  SERVER = 'SERVER'
+  SERVER = 'SERVER',
+  CHANNEL_TOPIC = 'CHANNEL_TOPIC'
+}
+
+export interface ChannelTopicDTO {
+  channel: string;
+  topic: string;
 }
 
 export interface ChannelUsersDTO {

@@ -65,6 +65,7 @@ export class IRCProtocolService {
     serverConnected.websocket.send('HOST ' + serverConnected.server);
     serverConnected.websocket.send('user ' + serverConnected.username + ' * * :HiraClient');
     serverConnected.websocket.send('nick ' + serverConnected.apodo);
+    serverConnected.actualNick = serverConnected.apodo;
   }
 
   public sendMessageOrCommand(serverID: string, command: string, target?: string) {

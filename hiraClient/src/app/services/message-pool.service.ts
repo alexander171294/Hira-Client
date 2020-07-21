@@ -1,5 +1,6 @@
 import { Injectable, EventEmitter } from '@angular/core';
-import { ProcessedMessage, MessageTypes, ChannelUsersDTO, NickChangedDTO, UserLeavingDTO, UserJoiningDTO, IRCMessageDTO, IRCMessage } from './IRCParser';
+import { ProcessedMessage, MessageTypes, ChannelUsersDTO, NickChangedDTO, UserLeavingDTO, UserJoiningDTO, IRCMessageDTO, IRCMessage, ChannelTopicDTO } from './IRCParser';
+import { UserWithMetadata, RichLayer } from './RichLayer';
 
 @Injectable({
   providedIn: 'root'
@@ -21,7 +22,8 @@ export class MessagePoolService {
                                                    UserLeavingDTO |
                                                    UserJoiningDTO |
                                                    IRCMessageDTO |
-                                                   IRCMessage>,
+                                                   IRCMessage |
+                                                   ChannelTopicDTO>,
                          serverID: string) {
     console.log('Register message', message);
     if (!this.serversInfo[serverID]) {
@@ -74,7 +76,7 @@ export class MessagePoolService {
       if (newUser) {
         const ud = new UserDelta();
         ud.changeType = DeltaChangeTypes.ADDED;
-        ud.user = data.user;
+        ud.user = RichLayer.processUserMetadata(data.user);
         ud.channel = data.channel;
         ud.serverID = serverID;
         this.usersChanged.emit(ud);
@@ -87,7 +89,7 @@ export class MessagePoolService {
       if (removedUser) {
         const ud = new UserDelta();
         ud.changeType = DeltaChangeTypes.DELETED;
-        ud.user = data.user;
+        ud.user = RichLayer.processUserMetadata(data.user);
         ud.channel = data.channel;
         ud.serverID = serverID;
         this.usersChanged.emit(ud);
@@ -102,6 +104,11 @@ export class MessagePoolService {
       ud.channel = data.channel;
       ud.serverID = serverID;
       this.usersChanged.emit(ud);
+    }
+    if (message.messageType === MessageTypes.CHANNEL_TOPIC) {
+      // TODO: GUARDAR TOPIC PARA CANAL.
+      const data = message.data as ChannelTopicDTO;
+      this.serversInfo[serverID].channelTopics[data.channel] = data.topic;
     }
   }
 
@@ -141,13 +148,17 @@ export class MessagePoolService {
     return this.serversInfo[serverID].channels;
   }
 
-  public getChannelUsers(serverID: string, channel: string): string[] {
+  public getChannelUsers(serverID: string, channel: string): UserWithMetadata[] {
     return this.serversInfo[serverID].channelUsers[channel];
   }
 }
 
 export class ServerInfoHash {
   [key: string]: ServerInfo;
+}
+
+export class TopicsHash {
+  [key: string]: string;
 }
 
 export class ServerInfo {
@@ -157,6 +168,7 @@ export class ServerInfo {
   public channelUsers: UsersInChannelHash = {};
   public channels: string[] = [];
   public privateChats: string[] = [];
+  public channelTopics: TopicsHash;
 
   public addChannelMessage(channel: string, message: ProcessedMessage<IRCMessageDTO | UserJoiningDTO | UserLeavingDTO>): boolean {
     channel = channel[0] === '#' ? channel.slice(1) : channel;
@@ -199,8 +211,9 @@ export class ServerInfo {
     if (!this.channelUsers[channel]) {
       this.channelUsers[channel] = [];
     }
-    if (this.channelUsers[channel].findIndex(u => u === user) === -1) {
-      this.channelUsers[channel].push(user);
+    const userMD = RichLayer.processUserMetadata(user);
+    if (this.channelUsers[channel].findIndex(u => u.nick === userMD.nick) === -1) {
+      this.channelUsers[channel].push(userMD);
       return true;
     }
     return false;
@@ -212,8 +225,9 @@ export class ServerInfo {
       this.channelUsers[channel] = [];
     }
     users.forEach(user => {
-      if (this.channelUsers[channel].findIndex(u => u === user) === -1) {
-        this.channelUsers[channel].push(user);
+      const userMD = RichLayer.processUserMetadata(user);
+      if (this.channelUsers[channel].findIndex(u => u.nick === userMD.nick) === -1) {
+        this.channelUsers[channel].push(userMD);
         return true;
       }
     });
@@ -222,10 +236,11 @@ export class ServerInfo {
 
   public removeChannelUser(channel: string, user: string): boolean {
     channel = channel[0] === '#' ? channel.slice(1) : channel;
+    const userMD = RichLayer.processUserMetadata(user);
     if (!this.channelUsers[channel]) {
       this.channelUsers[channel] = [];
     }
-    const idx = this.channelUsers[channel].findIndex(u => u === user);
+    const idx = this.channelUsers[channel].findIndex(u => u.nick === userMD.nick);
     if (idx >= 0) {
       delete this.channelUsers[channel][idx];
       return true;
@@ -250,7 +265,7 @@ export class ServerInfo {
 }
 
 export class UsersInChannelHash {
-  [key: string]: string[];
+  [key: string]: UserWithMetadata[];
 }
 
 export class MessagesHash<t> {
@@ -270,7 +285,7 @@ export class ChangeDelta {
 }
 
 export class UserDelta extends ChangeDelta {
-  public user?: string;
+  public user?: UserWithMetadata;
   public channel: string;
 }
 

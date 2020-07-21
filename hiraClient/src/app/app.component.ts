@@ -5,6 +5,7 @@ import { MessagePoolService, ChatsDelta, DeltaChangeTypes, ServersDelta, UserDel
 import { ProcessedMessage, IRCMessage, IRCMessageDTO, UserJoiningDTO, UserLeavingDTO } from './services/IRCParser';
 import { CBoxChatTypes, ChatBoxComponent } from './components/chat-box/chat-box.component';
 import { ChatData } from './components/chat-list/chat-list.component';
+import { UserWithMetadata } from './services/RichLayer';
 
 @Component({
   selector: 'app-root',
@@ -17,7 +18,7 @@ export class AppComponent implements OnInit {
 
   privateChats: string[];
   chatsRooms: string[];
-  channelUsers: string[];
+  channelUsers: UserWithMetadata[];
   messages: ProcessedMessage<IRCMessage | IRCMessageDTO | UserJoiningDTO | UserLeavingDTO>[];
 
   isInServerLog = true;
@@ -76,7 +77,11 @@ export class AppComponent implements OnInit {
     this.chatName = cd.chatName;
     this.chatType = cd.privateChat ? CBoxChatTypes.PRIVMSG : CBoxChatTypes.CHANNEL;
     this.isInServerLog = false;
-    this.messages = this.msgPool.getChannelMessages(this.actualServerID, this.chatName);
+    if (cd.privateChat) {
+      this.messages = this.msgPool.getPrivateMessages(this.actualServerID, this.chatName);
+    } else {
+      this.messages = this.msgPool.getChannelMessages(this.actualServerID, this.chatName);
+    }
     this.cbox.goBottom();
     this.channelUsers = this.msgPool.getChannelUsers(this.actualServerID, this.chatName);
   }

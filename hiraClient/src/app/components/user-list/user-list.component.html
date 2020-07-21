@@ -11,8 +11,13 @@
     <nav>
       <ul>
         <li class="channel" *ngFor="let user of users">
-          <img src="https://avatars.dicebear.com/api/jdenticon/{{user}}.svg?options[colorful]=1" />
-          {{user}}
+          <img src="https://avatars.dicebear.com/api/jdenticon/{{user.nick}}.svg?options[colorful]=1" />
+          {{user.nick}}
+          <span class="badge founder" *ngIf="user.status == 'FOUNDER'">Founder</span>
+          <span class="badge netop" *ngIf="user.status == 'NET_OPERATOR'">Net Admin</span>
+          <span class="badge op" *ngIf="user.status == 'OPERATOR'">Operator</span>
+          <span class="badge hop" *ngIf="user.status == 'HALF_OPERATOR'">Half-Op</span>
+          <div class="voice" *ngIf="user.status == 'VOICE'"></div>
         </li>
         <!-- <li class="channel me">
           <img src="https://avatars.dicebear.com/api/jdenticon/Harkonidaz.svg?options[colorful]=1" />

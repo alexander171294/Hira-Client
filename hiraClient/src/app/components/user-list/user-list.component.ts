@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { UserWithMetadata } from 'src/app/services/RichLayer';
 
 @Component({
   selector: 'app-user-list',
@@ -7,7 +8,7 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class UserListComponent implements OnInit {
 
-  @Input() users: string[];
+  @Input() users: UserWithMetadata[];
 
   constructor() { }
 

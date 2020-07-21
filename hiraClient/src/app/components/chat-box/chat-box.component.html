@@ -26,7 +26,20 @@
           {{message.data.message}}
         </div>
       </div>
-
+      <div class="joinMSG" *ngIf="message.messageType === 'USER_JOINING'">
+        <img src="https://avatars.dicebear.com/api/jdenticon/{{message.data.user}}.svg?options[colorful]=1" />
+        <div class="messageBody">
+          <div class="author">{{message.data.user}}</div>
+          Entré al canal, {{message.data.userMsg}}
+        </div>
+      </div>
+      <div class="leaveMSG" *ngIf="message.messageType === 'USER_LEAVING'">
+        <img src="https://avatars.dicebear.com/api/jdenticon/{{message.data.user}}.svg?options[colorful]=1" />
+        <div class="messageBody">
+          <div class="author">{{message.data.user}}</div>
+          Salí del canal, {{message.data.message}}
+        </div>
+      </div>
     </div>
   </section>
   <footer>
