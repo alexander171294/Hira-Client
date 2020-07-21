@@ -9,7 +9,7 @@ import { ServerData } from 'src/app/services/ServerData';
 export class ServerBoxComponent implements OnInit {
 
   public server: string = 'irc.hira.li:6667';
-  public apodo: string = 'harkonidaz_tst';
+  public apodo: string = 'Zetta007';
   public apodoSecundario: string = 'harkonidaz_tst02';
   public autojoin: string = '#harkolandia';
 

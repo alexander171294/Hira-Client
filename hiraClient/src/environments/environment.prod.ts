@@ -1,3 +1,4 @@
 export const environment = {
-  production: true
+  production: true,
+  gateway: 'ws://irc.tandilserver.com:8091/webirc/websocket/',
 };
