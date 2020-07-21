@@ -19,6 +19,7 @@ aside {
   }
   section {
     padding: 1vh 1vw;
+    height: calc(96vh - 90px);
     header {
       color: #565a5f;
       font-family: helvetica;
@@ -26,9 +27,28 @@ aside {
       text-transform: uppercase;
       font-size: 12px;
     }
+    nav {
+      height: calc(100% - 1vh - 14px);
+    }
     ul {
       list-style: none;
       padding-inline-start: 1vh;
+      max-height: 100%;
+      overflow-y: scroll;
+      &::-webkit-scrollbar-thumb {
+        background: #181b1f;
+      }
+      &::-webkit-scrollbar-thumb:hover {
+        background: #181b1f;
+        box-shadow: 0 0 2px 1px #212429;
+      }
+      &::-webkit-scrollbar-track {
+        background: #e7e9ef;
+        border-left: 1px solid #c3c3c3;
+      }
+      &::-webkit-scrollbar {
+        width: 10px;
+      }
       li {
         color: #686d72;
         font-family: helvetica;
