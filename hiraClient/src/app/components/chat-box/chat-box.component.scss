@@ -79,6 +79,13 @@ main {
         display: inline-block;
         vertical-align: top;
         margin-left: 6px;
+        &.actionOrigin {
+          color: green;
+          span {
+            font-weight: bold;
+            font-style: italic;
+          }
+        }
         &.mentioned {
           background: #ffe1a9;
           color: #803000;
