@@ -1,5 +1,8 @@
 aside {
   width: 22vw;
+  &.embedded {
+    width: 30vw;
+  }
   display: inline-block;
   vertical-align: top;
   height: 100vh;

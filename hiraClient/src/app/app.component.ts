@@ -6,6 +6,8 @@ import { ProcessedMessage, IRCMessage, IRCMessageDTO, UserJoiningDTO, UserLeavin
 import { CBoxChatTypes, ChatBoxComponent } from './components/chat-box/chat-box.component';
 import { ChatData, NotificationsChats } from './components/chat-list/chat-list.component';
 import { UserWithMetadata } from './services/RichLayer';
+import { ActivatedRoute } from '@angular/router';
+import { ParamParse } from './services/ParamParse';
 
 @Component({
   selector: 'app-root',
@@ -32,11 +34,14 @@ export class AppComponent implements OnInit {
   @ViewChild('cbox') cbox: ChatBoxComponent;
 
   actualServerID: string;
+  embd: boolean;
 
   constructor(private ircproto: IRCProtocolService,
               private msgPool: MessagePoolService) { }
 
   ngOnInit(): void {
+    ParamParse.parseHash(window.location.hash.slice(1));
+    this.embd = ParamParse.parametria.embedded ? true : false;
     this.msgPool.usersChanged.subscribe((usersDelta: UserDelta) => {
       console.log('Users Delta', usersDelta);
       // if (usersDelta.changeType === DeltaChangeTypes.ADDED) {

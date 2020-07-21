@@ -1,5 +1,8 @@
 main {
   width: 60vw;
+  &.embedded {
+    width: 70vw;
+  }
   display: inline-block;
   height: 100vh;
   overflow: hidden;

@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { ProcessedMessage } from 'src/app/services/IRCParser';
+import { ParamParse } from 'src/app/services/ParamParse';
 
 @Component({
   selector: 'app-chat-box',
@@ -15,10 +16,12 @@ export class ChatBoxComponent implements OnInit {
   @Input() topic: string;
   @Output() sendCommand: EventEmitter<string> = new EventEmitter<string>();
   @Output() openPrivateMessage: EventEmitter<string> = new EventEmitter<string>();
+  public embd: boolean;
 
   constructor() { }
 
   ngOnInit(): void {
+    this.embd = ParamParse.parametria.embedded ? true : false;
   }
 
   goBottom() {
