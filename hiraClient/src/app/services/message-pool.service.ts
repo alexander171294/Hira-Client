@@ -111,7 +111,7 @@ export class MessagePoolService {
       const data = message.data as ChannelTopicDTO;
       this.serversInfo[serverID].channelTopics[data.channel] = data.topic;
     }
-    if (message.messageType === MessageTypes.NOTICE) {
+    if (message.messageType === MessageTypes.MOTD) {
       // si es el primer notice avisamos
       if (!this.serversInfo[serverID].noticed) {
         this.serversInfo[serverID].noticed = true;

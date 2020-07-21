@@ -42,6 +42,9 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
     ParamParse.parseHash(window.location.hash.slice(1));
     this.embd = ParamParse.parametria.embedded ? true : false;
+    this.msgPool.noticed.subscribe((serverID) => {
+      this.ircproto.autoJoin(serverID);
+    });
     this.msgPool.usersChanged.subscribe((usersDelta: UserDelta) => {
       console.log('Users Delta', usersDelta);
       // if (usersDelta.changeType === DeltaChangeTypes.ADDED) {

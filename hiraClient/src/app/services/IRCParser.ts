@@ -132,11 +132,11 @@ export class IRCParser {
       // }
     }
 
-    if (parsedMessage.code === '322') {
-      // real channel list.
-      // const channel = IRCParser.getChannelOfUsers(message);
-      // const users = parsedMessage.message.trim().split(' ');
-      // this.websockets[server.id].users[channel] = users;
+    if (parsedMessage.code === '375') {
+      const out = new ProcessedMessage<IRCMessage>();
+      out.messageType = MessageTypes.MOTD;
+      out.data = parsedMessage;
+      return out;
     }
 
     if (parsedMessage.code === 'NOTICE') {
@@ -276,6 +276,7 @@ export enum MessageTypes {
   CHANNEL_MSG = 'CHANNEL_MSG',
   SERVER = 'SERVER',
   NOTICE = 'NOTICE',
+  MOTD = 'MOTD',
   CHANNEL_TOPIC = 'CHANNEL_TOPIC'
 }
 

@@ -68,6 +68,18 @@ export class IRCProtocolService {
     serverConnected.actualNick = serverConnected.apodo;
   }
 
+  public autoJoin(serverID: string) {
+    const serverConnected = this.srvHdlr.getConnectionFromID(serverID);
+    serverConnected.autojoin.split(',').forEach(channel => {
+      serverConnected.websocket.send('JOIN ' + channel.trim());
+    });
+  }
+
+  public join(serverID: string, channel: string) {
+    const serverConnected = this.srvHdlr.getConnectionFromID(serverID);
+    serverConnected.websocket.send('JOIN ' + channel.trim());
+  }
+
   public sendMessageOrCommand(serverID: string, command: string, target?: string) {
     const serverConnected = this.srvHdlr.getConnectionFromID(serverID);
     if (command[0] === '/') {
