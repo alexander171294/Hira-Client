@@ -9,6 +9,7 @@ import { ServerBoxComponent } from './components/server-box/server-box.component
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { SafePipe } from './utils/safe.pipe';
+import { LinkVcardComponent } from './components/link-vcard/link-vcard.component';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { SafePipe } from './utils/safe.pipe';
     UserListComponent,
     ChatBoxComponent,
     ServerBoxComponent,
-    SafePipe
+    SafePipe,
+    LinkVcardComponent
   ],
   imports: [
     BrowserModule,

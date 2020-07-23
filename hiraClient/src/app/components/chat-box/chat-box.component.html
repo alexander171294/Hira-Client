@@ -29,6 +29,7 @@
             <img [src]="message.data.richMessage.image" class="banner" />
           </a>
           <iframe *ngIf="message.data.richMessage.youtube" width="560" height="315" [src]="'https://www.youtube.com/embed/' + message.data.richMessage.youtube | safe: 'resourceUrl'" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+          <app-link-vcard *ngIf="message.data.richMessage.link" [link]="message.data.richMessage.link"></app-link-vcard>
         </div>
         <div class="messageBody actionOrigin" *ngIf="message.data.meAction">
           <span *ngIf="!message.data.privateAuthor">{{message.data.author}}</span>

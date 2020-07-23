@@ -5,6 +5,7 @@
 export const environment = {
   production: false,
   gateway: 'ws://irc.network.org:8091/webirc/websocket/',
+  toolService: 'http://localhost:3030/'
 };
 
 /*
