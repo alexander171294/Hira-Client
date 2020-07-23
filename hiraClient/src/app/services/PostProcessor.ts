@@ -12,6 +12,11 @@ export class PostProcessor {
       message = message.replace(imageLink[0], '');
       mwm.image = imageLink[0];
     }
+    const otherLink = /(http|https):\/\/([\w_-]+(?:(?:\.[\w_-]+)+))([\w.,@?^=%&:\/~+#-]*[\w@?^=%&\/~+#-])?/.exec(message);
+    if (otherLink) {
+      message = message.replace(otherLink[0], '');
+      mwm.link = otherLink[0];
+    }
     mwm.message = message;
     return mwm;
   }
@@ -53,6 +58,7 @@ export class MessageWithMetadata {
   public message: string;
   public youtube?: string;
   public image?: string;
+  public link?: string;
 }
 
 export enum UserStatuses {
