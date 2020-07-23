@@ -54,18 +54,27 @@
           {{message.data.message}}
         </div>
       </div>
-      <div class="joinMSG" *ngIf="message.messageType === 'USER_JOINING'">
+      <div class="joinMSG" *ngIf="message.messageType === 'USER_JOINING' && !embd">
         <img src="https://avatars.dicebear.com/api/jdenticon/{{message.data.user}}.svg?options[colorful]=1" />
         <div class="messageBody">
           <div class="author" (click)="openPrivate(message.data.user)">{{message.data.user}}</div>
           Entró al canal, {{message.data.userMsg}}
         </div>
       </div>
-      <div class="leaveMSG" *ngIf="message.messageType === 'USER_LEAVING'">
+      <div class="leaveMSG" *ngIf="message.messageType === 'USER_LEAVING' && !embd">
         <img src="https://avatars.dicebear.com/api/jdenticon/{{message.data.user}}.svg?options[colorful]=1" />
         <div class="messageBody">
           <div class="author" (click)="openPrivate(message.data.user)">{{message.data.user}}</div>
           Salió del canal, {{message.data.message}}
+        </div>
+      </div>
+      <div class="changeNickMSG" *ngIf="message.messageType === 'NICK_CHANGED' && !embd">
+        <img src="https://avatars.dicebear.com/api/jdenticon/{{message.data.newNick}}.svg?options[colorful]=1" />
+        <div class="messageBody" style="vertical-align: middle;">
+          <b>
+            {{message.data.origin}}
+          </b> Se cambió el nick a:
+          <div class="author" style="display: inline-block;" (click)="openPrivate(message.data.newNick)">{{message.data.newNick}}</div>
         </div>
       </div>
     </div>

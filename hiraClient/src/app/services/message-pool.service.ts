@@ -128,6 +128,13 @@ export class MessagePoolService {
       Object.entries(this.serversInfo[serverID].channelUsers).forEach(kv => {
         const uid = kv[1].findIndex(user => user.nick === data.origin);
         this.serversInfo[serverID].channelUsers[kv[0]][uid].nick = data.newNick;
+        const pp = new ProcessedMessage<NickChangedDTO>();
+        pp.messageType = MessageTypes.NICK_CHANGED;
+        pp.data = {
+          origin: data.origin,
+          newNick: data.newNick
+        };
+        this.addChannelMessage(serverID, kv[0], pp);
       });
     }
     if (message.messageType === MessageTypes.QUIT) {
@@ -160,7 +167,7 @@ export class MessagePoolService {
     return this.serversInfo[serverID].channelTopics[channel];
   }
 
-  private addChannelMessage(serverID, channel, message: ProcessedMessage<IRCMessageDTO | UserJoiningDTO | UserLeavingDTO>) {
+  private addChannelMessage(serverID, channel, message: ProcessedMessage<IRCMessageDTO | UserJoiningDTO | UserLeavingDTO | NickChangedDTO>) {
     const newChat = this.serversInfo[serverID].addChannelMessage(channel, message);
     if (newChat) {
       const cd = new ChatsDelta();
@@ -184,7 +191,7 @@ export class MessagePoolService {
     return this.serversInfo[serverID].privateMessages[author];
   }
 
-  public getChannelMessages(serverID: string, channel: string): ProcessedMessage<IRCMessageDTO | UserJoiningDTO | UserLeavingDTO>[] {
+  public getChannelMessages(serverID: string, channel: string): ProcessedMessage<IRCMessageDTO | UserJoiningDTO | UserLeavingDTO | NickChangedDTO>[] {
     return this.serversInfo[serverID].channelMessages[channel];
   }
 
@@ -222,7 +229,7 @@ export class TopicsHash {
 
 export class ServerInfo {
   public privateMessages: MessagesHash<IRCMessageDTO> = {};
-  public channelMessages: MessagesHash<IRCMessageDTO | UserJoiningDTO | UserLeavingDTO> = {};
+  public channelMessages: MessagesHash<IRCMessageDTO | UserJoiningDTO | UserLeavingDTO | NickChangedDTO> = {};
   public serverMessages: ProcessedMessage<IRCMessage>[] = [];
   public channelUsers: UsersInChannelHash = {};
   public channels: string[] = [];
@@ -230,7 +237,7 @@ export class ServerInfo {
   public channelTopics: TopicsHash = {};
   public noticed = false;
 
-  public addChannelMessage(channel: string, message: ProcessedMessage<IRCMessageDTO | UserJoiningDTO | UserLeavingDTO>): boolean {
+  public addChannelMessage(channel: string, message: ProcessedMessage<IRCMessageDTO | UserJoiningDTO | UserLeavingDTO | NickChangedDTO>): boolean {
     channel = channel[0] === '#' ? channel.slice(1) : channel;
     let isNew = false;
     if (!this.channelMessages[channel]) {
