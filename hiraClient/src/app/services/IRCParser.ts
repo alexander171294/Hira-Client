@@ -175,6 +175,13 @@ export class IRCParser {
       return out;
     }
 
+    if (parsedMessage.code === 'QUIT') {
+      const out = new ProcessedMessage<string>();
+      out.messageType = MessageTypes.QUIT;
+      out.data = parsedMessage.simplyOrigin;
+      return out;
+    }
+
     if (parsedMessage.code === 'JOIN') {
       // :Harko!~Harkolandia@harkonidaz.irc.tandilserver.com JOIN :#SniferL4bs
       const channel = parsedMessage.message;
@@ -279,7 +286,8 @@ export enum MessageTypes {
   SERVER = 'SERVER',
   NOTICE = 'NOTICE',
   MOTD = 'MOTD',
-  CHANNEL_TOPIC = 'CHANNEL_TOPIC'
+  CHANNEL_TOPIC = 'CHANNEL_TOPIC',
+  QUIT = 'QUIT'
 }
 
 export interface ChannelTopicDTO {

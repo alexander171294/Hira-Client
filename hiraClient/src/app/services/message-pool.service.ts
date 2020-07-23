@@ -1,6 +1,7 @@
 import { Injectable, EventEmitter } from '@angular/core';
 import { ProcessedMessage, MessageTypes, ChannelUsersDTO, NickChangedDTO, UserLeavingDTO, UserJoiningDTO, IRCMessageDTO, IRCMessage, ChannelTopicDTO } from './IRCParser';
 import { PostProcessor, UserWithMetadata } from './PostProcessor';
+import { ppid } from 'process';
 
 @Injectable({
   providedIn: 'root'
@@ -121,6 +122,30 @@ export class MessagePoolService {
         this.serversInfo[serverID].noticed = true;
         this.noticed.emit(serverID);
       }
+    }
+    if (message.messageType === MessageTypes.QUIT) {
+      Object.entries(this.serversInfo[serverID].channelUsers).forEach(kv => {
+        kv[1].forEach(user => {
+          if (user.nick === message.data) {
+            if (this.serversInfo[serverID].removeChannelUser(kv[0], user.nick)) {
+              const pp = new ProcessedMessage<UserLeavingDTO>();
+              pp.messageType = MessageTypes.USER_LEAVING;
+              pp.data = {
+                user: user.nick,
+                channel: kv[0],
+                message: 'QUIT'
+              };
+              this.addChannelMessage(serverID, kv[0], pp);
+              const ud = new UserDelta();
+              ud.changeType = DeltaChangeTypes.DELETED;
+              ud.user = user;
+              ud.channel = kv[0];
+              ud.serverID = serverID;
+              this.usersChanged.emit(ud);
+            }
+          }
+        });
+      });
     }
   }
 
