@@ -39,7 +39,7 @@ app.get('/detail', function(req, res) {
             }
             const urlParsed = urlParser.parse(url);
             const urlBase = urlParsed.protocol + '//' + urlParsed.host;
-            if (favicon.indexOf('http') != 0) {
+            if (favicon && favicon.indexOf('http') != 0) {
                 favicon = favicon[0] == '/' ? urlBase + favicon : urlBase + '/' + favicon;
             }
             result.favicon = favicon;
