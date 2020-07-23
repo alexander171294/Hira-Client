@@ -11,15 +11,19 @@ export class LinkVcardComponent implements OnInit {
   @Input() link: string;
   title: string;
   favicon: string;
+  loaded: boolean;
 
   constructor(private vcg: VcardGetterService) { }
 
   ngOnInit(): void {
     this.vcg.detailOf(this.link).subscribe(r => {
+      this.loaded = true;
       if (!r.error) {
         this.title = r.title;
         this.favicon = r.favicon;
       }
+    }, err => {
+      this.loaded = true;
     });
   }
 

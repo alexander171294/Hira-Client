@@ -10,6 +10,13 @@ const { JSDOM } = jsdom;
 const port = 3030;
 let urlCache = {};
 
+
+app.all('*', function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", 'http://localhost:4200');
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next();
+});
+
 app.get('/detail', function(req, res) {
     const url = decodeURIComponent(req.query.url);
     if(urlCache[url]) {
@@ -28,6 +35,9 @@ app.get('/detail', function(req, res) {
             const dom = new JSDOM(r.data);
             result.title = dom.window.document.title;
             let favicon = dom.window.document.head.querySelector('link[rel=icon]')?.href;
+            if(!favicon) {
+                favicon = dom.window.document.head.querySelector('link[rel="shortcut icon"]')?.href;
+            }
             const urlParsed = urlParser.parse(url);
             const urlBase = urlParsed.protocol + '//' + urlParsed.host;
             if (favicon.indexOf('http') != 0) {

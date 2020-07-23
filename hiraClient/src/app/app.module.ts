@@ -10,6 +10,7 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { SafePipe } from './utils/safe.pipe';
 import { LinkVcardComponent } from './components/link-vcard/link-vcard.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import { LinkVcardComponent } from './components/link-vcard/link-vcard.component
   imports: [
     BrowserModule,
     FormsModule,
+    HttpClientModule,
     RouterModule.forRoot([])
   ],
   providers: [],
