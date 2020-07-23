@@ -12,24 +12,33 @@
   </header>
   <section id="cboxMessages">
     <div class="messageItem" *ngFor="let message of messages" [class.server]="message.messageType === 'SERVER'" [class.notice]="message.messageType === 'NOTICE'">
-
       <div class="channelMSG" *ngIf="message.messageType === 'CHANNEL_MSG' || message.messageType === 'PRIV_MSG'">
+        <nav class="actions">
+          <svg (click)="doQuote(message.data.privateAuthor ? message.data.privateAuthor : message.data.author, message.data.richMessage ? message.data.richMessage.message : message.data.message)" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="comment-alt" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="svg-inline--fa fa-comment-alt fa-w-16"><path fill="currentColor" d="M448 0H64C28.7 0 0 28.7 0 64v288c0 35.3 28.7 64 64 64h96v84c0 9.8 11.2 15.5 19.1 9.7L304 416h144c35.3 0 64-28.7 64-64V64c0-35.3-28.7-64-64-64z" class=""></path></svg>
+        </nav>
         <img *ngIf="!message.data.privateAuthor && !message.data.meAction" src="https://avatars.dicebear.com/api/jdenticon/{{message.data.author}}.svg?options[colorful]=1" />
         <img *ngIf="message.data.privateAuthor && !message.data.meAction" src="https://avatars.dicebear.com/api/jdenticon/{{message.data.privateAuthor}}.svg?options[colorful]=1" />
         <div class="messageBody" [class.mentioned]="message.data.mention" *ngIf="!message.data.meAction">
           <div class="author" *ngIf="!message.data.privateAuthor" (click)="openPrivate(message.data.author)">{{message.data.author}}<span class="hs">{{message.data.date}}</span></div>
           <div class="author" *ngIf="message.data.privateAuthor">{{message.data.privateAuthor}}<span class="hs">{{message.data.date}}</span></div>
+          <div class="quote" *ngIf="message.data.richMessage?.quote">
+            <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="quote-right" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="svg-inline--fa fa-quote-right fa-w-16"><path fill="currentColor" d="M464 32H336c-26.5 0-48 21.5-48 48v128c0 26.5 21.5 48 48 48h80v64c0 35.3-28.7 64-64 64h-8c-13.3 0-24 10.7-24 24v48c0 13.3 10.7 24 24 24h8c88.4 0 160-71.6 160-160V80c0-26.5-21.5-48-48-48zm-288 0H48C21.5 32 0 53.5 0 80v128c0 26.5 21.5 48 48 48h80v64c0 35.3-28.7 64-64 64h-8c-13.3 0-24 10.7-24 24v48c0 13.3 10.7 24 24 24h8c88.4 0 160-71.6 160-160V80c0-26.5-21.5-48-48-48z" class=""></path></svg>
+            <span class="author" (click)="openPrivate(message.data.richMessage.quote.author)">
+              {{message.data.richMessage.quote.author}}
+            </span>
+            {{message.data.richMessage.quote.originalMessage}}
+          </div>
           <span *ngIf="!message.data.richMessage">
             {{message.data.message}}
           </span>
           <span *ngIf="message.data.richMessage">
             {{message.data.richMessage.message}}
           </span>
-          <a *ngIf="message.data.richMessage.image" [href]="message.data.richMessage.image" target="_blank">
+          <a *ngIf="message.data.richMessage?.image" [href]="message.data.richMessage.image" target="_blank">
             <img [src]="message.data.richMessage.image" class="banner" />
           </a>
-          <iframe *ngIf="message.data.richMessage.youtube" width="560" height="315" [src]="'https://www.youtube.com/embed/' + message.data.richMessage.youtube | safe: 'resourceUrl'" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-          <app-link-vcard *ngIf="message.data.richMessage.link" [link]="message.data.richMessage.link"></app-link-vcard>
+          <iframe *ngIf="message.data.richMessage?.youtube" width="560" height="315" [src]="'https://www.youtube.com/embed/' + message.data.richMessage.youtube | safe: 'resourceUrl'" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+          <app-link-vcard *ngIf="message.data.richMessage?.link" [link]="message.data.richMessage.link"></app-link-vcard>
         </div>
         <div class="messageBody actionOrigin" *ngIf="message.data.meAction">
           <span *ngIf="!message.data.privateAuthor">{{message.data.author}}</span>
@@ -62,6 +71,14 @@
     </div>
   </section>
   <footer>
+    <div class="quote" *ngIf="inQuote">
+      <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="quote-right" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="svg-inline--fa fa-quote-right fa-w-16"><path fill="currentColor" d="M464 32H336c-26.5 0-48 21.5-48 48v128c0 26.5 21.5 48 48 48h80v64c0 35.3-28.7 64-64 64h-8c-13.3 0-24 10.7-24 24v48c0 13.3 10.7 24 24 24h8c88.4 0 160-71.6 160-160V80c0-26.5-21.5-48-48-48zm-288 0H48C21.5 32 0 53.5 0 80v128c0 26.5 21.5 48 48 48h80v64c0 35.3-28.7 64-64 64h-8c-13.3 0-24 10.7-24 24v48c0 13.3 10.7 24 24 24h8c88.4 0 160-71.6 160-160V80c0-26.5-21.5-48-48-48z" class=""></path></svg>
+      <span class="author">
+        {{quoteAuthor}}
+      </span>
+      {{quoteMessage}}
+      <svg (click)="inQuote = false" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="times" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 352 512" class="svg-inline--fa fa-times fa-w-11"><path fill="currentColor" d="M242.72 256l100.07-100.07c12.28-12.28 12.28-32.19 0-44.48l-22.24-22.24c-12.28-12.28-32.19-12.28-44.48 0L176 189.28 75.93 89.21c-12.28-12.28-32.19-12.28-44.48 0L9.21 111.45c-12.28 12.28-12.28 32.19 0 44.48L109.28 256 9.21 356.07c-12.28 12.28-12.28 32.19 0 44.48l22.24 22.24c12.28 12.28 32.2 12.28 44.48 0L176 322.72l100.07 100.07c12.28 12.28 32.2 12.28 44.48 0l22.24-22.24c12.28-12.28 12.28-32.19 0-44.48L242.72 256z" class=""></path></svg>
+    </div>
     <input type="text" placeholder="your message" (keypress)="send($event)" (keydown)="kdown($event)"/>
     <button>
       <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="paper-plane" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="svg-inline--fa fa-paper-plane fa-w-16"><path fill="currentColor" d="M476 3.2L12.5 270.6c-18.1 10.4-15.8 35.6 2.2 43.2L121 358.4l287.3-253.2c5.5-4.9 13.3 2.6 8.6 8.3L176 407v80.5c0 23.6 28.5 32.9 42.5 15.8L282 426l124.6 52.2c14.2 6 30.4-2.9 33-18.2l72-432C515 7.8 493.3-6.8 476 3.2z" class=""></path></svg>

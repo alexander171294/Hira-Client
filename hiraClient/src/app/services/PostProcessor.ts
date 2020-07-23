@@ -17,6 +17,14 @@ export class PostProcessor {
       message = message.replace(otherLink[0], '');
       mwm.link = otherLink[0];
     }
+    const quote = /^<([^>]+)>\s([^|]+)\|?(.*)$/.exec(message);
+    if (quote) {
+      mwm.quote = {
+        author: quote[1],
+        originalMessage: quote[2]
+      };
+      message = quote[3];
+    }
     mwm.message = message;
     return mwm;
   }
@@ -59,6 +67,12 @@ export class MessageWithMetadata {
   public youtube?: string;
   public image?: string;
   public link?: string;
+  public quote?: QuoteMessage;
+}
+
+export class QuoteMessage {
+  public author: string;
+  public originalMessage: string;
 }
 
 export enum UserStatuses {

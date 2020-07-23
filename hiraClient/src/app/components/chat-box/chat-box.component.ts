@@ -20,6 +20,10 @@ export class ChatBoxComponent implements OnInit {
   @Output() openPrivateMessage: EventEmitter<string> = new EventEmitter<string>();
   public embd: boolean;
 
+  public inQuote = false;
+  public quoteAuthor: string;
+  public quoteMessage: string;
+
   constructor() { }
 
   ngOnInit(): void {
@@ -35,11 +39,21 @@ export class ChatBoxComponent implements OnInit {
 
   send(evt) {
     if (evt.keyCode === 13) {
-      const commandOrMessage = evt.srcElement.value;
+      let commandOrMessage = evt.srcElement.value;
+      if (this.inQuote) {
+        commandOrMessage = '<' + this.quoteAuthor + '> ' + this.quoteMessage + ' | ' + commandOrMessage;
+        this.inQuote = false;
+      }
       this.sendCommand.emit(commandOrMessage);
       evt.srcElement.value = '';
       evt.srcElement.focus();
     }
+  }
+
+  doQuote(author: string, message: string) {
+    this.inQuote = true;
+    this.quoteAuthor = author;
+    this.quoteMessage = message;
   }
 
   kdown(evt) {
