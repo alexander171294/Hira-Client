@@ -1,12 +1,15 @@
+- Canales favoritos
+- Emoticonos (desactivables)
+- imagenes
+- rango para pols
+- emoticono - regla (restringir a un usuario los emoticonos)
+
+- Logs
+- ZNC fix?
+
 - Ordenar usuarios por rango
 - Cambiar nick y barra inferior
 - Configuración barra inferior
-- Logs
-- Canales favoritos
-- ZNC fix?
-
 
 - Autologin
 - Actualizar rangos cuando se le cambie el flag al usuario.
-- Cambios de nicks
-- Emoticonos

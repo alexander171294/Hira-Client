@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ServerData } from './ServerData';
 import { MessageHandlerService, MessageData } from './message-handler.service';
-import { IRCParser, MessageTypes, ProcessedMessage, IRCMessageDTO, IRCMessage } from './IRCParser';
+import { IRCParser, MessageTypes, ProcessedMessage, IRCMessageDTO, IRCMessage, NickChangedDTO } from './IRCParser';
 import { ServersHdlrService, ServerDataConnected } from './servers-hdlr.service';
 import { MessagePoolService } from './message-pool.service';
 
@@ -39,7 +39,7 @@ export class IRCProtocolService {
       const pMsg = IRCParser.processMessage(parsedMessage, msgData.message, msgData.server.actualNick);
       // Sección reactiva (poner aquí las respuestas automatizadas a ciertos cambios) //
       if (pMsg.messageType === MessageTypes.OUR_NICK_CHANGED) { // nuevo nick
-        msgData.server.actualNick = pMsg.data as string;
+        msgData.server.actualNick = (pMsg.data as NickChangedDTO).newNick as string;
       }
       if (pMsg.messageType === MessageTypes.NICK_ALREADY_IN_USE) { // nick en uso
         if (msgData.server.actualNick !== msgData.server.apodoSecundario) { // si no probamos el secundario

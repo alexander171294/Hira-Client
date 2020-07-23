@@ -93,9 +93,12 @@ export class IRCParser {
     if (parsedMessage.code === 'NICK') {
       // nos cambiaron el nick o se lo cambió alguien.
       if (parsedMessage.simplyOrigin === actualNick) { // nos cambiaron el nick
-        const out = new ProcessedMessage<string>();
+        const out = new ProcessedMessage<NickChangedDTO>();
         out.messageType = MessageTypes.OUR_NICK_CHANGED;
-        out.data = parsedMessage.target;
+        out.data = {
+          origin: actualNick,
+          newNick: parsedMessage.target
+        };
         return out;
       } else { // se lo cambiaron a alguien:
         const out = new ProcessedMessage<NickChangedDTO>();

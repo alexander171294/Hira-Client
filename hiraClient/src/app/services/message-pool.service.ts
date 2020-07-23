@@ -123,6 +123,13 @@ export class MessagePoolService {
         this.noticed.emit(serverID);
       }
     }
+    if (message.messageType === MessageTypes.NICK_CHANGED || message.messageType === MessageTypes.OUR_NICK_CHANGED) {
+      const data = message.data as NickChangedDTO;
+      Object.entries(this.serversInfo[serverID].channelUsers).forEach(kv => {
+        const uid = kv[1].findIndex(user => user.nick === data.origin);
+        this.serversInfo[serverID].channelUsers[kv[0]][uid].nick = data.newNick;
+      });
+    }
     if (message.messageType === MessageTypes.QUIT) {
       Object.entries(this.serversInfo[serverID].channelUsers).forEach(kv => {
         kv[1].forEach(user => {
