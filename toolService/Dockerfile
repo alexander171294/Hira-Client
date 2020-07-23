@@ -1,4 +1,4 @@
-FROM node:13.13-stretch
+FROM node:14.5-stretch
 WORKDIR /home/tools
 COPY package*.json ./
 RUN npm install
