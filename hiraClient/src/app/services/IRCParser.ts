@@ -53,7 +53,8 @@ export class IRCParser {
                   UserJoiningDTO |
                   IRCMessageDTO |
                   ChannelTopicDTO |
-                  IRCMessage // raw for server messages
+                  IRCMessage |
+                  ModeChangeDTO // raw for server messages
                   > {
     const msg = new IRCMessage();
     // 464 bad bouncer connection?
@@ -109,6 +110,20 @@ export class IRCParser {
         };
         return out;
       }
+    }
+
+    if (parsedMessage.code === 'MODE') {
+      const out = new ProcessedMessage<ModeChangeDTO>();
+      out.messageType = MessageTypes.MODE_CHANGE;
+      const mode = /(\+|\-)([a-zA-Z]+)\s(.*)/.exec(rawMessage);
+      console.log(parsedMessage);
+      out.data = {
+        target: mode[3],
+        channel: parsedMessage.target,
+        modeAdded: mode[1] === '+',
+        mode: mode[2]
+      };
+      return out;
     }
 
     if (parsedMessage.code === '396') { // displayed host REVEER ESTO
@@ -290,7 +305,8 @@ export enum MessageTypes {
   NOTICE = 'NOTICE',
   MOTD = 'MOTD',
   CHANNEL_TOPIC = 'CHANNEL_TOPIC',
-  QUIT = 'QUIT'
+  QUIT = 'QUIT',
+  MODE_CHANGE = 'MODE_CHANGE'
 }
 
 export interface ChannelTopicDTO {
@@ -301,6 +317,13 @@ export interface ChannelTopicDTO {
 export interface ChannelUsersDTO {
   channel: string;
   users: string[];
+}
+
+export interface ModeChangeDTO {
+  target: string;
+  channel: string;
+  modeAdded: boolean;
+  mode: string;
 }
 
 export interface NickChangedDTO {

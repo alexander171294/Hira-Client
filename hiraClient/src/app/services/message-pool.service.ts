@@ -1,6 +1,6 @@
 import { Injectable, EventEmitter } from '@angular/core';
-import { ProcessedMessage, MessageTypes, ChannelUsersDTO, NickChangedDTO, UserLeavingDTO, UserJoiningDTO, IRCMessageDTO, IRCMessage, ChannelTopicDTO } from './IRCParser';
-import { PostProcessor, UserWithMetadata } from './PostProcessor';
+import { ProcessedMessage, MessageTypes, ChannelUsersDTO, NickChangedDTO, UserLeavingDTO, UserJoiningDTO, IRCMessageDTO, IRCMessage, ChannelTopicDTO, ModeChangeDTO } from './IRCParser';
+import { PostProcessor, UserWithMetadata, UserStatuses } from './PostProcessor';
 import { ppid } from 'process';
 
 @Injectable({
@@ -25,7 +25,8 @@ export class MessagePoolService {
                                                    UserJoiningDTO |
                                                    IRCMessageDTO |
                                                    IRCMessage |
-                                                   ChannelTopicDTO>,
+                                                   ChannelTopicDTO |
+                                                   ModeChangeDTO>,
                          serverID: string) {
     console.log('Register message', message);
     if (!this.serversInfo[serverID]) {
@@ -121,6 +122,23 @@ export class MessagePoolService {
       if (!this.serversInfo[serverID].noticed) {
         this.serversInfo[serverID].noticed = true;
         this.noticed.emit(serverID);
+      }
+    }
+    if (message.messageType === MessageTypes.MODE_CHANGE) {
+      const data = message.data as ModeChangeDTO;
+      let realMode: UserStatuses;
+      if (!data.modeAdded) {
+        realMode = undefined;
+      } else if (data.mode === 'h') {
+        realMode = UserStatuses.HALF_OPERATOR;
+      } else if (data.mode === 'o') {
+        realMode = UserStatuses.OPERATOR;
+      } else if (data.mode === 'v') {
+        realMode = UserStatuses.VOICE;
+      }
+      if (data.channel !== data.target) {
+        data.channel = data.channel[0] === '#' ? data.channel.slice(1) : data.channel;
+        this.serversInfo[serverID].channelUsers[data.channel].find(user => user.nick === data.target).status = realMode;
       }
     }
     if (message.messageType === MessageTypes.NICK_CHANGED || message.messageType === MessageTypes.OUR_NICK_CHANGED) {
