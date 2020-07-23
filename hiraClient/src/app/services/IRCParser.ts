@@ -116,14 +116,15 @@ export class IRCParser {
       const out = new ProcessedMessage<ModeChangeDTO>();
       out.messageType = MessageTypes.MODE_CHANGE;
       const mode = /(\+|\-)([a-zA-Z]+)\s(.*)/.exec(rawMessage);
-      console.log(parsedMessage);
-      out.data = {
-        target: mode[3],
-        channel: parsedMessage.target,
-        modeAdded: mode[1] === '+',
-        mode: mode[2]
-      };
-      return out;
+      if (mode) {
+        out.data = {
+          target: mode[3],
+          channel: parsedMessage.target,
+          modeAdded: mode[1] === '+',
+          mode: mode[2]
+        };
+        return out;
+      }
     }
 
     if (parsedMessage.code === '396') { // displayed host REVEER ESTO
