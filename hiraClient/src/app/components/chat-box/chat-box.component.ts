@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { ProcessedMessage } from 'src/app/services/IRCParser';
 import { ParamParse } from 'src/app/services/ParamParse';
+import { UserWithMetadata } from 'src/app/services/PostProcessor';
 
 @Component({
   selector: 'app-chat-box',
@@ -14,6 +15,7 @@ export class ChatBoxComponent implements OnInit {
   @Input() chatType: CBoxChatTypes;
   @Input() members: number;
   @Input() topic: string;
+  @Input() users: UserWithMetadata[];
   @Output() sendCommand: EventEmitter<string> = new EventEmitter<string>();
   @Output() openPrivateMessage: EventEmitter<string> = new EventEmitter<string>();
   public embd: boolean;
@@ -37,6 +39,26 @@ export class ChatBoxComponent implements OnInit {
       this.sendCommand.emit(commandOrMessage);
       evt.srcElement.value = '';
       evt.srcElement.focus();
+    }
+  }
+
+  kdown(evt) {
+    if (evt.keyCode === 9) { //tab
+      evt.preventDefault();
+      const writing = evt.srcElement.value.split(' ');
+      const writingName = writing[writing.length - 1];
+      if (this.users) {
+        let nick;
+        this.users.forEach((u) => {
+          if (u.nick.toLowerCase().indexOf(writingName.toLowerCase()) === 0) {
+            nick = u.nick + ' ';
+          }
+        });
+        if (nick) {
+          writing[writing.length - 1] = nick;
+          evt.srcElement.value = writing.join(' ');
+        }
+      }
     }
   }
 
