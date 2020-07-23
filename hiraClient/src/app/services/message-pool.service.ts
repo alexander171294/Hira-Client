@@ -129,7 +129,9 @@ export class MessagePoolService {
       let realMode: UserStatuses;
       if (!data.modeAdded) {
         realMode = undefined;
-      } else if (data.mode === 'h') {
+      } else if (data.mode === 'a') {
+        realMode = UserStatuses.NET_OPERATOR;
+      }  else if (data.mode === 'h') {
         realMode = UserStatuses.HALF_OPERATOR;
       } else if (data.mode === 'o') {
         realMode = UserStatuses.OPERATOR;
