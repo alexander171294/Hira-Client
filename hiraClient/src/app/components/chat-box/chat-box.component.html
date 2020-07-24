@@ -31,9 +31,7 @@
           <span *ngIf="!message.data.richMessage">
             {{message.data.message}}
           </span>
-          <span *ngIf="message.data.richMessage">
-            {{message.data.richMessage.message}}
-          </span>
+          <span *ngIf="message.data.richMessage" [innerHTML]="message.data.richMessage.message"></span>
           <a *ngIf="message.data.richMessage?.image" [href]="message.data.richMessage.image" target="_blank">
             <img [src]="message.data.richMessage.image" class="banner" />
           </a>

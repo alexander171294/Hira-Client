@@ -3,6 +3,17 @@ body {
   margin: 0px;
 }
 
+.faceEmote {
+  width: 80px;
+  vertical-align: middle;
+  background: #b7b7b7;
+  border-radius: 3px;
+  transition: width 1s;
+  &:hover {
+    width: 150px
+  }
+}
+
 @font-face {
   src: url(assets/poppins.ttf);
   font-family: Poppins;
