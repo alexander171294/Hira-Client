@@ -197,7 +197,7 @@ export class MessagePoolService {
         } else if (data.mode[0] === 'b') { // ban
           const pp = new ProcessedMessage<string>();
           pp.messageType = MessageTypes.BAN;
-          pp.data = data.target;
+          pp.data = data.modeAdded ? 'Se aplicó ban a ' + data.target : 'Se retiró ban a ' + data.target;
           this.addChannelMessage(serverID, data.channel, pp);
         }
       }
