@@ -34,17 +34,17 @@ export class PostProcessor {
     }
 
     // replacing memes
-    const faces = message.match(/:([a-zA-Z]+):/g);
+    const faces = message.match(/:([a-zA-Z0-9]+):/g);
     if (faces) {
       faces.forEach(face => {
         message = message.replace(face, '<img src="assets/faces/' + face.replace(':', '').replace(':', '')  + '.png" class="faceEmote"/>');
       });
     }
 
-    const memes = message.match(/\$([a-zA-Z]+)\$/g);
+    const memes = message.match(/;([a-zA-Z0-9]+);/g);
     if (memes) {
       memes.forEach(meme => {
-        message = message.replace(meme, '<img src="assets/em-mem/' + meme.replace(':', '').replace(':', '')  + '.png" class="memeEmote"/>');
+        message = message.replace(meme, '<img src="assets/em-mem/' + meme.replace(';', '').replace(';', '')  + '" class="memeEmote"/>');
       });
     }
 

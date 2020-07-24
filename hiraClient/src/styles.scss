@@ -6,11 +6,21 @@ body {
 .faceEmote {
   width: 80px;
   vertical-align: middle;
-  background: #b7b7b7;
+  background: #89b7ec;
   border-radius: 3px;
   transition: width 1s;
   &:hover {
     width: 150px
+  }
+}
+
+.memeEmote {
+  max-width: 200px;
+  vertical-align: middle;
+  border-radius: 3px;
+  transition: max-width 1s;
+  &:hover {
+    max-width: 400px;
   }
 }
 
