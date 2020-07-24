@@ -1,5 +1,4 @@
 - Canales favoritos
-- Emoticonos (desactivables)
 - imagenes
 - rango para pols
 - emoticono - regla (restringir a un usuario los emoticonos)
@@ -11,4 +10,5 @@
 - Cambiar nick y barra inferior
 - Configuración barra inferior
 
-- Autologin
+- Autologin y remember
+- leave
