@@ -3,12 +3,6 @@ export class PostProcessor {
   public static processMessage(message: string): MessageWithMetadata {
     const mwm = new MessageWithMetadata();
 
-    // prevent XSS:
-    const temp = document.createElement('div');
-    temp.textContent = message;
-    message = temp.innerHTML;
-    // end of xss prevention
-
     const youtubeLink = /((?:https?:)?\/\/)?((?:www|m)\.)?((?:youtube\.com|youtu.be))(\/(?:[\w\-]+\?v=|embed\/|v\/)?)([\w\-]+)(\S+)?/.exec(message);
     if (youtubeLink) {
       message = message.replace(youtubeLink[0], '');
@@ -32,6 +26,12 @@ export class PostProcessor {
       };
       message = quote[3];
     }
+
+    // prevent XSS:
+    const temp = document.createElement('div');
+    temp.textContent = message;
+    message = temp.innerHTML;
+    // end of xss prevention
 
     // replacing memes
     const faces = message.match(/:([a-zA-Z0-9]+):/g);
