@@ -32,6 +32,8 @@ export class AppComponent implements OnInit {
 
   notifications: NotificationsChats = new NotificationsChats();
 
+  isConnected = false;
+
   @ViewChild('cbox') cbox: ChatBoxComponent;
 
   actualServerID: string;
@@ -135,6 +137,7 @@ export class AppComponent implements OnInit {
     this.ircproto.connect(serverData);
     this.actualNick = serverData.apodo;
     this.connectPopup = false;
+    this.isConnected = true;
   }
 
   send(command: string) {

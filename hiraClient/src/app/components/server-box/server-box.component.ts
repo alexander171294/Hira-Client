@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { ServerData } from 'src/app/services/ServerData';
 
 @Component({
@@ -13,7 +13,7 @@ export class ServerBoxComponent implements OnInit {
   public apodoSecundario: string = 'harkonidaz_tst02';
   public autojoin: string = '#harkolandia';
 
-  public isConnected = false;
+  @Input() isConnected;
 
   @Output() connected: EventEmitter<ServerData> = new EventEmitter<ServerData>();
   @Output() closePopup: EventEmitter<void> = new EventEmitter<void>();
