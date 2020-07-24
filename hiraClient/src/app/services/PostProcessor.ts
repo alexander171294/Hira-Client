@@ -34,10 +34,12 @@ export class PostProcessor {
     }
 
     // replacing memes
-    const faces = message.match(/:([a-zA-Z]+)/g);
-    faces.forEach(face => {
-      message = message.replace(face, '<img src="assets/faces/' + face.replace(':', '') + '.png" class="faceEmote"/>');
-    });
+    const faces = message.match(/:([a-zA-Z]+):/g);
+    if (faces) {
+      faces.forEach(face => {
+        message = message.replace(face, '<img src="assets/faces/' + face.replace(':', '').replace(':', '')  + '.png" class="faceEmote"/>');
+      });
+    }
 
     mwm.message = message;
     return mwm;
