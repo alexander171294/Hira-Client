@@ -28,6 +28,8 @@ export class AppComponent implements OnInit {
   chatTopic = 'Mensajes del servidor.';
   chatMembers: number;
 
+  actualNick: string;
+
   notifications: NotificationsChats = new NotificationsChats();
 
   @ViewChild('cbox') cbox: ChatBoxComponent;
@@ -46,9 +48,9 @@ export class AppComponent implements OnInit {
     });
     this.msgPool.usersChanged.subscribe((usersDelta: UserDelta) => {
       console.log('Users Delta', usersDelta);
-      // if (usersDelta.changeType === DeltaChangeTypes.ADDED) {
-
-      // }
+      if (usersDelta.changeType === DeltaChangeTypes.FIXED_UPDATE) { // update our nick
+        this.actualNick = usersDelta.user.nick;
+      }
     });
     this.msgPool.serverChanged.subscribe((serverDelta: ServersDelta) => {
       console.log('Server Delta', serverDelta);

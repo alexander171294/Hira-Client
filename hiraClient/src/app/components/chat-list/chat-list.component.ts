@@ -18,6 +18,8 @@ export class ChatListComponent implements OnInit {
 
   @Input() notifications: NotificationsChats;
 
+  @Input() actualNick: string;
+
   constructor() { }
 
   ngOnInit(): void {

@@ -126,6 +126,12 @@ aside {
     span {
       color: #797a7d;
       font-family: Poppins;
+      float: left;
+      display: block;
+      width: calc(100% - 140px);
+      overflow: hidden;
+      font-size: 21px;
+      text-align: left;
     }
   }
 }

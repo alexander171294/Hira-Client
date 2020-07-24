@@ -102,6 +102,17 @@ export class MessagePoolService {
         this.usersChanged.emit(ud);
       }
     }
+    if (message.messageType === MessageTypes.OUR_NICK_CHANGED) {
+      const ud = new UserDelta();
+      const data = message.data as NickChangedDTO;
+      ud.changeType = DeltaChangeTypes.FIXED_UPDATE;
+      ud.user = {
+        nick: data.newNick,
+        status: undefined
+      };
+      ud.serverID = serverID;
+      this.usersChanged.emit(ud);
+    }
     // only for changes
     if (message.messageType === MessageTypes.CHANNEL_USERS) {
       const data = message.data as ChannelUsersDTO;
@@ -366,7 +377,8 @@ export enum DeltaChangeTypes {
   UPDATED = 'UPDATED',
   DELETED = 'DELETED',
   ADDED = 'ADDED',
-  FULL_LIST = 'FULL_LIST'
+  FULL_LIST = 'FULL_LIST',
+  FIXED_UPDATE = 'FIXED_UPDATE'
 }
 
 export class ChangeDelta {
