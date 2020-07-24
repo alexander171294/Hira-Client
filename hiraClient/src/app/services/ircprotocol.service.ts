@@ -102,9 +102,17 @@ export class IRCProtocolService {
       }
       if (verb === 'cs') {
         // chanserv?
+        cmd = cmd.replace('cs', 'PRIVMSG ChanServ :');
       }
       if (verb === 'ns') {
         // nickserv?
+        cmd = cmd.replace('ns', 'PRIVMSG NickServ :');
+      }
+      if (verb === 'msg') {
+        cmd = cmd.replace('msg', 'PRIVMSG');
+      }
+      if (verb === 'leave') {
+        cmd = cmd.replace('leave', 'PART');
       }
       serverConnected.websocket.send(cmd);
     } else {

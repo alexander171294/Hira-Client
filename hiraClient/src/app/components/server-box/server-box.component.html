@@ -22,7 +22,8 @@
       </div>
     </section>
     <footer>
-      <button class="green" (click)="connect()">Connect</button>
+      <button class="green" (click)="connect()" *ngIf="!isConnected">Connect</button>
+      <button class="green" (click)="closePopup.emit()" *ngIf="!isConnected">Close</button>
     </footer>
   </div>
 </main>

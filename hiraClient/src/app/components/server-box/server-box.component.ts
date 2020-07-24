@@ -13,7 +13,10 @@ export class ServerBoxComponent implements OnInit {
   public apodoSecundario: string = 'harkonidaz_tst02';
   public autojoin: string = '#harkolandia';
 
+  public isConnected = false;
+
   @Output() connected: EventEmitter<ServerData> = new EventEmitter<ServerData>();
+  @Output() closePopup: EventEmitter<void> = new EventEmitter<void>();
 
   constructor() { }
 
@@ -28,5 +31,6 @@ export class ServerBoxComponent implements OnInit {
     sd.autojoin = this.autojoin;
     sd.server = this.server;
     this.connected.emit(sd);
+    this.isConnected = true;
   }
 }
