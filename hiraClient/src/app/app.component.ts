@@ -133,6 +133,7 @@ export class AppComponent implements OnInit {
   connect(serverData: ServerData) {
     this.actualServerID = serverData.id;
     this.ircproto.connect(serverData);
+    this.actualNick = serverData.apodo;
     this.connectPopup = false;
   }
 
