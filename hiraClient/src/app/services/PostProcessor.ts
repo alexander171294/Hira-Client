@@ -41,6 +41,13 @@ export class PostProcessor {
       });
     }
 
+    const memes = message.match(/\$([a-zA-Z]+)\$/g);
+    if (memes) {
+      memes.forEach(meme => {
+        message = message.replace(meme, '<img src="assets/em-mem/' + meme.replace(':', '').replace(':', '')  + '.png" class="memeEmote"/>');
+      });
+    }
+
     mwm.message = message;
     return mwm;
   }
