@@ -66,6 +66,13 @@
           Salió del canal, {{message.data.message}}
         </div>
       </div>
+      <div class="kickMSG" *ngIf="message.messageType === 'KICK'">
+        <img src="https://avatars.dicebear.com/api/jdenticon/{{message.data.user}}.svg?options[colorful]=1" />
+        <div class="messageBody">
+          <div class="author" (click)="openPrivate(message.data.user)">{{message.data.user}}</div>
+          {{message.data.message}}
+        </div>
+      </div>
       <div class="changeNickMSG" *ngIf="message.messageType === 'NICK_CHANGED' && !embd">
         <img src="https://avatars.dicebear.com/api/jdenticon/{{message.data.newNick}}.svg?options[colorful]=1" />
         <div class="messageBody" style="vertical-align: middle;">

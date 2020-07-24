@@ -1,5 +1,5 @@
 import { Injectable, EventEmitter } from '@angular/core';
-import { ProcessedMessage, MessageTypes, ChannelUsersDTO, NickChangedDTO, UserLeavingDTO, UserJoiningDTO, IRCMessageDTO, IRCMessage, ChannelTopicDTO, ModeChangeDTO } from './IRCParser';
+import { ProcessedMessage, MessageTypes, ChannelUsersDTO, NickChangedDTO, UserLeavingDTO, UserJoiningDTO, IRCMessageDTO, IRCMessage, ChannelTopicDTO, ModeChangeDTO, KickedDTO } from './IRCParser';
 import { PostProcessor, UserWithMetadata, UserStatuses } from './PostProcessor';
 import { ppid } from 'process';
 
@@ -26,6 +26,7 @@ export class MessagePoolService {
                                                    IRCMessageDTO |
                                                    IRCMessage |
                                                    ChannelTopicDTO |
+                                                   KickedDTO |
                                                    ModeChangeDTO>,
                          serverID: string) {
     console.log('Register message', message);
@@ -102,6 +103,42 @@ export class MessagePoolService {
         this.usersChanged.emit(ud);
       }
     }
+    if (message.messageType === MessageTypes.QUIT) {
+      Object.entries(this.serversInfo[serverID].channelUsers).forEach(kv => {
+        kv[1].forEach(user => {
+          if (user.nick === message.data) {
+            if (this.serversInfo[serverID].removeChannelUser(kv[0], user.nick)) {
+              const pp = new ProcessedMessage<UserLeavingDTO>();
+              pp.messageType = MessageTypes.USER_LEAVING;
+              pp.data = {
+                user: user.nick,
+                channel: kv[0],
+                message: 'QUIT'
+              };
+              this.addChannelMessage(serverID, kv[0], pp);
+              const ud = new UserDelta();
+              ud.changeType = DeltaChangeTypes.DELETED;
+              ud.user = user;
+              ud.channel = kv[0];
+              ud.serverID = serverID;
+              this.usersChanged.emit(ud);
+            }
+          }
+        });
+      });
+    }
+    if (message.messageType === MessageTypes.KICK) {
+      const data = message.data as KickedDTO;
+      const pp = new ProcessedMessage<UserLeavingDTO>();
+      pp.messageType = MessageTypes.KICK;
+      pp.data = {
+        user: data.operator,
+        channel: data.channel,
+        message: 'Kickeó a ' + data.userTarget
+      };
+      this.addChannelMessage(serverID, data.channel, pp);
+      this.serversInfo[serverID].removeChannelUser(data.channel, data.userTarget)
+    }
     if (message.messageType === MessageTypes.OUR_NICK_CHANGED) {
       const ud = new UserDelta();
       const data = message.data as NickChangedDTO;
@@ -153,7 +190,10 @@ export class MessagePoolService {
       }
       if (data.channel !== data.target) {
         data.channel = data.channel[0] === '#' ? data.channel.slice(1) : data.channel;
-        this.serversInfo[serverID].channelUsers[data.channel].find(user => user.nick === data.target).status = realMode;
+        const ufinded = this.serversInfo[serverID].channelUsers[data.channel].find(user => user.nick === data.target);
+        if (ufinded) {
+          ufinded.status = realMode;
+        }
       }
     }
     if (message.messageType === MessageTypes.NICK_CHANGED || message.messageType === MessageTypes.OUR_NICK_CHANGED) {
@@ -168,30 +208,6 @@ export class MessagePoolService {
           newNick: data.newNick
         };
         this.addChannelMessage(serverID, kv[0], pp);
-      });
-    }
-    if (message.messageType === MessageTypes.QUIT) {
-      Object.entries(this.serversInfo[serverID].channelUsers).forEach(kv => {
-        kv[1].forEach(user => {
-          if (user.nick === message.data) {
-            if (this.serversInfo[serverID].removeChannelUser(kv[0], user.nick)) {
-              const pp = new ProcessedMessage<UserLeavingDTO>();
-              pp.messageType = MessageTypes.USER_LEAVING;
-              pp.data = {
-                user: user.nick,
-                channel: kv[0],
-                message: 'QUIT'
-              };
-              this.addChannelMessage(serverID, kv[0], pp);
-              const ud = new UserDelta();
-              ud.changeType = DeltaChangeTypes.DELETED;
-              ud.user = user;
-              ud.channel = kv[0];
-              ud.serverID = serverID;
-              this.usersChanged.emit(ud);
-            }
-          }
-        });
       });
     }
   }

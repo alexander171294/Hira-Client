@@ -54,6 +54,7 @@ export class IRCParser {
                   IRCMessageDTO |
                   ChannelTopicDTO |
                   IRCMessage |
+                  KickedDTO |
                   ModeChangeDTO // raw for server messages
                   > {
     const msg = new IRCMessage();
@@ -176,6 +177,21 @@ export class IRCParser {
         topic: parsedMessage.message,
       };
       return out;
+    }
+
+    if (parsedMessage.code === 'KICK') {
+      const channel = parsedMessage.target;
+      const banData = /#([^\s]+)\s([^:]+)\s/.exec(rawMessage);
+      if (banData) {
+        const out = new ProcessedMessage<KickedDTO>();
+        out.messageType = MessageTypes.KICK;
+        out.data = {
+          channel,
+          operator: parsedMessage.message,
+          userTarget: banData[2]
+        };
+        return out;
+      }
     }
 
     if (parsedMessage.code === 'PART') {
@@ -307,7 +323,8 @@ export enum MessageTypes {
   MOTD = 'MOTD',
   CHANNEL_TOPIC = 'CHANNEL_TOPIC',
   QUIT = 'QUIT',
-  MODE_CHANGE = 'MODE_CHANGE'
+  MODE_CHANGE = 'MODE_CHANGE',
+  KICK = 'KICK'
 }
 
 export interface ChannelTopicDTO {
@@ -330,6 +347,12 @@ export interface ModeChangeDTO {
 export interface NickChangedDTO {
   origin: string;
   newNick: string;
+}
+
+export interface KickedDTO {
+  channel: string;
+  operator: string;
+  userTarget: string;
 }
 
 export interface UserLeavingDTO {
