@@ -104,4 +104,5 @@ export enum UserStatuses {
   OPERATOR = 'OPERATOR',
   HALF_OPERATOR = 'HALF_OPERATOR',
   VOICE = 'VOICE',
+  BANNED = 'BANNED'
 }

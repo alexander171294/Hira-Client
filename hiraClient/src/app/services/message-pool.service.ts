@@ -177,22 +177,28 @@ export class MessagePoolService {
       let realMode: UserStatuses;
       if (!data.modeAdded) {
         realMode = undefined;
-      } else if (data.mode === 'q') {
+      } else if (data.mode[0] === 'q') {
         realMode = UserStatuses.FOUNDER;
-      } else if (data.mode === 'a') {
+      } else if (data.mode[0] === 'a') {
         realMode = UserStatuses.NET_OPERATOR;
-      }  else if (data.mode === 'h') {
+      }  else if (data.mode[0] === 'h') {
         realMode = UserStatuses.HALF_OPERATOR;
-      } else if (data.mode === 'o') {
+      } else if (data.mode[0] === 'o') {
         realMode = UserStatuses.OPERATOR;
-      } else if (data.mode === 'v') {
+      } else if (data.mode[0] === 'v') {
         realMode = UserStatuses.VOICE;
       }
+      console.log(data.channel, data.target, realMode);
       if (data.channel !== data.target) {
         data.channel = data.channel[0] === '#' ? data.channel.slice(1) : data.channel;
         const ufinded = this.serversInfo[serverID].channelUsers[data.channel].find(user => user.nick === data.target);
         if (ufinded) {
           ufinded.status = realMode;
+        } else if (data.mode[0] === 'b') { // ban
+          const pp = new ProcessedMessage<string>();
+          pp.messageType = MessageTypes.BAN;
+          pp.data = data.target;
+          this.addChannelMessage(serverID, data.channel, pp);
         }
       }
     }
@@ -216,7 +222,7 @@ export class MessagePoolService {
     return this.serversInfo[serverID].channelTopics[channel];
   }
 
-  private addChannelMessage(serverID, channel, message: ProcessedMessage<IRCMessageDTO | UserJoiningDTO | UserLeavingDTO | NickChangedDTO>) {
+  private addChannelMessage(serverID, channel, message: ProcessedMessage<IRCMessageDTO | UserJoiningDTO | UserLeavingDTO | NickChangedDTO | string>) {
     const newChat = this.serversInfo[serverID].addChannelMessage(channel, message);
     if (newChat) {
       const cd = new ChatsDelta();
@@ -240,7 +246,7 @@ export class MessagePoolService {
     return this.serversInfo[serverID].privateMessages[author];
   }
 
-  public getChannelMessages(serverID: string, channel: string): ProcessedMessage<IRCMessageDTO | UserJoiningDTO | UserLeavingDTO | NickChangedDTO>[] {
+  public getChannelMessages(serverID: string, channel: string): ProcessedMessage<IRCMessageDTO | UserJoiningDTO | UserLeavingDTO | NickChangedDTO | string>[] {
     return this.serversInfo[serverID].channelMessages[channel];
   }
 
@@ -278,7 +284,7 @@ export class TopicsHash {
 
 export class ServerInfo {
   public privateMessages: MessagesHash<IRCMessageDTO> = {};
-  public channelMessages: MessagesHash<IRCMessageDTO | UserJoiningDTO | UserLeavingDTO | NickChangedDTO> = {};
+  public channelMessages: MessagesHash<IRCMessageDTO | UserJoiningDTO | UserLeavingDTO | NickChangedDTO | string> = {};
   public serverMessages: ProcessedMessage<IRCMessage>[] = [];
   public channelUsers: UsersInChannelHash = {};
   public channels: string[] = [];
@@ -286,7 +292,7 @@ export class ServerInfo {
   public channelTopics: TopicsHash = {};
   public noticed = false;
 
-  public addChannelMessage(channel: string, message: ProcessedMessage<IRCMessageDTO | UserJoiningDTO | UserLeavingDTO | NickChangedDTO>): boolean {
+  public addChannelMessage(channel: string, message: ProcessedMessage<IRCMessageDTO | UserJoiningDTO | UserLeavingDTO | NickChangedDTO | string>): boolean {
     channel = channel[0] === '#' ? channel.slice(1) : channel;
     let isNew = false;
     if (!this.channelMessages[channel]) {

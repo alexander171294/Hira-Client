@@ -20,7 +20,7 @@ export class AppComponent implements OnInit {
   privateChats: string[];
   chatsRooms: string[];
   channelUsers: UserWithMetadata[];
-  messages: ProcessedMessage<IRCMessage | IRCMessageDTO | UserJoiningDTO | UserLeavingDTO | NickChangedDTO>[];
+  messages: ProcessedMessage<IRCMessage | IRCMessageDTO | UserJoiningDTO | UserLeavingDTO | NickChangedDTO | string>[];
 
   isInServerLog = true;
   chatName = 'Server';

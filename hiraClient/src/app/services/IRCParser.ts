@@ -324,7 +324,8 @@ export enum MessageTypes {
   CHANNEL_TOPIC = 'CHANNEL_TOPIC',
   QUIT = 'QUIT',
   MODE_CHANGE = 'MODE_CHANGE',
-  KICK = 'KICK'
+  KICK = 'KICK',
+  BAN = 'BAN'
 }
 
 export interface ChannelTopicDTO {
