@@ -1,5 +1,7 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { ServerData } from 'src/app/utils/ServerData';
+import { ParamParse } from 'src/app/utils/ParamParse';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-server-box',
@@ -8,10 +10,10 @@ import { ServerData } from 'src/app/utils/ServerData';
 })
 export class ServerBoxComponent implements OnInit {
 
-  public server: string = 'kappa.hira.li:6667';
-  public apodo: string = 'Zetta007';
-  public apodoSecundario: string = 'harkonidaz_tst02';
-  public autojoin: string = '#harkolandia';
+  public server: string;
+  public apodo: string;
+  public apodoSecundario: string;
+  public autojoin: string;
 
   @Input() isConnected: boolean;
   @Input() connectionError: boolean;
@@ -22,6 +24,19 @@ export class ServerBoxComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+    if (!environment.production) {
+      this.server = 'kappa.hira.li:6667';
+      this.apodo = 'Zetta007';
+      this.apodoSecundario = 'harkonidaz_tst02';
+      this.autojoin = '#harkolandia';
+    }
+    this.server = ParamParse.parametria.server ? encodeURIComponent(ParamParse.parametria.server) : this.server;
+    this.apodo = ParamParse.parametria.apodo ? encodeURIComponent(ParamParse.parametria.apodo) : this.apodo;
+    this.apodoSecundario = ParamParse.parametria.apodoSecundario ? encodeURIComponent(ParamParse.parametria.apodoSecundario) : this.apodoSecundario;
+    this.autojoin = ParamParse.parametria.autojoin ? encodeURIComponent(ParamParse.parametria.autojoin) : this.autojoin;
+    if (ParamParse.parametria.embedded) {
+      this.connect();
+    }
   }
 
   connect() {
