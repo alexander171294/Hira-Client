@@ -1,12 +1,12 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { IRCProtocolService } from './services/ircprotocol.service';
-import { ServerData } from './services/ServerData';
+import { ServerData } from './utils/ServerData';
 import { MessagePoolService, ChatsDelta, DeltaChangeTypes, ServersDelta, UserDelta } from './services/message-pool.service';
-import { ProcessedMessage, IRCMessage, IRCMessageDTO, UserJoiningDTO, UserLeavingDTO, MessageTypes, NickChangedDTO } from './services/IRCParser';
+import { ProcessedMessage, IRCMessage, IRCMessageDTO, UserJoiningDTO, UserLeavingDTO, MessageTypes, NickChangedDTO } from './utils/IRCParser';
 import { CBoxChatTypes, ChatBoxComponent } from './components/chat-box/chat-box.component';
 import { ChatData, NotificationsChats } from './components/chat-list/chat-list.component';
-import { ParamParse } from './services/ParamParse';
-import { UserWithMetadata } from './services/PostProcessor';
+import { ParamParse } from './utils/ParamParse';
+import { UserWithMetadata } from './utils/PostProcessor';
 import { MessageHandlerService } from './services/message-handler.service';
 
 @Component({

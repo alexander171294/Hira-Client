@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { ParamParse } from 'src/app/services/ParamParse';
-import { UserWithMetadata } from 'src/app/services/PostProcessor';
+import { ParamParse } from 'src/app/utils/ParamParse';
+import { UserWithMetadata } from 'src/app/utils/PostProcessor';
 
 @Component({
   selector: 'app-user-list',

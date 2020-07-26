@@ -1,4 +1,4 @@
-import { MessageWithMetadata } from './PostProcessor';
+import { MessageWithMetadata } from '../utils/PostProcessor';
 
 export class IRCParser {
   public static parseMessage(message: string): IRCMessage[] {

@@ -1,5 +1,5 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
-import { ServerData } from 'src/app/services/ServerData';
+import { ServerData } from 'src/app/utils/ServerData';
 
 @Component({
   selector: 'app-server-box',

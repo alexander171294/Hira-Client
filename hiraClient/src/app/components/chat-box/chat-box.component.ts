@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { ProcessedMessage } from 'src/app/services/IRCParser';
-import { ParamParse } from 'src/app/services/ParamParse';
-import { UserWithMetadata, PostProcessor } from 'src/app/services/PostProcessor';
+import { ProcessedMessage } from 'src/app/utils/IRCParser';
+import { ParamParse } from 'src/app/utils/ParamParse';
+import { UserWithMetadata, PostProcessor } from 'src/app/utils/PostProcessor';
 
 @Component({
   selector: 'app-chat-box',

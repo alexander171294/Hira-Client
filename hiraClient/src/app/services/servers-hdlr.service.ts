@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { ServerData } from './ServerData';
-import { WebSocketHDLR } from './websocket';
+import { ServerData } from '../utils/ServerData';
+import { WebSocketHDLR } from '../utils/websocket';
 import { environment } from 'src/environments/environment';
 import { Observable } from 'rxjs';
 

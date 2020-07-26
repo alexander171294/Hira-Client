@@ -1,5 +1,5 @@
 import { Injectable, EventEmitter } from '@angular/core';
-import { ServerData } from './ServerData';
+import { ServerData } from '../utils/ServerData';
 import { ServersHdlrService, ServerDataConnected } from './servers-hdlr.service';
 
 @Injectable({

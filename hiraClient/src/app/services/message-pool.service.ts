@@ -1,7 +1,16 @@
 import { Injectable, EventEmitter } from '@angular/core';
-import { ProcessedMessage, MessageTypes, ChannelUsersDTO, NickChangedDTO, UserLeavingDTO, UserJoiningDTO, IRCMessageDTO, IRCMessage, ChannelTopicDTO, ModeChangeDTO, KickedDTO } from './IRCParser';
-import { PostProcessor, UserWithMetadata, UserStatuses } from './PostProcessor';
-import { ppid } from 'process';
+import {  ProcessedMessage,
+          MessageTypes,
+          ChannelUsersDTO,
+          NickChangedDTO,
+          UserLeavingDTO,
+          UserJoiningDTO,
+          IRCMessageDTO,
+          IRCMessage,
+          ChannelTopicDTO,
+          ModeChangeDTO,
+          KickedDTO } from '../utils/IRCParser';
+import { PostProcessor, UserWithMetadata, UserStatuses } from '../utils/PostProcessor';
 
 @Injectable({
   providedIn: 'root'

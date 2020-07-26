@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { ServerData } from './ServerData';
+import { ServerData } from '../utils/ServerData';
 import { MessageHandlerService, MessageData, ErrorData } from './message-handler.service';
-import { IRCParser, MessageTypes, ProcessedMessage, IRCMessageDTO, IRCMessage, NickChangedDTO } from './IRCParser';
+import { IRCParser, MessageTypes, ProcessedMessage, IRCMessageDTO, IRCMessage, NickChangedDTO } from '../utils/IRCParser';
 import { ServersHdlrService, ServerDataConnected } from './servers-hdlr.service';
 import { MessagePoolService } from './message-pool.service';
 
