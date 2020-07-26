@@ -53,6 +53,17 @@ export class AppComponent implements OnInit {
       if (usersDelta.changeType === DeltaChangeTypes.FIXED_UPDATE) { // update our nick
         this.actualNick = usersDelta.user.nick;
       }
+      if (usersDelta.changeType === DeltaChangeTypes.DELETED) {
+        if (this.actualNick === usersDelta.user.nick) {
+          // is the open chat
+          const chnl = usersDelta.channel.slice(1);
+          if (this.chatName === chnl && this.chatType === CBoxChatTypes.CHANNEL) {
+            this.selectServer();
+          }
+          this.msgPool.removeChannel(usersDelta.serverID, chnl);
+          this.chatsRooms = this.msgPool.getChannels(usersDelta.serverID);
+        }
+      }
     });
     this.msgPool.serverChanged.subscribe((serverDelta: ServersDelta) => {
       console.log('Server Delta', serverDelta);

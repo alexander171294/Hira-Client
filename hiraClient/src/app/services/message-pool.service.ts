@@ -94,10 +94,11 @@ export class MessagePoolService {
       const data = message.data as UserLeavingDTO;
       this.addChannelMessage(serverID, data.channel, message as ProcessedMessage<UserLeavingDTO>);
       const removedUser = this.serversInfo[serverID].removeChannelUser(data.channel, data.user);
+      const userProcessed = PostProcessor.processUserMetadata(data.user);
       if (removedUser) {
         const ud = new UserDelta();
         ud.changeType = DeltaChangeTypes.DELETED;
-        ud.user = PostProcessor.processUserMetadata(data.user);
+        ud.user = userProcessed;
         ud.channel = data.channel;
         ud.serverID = serverID;
         this.usersChanged.emit(ud);
@@ -262,6 +263,10 @@ export class MessagePoolService {
     return this.serversInfo[serverID].channelUsers[channel];
   }
 
+  public removeChannel(serverID: string, channel: string) {
+    this.serversInfo[serverID].removeChannel(channel);
+  }
+
   public addPrivateMessage(serverID: string, user: string) {
     if (this.serversInfo[serverID].addPrivateChat(user)) {
       const cd = new ChatsDelta();
@@ -384,6 +389,7 @@ export class ServerInfo {
     if (idx >= 0) {
       this.channels.splice(idx, 1);
     }
+    delete this.channelMessages[channel];
   }
 }
 
