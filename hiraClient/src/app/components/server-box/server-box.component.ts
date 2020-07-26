@@ -24,8 +24,8 @@ export class ServerBoxComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+    this.server = 'kappa.hira.li:6667';
     if (!environment.production) {
-      this.server = 'kappa.hira.li:6667';
       this.apodo = 'Zetta007';
       this.apodoSecundario = 'harkonidaz_tst02';
       this.autojoin = '#harkolandia';
