@@ -1,3 +1,5 @@
+import { EmoteList } from './EmoteList';
+
 export class PostProcessor {
 
   public static processMessage(message: string): MessageWithMetadata {
@@ -38,8 +40,11 @@ export class PostProcessor {
     if (faces) {
       faces.forEach(face => {
         const realName = face.replace(':', '').replace(':', '');
-        message = message.replace(face, '<img src="assets/faces/' + realName + '.png" class="faceEmote" data-name="' +
-                                        realName + '" title=":' + realName + ':" alt=":' + realName + ':"/>');
+        const realLocation = EmoteList.getFace(realName);
+        if (realLocation) {
+          message = message.replace(face, '<img src="' + realLocation + '" class="faceEmote" data-name="' +
+                                          realName + '" title=":' + realName + ':" alt=":' + realName + ':"/>');
+        }
       });
     }
 
@@ -47,8 +52,11 @@ export class PostProcessor {
     if (memes) {
       memes.forEach(meme => {
         const realName = meme.replace(';', '').replace(';', '');
-        message = message.replace(meme, '<img src="assets/em-mem/' + realName  +
-                                        '" class="memeEmote" data-name="' + realName + '" title=";' + realName + ';" alt=";' + realName + ';"/>');
+        const realLocation = EmoteList.getMeme(realName);
+        if (realLocation) {
+          message = message.replace(meme, '<img src="' + realLocation + '" class="memeEmote" data-name="' + realName +
+                                          '" title=";' + realName + ';" alt=";' + realName + ';"/>');
+        }
       });
     }
 
