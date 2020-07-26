@@ -6,6 +6,9 @@ aside {
   float: left;
   overflow: hidden;
   position: relative;
+  &.embedded {
+    width: 30vw;
+  }
   > header {
     text-align: center;
     height: 60px;

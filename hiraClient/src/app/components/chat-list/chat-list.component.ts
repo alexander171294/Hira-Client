@@ -1,4 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { ParamParse } from 'src/app/utils/ParamParse';
 
 @Component({
   selector: 'app-chat-list',
@@ -21,10 +22,12 @@ export class ChatListComponent implements OnInit {
   @Input() notifications: NotificationsChats;
 
   @Input() actualNick: string;
+  embd: boolean;
 
   constructor() { }
 
   ngOnInit(): void {
+    this.embd = ParamParse.parametria.embedded ? true : false;
   }
 
   activeChat(chatName: string, isPrivateChat: boolean) {

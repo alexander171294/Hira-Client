@@ -19,6 +19,7 @@ export class ChatBoxComponent implements OnInit {
   @Output() sendCommand: EventEmitter<string> = new EventEmitter<string>();
   @Output() openPrivateMessage: EventEmitter<string> = new EventEmitter<string>();
   public embd: boolean;
+  public fullVersionLink: string;
 
   public inQuote = false;
   public quoteAuthor: string;
@@ -28,6 +29,22 @@ export class ChatBoxComponent implements OnInit {
 
   ngOnInit(): void {
     this.embd = ParamParse.parametria.embedded ? true : false;
+    if (this.embd) {
+      // this.fullVersionLink = window.location.protocol + '//' + window.location.host + '/#';
+      this.fullVersionLink = '';
+      if (ParamParse.parametria.server) {
+        this.fullVersionLink += '/#server=' + ParamParse.parametria.server + ';';
+      }
+      if (ParamParse.parametria.apodo) {
+        this.fullVersionLink += '/#apodo=' + ParamParse.parametria.apodo + ';';
+      }
+      if (ParamParse.parametria.apodoSecundario) {
+        this.fullVersionLink += '/#apodoSecundario=' + ParamParse.parametria.apodoSecundario + ';';
+      }
+      if (ParamParse.parametria.autojoin) {
+        this.fullVersionLink += '/#autojoin=' + ParamParse.parametria.autojoin + ';';
+      }
+    }
   }
 
   goBottom() {

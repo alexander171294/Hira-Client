@@ -38,6 +38,21 @@ main {
           color: #fad56e;
         }
       }
+      a.fullVersion {
+        font-weight: 100;
+        position: absolute;
+        right: 2vw;
+        padding: 5px;
+        border-radius: 5px;
+        background: #2c4b26;
+        color: #79d87d;
+        border: 1px solid #8cde77;
+        text-decoration: none;
+        &:hover {
+          background: #33542c;
+          color: #5dc761;
+        }
+      }
     }
     .subtitle {
       margin: 0px 45px;
