@@ -37,19 +37,35 @@ export class PostProcessor {
     const faces = message.match(/:([a-zA-Z0-9]+):/g);
     if (faces) {
       faces.forEach(face => {
-        message = message.replace(face, '<img src="assets/faces/' + face.replace(':', '').replace(':', '')  + '.png" class="faceEmote"/>');
+        const realName = face.replace(':', '').replace(':', '');
+        message = message.replace(face, '<img src="assets/faces/' + realName + '.png" class="faceEmote" data-name="' +
+                                        realName + '" title=":' + realName + ':" alt=":' + realName + ':"/>');
       });
     }
 
     const memes = message.match(/;([a-zA-Z0-9]+);/g);
     if (memes) {
       memes.forEach(meme => {
-        message = message.replace(meme, '<img src="assets/em-mem/' + meme.replace(';', '').replace(';', '')  + '" class="memeEmote"/>');
+        const realName = meme.replace(';', '').replace(';', '');
+        message = message.replace(meme, '<img src="assets/em-mem/' + realName  +
+                                        '" class="memeEmote" data-name="' + realName + '" title=";' + realName + ';" alt=";' + realName + ';"/>');
       });
     }
 
     mwm.message = message;
     return mwm;
+  }
+
+  public static deconverHTML(msg: string): string {
+    const matchs = msg.match(/\<img\ssrc\=\"([^"]+)\"\sclass\=\"([^"]+)\"\sdata-name="([^"]+)"\stitle="([^"]+)"\salt="([^"]+)"\/\>/g);
+    console.log('MATCHES', matchs, msg);
+    if (matchs) {
+      matchs.forEach(match => {
+        const data = /\<img\ssrc\=\"([^"]+)\"\sclass\=\"([^"]+)\"\sdata-name="([^"]+)"\stitle="([^"]+)"\salt="([^"]+)"\/\>/.exec(match);
+        msg = msg.replace(data[0], data[4]);
+      });
+    }
+    return msg;
   }
 
   public static processUserMetadata(user: string): UserWithMetadata {

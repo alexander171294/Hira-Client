@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { ProcessedMessage } from 'src/app/services/IRCParser';
 import { ParamParse } from 'src/app/services/ParamParse';
-import { UserWithMetadata } from 'src/app/services/PostProcessor';
+import { UserWithMetadata, PostProcessor } from 'src/app/services/PostProcessor';
 
 @Component({
   selector: 'app-chat-box',
@@ -53,7 +53,7 @@ export class ChatBoxComponent implements OnInit {
   doQuote(author: string, message: string) {
     this.inQuote = true;
     this.quoteAuthor = author;
-    this.quoteMessage = message;
+    this.quoteMessage = PostProcessor.deconverHTML(message);
     document.getElementById('cboxInput').focus();
   }
 
