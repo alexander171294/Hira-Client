@@ -12,6 +12,23 @@
   (openServerCFG)="connectPopup = true"
   (changeNick)="changeNick($event)"
 ></app-chat-list>
-<app-chat-box #cbox [users]="channelUsers" [messages]="messages" [chatName]="chatName" [chatType]="chatType" [topic]="chatTopic" [members]="chatMembers" (sendCommand)="send($event)" (openPrivateMessage)="openPrivateChat($event)"></app-chat-box>
-<app-user-list [users]="channelUsers" (openPrivateChat)="openPrivateChat($event)"></app-user-list>
-<app-server-box *ngIf="connectPopup" [isConnected]="isConnected" (connected)="connect($event)" (closePopup)="connectPopup = false"></app-server-box>
+<app-chat-box #cbox
+  [users]="channelUsers"
+  [messages]="messages"
+  [chatName]="chatName"
+  [chatType]="chatType"
+  [topic]="chatTopic"
+  [members]="chatMembers"
+  (sendCommand)="send($event)"
+  (openPrivateMessage)="openPrivateChat($event)"
+></app-chat-box>
+<app-user-list
+  [users]="channelUsers"
+  (openPrivateChat)="openPrivateChat($event)"
+></app-user-list>
+<app-server-box *ngIf="connectPopup"
+  [isConnected]="isConnected"
+  [connectionError]="connectionError"
+  (connected)="connect($event)"
+  (closePopup)="connectPopup = false"
+></app-server-box>

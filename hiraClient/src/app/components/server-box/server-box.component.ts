@@ -13,7 +13,8 @@ export class ServerBoxComponent implements OnInit {
   public apodoSecundario: string = 'harkonidaz_tst02';
   public autojoin: string = '#harkolandia';
 
-  @Input() isConnected;
+  @Input() isConnected: boolean;
+  @Input() connectionError: boolean;
 
   @Output() connected: EventEmitter<ServerData> = new EventEmitter<ServerData>();
   @Output() closePopup: EventEmitter<void> = new EventEmitter<void>();

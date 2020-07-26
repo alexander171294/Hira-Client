@@ -7,6 +7,7 @@ import { CBoxChatTypes, ChatBoxComponent } from './components/chat-box/chat-box.
 import { ChatData, NotificationsChats } from './components/chat-list/chat-list.component';
 import { ParamParse } from './services/ParamParse';
 import { UserWithMetadata } from './services/PostProcessor';
+import { MessageHandlerService } from './services/message-handler.service';
 
 @Component({
   selector: 'app-root',
@@ -33,6 +34,7 @@ export class AppComponent implements OnInit {
   notifications: NotificationsChats = new NotificationsChats();
 
   isConnected = false;
+  connectionError = false;
 
   @ViewChild('cbox') cbox: ChatBoxComponent;
 
@@ -40,7 +42,8 @@ export class AppComponent implements OnInit {
   embd: boolean;
 
   constructor(private ircproto: IRCProtocolService,
-              private msgPool: MessagePoolService) { }
+              private msgPool: MessagePoolService,
+              private msgHdlr: MessageHandlerService) { }
 
   ngOnInit(): void {
     ParamParse.parseHash(window.location.hash.slice(1));
@@ -115,6 +118,11 @@ export class AppComponent implements OnInit {
           }
         }
       }
+    });
+    this.msgHdlr.onError.subscribe(d => {
+      this.isConnected = false;
+      this.connectPopup = true;
+      this.connectionError = true;
     });
   }
 

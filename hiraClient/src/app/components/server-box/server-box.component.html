@@ -4,6 +4,9 @@
       Configuración del servidor
     </header>
     <section>
+      <p class="error" *ngIf="connectionError">
+        An connection error occurred.
+      </p>
       <div class="inputBox">
         <label>Server</label>
         <input type="text" placeholder="irc.hira.li:+6697" [(ngModel)]="server"/>

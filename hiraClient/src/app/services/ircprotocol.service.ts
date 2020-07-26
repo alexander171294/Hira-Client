@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ServerData } from './ServerData';
-import { MessageHandlerService, MessageData } from './message-handler.service';
+import { MessageHandlerService, MessageData, ErrorData } from './message-handler.service';
 import { IRCParser, MessageTypes, ProcessedMessage, IRCMessageDTO, IRCMessage, NickChangedDTO } from './IRCParser';
 import { ServersHdlrService, ServerDataConnected } from './servers-hdlr.service';
 import { MessagePoolService } from './message-pool.service';
@@ -13,8 +13,9 @@ export class IRCProtocolService {
   constructor(private msgHdlr: MessageHandlerService,
               private srvHdlr: ServersHdlrService,
               private msgPool: MessagePoolService) {
-    this.msgHdlr.onError.subscribe(err => {
+    this.msgHdlr.onError.subscribe((err: ErrorData) => {
       console.log('IRCProtocolService:: error detected -> ', err);
+      msgPool.clear(err.server.id);
     });
     this.msgHdlr.onMessage.subscribe(msgData => this.onMessage(msgData) );
   }

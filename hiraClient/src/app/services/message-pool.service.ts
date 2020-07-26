@@ -17,6 +17,10 @@ export class MessagePoolService {
 
   constructor() { }
 
+  public clear(serverID: string) {
+    this.serversInfo[serverID] = new ServerInfo();
+  }
+
   public registerMessage(message: ProcessedMessage<string |
                                                    string[] |
                                                    ChannelUsersDTO |
