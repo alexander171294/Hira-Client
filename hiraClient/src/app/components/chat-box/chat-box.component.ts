@@ -54,6 +54,7 @@ export class ChatBoxComponent implements OnInit {
     this.inQuote = true;
     this.quoteAuthor = author;
     this.quoteMessage = message;
+    document.getElementById('cboxInput').focus();
   }
 
   kdown(evt) {
