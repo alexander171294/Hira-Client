@@ -15,8 +15,16 @@ let urlCache = {};
 
 app.use(bodyParser.json({limit: '10mb', extended: true}));
 
+const sitesAllowed = [
+    'http://localhost:4200',
+    'https://hira.tandilserver.com',
+    'http://irc.tandilserver.com:9000'
+]
+
 app.all('*', function(req, res, next) {
-    res.header("Access-Control-Allow-Origin", '*');
+    if (sitesAllowed.find(sa => sa === req.get('origin'))) {
+        res.header("Access-Control-Allow-Origin", req.get('origin'));
+    }
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     next();
 });
