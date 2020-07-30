@@ -13,10 +13,18 @@ export class VcardGetterService {
   public detailOf(url: string): Observable<LinkDetails> {
     return this.httpC.get<LinkDetails>(environment.toolService + 'detail?url=' + encodeURIComponent(url));
   }
+
+  public uploadImage(image: string): Observable<ImageLink> {
+    return this.httpC.post<ImageLink>(environment.toolService + 'upload', {image});
+  }
 }
 
 export class LinkDetails {
   error: boolean;
   title: string;
   favicon: string;
+}
+
+export class ImageLink {
+  image: string;
 }

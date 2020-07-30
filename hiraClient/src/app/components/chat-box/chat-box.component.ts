@@ -2,6 +2,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { ProcessedMessage } from 'src/app/utils/IRCParser';
 import { ParamParse } from 'src/app/utils/ParamParse';
 import { UserWithMetadata, PostProcessor } from 'src/app/utils/PostProcessor';
+import { VcardGetterService } from '../link-vcard/vcard-getter.service';
 
 @Component({
   selector: 'app-chat-box',
@@ -19,13 +20,14 @@ export class ChatBoxComponent implements OnInit {
   @Output() sendCommand: EventEmitter<string> = new EventEmitter<string>();
   @Output() openPrivateMessage: EventEmitter<string> = new EventEmitter<string>();
   public embd: boolean;
+  public imageLoading: boolean;
   public fullVersionLink: string;
 
   public inQuote = false;
   public quoteAuthor: string;
   public quoteMessage: string;
 
-  constructor() { }
+  constructor(private vcg: VcardGetterService) { }
 
   ngOnInit(): void {
     this.embd = ParamParse.parametria.embedded ? true : false;
@@ -96,6 +98,31 @@ export class ChatBoxComponent implements OnInit {
 
   openPrivate(user: string){
     this.openPrivateMessage.emit(user);
+  }
+
+  onFileSelected(event) {
+    const fr = new FileReader();
+    fr.onloadend = () => {
+      console.log(fr.result);
+      this.vcg.uploadImage((fr.result as string).split('base64,')[1]).subscribe(d => {
+        if ((document.getElementById('cboxInput') as any).value.length > 0) {
+          (document.getElementById('cboxInput') as any).value = (document.getElementById('cboxInput') as any).value.trim() + ' ';
+        }
+        (document.getElementById('cboxInput') as any).value += d.image;
+        this.imageLoading = false;
+      }, err => {
+        this.imageLoading = false;
+      });
+    };
+    const file = event.srcElement.files[0];
+    if (file) {
+      this.imageLoading = true;
+      fr.readAsDataURL(file);
+    }
+  }
+
+  openFile() {
+    document.getElementById('fileInput').click();
   }
 
 }

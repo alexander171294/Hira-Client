@@ -4,11 +4,16 @@ const app = express();
 const jsdom = require("jsdom");
 const urlParser = require('url');
 const schedule = require('node-schedule');
+const bodyParser = require('body-parser');
+const FormData = require('form-data');
+const imgur = require('./imgur.json');
 
 const { JSDOM } = jsdom;
 
 const port = 3030;
 let urlCache = {};
+
+app.use(bodyParser.json({limit: '10mb', extended: true}));
 
 app.all('*', function(req, res, next) {
     res.header("Access-Control-Allow-Origin", '*');
@@ -51,6 +56,30 @@ app.get('/detail', function(req, res) {
             res.send(JSON.stringify(result));
         });
     }
+});
+
+app.post('/upload', function(req, res) {
+    const image = req.body.image;
+    const formData = new FormData();
+    formData.append('image', image);
+    formData.append('type', 'base64');
+    axios({
+        method: 'post',
+        url: 'https://api.imgur.com/3/upload',
+        data: formData,
+        headers: {
+            'Authorization': 'Client-ID ' + imgur.clientID,
+            ...formData.getHeaders()
+        }
+        }).then(function (response) {
+            //handle success
+            console.log(response.data.data.link);
+            res.send({image: response.data.data.link});
+        }).catch(function (response) {
+            //handle error
+            console.log(response.response.data.data);
+            res.send('ERR');
+        });
 });
 
 function checkFetching(url) {
