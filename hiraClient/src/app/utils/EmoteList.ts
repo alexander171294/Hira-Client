@@ -35,11 +35,13 @@ export class EmoteList {
     'stickmagic',
     'stickmagic2',
     'trollface',
-    'what',
+    'mog',
     'why',
     'WitchHat',
     'why',
-    'yao'
+    'yao',
+    'true',
+    'amazing'
   ];
 
   public static readonly memes = [
