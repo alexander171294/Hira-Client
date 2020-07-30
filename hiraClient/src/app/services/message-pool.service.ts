@@ -273,6 +273,30 @@ export class MessagePoolService {
   }
 
   public getChannelUsers(serverID: string, channel: string): UserWithMetadata[] {
+    this.serversInfo[serverID].channelUsers[channel].sort((a, b) => {
+      let aValue = 1; // normal
+      let bValue = 1; // normal
+      const values = {
+        FOUNDER: 6,
+        NET_OPERATOR: 5,
+        OPERATOR: 4,
+        HALF_OPERATOR: 3,
+        VOICE: 2,
+        BANNED: 0
+      };
+      if (a.status) {
+        aValue = values[a.status];
+      }
+      if (b.status) {
+        bValue = values[b.status];
+      }
+      const rangeF = bValue - aValue;
+      if (rangeF === 0) {
+        return a.nick.localeCompare(b.nick);
+      } else {
+        return rangeF;
+      }
+    });
     return this.serversInfo[serverID].channelUsers[channel];
   }
 
