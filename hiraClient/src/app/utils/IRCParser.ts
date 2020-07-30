@@ -309,6 +309,9 @@ export class ProcessedMessage<dataType> {
 
   public static getFrom(messages: IRCMessageDTO[], type: MessageTypes) {
     const out: ProcessedMessage<IRCMessageDTO>[] = [];
+    if (!messages) {
+      return [];
+    }
     messages.forEach(msg => {
       const pm = new ProcessedMessage<IRCMessageDTO>();
       msg.fromLog = true;

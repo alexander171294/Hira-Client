@@ -276,6 +276,9 @@ export class MessagePoolService {
   }
 
   public getChannelUsers(serverID: string, channel: string): UserWithMetadata[] {
+    if (!this.serversInfo[serverID].channelUsers[channel]) {
+      return [];
+    }
     this.serversInfo[serverID].channelUsers[channel].sort((a, b) => {
       let aValue = 1; // normal
       let bValue = 1; // normal
@@ -367,6 +370,9 @@ export class ServerInfo {
 
   public addPrivateChat(author): boolean {
     if (this.privateChats.findIndex(a => a === author) === -1) {
+      if (!this.privateMessages[author]) {
+        this.privateMessages[author] = [];
+      }
       Array.prototype.push.apply(this.privateMessages[author], ProcessedMessage.getFrom(LogService.getLogs(author), MessageTypes.PRIV_MSG));
       this.privateChats.push(author);
       return true;
@@ -420,6 +426,9 @@ export class ServerInfo {
   public addChannel(channel: string) {
     channel = channel[0] === '#' ? channel.slice(1) : channel;
     if (this.channels.findIndex(c => c === channel) === -1) {
+      if (!this.channelMessages[channel]) {
+        this.channelMessages[channel] = [];
+      }
       Array.prototype.push.apply(this.channelMessages[channel],
                                  ProcessedMessage.getFrom(LogService.getLogs('#' + channel), MessageTypes.CHANNEL_MSG));
       this.channels.push(channel);
