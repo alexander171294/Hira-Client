@@ -41,7 +41,9 @@ export class EmoteList {
     'why',
     'yao',
     'true',
-    'amazing'
+    'amazing',
+    'forever',
+    'notbad'
   ];
 
   public static readonly memes = [
