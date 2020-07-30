@@ -9,7 +9,7 @@ main {
   position: relative;
   float: left;
   header {
-    height: 50px;
+    height: 60px;
     padding: 2vh 2vw;
     background: var(--cbox-header-background);
     border-bottom: 1px solid var(--cbox-header-border);
@@ -17,6 +17,7 @@ main {
       display: flex;
       flex-direction: row;
       align-items: center;
+      height: 50px;
       .subtitle {
         margin: 0px;
       }
@@ -267,7 +268,7 @@ main {
     }
   }
   &.embedded {
-    width: 70vw;
+    width: 75vw;
     img, svg {
       width: 30px;
     }
