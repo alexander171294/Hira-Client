@@ -96,25 +96,43 @@ export class ChatBoxComponent implements OnInit {
     }
   }
 
+  onDrop(event) {
+    console.log('Dropped: ', );
+    const file = event.dataTransfer.files[0];
+    if (file.type === 'image/png' || file.type === 'image/jpg' || file.type === 'image/jpeg') {
+      this.uploadFile(file);
+    }
+    event.preventDefault();
+  }
+  onDragOver(event) {
+    event.stopPropagation();
+    event.preventDefault();
+  }
+
   openPrivate(user: string){
     this.openPrivateMessage.emit(user);
   }
 
   onFileSelected(event) {
+    this.uploadFile(event.srcElement.files[0]);
+  }
+
+  uploadFile(file) {
     const fr = new FileReader();
     fr.onloadend = () => {
       console.log(fr.result);
       this.vcg.uploadImage((fr.result as string).split('base64,')[1]).subscribe(d => {
-        if ((document.getElementById('cboxInput') as any).value.length > 0) {
-          (document.getElementById('cboxInput') as any).value = (document.getElementById('cboxInput') as any).value.trim() + ' ';
+        const cboxI = (document.getElementById('cboxInput') as any);
+        if (cboxI.value.length > 0) {
+          cboxI.value = (document.getElementById('cboxInput') as any).value.trim() + ' ';
         }
-        (document.getElementById('cboxInput') as any).value += d.image;
+        cboxI.value += d.image;
+        cboxI.focus();
         this.imageLoading = false;
       }, err => {
         this.imageLoading = false;
       });
     };
-    const file = event.srcElement.files[0];
     if (file) {
       this.imageLoading = true;
       fr.readAsDataURL(file);
