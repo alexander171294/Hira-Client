@@ -263,7 +263,7 @@ export class IRCParser {
       return out;
     }
 
-    console.log('Uknown message: ', parsedMessage);
+    // console.log('Uknown message: ', parsedMessage);
     const out = new ProcessedMessage<IRCMessage>();
     out.messageType = MessageTypes.SERVER;
     out.data = parsedMessage;

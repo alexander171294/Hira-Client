@@ -97,7 +97,6 @@ export class ChatBoxComponent implements OnInit {
   }
 
   onDrop(event) {
-    console.log('Dropped: ', );
     const file = event.dataTransfer.files[0];
     if (file.type === 'image/png' || file.type === 'image/jpg' || file.type === 'image/jpeg') {
       this.uploadFile(file);
@@ -120,7 +119,6 @@ export class ChatBoxComponent implements OnInit {
   uploadFile(file) {
     const fr = new FileReader();
     fr.onloadend = () => {
-      console.log(fr.result);
       this.vcg.uploadImage((fr.result as string).split('base64,')[1]).subscribe(d => {
         const cboxI = (document.getElementById('cboxInput') as any);
         if (cboxI.value.length > 0) {
