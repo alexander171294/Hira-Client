@@ -9,7 +9,7 @@ main {
   position: relative;
   float: left;
   header {
-    height: 60px;
+    height: 50px;
     padding: 2vh 2vw;
     background: var(--cbox-header-background);
     border-bottom: 1px solid var(--cbox-header-border);
@@ -217,6 +217,7 @@ main {
       margin-bottom: -1vh;
       z-index: 1;
       position: relative;
+      background: var(--cbox-quote-background);
       border: 1px solid var(--cbox-footer-quote-border);
       border-radius: 5px;
       padding: 5px;
