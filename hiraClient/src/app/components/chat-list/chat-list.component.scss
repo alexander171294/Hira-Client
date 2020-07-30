@@ -1,5 +1,5 @@
 aside {
-  background-color: #1d232a;
+  background-color: var(--aside-background);
   width: 18vw;
   height: 100vh;
   display: inline-block;
@@ -16,25 +16,25 @@ aside {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    border-bottom: 1px solid #0f1316;
+    border-bottom: 1px solid var(--aside-separator);
     margin-bottom: 1vh;
     input {
-      background: #363d44;
+      background: var(--aside-input-bg);
       border: none;
       border-radius: 50px;
       padding: 1vh 0.5vw;
       font-size: 16px;
       outline: none;
-      color: white;
+      color: var(--aside-input-color);
     }
     .title {
-      color: #797a7d;
+      color: var(--aside-title-color);
       font-family: Poppins;
       font-size: 1.35vw;
       margin-bottom: 5px;
       svg {
         width: 50px;
-        color: #797a7d;
+        color: var(--aside-title-color);
         vertical-align: bottom;
       }
     }
@@ -42,7 +42,7 @@ aside {
   section {
     padding: 1vh 1vw;
     header {
-      color: #565a5f;
+      color: var(--aside-header-color);
       font-family: helvetica;
       font-weight: bold;
       text-transform: uppercase;
@@ -53,7 +53,7 @@ aside {
         list-style: none;
         padding-inline-start: 1vh;
         li {
-          color: #686d72;
+          color: var(--aside-item-color);
           font-family: helvetica;
           padding: 1vh 5px;
           cursor: pointer;
@@ -70,15 +70,15 @@ aside {
             margin-right: 4px;
           }
           &:hover, &.active {
-            color: #aeb0b4;
-            background-color: #343c44;
+            color: var(--aside-item-hover-color);
+            background-color: var(--aside-item-hover-bg);
             position: relative;
             &::after {
               content: "";
               display: block;
               width: 10px;
               height: 10px;
-              background: #343c43;
+              background: var(--aside-item-hover-bg);
               position: absolute;
               top: calc(50% - 5px);
               right: -5px;
@@ -86,17 +86,17 @@ aside {
             }
           }
           .notification {
-            background-color: #5fd5e5;
+            background-color: var(--aside-notify-bg);
             display: block;
             width: 8px;
             height: 8px;
             border-radius: 50%;
             float: right;
             margin: 5px;
-            box-shadow: 0px 0px 10px #5fd5e5;
+            box-shadow: 0px 0px 10px var(--aside-notify-bg);
             &.mention {
-              background-color: #e55f5f;
-              box-shadow: 0px 0px 10px #e55f5f;
+              background-color: var(--aside-notify-important-bg);
+              box-shadow: 0px 0px 10px var(--aside-notify-important-bg);
             }
           }
         }
@@ -111,11 +111,11 @@ aside {
     bottom: 0px;
     width: calc(100% - 2vw);
     padding: 1vh 1vw;
-    background: #212429;
+    background: var(--aside-footer-bg);
     box-shadow: 0px 0px 5px black;
     svg {
       width: 1.8vw;
-      color: #797a7d;
+      color: var(--alternative-button-color);
       margin: 0px 5px;
       cursor: pointer;
       vertical-align: middle;
@@ -123,11 +123,11 @@ aside {
         transform: rotate(-45deg);
       }
       &:hover {
-        color: #fad56e;
+        color: var(--alternative-button-active);
       }
     }
     span {
-      color: #797a7d;
+      color: var(--aside-footer-color);
       font-family: Poppins;
       float: left;
       display: block;

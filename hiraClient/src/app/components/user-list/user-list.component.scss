@@ -7,24 +7,24 @@ aside {
   vertical-align: top;
   height: 100vh;
   overflow: hidden;
-  background: #242a31;
+  background: var(--aside-background);
   box-shadow: 0px 0px 5px black;
   float: left;
   > header {
     height: 60px;
     padding: 2vh 2vw;
-    border-bottom: 1px solid #0f1316;
+    border-bottom: 1px solid var(--aside-separator);
     margin-bottom: 1vh;
     font-family: Helvetica;
     h3 {
-      color: #aeb0b3;
+      color: var(--aside-title-color);
     }
   }
   section {
     padding: 1vh 1vw;
     height: calc(96vh - 90px);
     header {
-      color: #565a5f;
+      color: var(--aside-header-color);
       font-family: helvetica;
       font-weight: bold;
       text-transform: uppercase;
@@ -39,31 +39,31 @@ aside {
       max-height: 100%;
       overflow-y: auto;
       &::-webkit-scrollbar-thumb {
-        background: #181b1f;
+        background: var(--scrollbar-bg);
       }
       &::-webkit-scrollbar-thumb:hover {
-        background: #181b1f;
+        background: var(--scrollbar-bg-hover);
         box-shadow: 0 0 2px 1px #212429;
       }
       &::-webkit-scrollbar-track {
-        background: #e7e9ef;
-        border-left: 1px solid #c3c3c3;
+        background: var(--scrollbar-track);
+        border-left: 1px solid var(--scrollbar-track-border);
       }
       &::-webkit-scrollbar {
         width: 10px;
       }
       li {
-        color: #686d72;
+        color: var(--aside-item-color);
         font-family: helvetica;
         padding: 1vh 5px;
         cursor: pointer;
         border-radius: 5px;
         &.me {
-          color: #fad56e;
+          color: var(--alternative-button-active);
         }
         &:hover {
-          color: #aeb0b4;
-          background-color: #343c44;
+          color: var(--aside-item-hover-color);
+          background-color: var(--aside-item-hover-bg);
         }
         img {
           vertical-align: middle;
@@ -79,31 +79,31 @@ aside {
           font-weight: bolder;
           margin-left: 5px;
           &.op {
-            background: #2c4b26;
-            color: #79d87d;
-            border: 1px solid #8cde77;
+            background: var(--badge-op-bg);
+            color: var(--badge-op-color);
+            border: 1px solid var(--badge-op-border);
           }
           &.founder {
-            background: #4b3526;
-            color: #dea777;
-            border: 1px solid #deb077;
+            background: var(--badge-founder-bg);
+            color: var(--badge-founder-color);
+            border: 1px solid var(--badge-founder-border);
           }
           &.hop {
-            background: #26344b;
-            color: #779fde;
-            border: 1px solid #779fde;
+            background: var(--badge-hop-bg);
+            color: var(--badge-hop-color);
+            border: 1px solid var(--badge-hop-border);
           }
           &.netop {
-            background: #3d264b;
-            color: #a977de;
-            border: 1px solid #b677de;
+            background: var(--badge-netop-bg);
+            color: var(--badge-netop-color);
+            border: 1px solid var(--badge-netop-border);
           }
         }
         .voice {
           display: inline-block;
           width: 7px;
           height: 7px;
-          background: #3cd263;
+          background: var(--voice-point-bg);
           border-radius: 50%;
           vertical-align: middle;
         }

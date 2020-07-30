@@ -11,33 +11,34 @@ main {
     font-family: Helvetica;
     width: 250px;
     padding: 5px;
-    background: #e8e8e8;
+    background: var(--popup-background);
     border-radius: 5px;
     box-shadow: 0px 0px 5px black;
     header {
       text-align: center;
       font-weight: bold;
       font-style: italic;
-      color: #404040;
+      color: var(--popup-color);
       margin-bottom: 5px;
-      border-bottom: 1px solid #b5b5b5;
+      border-bottom: 1px solid var(--popup-separtor);
       padding: 8px 0px;
     }
     section {
+      color: var(--popup-color);
       p.error {
         text-align: center;
         font-weight: bolder;
-        color: red;
+        color: var(--popup-error-color);
         font-style: italic;
       }
       .inputBox {
         margin: 10px 0px;
         label {
-          color: #242a31;
+          color: var(--popup-label-color);
           font-size: 16px;
         }
         input {
-          border: 1px solid gray;
+          border: 1px solid var(--popup-separtor);
           border-radius: 3px;
           box-sizing: border-box;
           padding: 5px;
@@ -48,15 +49,15 @@ main {
     footer {
       margin-top: 5px;
       padding-top: 5px;
-      border-top: 1px solid #b5b5b5;
+      border-top: 1px solid var(--popup-separtor);
       button {
-        background: #242a31;
+        background: var(--popup-button-background);
         border-radius: 3px;
         border: 0px;
         float: right;
         padding: 5px;
         cursor: pointer;
-        color: white;
+        color: var(--popup-button-color);
       }
     }
   }
