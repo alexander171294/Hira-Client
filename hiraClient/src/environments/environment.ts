@@ -4,7 +4,8 @@
 
 export const environment = {
   production: false,
-  gateway: 'ws://irc.network.org:8091/webirc/websocket/',
+  // gateway: 'ws://irc.network.org:8091/webirc/websocket/',
+  gateway: 'wss://thira.tandilserver.com:4433/webirc/websocket/',
   toolService: 'http://localhost:3030/',
   maxLogs: 50
 };
