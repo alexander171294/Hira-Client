@@ -33,10 +33,21 @@ export class ServerBoxComponent implements OnInit {
     this.server = ParamParse.parametria.server ? encodeURIComponent(ParamParse.parametria.server) : this.server;
     this.apodo = ParamParse.parametria.apodo ? encodeURIComponent(ParamParse.parametria.apodo) : this.apodo;
     this.apodoSecundario = ParamParse.parametria.apodoSecundario ? encodeURIComponent(ParamParse.parametria.apodoSecundario) : this.apodoSecundario;
-    this.autojoin = ParamParse.parametria.autojoin ? encodeURIComponent(ParamParse.parametria.autojoin) : this.autojoin;
+    this.autojoin = ParamParse.parametria.autojoin ? this.parseAutojoin(encodeURIComponent(ParamParse.parametria.autojoin)) : this.autojoin;
     if (ParamParse.parametria.embedded) {
       this.connect();
     }
+  }
+
+  parseAutojoin(autojoin: string): string {
+    let out = '';
+    autojoin.split(',').forEach((aj, idx) => {
+      if (idx > 0) {
+        out += ',';
+      }
+      out += '#' + aj;
+    });
+    return out;
   }
 
   connect() {
