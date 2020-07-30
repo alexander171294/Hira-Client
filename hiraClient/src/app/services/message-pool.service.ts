@@ -43,7 +43,6 @@ export class MessagePoolService {
                                                    KickedDTO |
                                                    ModeChangeDTO>,
                          serverID: string) {
-    console.log('Register message', message);
     if (!this.serversInfo[serverID]) {
       this.serversInfo[serverID] = new ServerInfo();
     }
@@ -178,7 +177,6 @@ export class MessagePoolService {
       this.usersChanged.emit(ud);
     }
     if (message.messageType === MessageTypes.CHANNEL_TOPIC) {
-      console.log('Channel topic');
       const data = message.data as ChannelTopicDTO;
       this.serversInfo[serverID].channelTopics[data.channel] = data.topic;
     }
@@ -205,7 +203,6 @@ export class MessagePoolService {
       } else if (data.mode[0] === 'v') {
         realMode = UserStatuses.VOICE;
       }
-      console.log(data.channel, data.target, realMode);
       if (data.channel !== data.target) {
         data.channel = data.channel[0] === '#' ? data.channel.slice(1) : data.channel;
         const ufinded = this.serversInfo[serverID].channelUsers[data.channel].find(user => user.nick === data.target);
@@ -386,7 +383,6 @@ export class ServerInfo {
       this.channelUsers[channel] = [];
     }
     const userMD = PostProcessor.processUserMetadata(user);
-    console.log('Adding user, ', channel, this.channelUsers[channel], userMD);
     if (this.channelUsers[channel].findIndex(u => u.nick === userMD.nick) === -1) {
       this.channelUsers[channel].push(userMD);
       return true;

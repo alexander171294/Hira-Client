@@ -52,7 +52,7 @@ export class AppComponent implements OnInit {
       this.ircproto.autoJoin(serverID);
     });
     this.msgPool.usersChanged.subscribe((usersDelta: UserDelta) => {
-      console.log('Users Delta', usersDelta);
+      // console.log('Users Delta', usersDelta);
       if (usersDelta.changeType === DeltaChangeTypes.FIXED_UPDATE) { // update our nick
         this.actualNick = usersDelta.user.nick;
       }
@@ -69,7 +69,7 @@ export class AppComponent implements OnInit {
       }
     });
     this.msgPool.serverChanged.subscribe((serverDelta: ServersDelta) => {
-      console.log('Server Delta', serverDelta);
+      // console.log('Server Delta', serverDelta);
       if (this.isInServerLog) {
         this.messages = this.msgPool.getServerMessages(serverDelta.serverID);
         this.cbox.goBottom();
@@ -78,7 +78,7 @@ export class AppComponent implements OnInit {
       }
     });
     this.msgPool.chatsChanged.subscribe((chatsDelta: ChatsDelta) => {
-      console.log('Chat Delta', chatsDelta);
+      // console.log('Chat Delta', chatsDelta);
       if (chatsDelta.changeType === DeltaChangeTypes.ADDED) {
         if (chatsDelta.isPrivate) {
           this.privateChats = this.msgPool.getPrivateChats(chatsDelta.serverID);

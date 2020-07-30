@@ -66,7 +66,6 @@ export class PostProcessor {
 
   public static deconverHTML(msg: string): string {
     const matchs = msg.match(/\<img\ssrc\=\"([^"]+)\"\sclass\=\"([^"]+)\"\sdata-name="([^"]+)"\stitle="([^"]+)"\salt="([^"]+)"\/\>/g);
-    console.log('MATCHES', matchs, msg);
     if (matchs) {
       matchs.forEach(match => {
         const data = /\<img\ssrc\=\"([^"]+)\"\sclass\=\"([^"]+)\"\sdata-name="([^"]+)"\stitle="([^"]+)"\salt="([^"]+)"\/\>/.exec(match);

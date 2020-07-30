@@ -14,7 +14,7 @@ export class IRCProtocolService {
               private srvHdlr: ServersHdlrService,
               private msgPool: MessagePoolService) {
     this.msgHdlr.onError.subscribe((err: ErrorData) => {
-      console.log('IRCProtocolService:: error detected -> ', err);
+      console.error('IRCProtocolService:: error detected -> ', err);
       msgPool.clear(err.server.id);
     });
     this.msgHdlr.onMessage.subscribe(msgData => this.onMessage(msgData) );
@@ -26,9 +26,6 @@ export class IRCProtocolService {
   }
 
   private onMessage(msgData: MessageData) {
-
-    console.log('IRCProtocolService:: Message -> ', msgData);
-
     // AutoPong
     if (msgData.message.indexOf('PING') === 0) {
       const pingResp = msgData.message.slice(5);

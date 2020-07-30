@@ -73,7 +73,6 @@ app.post('/upload', function(req, res) {
         }
         }).then(function (response) {
             //handle success
-            console.log(response.data.data.link);
             res.send({image: response.data.data.link});
         }).catch(function (response) {
             //handle error
