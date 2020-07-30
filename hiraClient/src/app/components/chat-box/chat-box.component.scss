@@ -12,6 +12,7 @@ main {
     height: 60px;
     padding: 2vh 2vw;
     background: var(--cbox-header-background);
+    border-bottom: 1px solid var(--cbox-header-border);
     &.embedded {
       display: flex;
       flex-direction: row;
@@ -73,6 +74,7 @@ main {
     overflow-y: auto;
     display: flex;
     flex-flow: column nowrap;
+    color: var(--cbox-color);
     > :first-child {
         margin-top: auto !important;
     }
@@ -242,6 +244,8 @@ main {
       font-size: 15px;
       outline: none;
       width: calc(100% - 4vw);
+      background: transparent;
+      color: var(--cbox-color)
     }
     button {
       position: absolute;

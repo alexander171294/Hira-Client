@@ -48,6 +48,14 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
     ParamParse.parseHash(window.location.hash.slice(1));
     this.embd = ParamParse.parametria.embedded ? true : false;
+    if (ParamParse.parametria.skin) {
+      const skins = {
+        dark: 'darkSkin'
+      };
+      if (skins[ParamParse.parametria.skin]) {
+        document.body.classList.add(skins[ParamParse.parametria.skin]);
+      }
+    }
     this.msgPool.noticed.subscribe((serverID) => {
       this.ircproto.autoJoin(serverID);
     });
