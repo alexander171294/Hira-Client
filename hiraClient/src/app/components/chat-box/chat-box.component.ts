@@ -141,6 +141,10 @@ export class ChatBoxComponent implements OnInit {
     document.getElementById('fileInput').click();
   }
 
+  dumpMessage(message) {
+    return JSON.stringify(message);
+  }
+
 }
 
 export enum CBoxChatTypes {

@@ -112,6 +112,11 @@ main {
           width: 30px;
         }
       }
+      &.embedded {
+        .joinMSG, .leaveMSG {
+          display: none;
+        }
+      }
       .changeNickMSG {
         color: var(--cbox-message-chgNick-color);
         font-size: 10px;

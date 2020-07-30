@@ -17,7 +17,10 @@
   <section id="cboxMessages"
   (drop)="onDrop($event)"
   (dragover)="onDragOver($event)">
-    <div class="messageItem" *ngFor="let message of messages" [class.server]="message.messageType === 'SERVER'" [class.notice]="message.messageType === 'NOTICE'">
+    <div class="messageItem" *ngFor="let message of messages" [class.server]="message.messageType === 'SERVER'" [class.notice]="message.messageType === 'NOTICE'" [class.embedded]="embd">
+      <div style="display: none;">
+        {{dumpMessage(message)}}
+      </div>
       <div class="channelMSG" *ngIf="message.messageType === 'CHANNEL_MSG' || message.messageType === 'PRIV_MSG'" [class.fromLog]="message.data.fromLog">
         <nav class="actions" *ngIf="!message.data.meAction || !embd">
           <svg (click)="doQuote(message.data.privateAuthor ? message.data.privateAuthor : message.data.author, message.data.richMessage ? message.data.richMessage.message : message.data.message)" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="comment-alt" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="svg-inline--fa fa-comment-alt fa-w-16"><path fill="currentColor" d="M448 0H64C28.7 0 0 28.7 0 64v288c0 35.3 28.7 64 64 64h96v84c0 9.8 11.2 15.5 19.1 9.7L304 416h144c35.3 0 64-28.7 64-64V64c0-35.3-28.7-64-64-64z" class=""></path></svg>
@@ -58,14 +61,14 @@
           {{message.data.message}}
         </div>
       </div>
-      <div class="joinMSG" *ngIf="message.messageType === 'USER_JOINING' && !embd">
+      <div class="joinMSG" *ngIf="message.messageType === 'USER_JOINING'">
         <img src="https://avatars.dicebear.com/api/jdenticon/{{message.data.user}}.svg?options[colorful]=1" />
         <div class="messageBody">
           <div class="author" (click)="openPrivate(message.data.user)">{{message.data.user}}</div>
           Entró al canal, {{message.data.userMsg}}
         </div>
       </div>
-      <div class="leaveMSG" *ngIf="message.messageType === 'USER_LEAVING' && !embd">
+      <div class="leaveMSG" *ngIf="message.messageType === 'USER_LEAVING'">
         <img src="https://avatars.dicebear.com/api/jdenticon/{{message.data.user}}.svg?options[colorful]=1" />
         <div class="messageBody">
           <div class="author" (click)="openPrivate(message.data.user)">{{message.data.user}}</div>
