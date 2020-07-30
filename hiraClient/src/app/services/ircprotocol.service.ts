@@ -130,7 +130,9 @@ export class IRCProtocolService {
         author: serverConnected.actualNick,
         message: command,
         meAction,
-        channel: target
+        channel: target,
+        date: IRCParser.getDateStr(),
+        time: IRCParser.getTime()
       };
     } else {
       message.messageType = MessageTypes.PRIV_MSG;
@@ -138,7 +140,9 @@ export class IRCProtocolService {
         author: target,
         message: command,
         meAction,
-        privateAuthor: serverConnected.actualNick
+        privateAuthor: serverConnected.actualNick,
+        date: IRCParser.getDateStr(),
+        time: IRCParser.getTime()
       };
     }
     this.msgPool.registerMessage(message, serverID);

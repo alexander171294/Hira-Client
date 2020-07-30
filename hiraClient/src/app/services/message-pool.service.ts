@@ -11,6 +11,7 @@ import {  ProcessedMessage,
           ModeChangeDTO,
           KickedDTO } from '../utils/IRCParser';
 import { PostProcessor, UserWithMetadata, UserStatuses } from '../utils/PostProcessor';
+import { LogService } from './log.service';
 
 @Injectable({
   providedIn: 'root'
@@ -24,7 +25,7 @@ export class MessagePoolService {
   public serverChanged: EventEmitter<ServersDelta> = new EventEmitter<ServersDelta>();
   public noticed: EventEmitter<string> = new EventEmitter<string>();
 
-  constructor() { }
+  constructor(private logSrv: LogService) { }
 
   public clear(serverID: string) {
     this.serversInfo[serverID] = new ServerInfo();
@@ -52,6 +53,7 @@ export class MessagePoolService {
       const messageProcessed = message as ProcessedMessage<IRCMessageDTO>;
       messageProcessed.data.richMessage = PostProcessor.processMessage(messageProcessed.data.message);
       const newChat = this.serversInfo[serverID].addPrivateMessage(data.author, messageProcessed);
+      this.logSrv.addLog(data.author, messageProcessed.data);
       if (newChat) {
         const cd = new ChatsDelta();
         cd.changeType = DeltaChangeTypes.ADDED;
@@ -73,6 +75,7 @@ export class MessagePoolService {
       const messageProcessed = message as ProcessedMessage<IRCMessageDTO>;
       messageProcessed.data.richMessage = PostProcessor.processMessage(messageProcessed.data.message);
       this.addChannelMessage(serverID, data.channel, messageProcessed);
+      this.logSrv.addLog(data.channel, messageProcessed.data);
       // nuevo mensaje
       const cd = new ChatsDelta();
       cd.changeType = DeltaChangeTypes.UPDATED;

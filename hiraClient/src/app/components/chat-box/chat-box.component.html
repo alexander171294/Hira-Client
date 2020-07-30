@@ -22,8 +22,8 @@
         <img *ngIf="!message.data.privateAuthor && !message.data.meAction" src="https://avatars.dicebear.com/api/jdenticon/{{message.data.author}}.svg?options[colorful]=1" />
         <img *ngIf="message.data.privateAuthor && !message.data.meAction" src="https://avatars.dicebear.com/api/jdenticon/{{message.data.privateAuthor}}.svg?options[colorful]=1" />
         <div class="messageBody" [class.mentioned]="message.data.mention" *ngIf="!message.data.meAction">
-          <div class="author" *ngIf="!message.data.privateAuthor" (click)="openPrivate(message.data.author)">{{message.data.author}}<span class="hs">{{message.data.date}}</span></div>
-          <div class="author" *ngIf="message.data.privateAuthor">{{message.data.privateAuthor}}<span class="hs">{{message.data.date}}</span></div>
+          <div class="author" *ngIf="!message.data.privateAuthor" (click)="openPrivate(message.data.author)">{{message.data.author}}<span class="hs">{{message.data.date}} {{message.data.time}}</span></div>
+          <div class="author" *ngIf="message.data.privateAuthor">{{message.data.privateAuthor}}<span class="hs">{{message.data.date}} {{message.data.time}}</span></div>
           <div class="quote" *ngIf="message.data.richMessage?.quote">
             <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="quote-right" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="svg-inline--fa fa-quote-right fa-w-16"><path fill="currentColor" d="M464 32H336c-26.5 0-48 21.5-48 48v128c0 26.5 21.5 48 48 48h80v64c0 35.3-28.7 64-64 64h-8c-13.3 0-24 10.7-24 24v48c0 13.3 10.7 24 24 24h8c88.4 0 160-71.6 160-160V80c0-26.5-21.5-48-48-48zm-288 0H48C21.5 32 0 53.5 0 80v128c0 26.5 21.5 48 48 48h80v64c0 35.3-28.7 64-64 64h-8c-13.3 0-24 10.7-24 24v48c0 13.3 10.7 24 24 24h8c88.4 0 160-71.6 160-160V80c0-26.5-21.5-48-48-48z" class=""></path></svg>
             <span class="author" (click)="openPrivate(message.data.richMessage.quote.author)">
