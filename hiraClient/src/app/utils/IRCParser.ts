@@ -306,6 +306,18 @@ export class OriginData {
 export class ProcessedMessage<dataType> {
   public messageType: MessageTypes;
   public data: dataType;
+
+  public static getFrom(messages: IRCMessageDTO[], type: MessageTypes) {
+    const out: ProcessedMessage<IRCMessageDTO>[] = [];
+    messages.forEach(msg => {
+      const pm = new ProcessedMessage<IRCMessageDTO>();
+      msg.fromLog = true;
+      pm.data = msg;
+      pm.messageType = type;
+      out.push(pm);
+    });
+    return out;
+  }
 }
 
 export enum MessageTypes {
@@ -378,5 +390,6 @@ export interface IRCMessageDTO {
   date?: string;
   channel?: string;
   mention?: boolean;
+  fromLog?: boolean;
   privateAuthor?: string; // when i send private message my nick is here.
 }

@@ -367,6 +367,7 @@ export class ServerInfo {
 
   public addPrivateChat(author): boolean {
     if (this.privateChats.findIndex(a => a === author) === -1) {
+      Array.prototype.push.apply(this.privateMessages[author], ProcessedMessage.getFrom(LogService.getLogs(author), MessageTypes.PRIV_MSG));
       this.privateChats.push(author);
       return true;
     }
@@ -419,6 +420,8 @@ export class ServerInfo {
   public addChannel(channel: string) {
     channel = channel[0] === '#' ? channel.slice(1) : channel;
     if (this.channels.findIndex(c => c === channel) === -1) {
+      Array.prototype.push.apply(this.channelMessages[channel],
+                                 ProcessedMessage.getFrom(LogService.getLogs('#' + channel), MessageTypes.CHANNEL_MSG));
       this.channels.push(channel);
     }
   }
