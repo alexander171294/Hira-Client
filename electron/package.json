@@ -1,0 +1,16 @@
+{
+  "name": "hira-client-desktop",
+  "version": "1.0.0",
+  "description": "Hira client ported to desktop",
+  "main": "index.js",
+  "dependencies": {
+    "electron": "^9.2.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "electron ."
+  },
+  "author": "Harkonidaz@Underc0de",
+  "license": "ISC"
+}
