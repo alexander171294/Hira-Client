@@ -1,4 +1,5 @@
 const { app, BrowserWindow } = require('electron');
+const { ipcMain } = require('electron');
 
 function createWindow () {
   // Create the browser window.
@@ -12,6 +13,12 @@ function createWindow () {
 
   // and load the index.html of the app.
   win.loadFile('www/index.html');
+  win.on('focus', () => win.flashFrame(false));
+  ipcMain.on('news', async (evt, data) => {
+    if(!win.isFocused()) {
+      win.flashFrame(true)
+    }
+  });
 }
 
 app.whenReady().then(createWindow);

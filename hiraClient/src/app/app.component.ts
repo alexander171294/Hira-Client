@@ -8,6 +8,9 @@ import { ChatData, NotificationsChats } from './components/chat-list/chat-list.c
 import { ParamParse } from './utils/ParamParse';
 import { UserWithMetadata } from './utils/PostProcessor';
 import { MessageHandlerService } from './services/message-handler.service';
+import { environment } from 'src/environments/environment';
+
+declare var electronApi: any;
 
 @Component({
   selector: 'app-root',
@@ -48,6 +51,11 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
     ParamParse.parseHash(window.location.hash.slice(1));
     this.embd = ParamParse.parametria.embedded ? true : false;
+    if (environment.electron) {
+      const script = document.createElement('script');
+      script.setAttribute('src', 'assets/electron.js');
+      document.body.append(script);
+    }
     if (ParamParse.parametria.skin) {
       const skins = {
         dark: 'darkSkin'
@@ -119,10 +127,23 @@ export class AppComponent implements OnInit {
             if (this.notifications.privates[chatsDelta.chat] !== 'mentioned') {
               this.notifications.privates[chatsDelta.chat] = chatsDelta.message.data.mention ? 'mentioned' : 'normal';
             }
+            if (environment.electron) {
+              // si es un privado:
+              electronApi.news();
+            }
           } else {
             if (this.notifications.channels[chatsDelta.chat] !== 'mentioned') {
               this.notifications.channels[chatsDelta.chat] = chatsDelta.message.data.mention ? 'mentioned' : 'normal';
             }
+          }
+        }
+
+        if (environment.electron) {
+          if (chatsDelta.message.data.mention) {
+            // o es una mensión:
+            electronApi.news();
+          } else if (deltaPrivate) {
+            electronApi.news();
           }
         }
       }
