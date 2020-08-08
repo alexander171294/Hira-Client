@@ -32,13 +32,25 @@ export class ServerBoxComponent implements OnInit {
     }
     this.server = ParamParse.parametria.server ? encodeURIComponent(ParamParse.parametria.server) : this.server;
     this.apodo = ParamParse.parametria.apodo ? encodeURIComponent(ParamParse.parametria.apodo) : this.apodo;
-    if (!this.apodoSecundario) {
+    if (localStorage.getItem('server')) {
+      this.server = localStorage.getItem('server');
+      this.apodo = localStorage.getItem('apodo');
+      this.apodoSecundario = localStorage.getItem('apodoSecundario');
+      this.autojoin = localStorage.getItem('autojoin');
+    }
+    if (!this.apodoSecundario && this.apodo) {
       this.apodoSecundario = this.apodo + '0';
     }
     this.apodoSecundario = ParamParse.parametria.apodoSecundario ? encodeURIComponent(ParamParse.parametria.apodoSecundario) : this.apodoSecundario;
     this.autojoin = ParamParse.parametria.autojoin ? this.parseAutojoin(encodeURIComponent(ParamParse.parametria.autojoin)) : this.autojoin;
     if (ParamParse.parametria.embedded) {
       this.connect();
+      if (environment.electron) {
+        localStorage.setItem('server', this.server);
+        localStorage.setItem('apodo', this.apodo);
+        localStorage.setItem('apodoSecundario', this.apodoSecundario);
+        localStorage.setItem('autojoin', this.autojoin);
+      }
     }
   }
 
