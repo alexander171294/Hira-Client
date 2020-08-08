@@ -9,19 +9,19 @@
       </p>
       <div class="inputBox">
         <label>Server</label>
-        <input type="text" placeholder="irc.hira.li:+6697" [(ngModel)]="server"/>
+        <input type="text" placeholder="irc.hira.li:+6697" [(ngModel)]="server" autofocus (keypress)="kp($event)"/>
       </div>
       <div class="inputBox">
         <label>Apodo</label>
-        <input type="text" placeholder="Harkonidaz" [(ngModel)]="apodo"/>
+        <input type="text" placeholder="Harkonidaz" [(ngModel)]="apodo" (keypress)="kp($event)"/>
       </div>
       <div class="inputBox">
         <label>Apodo secundario</label>
-        <input type="text" placeholder="Harko" [(ngModel)]="apodoSecundario"/>
+        <input type="text" placeholder="Harko" [(ngModel)]="apodoSecundario" (keypress)="kp($event)"/>
       </div>
       <div class="inputBox">
         <label>Sala inicial</label>
-        <input type="text" placeholder="#underc0de, #another" [(ngModel)]="autojoin"/>
+        <input type="text" placeholder="#underc0de, #another" [(ngModel)]="autojoin" (keypress)="kp($event)"/>
       </div>
     </section>
     <footer>

@@ -45,12 +45,6 @@ export class ServerBoxComponent implements OnInit {
     this.autojoin = ParamParse.parametria.autojoin ? this.parseAutojoin(encodeURIComponent(ParamParse.parametria.autojoin)) : this.autojoin;
     if (ParamParse.parametria.embedded) {
       this.connect();
-      if (environment.electron) {
-        localStorage.setItem('server', this.server);
-        localStorage.setItem('apodo', this.apodo);
-        localStorage.setItem('apodoSecundario', this.apodoSecundario);
-        localStorage.setItem('autojoin', this.autojoin);
-      }
     }
   }
 
@@ -74,5 +68,18 @@ export class ServerBoxComponent implements OnInit {
     sd.server = this.server;
     this.connected.emit(sd);
     this.isConnected = true;
+    if (environment.electron) {
+      localStorage.setItem('server', this.server);
+      localStorage.setItem('apodo', this.apodo);
+      localStorage.setItem('apodoSecundario', this.apodoSecundario);
+      localStorage.setItem('autojoin', this.autojoin);
+    }
+  }
+
+  kp(event) {
+    console.log(event);
+    if (event.keyCode === 13) {
+      this.connect();
+    }
   }
 }
