@@ -77,7 +77,6 @@ export class ServerBoxComponent implements OnInit {
   }
 
   kp(event) {
-    console.log(event);
     if (event.keyCode === 13) {
       this.connect();
     }
