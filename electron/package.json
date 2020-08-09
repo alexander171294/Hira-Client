@@ -4,10 +4,11 @@
   "description": "Hira client ported to desktop",
   "main": "index.js",
   "dependencies": {
+  },
+  "devDependencies": {
     "electron": "^9.2.0",
     "electron-builder": "^22.8.0"
   },
-  "devDependencies": {},
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "electron .",
@@ -18,18 +19,24 @@
     "appId": "li.hira.client",
     "productName": "Hira Client",
     "win": {
-      "target": [ "portable" ],
+      "target": [
+        "portable"
+      ],
       "icon": "resources/icon.ico"
     },
     "mac": {
       "category": "Network",
-      "target": [ "pkg" ],
+      "target": [
+        "pkg"
+      ],
       "icon": "resources/icon.icns"
     },
     "linux": {
       "category": "Network",
       "maintainer": "Harkonidaz <alexander171294@gmail.com>",
-      "target": [ "AppImage" ],
+      "target": [
+        "AppImage"
+      ],
       "icon": "resources/64x64.png"
     }
   },
