@@ -6,7 +6,8 @@ export const environment = {
   production: false,
   electron: false,
   // gateway: 'ws://irc.network.org:8091/webirc/websocket/',
-  gateway: 'wss://thira.tandilserver.com:4433/webirc/websocket/',
+  // gateway: 'wss://server1.tandilserver.com:4433/webirc/websocket/',
+  gateway: 'wss://avalon.hira.li:7002',
   toolService: 'http://localhost:3030/',
   maxLogs: 50
 };
