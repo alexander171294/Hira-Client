@@ -3,9 +3,7 @@
   "version": "1.0.0",
   "description": "Hira client ported to desktop",
   "main": "index.js",
-  "dependencies": {
-    
-  },
+  "dependencies": {},
   "devDependencies": {
     "electron-builder": "^22.8.0",
     "electron": "^9.2.0"
@@ -35,7 +33,9 @@
     "linux": {
       "category": "Network",
       "maintainer": "Harkonidaz <alexander171294@gmail.com>",
-      "target": [ "AppImage" ],
+      "target": [
+        "AppImage"
+      ],
       "icon": "resources/256x256.png"
     }
   },
