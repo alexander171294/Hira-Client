@@ -2,6 +2,7 @@ import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { ServerData } from 'src/app/utils/ServerData';
 import { ParamParse } from 'src/app/utils/ParamParse';
 import { environment } from 'src/environments/environment';
+import { v4 as uuidv4 } from 'uuid';
 
 @Component({
   selector: 'app-server-box',
@@ -14,6 +15,11 @@ export class ServerBoxComponent implements OnInit {
   public apodo: string;
   public apodoSecundario: string;
   public autojoin: string;
+  public isAddingOrEdit: boolean;
+  public name: string;
+  public servers: ServerData[];
+  public serverSelected: ServerData;
+  public editID: string;
 
   @Input() isConnected: boolean;
   @Input() connectionError: boolean;
@@ -25,6 +31,10 @@ export class ServerBoxComponent implements OnInit {
 
   ngOnInit(): void {
     this.server = 'kappa.hira.li:6667';
+    this.servers = JSON.parse(localStorage.getItem('serverList'));
+    if (!this.servers) {
+      this.servers = [];
+    }
     if (!environment.production) {
       this.apodo = 'Zetta007';
       this.apodoSecundario = 'harkonidaz_tst02';
@@ -61,11 +71,14 @@ export class ServerBoxComponent implements OnInit {
 
   connect() {
     const sd = new ServerData();
+    sd.id = uuidv4();
+    sd.name = this.name;
     sd.apodo = this.apodo;
     sd.username = this.apodo;
     sd.apodoSecundario = this.apodoSecundario;
     sd.autojoin = this.autojoin;
     sd.server = this.server;
+    this.saveServer(sd);
     this.connected.emit(sd);
     this.isConnected = true;
     if (environment.electron) {
@@ -74,6 +87,72 @@ export class ServerBoxComponent implements OnInit {
       localStorage.setItem('apodoSecundario', this.apodoSecundario);
       localStorage.setItem('autojoin', this.autojoin);
     }
+  }
+
+  save() {
+    const sd = new ServerData();
+    sd.id = uuidv4();
+    sd.name = this.name;
+    sd.apodo = this.apodo;
+    sd.username = this.apodo;
+    sd.apodoSecundario = this.apodoSecundario;
+    sd.autojoin = this.autojoin;
+    sd.server = this.server;
+    this.saveServer(sd);
+    this.isAddingOrEdit = false;
+  }
+
+  private saveServer(sd: ServerData) {
+    if (this.editID) {
+      this.servers.forEach(sdE => {
+        if (sdE.id === this.editID) {
+          sdE.name = sd.name;
+          sdE.apodo = sd.apodo;
+          sdE.username = sd.username;
+          sdE.apodoSecundario = sd.apodoSecundario;
+          sdE.autojoin = this.autojoin;
+          sdE.server = this.server;
+        }
+      });
+      this.editID = undefined;
+    } else {
+      this.servers.push(sd);
+    }
+    localStorage.setItem('serverList', JSON.stringify(this.servers));
+  }
+
+  deleteServer(sd: ServerData) {
+    if (confirm('Está seguro de borrar el servidor?')) {
+      const idx = this.servers.findIndex(server => {
+        return server.id === sd.id;
+      });
+      this.servers.splice(idx, 1);
+      localStorage.setItem('serverList', JSON.stringify(this.servers));
+    }
+  }
+
+  editServer(sd: ServerData) {
+    this.name = sd.name;
+    this.apodo = sd.apodo;
+    this.apodoSecundario = sd.apodoSecundario;
+    this.autojoin = sd.autojoin;
+    this.server = sd.server;
+    this.isAddingOrEdit = true;
+    this.editID = sd.id;
+  }
+
+  addServer() {
+    this.isAddingOrEdit = true;
+  }
+
+  selectNetwork(serverU: ServerData) {
+    console.log(serverU);
+    this.serverSelected = serverU;
+  }
+
+  connectByList() {
+    this.connected.emit(this.serverSelected);
+    this.isConnected = true;
   }
 
   kp(event) {

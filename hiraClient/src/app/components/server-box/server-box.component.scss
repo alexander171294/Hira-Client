@@ -13,7 +13,13 @@ main {
     padding: 5px;
     background: var(--popup-background);
     border-radius: 5px;
+    position: relative;
     box-shadow: 0px 0px 5px black;
+    .waterMark {
+      text-align: center;
+      color: gray;
+      margin: 10px;
+    }
     header {
       text-align: center;
       font-weight: bold;
@@ -22,6 +28,13 @@ main {
       margin-bottom: 5px;
       border-bottom: 1px solid var(--popup-separtor);
       padding: 8px 0px;
+      svg {
+        position: absolute;
+        width: 13px;
+        right: 6px;
+        color: var(--popup-color);
+        cursor: pointer;
+      }
     }
     section {
       color: var(--popup-color);
@@ -47,6 +60,25 @@ main {
           background: var(--popup-input-background);
         }
       }
+      ul {
+        margin: 0px;
+        padding: 0px;
+        list-style: none;
+        background: white;
+        border: 1px solid gray;
+        border-radius: 3px;
+        li {
+          padding: 5px;
+          border-bottom: 1px dotted gray;
+          cursor: pointer;
+          &:hover, &.active {
+            background: #ececec;
+          }
+          &:last-child {
+            border-bottom: 0px;
+          }
+        }
+      }
     }
     footer {
       margin-top: 5px;
@@ -60,6 +92,10 @@ main {
         padding: 5px;
         cursor: pointer;
         color: var(--popup-button-color);
+        margin-left: 5px;
+        &.secondary {
+          background: var(--popup-button-background-secondary);
+        }
       }
     }
   }
