@@ -60,7 +60,9 @@ export class IRCProtocolService {
   public sendInitialMessages(serverID: string) {
     const serverConnected = this.srvHdlr.getConnectionFromID(serverID);
     serverConnected.websocket.send('ENCODING UTF-8');
-    serverConnected.websocket.send('HOST ' + serverConnected.server);
+    if (!serverConnected.isWS) {
+      serverConnected.websocket.send('HOST ' + serverConnected.server);
+    }
     serverConnected.websocket.send('user ' + serverConnected.username + ' * * :HiraClient');
     serverConnected.websocket.send('nick ' + serverConnected.apodo);
     serverConnected.actualNick = serverConnected.apodo;

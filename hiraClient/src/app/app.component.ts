@@ -42,6 +42,7 @@ export class AppComponent implements OnInit {
   @ViewChild('cbox') cbox: ChatBoxComponent;
 
   actualServerID: string;
+  actualServerName: string;
   embd: boolean;
 
   constructor(private ircproto: IRCProtocolService,
@@ -171,7 +172,7 @@ export class AppComponent implements OnInit {
   }
 
   selectServer() {
-    this.chatName = 'Server';
+    this.chatName = this.actualServerName ? this.actualServerName : 'Server';
     this.chatTopic = 'Mensajes del servidor.';
     this.chatType = CBoxChatTypes.SERVER;
     this.isInServerLog = true;
@@ -182,6 +183,8 @@ export class AppComponent implements OnInit {
 
   connect(serverData: ServerData) {
     this.actualServerID = serverData.id;
+    this.actualServerName = serverData.name;
+    this.chatName = serverData.name;
     this.ircproto.connect(serverData);
     this.actualNick = serverData.apodo;
     this.connectPopup = false;

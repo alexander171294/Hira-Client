@@ -16,7 +16,11 @@ export class ServersHdlrService {
   public getConnection(server: ServerData): ServerDataConnected {
     if (!this.servers[server.id]) {
       this.servers[server.id] = ServerDataConnected.getSDWS(server,  new WebSocketHDLR());
-      this.servers[server.id].rawObs = this.servers[server.id].websocket.connect(environment.gateway);
+      if (server.isWS) {
+        this.servers[server.id].rawObs = this.servers[server.id].websocket.connect('wss://' + server.server);
+      } else {
+        this.servers[server.id].rawObs = this.servers[server.id].websocket.connect(environment.gateway);
+      }
     }
     return this.servers[server.id];
   }

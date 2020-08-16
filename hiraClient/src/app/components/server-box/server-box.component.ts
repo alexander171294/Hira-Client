@@ -158,8 +158,10 @@ export class ServerBoxComponent implements OnInit {
   }
 
   connectByList() {
-    this.connected.emit(this.serverSelected);
-    this.isConnected = true;
+    if (this.serverSelected) {
+      this.connected.emit(this.serverSelected);
+      this.isConnected = true;
+    }
   }
 
   kp(event) {
