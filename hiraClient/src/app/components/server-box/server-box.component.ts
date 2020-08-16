@@ -20,6 +20,7 @@ export class ServerBoxComponent implements OnInit {
   public servers: ServerData[];
   public serverSelected: ServerData;
   public editID: string;
+  public websocket: boolean;
 
   @Input() isConnected: boolean;
   @Input() connectionError: boolean;
@@ -47,6 +48,7 @@ export class ServerBoxComponent implements OnInit {
       this.apodo = localStorage.getItem('apodo');
       this.apodoSecundario = localStorage.getItem('apodoSecundario');
       this.autojoin = localStorage.getItem('autojoin');
+      this.websocket = localStorage.getItem('isWS') === 'YES';
     }
     if (!this.apodoSecundario && this.apodo) {
       this.apodoSecundario = this.apodo + '0';
@@ -78,6 +80,7 @@ export class ServerBoxComponent implements OnInit {
     sd.apodoSecundario = this.apodoSecundario;
     sd.autojoin = this.autojoin;
     sd.server = this.server;
+    sd.isWS = this.websocket;
     this.saveServer(sd);
     this.connected.emit(sd);
     this.isConnected = true;
@@ -86,6 +89,7 @@ export class ServerBoxComponent implements OnInit {
       localStorage.setItem('apodo', this.apodo);
       localStorage.setItem('apodoSecundario', this.apodoSecundario);
       localStorage.setItem('autojoin', this.autojoin);
+      localStorage.setItem('isWS', this.websocket ? 'YES' : 'NO');
     }
   }
 
@@ -98,6 +102,7 @@ export class ServerBoxComponent implements OnInit {
     sd.apodoSecundario = this.apodoSecundario;
     sd.autojoin = this.autojoin;
     sd.server = this.server;
+    sd.isWS = this.websocket;
     this.saveServer(sd);
     this.isAddingOrEdit = false;
   }
@@ -112,6 +117,7 @@ export class ServerBoxComponent implements OnInit {
           sdE.apodoSecundario = sd.apodoSecundario;
           sdE.autojoin = this.autojoin;
           sdE.server = this.server;
+          sdE.isWS = this.websocket;
         }
       });
       this.editID = undefined;
@@ -139,6 +145,7 @@ export class ServerBoxComponent implements OnInit {
     this.server = sd.server;
     this.isAddingOrEdit = true;
     this.editID = sd.id;
+    this.websocket = sd.isWS;
   }
 
   addServer() {

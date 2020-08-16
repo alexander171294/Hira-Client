@@ -46,9 +46,16 @@ main {
       }
       .inputBox {
         margin: 10px 0px;
+        position: relative;
         label {
           color: var(--popup-label-color);
           font-size: 16px;
+          &.float {
+            top: 5px;
+            position: absolute;
+            right: 0px;
+            font-size: 10px;
+          }
         }
         input {
           border: 1px solid var(--popup-separtor);
@@ -58,6 +65,12 @@ main {
           width: 100%;
           color: var(--popup-input-color);
           background: var(--popup-input-background);
+          &[type="checkbox"] {
+            position: absolute;
+            right: 0px;
+            width: 21px;
+            height: 21px;
+          }
         }
       }
       ul {

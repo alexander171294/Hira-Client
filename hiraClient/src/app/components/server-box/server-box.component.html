@@ -15,6 +15,8 @@
       <div class="inputBox">
         <label>Server</label>
         <input type="text" placeholder="irc.hira.li:+6697" [(ngModel)]="server" (keypress)="kp($event)"/>
+        <label class="float">Websocket</label>
+        <input type="checkbox" [(ngModel)]="websocket" />
       </div>
       <div class="inputBox">
         <label>Apodo</label>

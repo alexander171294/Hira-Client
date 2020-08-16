@@ -14,6 +14,7 @@ export class ServerData {
   public connected: boolean;
   public submsg: string;
   public autojoin: string;
+  public isWS: boolean;
 
   public static getRandomID(): string {
     return uuidv4();
