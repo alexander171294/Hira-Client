@@ -218,6 +218,11 @@ export class IRCParser {
       return out;
     }
 
+    if (parsedMessage.code === '315') {
+      // End of who
+      return;
+    }
+
     if (parsedMessage.code === 'KICK') {
       const channel = parsedMessage.target;
       const banData = /#([^\s]+)\s([^:]+)\s/.exec(rawMessage);
