@@ -1,3 +1,4 @@
+import { UserStatusService } from './user-status.service';
 import { Injectable, EventEmitter } from '@angular/core';
 import {  ProcessedMessage,
           MessageTypes,
@@ -25,7 +26,7 @@ export class MessagePoolService {
   public serverChanged: EventEmitter<ServersDelta> = new EventEmitter<ServersDelta>();
   public noticed: EventEmitter<string> = new EventEmitter<string>();
 
-  constructor(private logSrv: LogService) { }
+  constructor(private logSrv: LogService, private usSrv: UserStatusService) { }
 
   public clear(serverID: string) {
     this.serversInfo[serverID] = new ServerInfo();
@@ -95,11 +96,14 @@ export class MessagePoolService {
     if (message.messageType === MessageTypes.USER_JOINING) {
       const data = message.data as UserJoiningDTO;
       this.addChannelMessage(serverID, data.channel, message as ProcessedMessage<UserJoiningDTO>);
-      const newUser = this.serversInfo[serverID].addChannelUser(data.channel, data.user);
+      const userMD = PostProcessor.processUserMetadata(data.user);
+      this.usSrv.updateUser(userMD);
+      const newUser = this.serversInfo[serverID].addChannelUser(data.channel, userMD);
       if (newUser) {
         const ud = new UserDelta();
         ud.changeType = DeltaChangeTypes.ADDED;
         ud.user = PostProcessor.processUserMetadata(data.user);
+        this.usSrv.updateUser(ud.user);
         ud.channel = data.channel;
         ud.serverID = serverID;
         this.usersChanged.emit(ud);
@@ -117,6 +121,15 @@ export class MessagePoolService {
         ud.channel = data.channel;
         ud.serverID = serverID;
         this.usersChanged.emit(ud);
+      }
+      if (data.me) {
+        console.log('Leaving me', data);
+        const cd = new ChatsDelta();
+        cd.changeType = DeltaChangeTypes.DELETED;
+        cd.chat = data.channel;
+        cd.isPrivate = true;
+        cd.serverID = serverID;
+        this.chatsChanged.emit(cd);
       }
     }
     if (message.messageType === MessageTypes.QUIT) {
@@ -166,10 +179,17 @@ export class MessagePoolService {
       ud.serverID = serverID;
       this.usersChanged.emit(ud);
     }
+    if (message.messageType === MessageTypes.WHO_DATA) {
+      const data: any = message.data;
+      const userMD = this.usSrv.getUser(data.nick);
+      userMD.away = data.isAway;
+      userMD.isNetOp = data.isNetOp;
+      userMD.serverConnected = data.serverFrom;
+    }
     // only for changes
     if (message.messageType === MessageTypes.CHANNEL_USERS) {
       const data = message.data as ChannelUsersDTO;
-      this.serversInfo[serverID].addChannelUsers(data.channel, data.users);
+      this.serversInfo[serverID].addChannelUsers(data.channel, this.usSrv.processAndUpdateUsers(data.users));
       const ud = new UserDelta();
       ud.changeType = DeltaChangeTypes.FULL_LIST;
       ud.channel = data.channel;
@@ -377,12 +397,11 @@ export class ServerInfo {
     return false;
   }
 
-  public addChannelUser(channel: string, user: string): boolean {
+  public addChannelUser(channel: string, userMD: UserWithMetadata): boolean {
     channel = channel[0] === '#' ? channel.slice(1) : channel;
     if (!this.channelUsers[channel]) {
       this.channelUsers[channel] = [];
     }
-    const userMD = PostProcessor.processUserMetadata(user);
     if (this.channelUsers[channel].findIndex(u => u.nick === userMD.nick) === -1) {
       this.channelUsers[channel].push(userMD);
       return true;
@@ -390,17 +409,9 @@ export class ServerInfo {
     return false;
   }
 
-  public addChannelUsers(channel: string, users: string[]): boolean {
-    channel = channel[0] === '#' ? channel.slice(1) : channel;
-    if (!this.channelUsers[channel]) {
-      this.channelUsers[channel] = [];
-    }
+  public addChannelUsers(channel: string, users: UserWithMetadata[]): boolean {
     users.forEach(user => {
-      const userMD = PostProcessor.processUserMetadata(user);
-      if (this.channelUsers[channel].findIndex(u => u.nick === userMD.nick) === -1) {
-        this.channelUsers[channel].push(userMD);
-        return true;
-      }
+      return this.addChannelUser(channel, user);
     });
     return false;
   }

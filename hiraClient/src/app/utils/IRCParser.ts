@@ -1,4 +1,4 @@
-import { MessageWithMetadata } from '../utils/PostProcessor';
+import { MessageWithMetadata, PostProcessor } from '../utils/PostProcessor';
 
 export class IRCParser {
   public static parseMessage(message: string): IRCMessage[] {
@@ -40,7 +40,24 @@ export class IRCParser {
   }
 
   public static getChannelOfUsers(message: string) {
-      return /=([^:]+):/.exec(message)[1].trim();
+    return /=([^:]+):/.exec(message)[1].trim();
+  }
+
+  public static WHOUserParser(message: string) {
+    return /:([^\s]+)\s([0-9]+)\s([^\s]+)\s([^\s]+)\s([^\s]+)\s([^\s]+)\s([^\s]+)\s([^\s]+)\s(H|G)(\*?)/.exec(message);
+    /*
+      grups:
+      1: server
+      2: code
+      3: me nick
+      4: channel or user target
+      5: Name
+      6: vhost
+      7: server from
+      8: Nick
+      9: H or G if is away
+      10: * if is NET OP
+    */
   }
 
   public static processMessage(parsedMessage: IRCMessage, rawMessage: string, actualNick: string):
@@ -69,6 +86,24 @@ export class IRCParser {
         });
         out.data = channels;
         return out;
+      }
+    }
+
+    if (parsedMessage.code === '352') { // user info (WHO response)
+      const data = IRCParser.WHOUserParser(rawMessage);
+      if (data) {
+        const out = new ProcessedMessage<any>();
+        out.messageType = MessageTypes.WHO_DATA;
+        out.data = {
+          serverFrom: data[7],
+          nick: data[8],
+          isAway: data[9] === 'G',
+          isNetOp: data[10] === '*',
+          rawMsg: rawMessage
+        };
+        return out;
+      } else {
+        console.error('BAD WHO RESPONSE PARSED: ', rawMessage, data);
       }
     }
 
@@ -209,7 +244,8 @@ export class IRCParser {
       out.data = {
         channel,
         user,
-        message
+        message,
+        me: parsedMessage.simplyOrigin === actualNick
       };
       return out;
     }
@@ -346,6 +382,7 @@ export enum MessageTypes {
   KICK = 'KICK',
   BAN = 'BAN',
   BOUNCER = 'BOUNCER', // for server /PASS command connect.
+  WHO_DATA = 'WHO_DATA'
 }
 
 export interface ChannelTopicDTO {
@@ -380,6 +417,7 @@ export interface UserLeavingDTO {
   channel: string;
   user: string;
   message: string;
+  me?: boolean;
 }
 
 export interface UserJoiningDTO {

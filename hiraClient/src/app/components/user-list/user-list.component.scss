@@ -58,6 +58,13 @@ aside {
         padding: 1vh 5px;
         cursor: pointer;
         border-radius: 5px;
+        &.netOp {
+          color: #ffd500de;
+          animation: shadowEff 3s linear infinite;
+        }
+        &.away {
+          opacity: 0.5;
+        }
         &.me {
           color: var(--alternative-button-active);
         }
@@ -109,5 +116,23 @@ aside {
         }
       }
     }
+  }
+}
+
+@keyframes shadowEff {
+  0% {
+    text-shadow: 0px 0px 5px #ad3c4f;
+  }
+  25% {
+    text-shadow: 0px 0px 3px #3cad5a;
+  }
+  50% {
+    text-shadow: 0px 0px 3px #3c6ead;
+  }
+  75% {
+    text-shadow: 0px 0px 3px #ad3c3c
+  }
+  100% {
+    text-shadow: 0px 0px 5px #ad3c4f;
   }
 }

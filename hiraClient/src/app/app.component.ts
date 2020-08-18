@@ -45,6 +45,8 @@ export class AppComponent implements OnInit {
   actualServerName: string;
   embd: boolean;
 
+  intervals = {};
+
   constructor(private ircproto: IRCProtocolService,
               private msgPool: MessagePoolService,
               private msgHdlr: MessageHandlerService) { }
@@ -95,11 +97,16 @@ export class AppComponent implements OnInit {
       }
     });
     this.msgPool.chatsChanged.subscribe((chatsDelta: ChatsDelta) => {
-      // console.log('Chat Delta', chatsDelta);
+      console.log('Chat Delta', chatsDelta);
       if (chatsDelta.changeType === DeltaChangeTypes.ADDED) {
         if (chatsDelta.isPrivate) {
           this.privateChats = this.msgPool.getPrivateChats(chatsDelta.serverID);
         } else {
+          // Check for Away
+          this.ircproto.sendMessageOrCommand(chatsDelta.serverID, '/WHO ' + chatsDelta.chat);
+          this.intervals[chatsDelta.chat] = setInterval(() => {
+            this.ircproto.sendMessageOrCommand(chatsDelta.serverID, '/WHO ' + chatsDelta.chat);
+          }, environment.intervalWHO);
           this.chatsRooms = this.msgPool.getChannels(chatsDelta.serverID);
           setTimeout(() => {
             this.changeChat(new ChatData(false, chatsDelta.chat));
@@ -107,7 +114,7 @@ export class AppComponent implements OnInit {
         }
       }
       if (chatsDelta.changeType === DeltaChangeTypes.DELETED) {
-        this.chatsRooms = this.msgPool.getChannels(chatsDelta.serverID);
+        clearInterval(this.intervals[chatsDelta.chat]);
       }
       // new message
       if (chatsDelta.changeType === DeltaChangeTypes.UPDATED) {

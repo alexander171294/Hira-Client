@@ -1,3 +1,4 @@
+import { UserStatusService } from './../../services/user-status.service';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { ParamParse } from 'src/app/utils/ParamParse';
 import { UserWithMetadata } from 'src/app/utils/PostProcessor';
@@ -13,7 +14,7 @@ export class UserListComponent implements OnInit {
   @Output() openPrivateChat: EventEmitter<string> = new EventEmitter<string>();
   embd: boolean;
 
-  constructor() { }
+  constructor(public usSrv: UserStatusService) { }
 
   ngOnInit(): void {
     this.embd = ParamParse.parametria.embedded ? true : false;

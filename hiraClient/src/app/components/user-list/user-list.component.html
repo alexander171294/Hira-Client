@@ -10,7 +10,7 @@
     </header>
     <nav>
       <ul>
-        <li class="channel" *ngFor="let user of users" (click)="openPrivate(user.nick)">
+        <li class="channel" *ngFor="let user of users" (click)="openPrivate(user.nick)" [class.away]="usSrv.getUser(user.nick).away" [class.netOp]="usSrv.getUser(user.nick).isNetOp">
           <img src="https://avatars.dicebear.com/api/jdenticon/{{user.nick}}.svg?options[colorful]=1" />
           {{user.nick}}
           <span class="badge founder" *ngIf="user.status == 'FOUNDER'">Founder</span>

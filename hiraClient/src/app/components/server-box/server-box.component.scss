@@ -84,8 +84,11 @@ main {
           padding: 5px;
           border-bottom: 1px dotted gray;
           cursor: pointer;
-          &:hover, &.active {
-            background: #ececec;
+          &:hover {
+            background: #dcdcdc;
+          }
+          &.active {
+            background: #c3c3c3;
           }
           &:last-child {
             border-bottom: 0px;
