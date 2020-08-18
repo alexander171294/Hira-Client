@@ -10,7 +10,7 @@ export class ServerData {
   public server: string;
   public created: string;
   public password: string;
-  public autoConnect: boolean;
+  public autoConnect: ConnectionMethods | string;
   public connected: boolean;
   public submsg: string;
   public autojoin: string;
@@ -19,4 +19,10 @@ export class ServerData {
   public static getRandomID(): string {
     return uuidv4();
   }
+}
+
+export enum ConnectionMethods {
+  ANON = 'ANON',
+  LP = 'LP',
+  PASS = 'PASS'
 }

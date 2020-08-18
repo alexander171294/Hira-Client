@@ -21,6 +21,8 @@ export class ServerBoxComponent implements OnInit {
   public serverSelected: ServerData;
   public editID: string;
   public websocket: boolean;
+  public loginMode = 'ANON';
+  public password: string;
 
   @Input() isConnected: boolean;
   @Input() connectionError: boolean;
@@ -81,6 +83,8 @@ export class ServerBoxComponent implements OnInit {
     sd.autojoin = this.autojoin;
     sd.server = this.server;
     sd.isWS = this.websocket;
+    sd.autoConnect = this.loginMode;
+    sd.password = this.password;
     this.saveServer(sd);
     this.connected.emit(sd);
     this.isConnected = true;
@@ -102,6 +106,8 @@ export class ServerBoxComponent implements OnInit {
     sd.apodoSecundario = this.apodoSecundario;
     sd.autojoin = this.autojoin;
     sd.server = this.server;
+    sd.autoConnect = this.loginMode;
+    sd.password = this.password;
     sd.isWS = this.websocket;
     this.saveServer(sd);
     this.isAddingOrEdit = false;
@@ -118,6 +124,8 @@ export class ServerBoxComponent implements OnInit {
           sdE.autojoin = this.autojoin;
           sdE.server = this.server;
           sdE.isWS = this.websocket;
+          sdE.autoConnect = this.loginMode;
+          sdE.password = this.password;
         }
       });
       this.editID = undefined;
@@ -146,6 +154,8 @@ export class ServerBoxComponent implements OnInit {
     this.isAddingOrEdit = true;
     this.editID = sd.id;
     this.websocket = sd.isWS;
+    this.password = sd.password;
+    this.loginMode = sd.autoConnect;
   }
 
   addServer() {

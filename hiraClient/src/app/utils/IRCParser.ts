@@ -147,6 +147,10 @@ export class IRCParser {
     }
 
     if (parsedMessage.code === '464') {
+      const out = new ProcessedMessage<IRCMessage>();
+      out.messageType = MessageTypes.BOUNCER;
+      out.data = parsedMessage;
+      return out;
       // if (server.method === 'spassword') {
       //   this.send(server.id, 'PASS ' + server.username + ':' + server.password);
       //   this.send(server.id, 'nick ' + server.apodo);
@@ -340,7 +344,8 @@ export enum MessageTypes {
   QUIT = 'QUIT',
   MODE_CHANGE = 'MODE_CHANGE',
   KICK = 'KICK',
-  BAN = 'BAN'
+  BAN = 'BAN',
+  BOUNCER = 'BOUNCER', // for server /PASS command connect.
 }
 
 export interface ChannelTopicDTO {

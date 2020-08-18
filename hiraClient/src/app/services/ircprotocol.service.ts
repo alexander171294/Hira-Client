@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ServerData } from '../utils/ServerData';
+import { ServerData, ConnectionMethods } from '../utils/ServerData';
 import { MessageHandlerService, MessageData, ErrorData } from './message-handler.service';
 import { IRCParser, MessageTypes, ProcessedMessage, IRCMessageDTO, IRCMessage, NickChangedDTO } from '../utils/IRCParser';
 import { ServersHdlrService, ServerDataConnected } from './servers-hdlr.service';
@@ -46,6 +46,13 @@ export class IRCProtocolService {
           // TODO: probamos uno random?
         }
       }
+      if (pMsg.messageType === MessageTypes.MOTD && this.srvHdlr.servers[msgData.server.id].autoConnect === ConnectionMethods.LP) {
+        this.sendIdentify(msgData.server.id, this.srvHdlr.servers[msgData.server.id].password);
+      }
+      if (pMsg.messageType === MessageTypes.BOUNCER && this.srvHdlr.servers[msgData.server.id].autoConnect === ConnectionMethods.PASS) {
+        const serverData = this.srvHdlr.servers[msgData.server.id];
+        this.sendServerPass(msgData.server.id, serverData.username, serverData.password);
+      }
       // fin de la sección reactiva //
       this.msgPool.registerMessage(pMsg, msgData.server.id);
     });
@@ -55,6 +62,17 @@ export class IRCProtocolService {
     const serverConnected = this.srvHdlr.getConnectionFromID(serverID);
     serverConnected.websocket.send('nick ' + newNick);
     serverConnected.actualNick = newNick;
+  }
+
+  public sendIdentify(serverID: string, password: string) {
+    const serverConnected = this.srvHdlr.getConnectionFromID(serverID);
+    serverConnected.websocket.send('PRIVMSG nickserv identify ' + password);
+  }
+
+  public sendServerPass(serverID: string, user: string, password: string) {
+    const serverConnected = this.srvHdlr.getConnectionFromID(serverID);
+    serverConnected.websocket.send('PASS ' + user + ':' + password);
+    serverConnected.websocket.send('nick ' + user);
   }
 
   public sendInitialMessages(serverID: string) {
