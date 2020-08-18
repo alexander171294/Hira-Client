@@ -134,7 +134,7 @@ export class IRCParser {
         out.messageType = MessageTypes.OUR_NICK_CHANGED;
         out.data = {
           origin: actualNick,
-          newNick: parsedMessage.target
+          newNick: parsedMessage.target ? parsedMessage.target : parsedMessage.message
         };
         return out;
       } else { // se lo cambiaron a alguien:
@@ -142,7 +142,7 @@ export class IRCParser {
         out.messageType = MessageTypes.NICK_CHANGED;
         out.data = {
           origin: parsedMessage.simplyOrigin,
-          newNick: parsedMessage.target
+          newNick: parsedMessage.target ? parsedMessage.target : parsedMessage.message
         };
         return out;
       }
