@@ -10,7 +10,11 @@ export const environment = {
   // gateway: 'wss://avalon.hira.li:7002',
   toolService: 'http://localhost:3030/',
   maxLogs: 50,
-  intervalWHO: 10000
+  intervalWHO: 10000,
+  skins: {
+    dark: 'darkSkin',
+    light: 'lightSkin'
+  }
 };
 
 /*

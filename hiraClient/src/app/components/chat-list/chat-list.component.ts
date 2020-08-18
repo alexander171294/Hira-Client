@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { ParamParse } from 'src/app/utils/ParamParse';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-chat-list',
@@ -50,6 +51,16 @@ export class ChatListComponent implements OnInit {
     const nick = prompt('Put new nick or leave blank for cancel');
     if (nick) {
       this.changeNick.emit(nick);
+    }
+  }
+
+  invertTheme() {
+    if (localStorage.getItem('ThemeForzed') === 'dark') {
+      localStorage.setItem('ThemeForzed', 'light');
+      document.body.classList.remove(environment.skins.dark);
+    } else {
+      localStorage.setItem('ThemeForzed', 'dark');
+      document.body.classList.add(environment.skins.dark);
     }
   }
 
