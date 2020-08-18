@@ -235,7 +235,10 @@ export class IRCParser {
 
     if (parsedMessage.code === 'PART') {
       // :Harko!~Harkolandia@harkonidaz.irc.tandilserver.com PART #SniferL4bs :"Leaving"
-      const channel = parsedMessage.target;
+      let channel = parsedMessage.target;
+      if (!channel) {
+        channel = parsedMessage.message;
+      }
       const user = parsedMessage.simplyOrigin;
       const message = parsedMessage.message;
       // user leaving (message)
