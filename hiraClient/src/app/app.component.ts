@@ -59,6 +59,7 @@ export class AppComponent implements OnInit {
       script.setAttribute('src', 'assets/electron.js');
       document.body.append(script);
     }
+    console.log(ParamParse.parametria.skin);
     if (ParamParse.parametria.skin) {
       const skins = {
         dark: 'darkSkin'

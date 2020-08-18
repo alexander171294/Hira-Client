@@ -76,19 +76,21 @@ main {
       ul {
         margin: 0px;
         padding: 0px;
+
         list-style: none;
-        background: white;
-        border: 1px solid gray;
+        background: var(--popup-list-bg);
+        border: 1px solid var(--popup-list-border-color);
+
         border-radius: 3px;
         li {
           padding: 5px;
           border-bottom: 1px dotted gray;
           cursor: pointer;
           &:hover {
-            background: #dcdcdc;
+            background: var(--popup-list-bg-hover);
           }
           &.active {
-            background: #c3c3c3;
+            background: var(--popup-list-bg-active);
           }
           &:last-child {
             border-bottom: 0px;

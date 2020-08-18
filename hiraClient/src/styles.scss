@@ -72,6 +72,10 @@ body {
   --popup-input-background: white;
   --popup-input-color: black;
   --popup-error-color: red;
+  --popup-list-bg: white;
+  --popup-list-border-color: gray;
+  --popup-list-bg-hover: #dcdcdc;
+  --popup-list-bg-active: #c3c3c3;
 
   // tags:
   --badge-op-bg: #2c4b26;
@@ -190,4 +194,8 @@ body {
   --popup-error-color: #d02828;
   --popup-input-background: #232323;
   --popup-input-color: #a6a6a6;
+  --popup-list-bg: #313131;
+  --popup-list-border-color: black;
+  --popup-list-bg-hover: #272727;
+  --popup-list-bg-active: #191818;
 }
