@@ -35,6 +35,9 @@ export class IRCProtocolService {
 
     IRCParser.parseMessage(msgData.message).forEach(parsedMessage => {
       const pMsg = IRCParser.processMessage(parsedMessage, msgData.message, msgData.server.actualNick);
+      if (!pMsg) {
+        return;
+      }
       // Sección reactiva (poner aquí las respuestas automatizadas a ciertos cambios) //
       if (pMsg.messageType === MessageTypes.OUR_NICK_CHANGED) { // nuevo nick
         msgData.server.actualNick = (pMsg.data as NickChangedDTO).newNick as string;
