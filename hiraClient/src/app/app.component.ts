@@ -105,7 +105,9 @@ export class AppComponent implements OnInit {
           // Check for Away
           this.ircproto.sendMessageOrCommand(chatsDelta.serverID, '/WHO ' + chatsDelta.chat);
           this.intervals[chatsDelta.chat] = setInterval(() => {
-            this.ircproto.sendMessageOrCommand(chatsDelta.serverID, '/WHO ' + chatsDelta.chat);
+            if ('#' + this.chatName === chatsDelta.chat) {
+              this.ircproto.sendMessageOrCommand(chatsDelta.serverID, '/WHO ' + chatsDelta.chat);
+            }
           }, environment.intervalWHO);
           this.chatsRooms = this.msgPool.getChannels(chatsDelta.serverID);
           setTimeout(() => {
