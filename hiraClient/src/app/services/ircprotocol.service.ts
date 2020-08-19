@@ -64,7 +64,7 @@ export class IRCProtocolService {
       }
       if (pMsg.messageType === MessageTypes.BOUNCER && this.srvHdlr.servers[msgData.server.id].autoConnect === ConnectionMethods.PASS) {
         const serverData = this.srvHdlr.servers[msgData.server.id];
-        this.sendServerPass(msgData.server.id, serverData.username, serverData.password);
+        this.sendServerPass(msgData.server.id, serverData.username, serverData.apodo, serverData.password);
       }
       // fin de la sección reactiva //
       this.msgPool.registerMessage(pMsg, msgData.server.id);
@@ -82,10 +82,10 @@ export class IRCProtocolService {
     serverConnected.websocket.send('PRIVMSG nickserv identify ' + password);
   }
 
-  public sendServerPass(serverID: string, user: string, password: string) {
+  public sendServerPass(serverID: string, user: string, apodo: string, password: string) {
     const serverConnected = this.srvHdlr.getConnectionFromID(serverID);
     serverConnected.websocket.send('PASS ' + user + ':' + password);
-    serverConnected.websocket.send('nick ' + user);
+    serverConnected.websocket.send('nick ' + apodo);
   }
 
   public sendInitialMessages(serverID: string) {

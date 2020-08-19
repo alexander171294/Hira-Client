@@ -31,6 +31,10 @@
         <input type="text" placeholder="#underc0de, #another" [(ngModel)]="autojoin" (keypress)="kp($event)"/>
       </div>
       <div class="inputBox">
+        <label>Usuario</label>
+        <input type="text" placeholder="Harkonidaz" [(ngModel)]="usuario" (keypress)="kp($event)"/>
+      </div>
+      <div class="inputBox">
         <label>Autenticación</label>
         <select [(ngModel)]="loginMode" style="float: right;">
           <option value="ANON">Sin autenticación</option>

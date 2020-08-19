@@ -23,6 +23,7 @@ export class ServerBoxComponent implements OnInit {
   public websocket: boolean;
   public loginMode = 'ANON';
   public password: string;
+  public usuario: string;
 
   @Input() isConnected: boolean;
   @Input() connectionError: boolean;
@@ -45,9 +46,11 @@ export class ServerBoxComponent implements OnInit {
     }
     this.server = ParamParse.parametria.server ? encodeURIComponent(ParamParse.parametria.server) : this.server;
     this.apodo = ParamParse.parametria.apodo ? encodeURIComponent(ParamParse.parametria.apodo) : this.apodo;
+    this.usuario = this.apodo;
     if (localStorage.getItem('server')) {
       this.server = localStorage.getItem('server');
       this.apodo = localStorage.getItem('apodo');
+      this.usuario = localStorage.getItem('usuario');
       this.apodoSecundario = localStorage.getItem('apodoSecundario');
       this.autojoin = localStorage.getItem('autojoin');
       this.websocket = localStorage.getItem('isWS') === 'YES';
@@ -78,7 +81,7 @@ export class ServerBoxComponent implements OnInit {
     sd.id = uuidv4();
     sd.name = this.name;
     sd.apodo = this.apodo;
-    sd.username = this.apodo;
+    sd.username = this.usuario;
     sd.apodoSecundario = this.apodoSecundario;
     sd.autojoin = this.autojoin;
     sd.server = this.server;
@@ -102,7 +105,7 @@ export class ServerBoxComponent implements OnInit {
     sd.id = uuidv4();
     sd.name = this.name;
     sd.apodo = this.apodo;
-    sd.username = this.apodo;
+    sd.username = this.usuario;
     sd.apodoSecundario = this.apodoSecundario;
     sd.autojoin = this.autojoin;
     sd.server = this.server;
@@ -156,6 +159,7 @@ export class ServerBoxComponent implements OnInit {
     this.websocket = sd.isWS;
     this.password = sd.password;
     this.loginMode = sd.autoConnect;
+    this.usuario = sd.username;
   }
 
   addServer() {
