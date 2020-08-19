@@ -14,4 +14,8 @@ export class WebSocketHDLR {
         this.wss.next(msg);
     }
 
+    public disconnect() {
+      this.wss.complete();
+    }
+
 }

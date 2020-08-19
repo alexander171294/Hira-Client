@@ -25,11 +25,21 @@ export class IRCProtocolService {
     this.sendInitialMessages(server.id);
   }
 
+  public disconnect(server: ServerDataConnected) {
+    server.websocket.disconnect();
+  }
+
   private onMessage(msgData: MessageData) {
     // AutoPong
     if (msgData.message.indexOf('PING') === 0) {
       const pingResp = msgData.message.slice(5);
       msgData.server.websocket.send('PONG ' + pingResp);
+      return;
+    }
+    // EXITED BY ERROR
+    if (msgData.message.indexOf('ERROR') === 0) {
+      this.disconnect(msgData.server);
+      window.location.reload();
       return;
     }
 

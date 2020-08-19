@@ -35,6 +35,10 @@ export class MessageHandlerService {
     this.onMessage.emit(new MessageData(msg, server));
   }
 
+  disconnect(server: ServerDataConnected) {
+    server.websocket.disconnect();
+  }
+
 }
 
 export class ErrorData {
