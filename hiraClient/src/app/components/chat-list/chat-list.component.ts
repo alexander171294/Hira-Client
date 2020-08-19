@@ -25,6 +25,8 @@ export class ChatListComponent implements OnInit {
   @Input() actualNick: string;
   embd: boolean;
 
+  version = environment.version;
+
   constructor() { }
 
   ngOnInit(): void {

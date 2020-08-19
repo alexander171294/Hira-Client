@@ -14,7 +14,8 @@ export const environment = {
   skins: {
     dark: 'darkSkin',
     light: 'lightSkin'
-  }
+  },
+  version: '1.0-RC1',
 };
 
 /*
