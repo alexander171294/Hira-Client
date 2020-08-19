@@ -240,4 +240,8 @@ export class AppComponent implements OnInit {
   changeNick() {
     this.cambiarNickPopup = true;
   }
+
+  doLeave(channel: string) {
+    this.ircproto.sendMessageOrCommand(this.actualServerID, '/leave ' + channel);
+  }
 }

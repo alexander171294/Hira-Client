@@ -74,6 +74,15 @@ aside {
           padding: 1vh 5px;
           cursor: pointer;
           border-radius: 5px;
+          position: relative;
+          .close {
+            position: absolute;
+            right: 20px;
+            top: 8px;
+            color: #585858;
+            cursor: pointer;
+            display: none;
+          }
           svg {
             width: 15px;
             vertical-align: middle;
@@ -86,6 +95,9 @@ aside {
             margin-right: 4px;
           }
           &:hover, &.active {
+            .close {
+              display: block;
+            }
             color: var(--aside-item-hover-color);
             background-color: var(--aside-item-hover-bg);
             position: relative;
