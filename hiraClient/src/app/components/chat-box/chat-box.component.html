@@ -80,7 +80,7 @@
         <div class="messageBody">
           <div class="author" (click)="openPrivate(message.data.user)">{{message.data.user}}</div>
           {{message.data.message}}
-          <img src="assets/eegg.png" class="notifyDecoration" *ngIf="message.data.user === 'Gabriela-'"/>
+          <a *ngIf="message.data.user === 'Gabriela-'" href="assets/eegg.png" target="__blank"><img src="assets/eegg.png" class="notifyDecoration" style="transform: rotate(-45deg);"/></a>
         </div>
       </div>
       <div class="banMSG" *ngIf="message.messageType === 'BAN'">
