@@ -14,6 +14,7 @@ function createWindow () {
   // and load the index.html of the app.
   win.loadFile('www/index.html');
   win.on('focus', () => win.flashFrame(false));
+  win.removeMenu();
   ipcMain.on('news', async (evt, data) => {
     if(!win.isFocused()) {
       win.flashFrame(true)
