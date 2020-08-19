@@ -44,11 +44,13 @@ export class AppComponent implements OnInit {
   actualServerID: string;
   actualServerName: string;
   embd: boolean;
+  nuevoNick: boolean;
 
   /** POPUPS */
   advertenciaBanneado: boolean;
   canalKickeado: string;
   advertenciaKickeado: boolean;
+  cambiarNickPopup: boolean;
 
   intervals = {};
 
@@ -225,12 +227,17 @@ export class AppComponent implements OnInit {
     }
   }
 
-  changeNick(nick: string) {
-    this.ircproto.sendMessageOrCommand(this.actualServerID, '/nick ' + nick);
+  changeNickConfirmar() {
+    this.ircproto.sendMessageOrCommand(this.actualServerID, '/nick ' + this.nuevoNick);
+    this.cambiarNickPopup = false;
   }
 
   openPrivateChat(user: string) {
     this.msgPool.addPrivateMessage(this.actualServerID, user);
     this.changeChat(new ChatData(true, user));
+  }
+
+  changeNick() {
+    this.cambiarNickPopup = true;
   }
 }

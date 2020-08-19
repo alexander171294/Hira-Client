@@ -28,6 +28,15 @@
     }
     p {
       padding: 0px 10px;
+      input {
+        border: 1px solid var(--popup-separtor);
+        border-radius: 3px;
+        box-sizing: border-box;
+        padding: 5px;
+        width: 100%;
+        color: var(--popup-input-color);
+        background: var(--popup-input-background);
+      }
     }
     footer {
       margin-top: 5px;
@@ -42,6 +51,9 @@
         cursor: pointer;
         color: var(--popup-button-color);
         margin-left: 5px;
+        &.secondary {
+          background: var(--popup-button-background);
+        }
       }
     }
   }

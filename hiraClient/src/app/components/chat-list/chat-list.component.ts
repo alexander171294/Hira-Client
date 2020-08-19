@@ -17,7 +17,7 @@ export class ChatListComponent implements OnInit {
 
   @Output() changeChat: EventEmitter<ChatData> = new EventEmitter<ChatData>();
   @Output() selectServer: EventEmitter<undefined> = new EventEmitter<undefined>();
-  @Output() changeNick: EventEmitter<string> = new EventEmitter<string>();
+  @Output() changeNick: EventEmitter<void> = new EventEmitter<void>();
   @Output() openServerCFG: EventEmitter<void> = new EventEmitter<void>();
 
   @Input() notifications: NotificationsChats;
@@ -48,10 +48,7 @@ export class ChatListComponent implements OnInit {
   }
 
   chgNick() {
-    const nick = prompt('Put new nick or leave blank for cancel');
-    if (nick) {
-      this.changeNick.emit(nick);
-    }
+    this.changeNick.emit();
   }
 
   invertTheme() {

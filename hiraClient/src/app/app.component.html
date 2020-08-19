@@ -57,3 +57,16 @@
     </footer>
   </section>
 </div>
+
+<div class="boxAlert" *ngIf="cambiarNickPopup">
+  <section>
+    <header>Ingrese su nuevo nick</header>
+    <p>
+      <input type="text" placeholder="mi nick" [(ngModel)]="nuevoNick"/>
+    </p>
+    <footer>
+      <button (click)="changeNickConfirmar()">Cambiar</button>
+      <button (click)="cambiarNickPopup = false" class="secondary">Cancelar</button>
+    </footer>
+  </section>
+</div>
