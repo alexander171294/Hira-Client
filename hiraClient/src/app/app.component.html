@@ -11,7 +11,7 @@
   (selectServer)="selectServer()"
   (openServerCFG)="connectPopup = true"
   (changeNick)="changeNick()"
-  (doLeave)="doLeave()"
+  (doLeave)="doLeave($event)"
 ></app-chat-list>
 <app-chat-box #cbox
   [users]="channelUsers"
