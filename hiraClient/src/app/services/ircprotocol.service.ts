@@ -145,6 +145,14 @@ export class IRCProtocolService {
       if (verb === 'leave') {
         cmd = cmd.replace('leave', 'PART');
       }
+      if (verb === 'away') {
+        if (cmd.length === 4) {
+          cmd += ' AFK';
+        }
+      }
+      if (verb === 'back') {
+        cmd = cmd.replace('back', 'away');
+      }
       serverConnected.websocket.send(cmd);
     } else {
       serverConnected.websocket.send('PRIVMSG ' + target + ' :' + command);
