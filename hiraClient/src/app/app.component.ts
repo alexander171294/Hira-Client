@@ -45,6 +45,11 @@ export class AppComponent implements OnInit {
   actualServerName: string;
   embd: boolean;
 
+  /** POPUPS */
+  advertenciaBanneado: boolean;
+  canalKickeado: string;
+  advertenciaKickeado: boolean;
+
   intervals = {};
 
   constructor(private ircproto: IRCProtocolService,
@@ -114,6 +119,13 @@ export class AppComponent implements OnInit {
             this.changeChat(new ChatData(false, chatsDelta.chat));
           }, 100);
         }
+      }
+      if (chatsDelta.changeType === DeltaChangeTypes.FORBIDDEN) {
+        this.advertenciaBanneado = true;
+      }
+      if (chatsDelta.changeType === DeltaChangeTypes.EXITED) {
+        this.advertenciaKickeado = true;
+        this.canalKickeado = chatsDelta.chat;
       }
       if (chatsDelta.changeType === DeltaChangeTypes.DELETED) {
         clearInterval(this.intervals[chatsDelta.chat]);

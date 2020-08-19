@@ -127,6 +127,12 @@ export class IRCParser {
       // this.websockets[server.id].actualNick = server.apodoSecundario;
     }
 
+    if (parsedMessage.code === '474') {
+      const out = new ProcessedMessage<undefined>();
+      out.messageType = MessageTypes.IM_BANNED;
+      return out;
+    }
+
     if (parsedMessage.code === 'NICK') {
       // nos cambiaron el nick o se lo cambió alguien.
       if (parsedMessage.simplyOrigin === actualNick) { // nos cambiaron el nick
@@ -232,7 +238,8 @@ export class IRCParser {
         out.data = {
           channel,
           operator: parsedMessage.message,
-          userTarget: banData[2]
+          userTarget: banData[2],
+          me: banData[2] === actualNick
         };
         return out;
       }
@@ -390,7 +397,8 @@ export enum MessageTypes {
   KICK = 'KICK',
   BAN = 'BAN',
   BOUNCER = 'BOUNCER', // for server /PASS command connect.
-  WHO_DATA = 'WHO_DATA'
+  WHO_DATA = 'WHO_DATA',
+  IM_BANNED = 'IM_BANNED'
 }
 
 export interface ChannelTopicDTO {
@@ -419,6 +427,7 @@ export interface KickedDTO {
   channel: string;
   operator: string;
   userTarget: string;
+  me: boolean;
 }
 
 export interface UserLeavingDTO {

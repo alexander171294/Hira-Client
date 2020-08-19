@@ -33,3 +33,27 @@
   (connected)="connect($event)"
   (closePopup)="connectPopup = false"
 ></app-server-box>
+<!-- POPUPS -->
+<div class="boxAlert" *ngIf="advertenciaBanneado">
+  <section>
+    <header>Oops!</header>
+    <p>
+      Usted se encuentra banneado en este canal.
+    </p>
+    <footer>
+      <button (click)="advertenciaBanneado = false">Aceptar</button>
+    </footer>
+  </section>
+</div>
+
+<div class="boxAlert" *ngIf="advertenciaKickeado">
+  <section>
+    <header>Fuiste Kickeado.</header>
+    <p>
+      Fuiste explusado del canal {{canalKickeado}}
+    </p>
+    <footer>
+      <button (click)="advertenciaKickeado = false">Aceptar</button>
+    </footer>
+  </section>
+</div>

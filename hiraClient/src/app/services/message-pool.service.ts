@@ -156,6 +156,14 @@ export class MessagePoolService {
         });
       });
     }
+    if (message.messageType === MessageTypes.IM_BANNED) {
+      const cd = new ChatsDelta();
+      cd.changeType = DeltaChangeTypes.FORBIDDEN;
+      cd.chat = '';
+      cd.isPrivate = true;
+      cd.serverID = serverID;
+      this.chatsChanged.emit(cd);
+    }
     if (message.messageType === MessageTypes.KICK) {
       const data = message.data as KickedDTO;
       const pp = new ProcessedMessage<UserLeavingDTO>();
@@ -166,7 +174,18 @@ export class MessagePoolService {
         message: 'Kickeó a ' + data.userTarget
       };
       this.addChannelMessage(serverID, data.channel, pp);
-      this.serversInfo[serverID].removeChannelUser(data.channel, data.userTarget)
+
+      if (data.me) {
+        const cd = new ChatsDelta();
+        cd.changeType = DeltaChangeTypes.EXITED;
+        cd.chat = data.channel;
+        cd.isPrivate = true;
+        cd.serverID = serverID;
+        this.chatsChanged.emit(cd);
+        this.serversInfo[serverID].removeChannel(data.channel);
+      } else {
+        this.serversInfo[serverID].removeChannelUser(data.channel, data.userTarget);
+      }
     }
     if (message.messageType === MessageTypes.OUR_NICK_CHANGED) {
       const ud = new UserDelta();
@@ -465,7 +484,9 @@ export enum DeltaChangeTypes {
   DELETED = 'DELETED',
   ADDED = 'ADDED',
   FULL_LIST = 'FULL_LIST',
-  FIXED_UPDATE = 'FIXED_UPDATE'
+  FIXED_UPDATE = 'FIXED_UPDATE',
+  FORBIDDEN = 'FORBIDDEN',
+  EXITED = 'EXITED'
 }
 
 export class ChangeDelta {
