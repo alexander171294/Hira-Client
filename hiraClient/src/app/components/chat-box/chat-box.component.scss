@@ -108,6 +108,11 @@ main {
           opacity: 1;
         }
       }
+      img.notifyDecoration {
+        width: 40px!important;
+        display: inline!important;
+        margin-left: 5px;
+      }
       .joinMSG, .leaveMSG {
         color: var(--cbox-message-join-color);
         font-size: 10px;

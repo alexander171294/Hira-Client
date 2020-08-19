@@ -43,7 +43,22 @@ export class EmoteList {
     'true',
     'amazing',
     'forever',
-    'notbad'
+    'notbad',
+    'brindis',
+    'buttcoin',
+    'cigar',
+    'cigar2',
+    'coffee',
+    'coffee2',
+    'coffee3',
+    'goatman',
+    'hacker',
+    'service',
+    'stick',
+    'wine',
+    'wineBottle',
+    'witchBroom',
+    'principito'
   ];
 
   public static readonly memes = [
