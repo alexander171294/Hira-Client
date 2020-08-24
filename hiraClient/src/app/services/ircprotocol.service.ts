@@ -135,6 +135,10 @@ export class IRCProtocolService {
         // chanserv?
         cmd = cmd.replace('cs', 'PRIVMSG ChanServ :');
       }
+      if (verb === 'hc') {
+        // chanserv?
+        cmd = cmd.replace('hc', 'PRIVMSG HiraClient :');
+      }
       if (verb === 'ns') {
         // nickserv?
         cmd = cmd.replace('ns', 'PRIVMSG NickServ :');

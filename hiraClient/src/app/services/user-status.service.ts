@@ -51,7 +51,6 @@ export class UserStatusService {
       return this.cr[channelName][user];
     } else {
       this.cr[channelName][user] = new CustomR();
-      this.getFromBECR(user, channelName);
       return this.cr[channelName][user];
     }
   }
@@ -64,6 +63,17 @@ export class UserStatusService {
       this.cr[channelName][user].color = r.color;
       this.cr[channelName][user].rango = r.rango;
     });
+  }
+
+  refreshCR(user: string, channel: string) {
+    if (!this.cr[channel]) {
+      this.cr[channel] = {};
+    }
+    if (!this.cr[channel][user]) {
+      this.cr[channel][user] = new CustomR();
+    }
+    console.log('REFRESH CR');
+    this.getFromBECR(user, channel);
   }
 
 }

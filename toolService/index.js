@@ -6,12 +6,14 @@ const urlParser = require('url');
 const schedule = require('node-schedule');
 const bodyParser = require('body-parser');
 const FormData = require('form-data');
-const imgur = require('./imgur.json');
+const configs = require('./configs.json');
+const fs = require('fs');
 
 const { JSDOM } = jsdom;
 
 const port = 3030;
 let urlCache = {};
+const rangosCustom = require('./rangos-custom.json');
 
 app.use(bodyParser.json({limit: '10mb', extended: true}));
 
@@ -78,7 +80,7 @@ app.post('/upload', function(req, res) {
         url: 'https://api.imgur.com/3/upload',
         data: formData,
         headers: {
-            'Authorization': 'Client-ID ' + imgur.clientID,
+            'Authorization': 'Client-ID ' + configs.clientID,
             ...formData.getHeaders()
         }
         }).then(function (response) {
@@ -93,14 +95,18 @@ app.post('/upload', function(req, res) {
 
 app.get('/customr', function(req, res) {
     const user = decodeURIComponent(req.query.usr);
-    console.log('getCMR', user);
     const channel = decodeURIComponent(req.query.chn);
-    console.log('Getting custom rango of ', user, 'for channel: ', channel);
-    res.send({
-        exists: user === 'TztWS',
-        color: 'red',
-        rango: 'rango'
-    });
+    if(!rangosCustom[channel] || !rangosCustom[channel][user]) {
+        res.send({
+            exists: false
+        });
+    } else {
+        res.send({
+            exists: true,
+            color: rangosCustom[channel][user].color,
+            rango: rangosCustom[channel][user].rango
+        });
+    }
 });
 
 function checkFetching(url) {
@@ -123,3 +129,58 @@ schedule.scheduleJob('* * * * *', function(){
 app.listen(port, function() {
     console.log('Listen in port ' + port + '!');
 });
+
+const irc = require('irc');
+
+const channelUsersPrivileges = {
+
+};
+
+const client = new irc.Client(configs.network, configs.nickServ, {
+    channels: configs.initialChannels,
+});
+
+client.on('registered', function(){
+    client.say('NickServ', 'identify ' + configs.password);
+});
+
+client.on('message', function(nick, to, text, message){
+    if (to === configs.nickServ) {
+        // private message.
+        const dataPart = text.trim().split(' ');
+        // #channel polsaker r probando #aaa
+        if (dataPart[0] == 'ayuda' || dataPart[0] == 'help') {
+            client.say(nick, '/hc join #canal | para unir el bot al canal');
+            client.say(nick, '/hc #canal userNick r RangoNombre #aaa | dar rango en un canal a un usuario');
+        } else if (dataPart[2] == 'r') {
+            if(channelUsersPrivileges[dataPart[0]] &&
+               (channelUsersPrivileges[dataPart[0]][nick] === '&' || 
+                channelUsersPrivileges[dataPart[0]][nick] === '~')) {
+                const channel = dataPart[0].slice(1);
+                if(!rangosCustom[channel]) {
+                    rangosCustom[channel] = {};
+                }
+                rangosCustom[channel][dataPart[1]] = {
+                    exists: true,
+                    color: dataPart[4] ? dataPart[4] : '#b9b9b9',
+                    rango: dataPart[3]
+                };
+                fs.writeFileSync('./rangos-custom.json', JSON.stringify(rangosCustom));
+                client.say(nick, 'ok');
+            } else {
+                if(!channelUsersPrivileges[dataPart[0]]) {
+                    client.say(nick, 'No estaba en el canal, prueba de nuevo.');
+                    client.join(dataPart[0]);
+                } else {
+                    client.say(nick, 'No eres admin o founder del canal.');
+                }
+            }
+        } else if (dataPart[0] == 'join' && dataPart[1]) {
+            client.join(dataPart[1]);
+        }
+    }
+});
+
+client.on('names', function(channel, nicks) {
+    channelUsersPrivileges[channel] = nicks;
+})
