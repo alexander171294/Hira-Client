@@ -5,6 +5,8 @@ import { IRCParser, MessageTypes, ProcessedMessage, IRCMessageDTO, IRCMessage, N
 import { ServersHdlrService, ServerDataConnected } from './servers-hdlr.service';
 import { MessagePoolService } from './message-pool.service';
 
+declare var stopEff;
+
 @Injectable({
   providedIn: 'root'
 })
@@ -123,6 +125,15 @@ export class IRCProtocolService {
       if (verb === 'join') {
         // enviar cmd esto es un join
         serverConnected.websocket.send(cmd);
+        return;
+      }
+      if (verb === 'umode') {
+        // enviar cmd esto es un join
+        cmd = cmd.replace('umode', 'mode ' + serverConnected.actualNick);
+      }
+      if (verb === 'stop') {
+        // enviar cmd esto es un join
+        stopEff();
         return;
       }
       if (verb === 'me') {
