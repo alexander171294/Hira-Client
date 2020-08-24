@@ -3,6 +3,7 @@ import { ProcessedMessage } from 'src/app/utils/IRCParser';
 import { ParamParse } from 'src/app/utils/ParamParse';
 import { UserWithMetadata, PostProcessor } from 'src/app/utils/PostProcessor';
 import { VcardGetterService } from '../link-vcard/vcard-getter.service';
+import { UserStatusService } from 'src/app/services/user-status.service';
 
 @Component({
   selector: 'app-chat-box',
@@ -27,7 +28,7 @@ export class ChatBoxComponent implements OnInit {
   public quoteAuthor: string;
   public quoteMessage: string;
 
-  constructor(private vcg: VcardGetterService) { }
+  constructor(private vcg: VcardGetterService, public usSrv: UserStatusService) { }
 
   ngOnInit(): void {
     this.embd = ParamParse.parametria.embedded ? true : false;

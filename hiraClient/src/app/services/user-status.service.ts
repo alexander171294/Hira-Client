@@ -20,6 +20,7 @@ export class UserStatusService {
       this.ul[user.nick].isNetOp = user.isNetOp;
     } else {
       this.ul[user.nick] = user;
+      this.ul[user.nick].randomB = Math.random() >= 0.5;
     }
   }
 
@@ -39,6 +40,8 @@ export class UserStatusService {
     } else {
       const udata = new UserWithMetadata();
       udata.nick = user;
+      udata.randomB = Math.random() > 0.5;
+      this.ul[user] = udata;
       return udata;
     }
   }

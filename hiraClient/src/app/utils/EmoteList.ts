@@ -58,7 +58,8 @@ export class EmoteList {
     'wine',
     'wineBottle',
     'witchBroom',
-    'principito'
+    'principito',
+    'baskerville'
   ];
 
   public static readonly memes = [

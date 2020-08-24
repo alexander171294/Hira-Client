@@ -107,6 +107,7 @@ export class UserWithMetadata {
   public nick: string;
   public status: UserStatuses;
   public isNetOp?: boolean;
+  public randomB: boolean;
   public away?: boolean;
   public serverConnected?: string;
 }

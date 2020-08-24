@@ -65,7 +65,9 @@
         <img src="https://avatars.dicebear.com/api/jdenticon/{{message.data.user}}.svg?options[colorful]=1" />
         <div class="messageBody">
           <div class="author" (click)="openPrivate(message.data.user)">{{message.data.user}}</div>
-          Entró al canal, {{message.data.userMsg}} <img src="assets/door.jpg" class="notifyDecoration"/>
+          Entró al canal, {{message.data.userMsg}}
+          <img src="assets/door.jpg" class="notifyDecoration" *ngIf="usSrv.getUser(message.data.user.nick).randomB"/>
+          <img src="assets/hell.jpg" style="height: 30px;" class="notifyDecoration" *ngIf="!usSrv.getUser(message.data.user.nick).randomB"/>
         </div>
       </div>
       <div class="leaveMSG" *ngIf="message.messageType === 'USER_LEAVING'">
