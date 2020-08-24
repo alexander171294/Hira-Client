@@ -8,6 +8,9 @@
       <p class="error" *ngIf="connectionError">
         An connection error occurred.
       </p>
+      <p class="error" *ngIf="validError">
+        {{validError}}
+      </p>
       <div class="inputBox">
         <label>Nombre para la lista</label>
         <input type="text" placeholder="Hira Network" [(ngModel)]="name" autofocus (keypress)="kp($event)"/>

@@ -24,6 +24,7 @@ export class ServerBoxComponent implements OnInit {
   public loginMode = 'ANON';
   public password: string;
   public usuario: string;
+  public validError: string;
 
   @Input() isConnected: boolean;
   @Input() connectionError: boolean;
@@ -61,6 +62,7 @@ export class ServerBoxComponent implements OnInit {
     this.apodoSecundario = ParamParse.parametria.apodoSecundario ? encodeURIComponent(ParamParse.parametria.apodoSecundario) : this.apodoSecundario;
     this.autojoin = ParamParse.parametria.autojoin ? this.parseAutojoin(encodeURIComponent(ParamParse.parametria.autojoin)) : this.autojoin;
     if (ParamParse.parametria.embedded) {
+      this.name = 'Autoconfig';
       this.connect();
     }
   }
@@ -77,43 +79,47 @@ export class ServerBoxComponent implements OnInit {
   }
 
   connect() {
-    const sd = new ServerData();
-    sd.id = uuidv4();
-    sd.name = this.name;
-    sd.apodo = this.apodo;
-    sd.username = this.usuario;
-    sd.apodoSecundario = this.apodoSecundario;
-    sd.autojoin = this.autojoin;
-    sd.server = this.server;
-    sd.isWS = this.websocket;
-    sd.autoConnect = this.loginMode;
-    sd.password = this.password;
-    this.saveServer(sd);
-    this.connected.emit(sd);
-    this.isConnected = true;
-    if (environment.electron) {
-      localStorage.setItem('server', this.server);
-      localStorage.setItem('apodo', this.apodo);
-      localStorage.setItem('apodoSecundario', this.apodoSecundario);
-      localStorage.setItem('autojoin', this.autojoin);
-      localStorage.setItem('isWS', this.websocket ? 'YES' : 'NO');
+    if (this.validate()) {
+      const sd = new ServerData();
+      sd.id = uuidv4();
+      sd.name = this.name;
+      sd.apodo = this.apodo;
+      sd.username = this.usuario;
+      sd.apodoSecundario = this.apodoSecundario;
+      sd.autojoin = this.autojoin;
+      sd.server = this.server;
+      sd.isWS = this.websocket;
+      sd.autoConnect = this.loginMode;
+      sd.password = this.password;
+      this.saveServer(sd);
+      this.connected.emit(sd);
+      this.isConnected = true;
+      if (environment.electron) {
+        localStorage.setItem('server', this.server);
+        localStorage.setItem('apodo', this.apodo);
+        localStorage.setItem('apodoSecundario', this.apodoSecundario);
+        localStorage.setItem('autojoin', this.autojoin);
+        localStorage.setItem('isWS', this.websocket ? 'YES' : 'NO');
+      }
     }
   }
 
   save() {
-    const sd = new ServerData();
-    sd.id = uuidv4();
-    sd.name = this.name;
-    sd.apodo = this.apodo;
-    sd.username = this.usuario;
-    sd.apodoSecundario = this.apodoSecundario;
-    sd.autojoin = this.autojoin;
-    sd.server = this.server;
-    sd.autoConnect = this.loginMode;
-    sd.password = this.password;
-    sd.isWS = this.websocket;
-    this.saveServer(sd);
-    this.isAddingOrEdit = false;
+    if (this.validate()) {
+      const sd = new ServerData();
+      sd.id = uuidv4();
+      sd.name = this.name;
+      sd.apodo = this.apodo;
+      sd.username = this.usuario;
+      sd.apodoSecundario = this.apodoSecundario;
+      sd.autojoin = this.autojoin;
+      sd.server = this.server;
+      sd.autoConnect = this.loginMode;
+      sd.password = this.password;
+      sd.isWS = this.websocket;
+      this.saveServer(sd);
+      this.isAddingOrEdit = false;
+    }
   }
 
   private saveServer(sd: ServerData) {
@@ -182,5 +188,22 @@ export class ServerBoxComponent implements OnInit {
     if (event.keyCode === 13) {
       this.connect();
     }
+  }
+
+  validate() {
+    this.validError = undefined;
+    if (!this.name || this.name.length < 3) {
+      this.validError = 'Debe ingresar un nombre de servidor';
+      return false;
+    }
+    if (!this.apodo || this.apodo.length < 3) {
+      this.validError = 'Debe ingresar un apodo';
+      return false;
+    }
+    if (!this.server || this.server.length < 3) {
+      this.validError = 'Debe ingresar un server';
+      return false;
+    }
+    return true;
   }
 }
