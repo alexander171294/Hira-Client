@@ -9,5 +9,5 @@ export const environment = {
     dark: 'darkSkin',
     light: 'lightSkin'
   },
-  version: '1.0-RC1',
+  version: '1.0-RC2',
 };
