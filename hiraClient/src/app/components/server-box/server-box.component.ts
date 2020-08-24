@@ -64,6 +64,12 @@ export class ServerBoxComponent implements OnInit {
     if (ParamParse.parametria.embedded) {
       this.name = 'Autoconfig';
       this.connect();
+    } else {
+      if (localStorage.getItem('serverList') === null) {
+        this.name = 'Hira.li';
+        this.server = 'kappa.hira.li:6667';
+        this.addServer();
+      }
     }
   }
 
