@@ -26,6 +26,7 @@
 <app-user-list
   *ngIf="!this.embd || (this.embd && this.chatType !== 'PRIVMSG')"
   [users]="channelUsers"
+  [channelName]="chatName"
   (openPrivateChat)="openPrivateChat($event)"
 ></app-user-list>
 <app-server-box *ngIf="connectPopup"

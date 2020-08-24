@@ -1,5 +1,7 @@
 import { UserWithMetadata, PostProcessor } from './../utils/PostProcessor';
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -7,8 +9,9 @@ import { Injectable } from '@angular/core';
 export class UserStatusService {
 
   private ul: UsersList = {};
+  private cr: CustomRangos = {};
 
-  constructor() { }
+  constructor(private httpC: HttpClient) { }
 
   public updateUser(user: UserWithMetadata) {
     if (this.ul[user.nick]) {
@@ -40,9 +43,46 @@ export class UserStatusService {
     }
   }
 
+  public getUserCR(user: string, channelName: string): CustomR {
+    if (!this.cr[channelName]) {
+      this.cr[channelName] = {};
+    }
+    if (this.cr[channelName][user]) {
+      return this.cr[channelName][user];
+    } else {
+      this.cr[channelName][user] = new CustomR();
+      this.getFromBECR(user, channelName);
+      return this.cr[channelName][user];
+    }
+  }
+
+  public getFromBECR(user: string, channelName: string) {
+    // get custom range from backend.
+    this.httpC.get(environment.toolService + 'customr?usr=' + encodeURIComponent(user) + '&chn=' + encodeURIComponent(channelName))
+    .subscribe((r: CustomR) => {
+      this.cr[channelName][user].exists = r.exists;
+      this.cr[channelName][user].color = r.color;
+      this.cr[channelName][user].rango = r.rango;
+    });
+  }
+
 }
 
 
 export class UsersList {
   [key: string]: UserWithMetadata;
+}
+
+export class CustomRangos {
+  [key: string]: CustomRangosChannel;
+}
+
+export class CustomRangosChannel {
+  [key: string]: CustomR
+}
+
+export class CustomR {
+  exists: boolean;
+  rango: string;
+  color: string;
 }

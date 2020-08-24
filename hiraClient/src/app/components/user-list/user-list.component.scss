@@ -85,6 +85,8 @@ aside {
           border-radius: 4px;
           font-weight: bolder;
           margin-left: 5px;
+          border: 1px solid;
+          background: #181818;
           &.op {
             background: var(--badge-op-bg);
             color: var(--badge-op-color);

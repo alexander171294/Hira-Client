@@ -17,6 +17,7 @@
           <span class="badge netop" *ngIf="user.status == 'NET_OPERATOR'">Admin</span>
           <span class="badge op" *ngIf="user.status == 'OPERATOR'">Operator</span>
           <span class="badge hop" *ngIf="user.status == 'HALF_OPERATOR'">Half-Op</span>
+          <span class="badge customr" *ngIf="usSrv.getUserCR(user.nick, channelName).exists" [style.color]="usSrv.getUserCR(user.nick, channelName).color" [style.border-color]="usSrv.getUserCR(user.nick, channelName).color">{{usSrv.getUserCR(user.nick, channelName).rango}}</span>
           <div class="voice" *ngIf="user.status == 'VOICE'"></div>
         </li>
         <!-- <li class="channel me">

@@ -46,9 +46,11 @@ app.get('/detail', function(req, res) {
         axios.get(url).then(r => {
             const dom = new JSDOM(r.data);
             result.title = dom.window.document.title;
-            let favicon = dom.window.document.head.querySelector('link[rel=icon]')?.href;
+            const tq = dom.window.document.head.querySelector('link[rel=icon]');
+            let favicon =  tq ? tq.href : undefined;
             if(!favicon) {
-                favicon = dom.window.document.head.querySelector('link[rel="shortcut icon"]')?.href;
+                const tq2 = dom.window.document.head.querySelector('link[rel="shortcut icon"]');
+                favicon = tq2 ? tq2.href : undefined;
             }
             const urlParsed = urlParser.parse(url);
             const urlBase = urlParsed.protocol + '//' + urlParsed.host;
@@ -87,6 +89,18 @@ app.post('/upload', function(req, res) {
             console.log(response.response.data.data);
             res.send('ERR');
         });
+});
+
+app.get('/customr', function(req, res) {
+    const user = decodeURIComponent(req.query.usr);
+    console.log('getCMR', user);
+    const channel = decodeURIComponent(req.query.chn);
+    console.log('Getting custom rango of ', user, 'for channel: ', channel);
+    res.send({
+        exists: user === 'TztWS',
+        color: 'red',
+        rango: 'rango'
+    });
 });
 
 function checkFetching(url) {

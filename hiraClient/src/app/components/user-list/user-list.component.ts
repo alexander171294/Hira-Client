@@ -11,6 +11,7 @@ import { UserWithMetadata } from 'src/app/utils/PostProcessor';
 export class UserListComponent implements OnInit {
 
   @Input() users: UserWithMetadata[];
+  @Input() channelName: string;
   @Output() openPrivateChat: EventEmitter<string> = new EventEmitter<string>();
   embd: boolean;
 
