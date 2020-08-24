@@ -1,4 +1,8 @@
 declare var startEventEffect: any;
+declare var startEventEffectInvierno: any;
+declare var startEventEffectVerano: any;
+declare var startEventEffectPrimavera: any;
+declare var startEventEffectOtono: any;
 
 export class EmoteList {
 
@@ -122,9 +126,21 @@ export class EmoteList {
     } else if (this.specialFaces[author] &&
                this.specialFaces[author].findIndex(meme => meme === name) >= 0) {
       return this.specialLocation + name + this.facesExtension;
-    } else if (name === 'magia' && author === 'Gabriela-') {
-      startEventEffect();
+    } else if (author === 'Gabriela-') {
+      if (name === 'magia') {
+        startEventEffect();
+      }
       return undefined;
+    } else if (author === 'Harkito') {
+      if (name === 'invierno') {
+        startEventEffectInvierno();
+      } else if (name === 'verano') {
+        startEventEffectVerano();
+      } else if (name === 'primavera') {
+        startEventEffectPrimavera();
+      } else if (name === 'otono') {
+        startEventEffectOtono();
+      }
     } else {
       return undefined;
     }

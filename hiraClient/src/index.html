@@ -12,29 +12,16 @@
     window.onload = () => {
       const now = new Date();
       if(now.getDate() == 21 && now.getMonth() == 5) { // 21 junio, invierno
-        snowStorm.start(true);
-        effectActive = true;
+        startEventEffectInvierno();
       }
       if(now.getDate() == 20 && now.getMonth() == 2) { // 20 marzo, otoño
-        snowStorm.start(true, ['assets/eess/otoño.png', 'assets/eess/otoño2.png', 'assets/eess/otoño3.png']);
-        snowStorm.vMaxX = 4;
-        snowStorm.vMaxY = 2;
-        snowStorm.followMouse = false;
-        effectActive = true;
+        startEventEffectOtono();
       }
       if(now.getDate() == 21 && now.getMonth() == 11) { // 21 diciembre, verano
-        snowStorm.start(true, 'assets/eess/verano.png');
-        snowStorm.vMaxX = 4;
-        snowStorm.vMaxY = 2;
-        snowStorm.followMouse = false;
-        effectActive = true;
+        startEventEffectVerano();
       }
       if(now.getDate() == 21 && now.getMonth() == 8) { // 21 septiembre, primavera
-        snowStorm.start(true, ['assets/eess/primavera.png','assets/eess/primavera2.png','assets/eess/primavera3.png']);
-        snowStorm.vMaxX = 4;
-        snowStorm.vMaxY = 2;
-        snowStorm.followMouse = false;
-        effectActive = true;
+        startEventEffectPrimavera();
       }
       if(now.getDate() == 25 && now.getMonth() == 7) { // 25 agosto, cumpleaños
         snowStorm.start(true, [
@@ -59,6 +46,39 @@
         snowStorm.start(true, ['assets/eess/star.png']);
         snowStorm.vMaxX = 0;
         snowStorm.vMaxY = 2;
+        effectActive = true;
+      }
+    }
+    function startEventEffectInvierno() {
+      if (!effectActive) {
+        snowStorm.start(true);
+        effectActive = true;
+      }
+    }
+    function startEventEffectOtono() {
+      if (!effectActive) {
+        snowStorm.start(true, ['assets/eess/otoño.png', 'assets/eess/otoño2.png', 'assets/eess/otoño3.png']);
+        snowStorm.vMaxX = 4;
+        snowStorm.vMaxY = 2;
+        snowStorm.followMouse = false;
+        effectActive = true;
+      }
+    }
+    function startEventEffectVerano() {
+      if (!effectActive) {
+        snowStorm.start(true, 'assets/eess/verano.png');
+        snowStorm.vMaxX = 4;
+        snowStorm.vMaxY = 2;
+        snowStorm.followMouse = false;
+        effectActive = true;
+      }
+    }
+    function startEventEffectPrimavera() {
+      if (!effectActive) {
+        snowStorm.start(true, ['assets/eess/primavera.png','assets/eess/primavera2.png','assets/eess/primavera3.png']);
+        snowStorm.vMaxX = 4;
+        snowStorm.vMaxY = 2;
+        snowStorm.followMouse = false;
         effectActive = true;
       }
     }
