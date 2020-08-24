@@ -164,7 +164,10 @@ client.on('message', function(nick, to, text, message){
             if(channelUsersPrivileges[dataPart[0]] &&
                (channelUsersPrivileges[dataPart[0]][nick] === '&' || 
                 channelUsersPrivileges[dataPart[0]][nick] === '~')) {
-                const channel = dataPart[0].slice(1);
+                let channel = dataPart[0]; 
+                if(dataPart[0][0] == '#') {
+                    channel = channel.slice(1);
+                }
                 if(!rangosCustom[channel]) {
                     rangosCustom[channel] = {};
                 }
@@ -188,8 +191,8 @@ client.on('message', function(nick, to, text, message){
                 const user = dataPart[0];
                 globalCustom[user] = {
                     exists: true,
-                    color: dataPart[4] ? dataPart[4] : '#b9b9b9',
-                    rango: dataPart[3]
+                    color: dataPart[3] ? dataPart[3] : '#b9b9b9',
+                    rango: dataPart[2]
                 };
                 fs.writeFileSync('./global-custom.json', JSON.stringify(globalCustom));
                 client.say(nick, 'ok');

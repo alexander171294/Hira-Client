@@ -53,6 +53,7 @@ export class UserStatusService {
     if (this.cr[channelName][user]) {
       return this.cr[channelName][user];
     } else {
+      // this.getFromBECR(user, channelName);
       this.cr[channelName][user] = new CustomR();
       return this.cr[channelName][user];
     }
@@ -60,6 +61,9 @@ export class UserStatusService {
 
   public getFromBECR(user: string, channelName: string) {
     // get custom range from backend.
+    if (channelName[0] === '#') {
+      channelName = channelName.slice(1);
+    }
     this.httpC.get(environment.toolService + 'customr?usr=' + encodeURIComponent(user) + '&chn=' + encodeURIComponent(channelName))
     .subscribe((r: CustomR) => {
       this.cr[channelName][user].exists = r.exists;
@@ -75,7 +79,7 @@ export class UserStatusService {
     if (!this.cr[channel][user]) {
       this.cr[channel][user] = new CustomR();
     }
-    console.log('REFRESH CR');
+    console.log('REFRESH CR', user, channel);
     this.getFromBECR(user, channel);
   }
 
