@@ -14,6 +14,7 @@ const { JSDOM } = jsdom;
 const port = 3030;
 let urlCache = {};
 const rangosCustom = require('./rangos-custom.json');
+const globalCustom = require('./global-custom.json');
 
 app.use(bodyParser.json({limit: '10mb', extended: true}));
 
@@ -96,15 +97,21 @@ app.post('/upload', function(req, res) {
 app.get('/customr', function(req, res) {
     const user = decodeURIComponent(req.query.usr);
     const channel = decodeURIComponent(req.query.chn);
-    if(!rangosCustom[channel] || !rangosCustom[channel][user]) {
+    if((!rangosCustom[channel] || !rangosCustom[channel][user]) && !globalCustom[user]) {
         res.send({
             exists: false
         });
-    } else {
+    } else if (rangosCustom[channel] && rangosCustom[channel][user]) {
         res.send({
             exists: true,
             color: rangosCustom[channel][user].color,
             rango: rangosCustom[channel][user].rango
+        });
+    } else {
+        res.send({
+            exists: true,
+            color: globalCustom[user].color,
+            rango: globalCustom[user].rango
         });
     }
 });
@@ -152,6 +159,7 @@ client.on('message', function(nick, to, text, message){
         if (dataPart[0] == 'ayuda' || dataPart[0] == 'help') {
             client.say(nick, '/hc join #canal | para unir el bot al canal');
             client.say(nick, '/hc #canal userNick r RangoNombre #aaa | dar rango en un canal a un usuario');
+            client.say(nick, '/hc userNick g RangoNombre #aaa | dar rango global a un usuario');
         } else if (dataPart[2] == 'r') {
             if(channelUsersPrivileges[dataPart[0]] &&
                (channelUsersPrivileges[dataPart[0]][nick] === '&' || 
@@ -174,6 +182,19 @@ client.on('message', function(nick, to, text, message){
                 } else {
                     client.say(nick, 'No eres admin o founder del canal.');
                 }
+            }
+        } else if (dataPart[1] == 'g') {
+            if(configs.bigBoss.find(boss => boss === nick)) {
+                const user = dataPart[0];
+                globalCustom[user] = {
+                    exists: true,
+                    color: dataPart[4] ? dataPart[4] : '#b9b9b9',
+                    rango: dataPart[3]
+                };
+                fs.writeFileSync('./global-custom.json', JSON.stringify(globalCustom));
+                client.say(nick, 'ok');
+            } else {
+                client.say(nick, 'No te encuentras en la lista de nicks habilitados. ' + configs.bigBoss);
             }
         } else if (dataPart[0] == 'join' && dataPart[1]) {
             client.join(dataPart[1]);
