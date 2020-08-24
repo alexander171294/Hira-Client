@@ -2,7 +2,7 @@ import { EmoteList } from './EmoteList';
 
 export class PostProcessor {
 
-  public static processMessage(message: string): MessageWithMetadata {
+  public static processMessage(message: string, author: string): MessageWithMetadata {
     const mwm = new MessageWithMetadata();
 
     const youtubeLink = /((?:https?:)?\/\/)?((?:www|m)\.)?((?:youtube\.com|youtu.be))(\/(?:[\w\-]+\?v=|embed\/|v\/)?)([\w\-]+)(\S+)?/.exec(message);
@@ -40,7 +40,7 @@ export class PostProcessor {
     if (faces) {
       faces.forEach(face => {
         const realName = face.replace(':', '').replace(':', '');
-        const realLocation = EmoteList.getFace(realName);
+        const realLocation = EmoteList.getFace(realName, author);
         if (realLocation) {
           message = message.replace(face, '<img src="' + realLocation + '" class="faceEmote" data-name="' +
                                           realName + '" title=":' + realName + ':" alt=":' + realName + ':"/>');
@@ -52,7 +52,7 @@ export class PostProcessor {
     if (memes) {
       memes.forEach(meme => {
         const realName = meme.replace(';', '').replace(';', '');
-        const realLocation = EmoteList.getMeme(realName);
+        const realLocation = EmoteList.getMeme(realName, author);
         if (realLocation) {
           message = message.replace(meme, '<img src="' + realLocation + '" class="memeEmote" data-name="' + realName +
                                           '" title=";' + realName + ';" alt=";' + realName + ';"/>');
@@ -107,7 +107,7 @@ export class UserWithMetadata {
   public nick: string;
   public status: UserStatuses;
   public isNetOp?: boolean;
-  public randomB: boolean;
+  public randomB?: boolean;
   public away?: boolean;
   public serverConnected?: string;
 }

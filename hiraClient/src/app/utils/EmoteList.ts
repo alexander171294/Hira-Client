@@ -1,9 +1,17 @@
 export class EmoteList {
 
   public static readonly facesLocation = 'assets/faces/';
+  public static readonly specialLocation = 'assets/specials/';
   public static readonly facesExtension = '.png';
   public static readonly memesLocation = 'assets/em-mem/';
   public static readonly memesExtension = '';
+
+  public static readonly specialFaces = {
+    'Gabriela-': [
+      'regla',
+      'magico'
+    ]
+  };
 
   public static readonly faces = [
     'aaa',
@@ -98,7 +106,7 @@ export class EmoteList {
     'topic2'
   ];
 
-  public static getMeme(name: string): string {
+  public static getMeme(name: string, author: string): string {
     if (this.memes.findIndex(meme => meme === name) >= 0) {
       return this.memesLocation + name + this.memesExtension;
     } else {
@@ -106,9 +114,12 @@ export class EmoteList {
     }
   }
 
-  public static getFace(name: string): string {
+  public static getFace(name: string, author: string): string {
     if (this.faces.findIndex(meme => meme === name) >= 0) {
       return this.facesLocation + name + this.facesExtension;
+    } else if (this.specialFaces[author] &&
+               this.specialFaces[author].findIndex(meme => meme === name) >= 0) {
+      return this.specialLocation + name + this.facesExtension;
     } else {
       return undefined;
     }

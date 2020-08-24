@@ -51,7 +51,7 @@ export class MessagePoolService {
     if (message.messageType === MessageTypes.PRIV_MSG) {
       const data = message.data as IRCMessageDTO;
       const messageProcessed = message as ProcessedMessage<IRCMessageDTO>;
-      messageProcessed.data.richMessage = PostProcessor.processMessage(messageProcessed.data.message);
+      messageProcessed.data.richMessage = PostProcessor.processMessage(messageProcessed.data.message, data.author);
       const newChat = this.serversInfo[serverID].addPrivateMessage(data.author, messageProcessed);
       this.logSrv.addLog(data.author, messageProcessed.data);
       if (newChat) {
@@ -73,7 +73,7 @@ export class MessagePoolService {
     if (message.messageType === MessageTypes.CHANNEL_MSG) {
       const data = message.data as IRCMessageDTO;
       const messageProcessed = message as ProcessedMessage<IRCMessageDTO>;
-      messageProcessed.data.richMessage = PostProcessor.processMessage(messageProcessed.data.message);
+      messageProcessed.data.richMessage = PostProcessor.processMessage(messageProcessed.data.message, data.author);
       this.addChannelMessage(serverID, data.channel, messageProcessed);
       this.logSrv.addLog(data.channel, messageProcessed.data);
       // nuevo mensaje
