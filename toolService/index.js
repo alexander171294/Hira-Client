@@ -13,15 +13,16 @@ const { JSDOM } = jsdom;
 
 const port = 3030;
 let urlCache = {};
-const rangosCustom = require('./rangos-custom.json');
-const globalCustom = require('./global-custom.json');
+const rangosCustom = require('./dataStored/rangos-custom.json');
+const globalCustom = require('./dataStored/global-custom.json');
 
 app.use(bodyParser.json({limit: '10mb', extended: true}));
 
 const sitesAllowed = [
     'http://localhost:4200',
     'https://hira.tandilserver.com',
-    'http://irc.tandilserver.com:9000'
+    'http://irc.tandilserver.com:9000',
+    'https://web.hira.li'
 ]
 
 app.all('*', function(req, res, next) {
@@ -177,7 +178,7 @@ client.on('message', function(nick, to, text, message){
                     color: dataPart[4] ? dataPart[4] : '#b9b9b9',
                     rango: dataPart[3]
                 };
-                fs.writeFileSync('./rangos-custom.json', JSON.stringify(rangosCustom));
+                fs.writeFileSync('./dataStored/rangos-custom.json', JSON.stringify(rangosCustom));
                 client.say(nick, 'ok');
             } else {
                 if(!channelUsersPrivileges[dataPart[0]]) {
@@ -195,7 +196,7 @@ client.on('message', function(nick, to, text, message){
                     color: dataPart[3] ? dataPart[3] : '#b9b9b9',
                     rango: dataPart[2]
                 };
-                fs.writeFileSync('./global-custom.json', JSON.stringify(globalCustom));
+                fs.writeFileSync('./dataStored/global-custom.json', JSON.stringify(globalCustom));
                 client.say(nick, 'ok');
             } else {
                 client.say(nick, 'No te encuentras en la lista de nicks habilitados. ');
