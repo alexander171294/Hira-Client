@@ -208,9 +208,10 @@ export class MessagePoolService {
     // only for changes
     if (message.messageType === MessageTypes.CHANNEL_USERS) {
       const data = message.data as ChannelUsersDTO;
-      this.serversInfo[serverID].addChannelUsers(data.channel, this.usSrv.processAndUpdateUsers(data.users));
-      data.users.forEach(u => {
-        this.usSrv.refreshCR(u, data.channel);
+      const uwm = this.usSrv.processAndUpdateUsers(data.users);
+      this.serversInfo[serverID].addChannelUsers(data.channel, uwm);
+      uwm.forEach(u => {
+        this.usSrv.refreshCR(u.nick, data.channel);
       });
       const ud = new UserDelta();
       ud.changeType = DeltaChangeTypes.FULL_LIST;
