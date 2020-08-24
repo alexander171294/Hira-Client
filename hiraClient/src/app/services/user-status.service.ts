@@ -61,9 +61,6 @@ export class UserStatusService {
 
   public getFromBECR(user: string, channelName: string) {
     // get custom range from backend.
-    if (channelName[0] === '#') {
-      channelName = channelName.slice(1);
-    }
     this.httpC.get(environment.toolService + 'customr?usr=' + encodeURIComponent(user) + '&chn=' + encodeURIComponent(channelName))
     .subscribe((r: CustomR) => {
       this.cr[channelName][user].exists = r.exists;
@@ -73,6 +70,9 @@ export class UserStatusService {
   }
 
   refreshCR(user: string, channel: string) {
+    if (channel[0] === '#') {
+      channel = channel.slice(1);
+    }
     if (!this.cr[channel]) {
       this.cr[channel] = {};
     }
