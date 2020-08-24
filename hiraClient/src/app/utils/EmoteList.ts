@@ -3,6 +3,7 @@ declare var startEventEffectInvierno: any;
 declare var startEventEffectVerano: any;
 declare var startEventEffectPrimavera: any;
 declare var startEventEffectOtono: any;
+declare var startEventEffectRegalo: any;
 
 export class EmoteList {
 
@@ -140,6 +141,8 @@ export class EmoteList {
         startEventEffectPrimavera();
       } else if (name === 'otono') {
         startEventEffectOtono();
+      } else if (name === 'regalo') {
+        startEventEffectRegalo();
       }
     } else {
       return undefined;

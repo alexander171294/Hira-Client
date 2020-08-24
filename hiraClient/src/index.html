@@ -24,21 +24,7 @@
         startEventEffectPrimavera();
       }
       if(now.getDate() == 25 && now.getMonth() == 7) { // 25 agosto, cumpleaños
-        snowStorm.start(true, [
-          'assets/eess/cumple.png',
-          'assets/eess/cumple2.png',
-          'assets/eess/cumple3.png',
-          'assets/eess/cumple4.png',
-          'assets/eess/cumple5.png',
-          'assets/eess/cumple6.png',
-          'assets/eess/cumple7.png',
-          'assets/eess/cumple8.png',
-          'assets/eess/cumple9.png',
-          'assets/eess/cumple10.png']);
-        snowStorm.vMaxX = 1;
-        snowStorm.vMaxY = 1;
-        snowStorm.followMouse = false;
-        effectActive = true;
+        startEventEffectRegalo();
       }
     };
     function startEventEffect() {
@@ -85,6 +71,25 @@
     function stopEff() {
       if (effectActive) {
         snowStorm.stop();
+      }
+    }
+    function startEventEffectRegalo() {
+      if (!effectActive) {
+        snowStorm.start(true, [
+            'assets/eess/cumple.png',
+            'assets/eess/cumple2.png',
+            'assets/eess/cumple3.png',
+            'assets/eess/cumple4.png',
+            'assets/eess/cumple5.png',
+            'assets/eess/cumple6.png',
+            'assets/eess/cumple7.png',
+            'assets/eess/cumple8.png',
+            'assets/eess/cumple9.png',
+            'assets/eess/cumple10.png']);
+        snowStorm.vMaxX = 1;
+        snowStorm.vMaxY = 1;
+        snowStorm.followMouse = false;
+        effectActive = true;
       }
     }
   </script>
