@@ -160,6 +160,7 @@ client.on('message', function(nick, to, text, message){
             client.say(nick, '/hc join #canal | para unir el bot al canal');
             client.say(nick, '/hc #canal userNick r RangoNombre #aaa | dar rango en un canal a un usuario');
             client.say(nick, '/hc userNick g RangoNombre #aaa | dar rango global a un usuario');
+            client.say(nick, '/hc owners')
         } else if (dataPart[2] == 'r') {
             if(channelUsersPrivileges[dataPart[0]] &&
                (channelUsersPrivileges[dataPart[0]][nick] === '&' || 
@@ -197,8 +198,10 @@ client.on('message', function(nick, to, text, message){
                 fs.writeFileSync('./global-custom.json', JSON.stringify(globalCustom));
                 client.say(nick, 'ok');
             } else {
-                client.say(nick, 'No te encuentras en la lista de nicks habilitados. ' + configs.bigBoss);
+                client.say(nick, 'No te encuentras en la lista de nicks habilitados. ');
             }
+        } else if (dataPart[0] == 'owners') {
+            client.say(nick, 'Lista de owners: ' + configs.bigBoss)
         } else if (dataPart[0] == 'join' && dataPart[1]) {
             client.join(dataPart[1]);
         }
