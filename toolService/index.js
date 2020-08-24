@@ -13,8 +13,25 @@ const { JSDOM } = jsdom;
 
 const port = 3030;
 let urlCache = {};
-const rangosCustom = require('./dataStored/rangos-custom.json');
-const globalCustom = require('./dataStored/global-custom.json');
+
+let rangosCustom = {};
+let globalCustom = {};
+if(!fs.existsSync('./dataStored/rangos-custom.json')) {
+    try {
+        fs.mkdirSync('./dataStored');
+    } catch(e){}
+    fs.writeFileSync('./dataStored/rangos-custom.json', '{}');
+} else {
+    rangosCustom = JSON.parse(fs.readFileSync('./dataStored/rangos-custom.json'));
+}
+if(!fs.existsSync('./dataStored/global-custom.json')) {
+    try {
+        fs.mkdirSync('./dataStored');
+    } catch(e){}
+    fs.writeFileSync('./dataStored/global-custom.json', '{}');
+} else {
+    globalCustom = JSON.parse(fs.readFileSync('./dataStored/global-custom.json'));
+}
 
 app.use(bodyParser.json({limit: '10mb', extended: true}));
 
