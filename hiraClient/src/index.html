@@ -6,6 +6,68 @@
   <base href="/">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <script type="text/javascript" src="assets/scripts/snowstorm.js"></script>
+  <script type="text/javascript">
+    var effectActive = false;
+    window.onload = () => {
+      const now = new Date();
+      if(now.getDate() == 21 && now.getMonth() == 5) { // 21 junio, invierno
+        snowStorm.start(true);
+        effectActive = true;
+      }
+      if(now.getDate() == 20 && now.getMonth() == 2) { // 20 marzo, otoño
+        snowStorm.start(true, ['assets/eess/otoño.png', 'assets/eess/otoño2.png', 'assets/eess/otoño3.png']);
+        snowStorm.vMaxX = 4;
+        snowStorm.vMaxY = 2;
+        snowStorm.followMouse = false;
+        effectActive = true;
+      }
+      if(now.getDate() == 21 && now.getMonth() == 11) { // 21 diciembre, verano
+        snowStorm.start(true, 'assets/eess/verano.png');
+        snowStorm.vMaxX = 4;
+        snowStorm.vMaxY = 2;
+        snowStorm.followMouse = false;
+        effectActive = true;
+      }
+      if(now.getDate() == 21 && now.getMonth() == 8) { // 21 septiembre, primavera
+        snowStorm.start(true, ['assets/eess/primavera.png','assets/eess/primavera2.png','assets/eess/primavera3.png']);
+        snowStorm.vMaxX = 4;
+        snowStorm.vMaxY = 2;
+        snowStorm.followMouse = false;
+        effectActive = true;
+      }
+      if(now.getDate() == 25 && now.getMonth() == 7) { // 25 agosto, cumpleaños
+        snowStorm.start(true, [
+          'assets/eess/cumple.png',
+          'assets/eess/cumple2.png',
+          'assets/eess/cumple3.png',
+          'assets/eess/cumple4.png',
+          'assets/eess/cumple5.png',
+          'assets/eess/cumple6.png',
+          'assets/eess/cumple7.png',
+          'assets/eess/cumple8.png',
+          'assets/eess/cumple9.png',
+          'assets/eess/cumple10.png']);
+        snowStorm.vMaxX = 1;
+        snowStorm.vMaxY = 1;
+        snowStorm.followMouse = false;
+        effectActive = true;
+      }
+    };
+    function startEventEffect() {
+      if (!effectActive) {
+        snowStorm.start(true, ['assets/eess/star.png']);
+        snowStorm.vMaxX = 0;
+        snowStorm.vMaxY = 2;
+        effectActive = true;
+      }
+    }
+    function stopEff() {
+      if (effectActive) {
+        snowStorm.stop();
+      }
+    }
+  </script>
 </head>
 <body>
   <app-root></app-root>

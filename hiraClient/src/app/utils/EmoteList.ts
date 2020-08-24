@@ -1,3 +1,5 @@
+declare var startEventEffect: any;
+
 export class EmoteList {
 
   public static readonly facesLocation = 'assets/faces/';
@@ -120,6 +122,9 @@ export class EmoteList {
     } else if (this.specialFaces[author] &&
                this.specialFaces[author].findIndex(meme => meme === name) >= 0) {
       return this.specialLocation + name + this.facesExtension;
+    } else if (name === 'magia' && author === 'Gabriela-') {
+      startEventEffect();
+      return undefined;
     } else {
       return undefined;
     }
