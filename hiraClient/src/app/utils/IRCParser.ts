@@ -40,7 +40,7 @@ export class IRCParser {
   }
 
   public static getChannelOfUsers(message: string) {
-    return /=([^:]+):/.exec(message)[1].trim();
+    return /(=|@)([^:]+):/.exec(message)[2].trim();
   }
 
   public static WHOUserParser(message: string) {
