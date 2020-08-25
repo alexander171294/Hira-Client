@@ -1,0 +1,7 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=HiraClient
+Exec=$HOME/tools/hira/Hira Client-1.0.0.AppImage
+Icon=$HOME/tools/hira/icon.png
+
