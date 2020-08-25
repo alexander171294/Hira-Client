@@ -67,7 +67,8 @@ export class ServerBoxComponent implements OnInit {
     } else {
       if (localStorage.getItem('serverList') === null) {
         this.name = 'Hira.li';
-        this.server = 'kappa.hira.li:6667';
+        this.server = 'avalon.hira.li';
+        this.websocket = true;
         this.addServer();
       }
     }
