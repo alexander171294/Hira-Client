@@ -10,4 +10,9 @@ export const environment = {
     light: 'lightSkin'
   },
   version: '1.0-RC2',
+  default: {
+    name: 'Hira.li',
+    server: 'kappa.hira.li',
+    isWS: false
+  }
 };

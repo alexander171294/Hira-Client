@@ -66,9 +66,9 @@ export class ServerBoxComponent implements OnInit {
       this.connect();
     } else {
       if (localStorage.getItem('serverList') === null) {
-        this.name = 'Hira.li';
-        this.server = 'avalon.hira.li';
-        this.websocket = true;
+        this.name = environment.default.name;
+        this.server = environment.default.server;
+        this.websocket = environment.default.isWS;
         this.addServer();
       }
     }
