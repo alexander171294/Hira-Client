@@ -2,6 +2,6 @@
 Version=1.0
 Type=Application
 Name=HiraClient
-Exec=/home/harko/tools/hira/Hira Client-1.0.0.AppImage
+Exec=/home/harko/tools/hira/hira-rc2.AppImage
 Icon=/home/harko/tools/hira/icon.png
 
