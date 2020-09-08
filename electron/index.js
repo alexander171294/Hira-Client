@@ -21,7 +21,7 @@ function createWindow () {
     webPreferences: {
       nodeIntegration: true
     },
-    icon: 'resources/256x256.png'
+    icon: __dirname +  '/resources/256x256.png'
   });
 
   // and load the index.html of the app.

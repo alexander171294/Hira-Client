@@ -12,8 +12,8 @@ export const environment = {
   version: '1.0-RC3',
   default: {
     name: 'Hira.li',
-    server: 'avalon.hira.li',
-    isWS: true
+    server: 'kappa.hira.li',
+    isWS: false
   },
   maxServerBuffer: 100,
   maxChannelBuffer: 100,
