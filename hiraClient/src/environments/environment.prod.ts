@@ -14,5 +14,6 @@ export const environment = {
     name: 'Hira.li',
     server: 'avalon.hira.li',
     isWS: true
-  }
+  },
+  maxServerBuffer: 100
 };

@@ -18,7 +18,8 @@ export const environment = {
     name: 'Hira.li',
     server: 'kappa.hira.li',
     isWS: false
-  }
+  },
+  maxServerBuffer: 100
 };
 
 /*

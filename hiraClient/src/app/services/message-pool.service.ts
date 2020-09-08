@@ -13,6 +13,7 @@ import {  ProcessedMessage,
           KickedDTO } from '../utils/IRCParser';
 import { PostProcessor, UserWithMetadata, UserStatuses } from '../utils/PostProcessor';
 import { LogService } from './log.service';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -86,6 +87,9 @@ export class MessagePoolService {
     }
     if (message.messageType === MessageTypes.SERVER || message.messageType === MessageTypes.NOTICE) {
       this.serversInfo[serverID].serverMessages.push(message as ProcessedMessage<IRCMessage>);
+      if (this.serversInfo[serverID].serverMessages.length > environment.maxServerBuffer) {
+        this.serversInfo[serverID].serverMessages.splice(1, 1);
+      }
       const sd = new ServersDelta();
       sd.changeType = DeltaChangeTypes.UPDATED;
       sd.serverID = serverID;
