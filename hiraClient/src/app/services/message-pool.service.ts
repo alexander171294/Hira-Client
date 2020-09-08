@@ -88,7 +88,7 @@ export class MessagePoolService {
     if (message.messageType === MessageTypes.SERVER || message.messageType === MessageTypes.NOTICE) {
       this.serversInfo[serverID].serverMessages.push(message as ProcessedMessage<IRCMessage>);
       if (this.serversInfo[serverID].serverMessages.length > environment.maxServerBuffer) {
-        this.serversInfo[serverID].serverMessages.splice(1, 1);
+        this.serversInfo[serverID].serverMessages.splice(0, 1);
       }
       const sd = new ServersDelta();
       sd.changeType = DeltaChangeTypes.UPDATED;
@@ -397,6 +397,9 @@ export class ServerInfo {
       isNew = true;
     }
     this.channelMessages[channel].push(message);
+    if (this.channelMessages[channel].length > environment.maxChannelBuffer) {
+      this.channelMessages[channel].splice(0, 1);
+    }
     return isNew;
   }
 
@@ -406,6 +409,9 @@ export class ServerInfo {
       this.privateMessages[author] = [];
     }
     this.privateMessages[author].push(message);
+    if (this.privateMessages[author].length > environment.maxPrivateBuffer) {
+      this.privateMessages[author].splice(0, 1);
+    }
     return this.addPrivateChat(author);
   }
 

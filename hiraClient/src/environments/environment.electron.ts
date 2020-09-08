@@ -15,5 +15,7 @@ export const environment = {
     server: 'kappa.hira.li',
     isWS: false
   },
-  maxServerBuffer: 100
+  maxServerBuffer: 100,
+  maxChannelBuffer: 100,
+  maxPrivateBuffer: 100
 };
