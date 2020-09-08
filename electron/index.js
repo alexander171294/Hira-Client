@@ -15,6 +15,11 @@ function createWindow () {
   win.loadFile('www/index.html');
   win.on('focus', () => win.flashFrame(false));
   win.removeMenu();
+  // open windows on webbrowser
+  win.webContents.on('new-window', function(e, url) {
+    e.preventDefault();
+    require('electron').shell.openExternal(url);
+  });
   ipcMain.on('news', async (evt, data) => {
     if(!win.isFocused()) {
       win.flashFrame(true)
