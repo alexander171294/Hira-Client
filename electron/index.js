@@ -20,7 +20,8 @@ function createWindow () {
     height: parseInt(90*screen.getPrimaryDisplay().size.height/100, 10), // 90% of screen
     webPreferences: {
       nodeIntegration: true
-    }
+    },
+    icon: 'resources/256x256.png'
   });
 
   // and load the index.html of the app.
@@ -35,6 +36,7 @@ function createWindow () {
   ipcMain.on('news', async (evt, data) => {
     if(!win.isFocused()) {
       win.flashFrame(true)
+      evt.reply('playSound', {});
     }
   });
 }
