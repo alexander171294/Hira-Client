@@ -168,6 +168,9 @@ main {
             font-weight: bold;
             font-style: italic;
           }
+          &.special {
+            color: var(--cbox-message-action-me-color-special);
+          }
         }
         &.mentioned {
           background: var(--cbox-message-mention-bg);

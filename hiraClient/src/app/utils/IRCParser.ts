@@ -9,6 +9,9 @@ export class IRCParser {
           const MSG = r[2];
           const partials = TAG.split(' ');
           const im = new IRCMessage();
+          im.body = MSG;
+          im.tag = TAG;
+          im.partials = partials;
           im.code = partials[1];
           const target = /([^!]*!)?([^@]+@)?(.*)/.exec(partials[0]);
           const od = new OriginData();
@@ -167,6 +170,34 @@ export class IRCParser {
         };
         return out;
       }
+    }
+
+    if (parsedMessage.code === '301') { // away message
+      const out = new ProcessedMessage<IRCMessageDTO>();
+      out.messageType = MessageTypes.PRIV_MSG;
+      out.data = {
+        author: parsedMessage.partials[3],
+        message: parsedMessage.message,
+        meAction: true,
+        specialAction: true,
+        time: IRCParser.getTime(),
+        date: IRCParser.getDateStr()
+      };
+      return out;
+    }
+
+    if (parsedMessage.code === '716') { // server side ignored
+      const out = new ProcessedMessage<IRCMessageDTO>();
+      out.messageType = MessageTypes.PRIV_MSG;
+      out.data = {
+        author: parsedMessage.partials[3],
+        message: parsedMessage.message,
+        meAction: true,
+        specialAction: true
+      };
+      out.data.time = IRCParser.getTime();
+      out.data.date = IRCParser.getDateStr();
+      return out;
     }
 
     if (parsedMessage.code === '396') { // displayed host REVEER ESTO
@@ -350,6 +381,10 @@ export class IRCMessage {
   public code: string;
   public target: string;
   public message: string;
+  // RC3: adding more info to IRC Plain parsed message:
+  public tag?: string;
+  public body?: string;
+  public partials?: string[];
 }
 
 export class OriginData {
@@ -449,6 +484,7 @@ export interface IRCMessageDTO {
   message: string;
   richMessage?: MessageWithMetadata;
   meAction: boolean;
+  specialAction?: boolean;
   time?: string;
   date?: string;
   channel?: string;
