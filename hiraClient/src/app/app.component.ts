@@ -239,6 +239,13 @@ export class AppComponent implements OnInit {
 
   changeNick() {
     this.cambiarNickPopup = true;
+    document.getElementById('#changeNickInput').focus();
+  }
+
+  kpChgNick(event) {
+    if (event.keyCode === 13) {
+      this.changeNickConfirmar();
+    }
   }
 
   doLeave(channel: string) {
