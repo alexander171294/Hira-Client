@@ -127,7 +127,7 @@ export class MessagePoolService {
         this.usersChanged.emit(ud);
       }
       if (data.me) {
-        console.log('Leaving me', data);
+        // console.log('Leaving me', data);
         const cd = new ChatsDelta();
         cd.changeType = DeltaChangeTypes.DELETED;
         cd.chat = data.channel;

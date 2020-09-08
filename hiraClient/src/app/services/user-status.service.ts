@@ -79,7 +79,7 @@ export class UserStatusService {
     if (!this.cr[channel][user]) {
       this.cr[channel][user] = new CustomR();
     }
-    console.log('REFRESH CR', user, channel);
+    // console.log('REFRESH CR', user, channel);
     this.getFromBECR(user, channel);
   }
 

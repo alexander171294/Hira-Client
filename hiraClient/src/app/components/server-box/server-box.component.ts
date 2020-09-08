@@ -194,7 +194,7 @@ export class ServerBoxComponent implements OnInit {
   }
 
   selectNetwork(serverU: ServerData) {
-    console.log(serverU);
+    // console.log(serverU);
     this.serverSelected = serverU;
   }
 

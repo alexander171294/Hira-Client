@@ -66,7 +66,7 @@ export class AppComponent implements OnInit {
       script.setAttribute('src', 'assets/electron.js');
       document.body.append(script);
     }
-    console.log(ParamParse.parametria.skin);
+    // console.log(ParamParse.parametria.skin);
     if (ParamParse.parametria.skin) {
       if (environment.skins[ParamParse.parametria.skin]) {
         document.body.classList.add(environment.skins[ParamParse.parametria.skin]);
@@ -104,7 +104,7 @@ export class AppComponent implements OnInit {
       }
     });
     this.msgPool.chatsChanged.subscribe((chatsDelta: ChatsDelta) => {
-      console.log('Chat Delta', chatsDelta);
+      // console.log('Chat Delta', chatsDelta);
       if (chatsDelta.changeType === DeltaChangeTypes.ADDED) {
         if (chatsDelta.isPrivate) {
           this.privateChats = this.msgPool.getPrivateChats(chatsDelta.serverID);
