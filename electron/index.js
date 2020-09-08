@@ -1,11 +1,11 @@
 const { app, BrowserWindow } = require('electron');
-const { ipcMain } = require('electron');
+const { ipcMain, screen } = require('electron');
 
 function createWindow () {
   // Create the browser window.
   const win = new BrowserWindow({
-    width: 1024,
-    height: 768,
+    width: parseInt(95*screen.getPrimaryDisplay().size.width/100, 10), // 95% of screen
+    height: parseInt(90*screen.getPrimaryDisplay().size.height/100, 10), // 90% of screen
     webPreferences: {
       nodeIntegration: true
     }
