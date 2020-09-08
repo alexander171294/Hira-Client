@@ -5,6 +5,7 @@ import { UserWithMetadata, PostProcessor } from 'src/app/utils/PostProcessor';
 import { VcardGetterService } from '../link-vcard/vcard-getter.service';
 import { UserStatusService } from 'src/app/services/user-status.service';
 import { environment } from 'src/environments/environment';
+import { HistoryMessageCursorService } from './history-message-cursor.service';
 
 @Component({
   selector: 'app-chat-box',
@@ -30,7 +31,7 @@ export class ChatBoxComponent implements OnInit {
   public quoteAuthor: string;
   public quoteMessage: string;
 
-  constructor(private vcg: VcardGetterService, public usSrv: UserStatusService) { }
+  constructor(private vcg: VcardGetterService, public usSrv: UserStatusService, private historySrv: HistoryMessageCursorService) { }
 
   ngOnInit(): void {
     this.embd = ParamParse.parametria.embedded ? true : false;
@@ -63,6 +64,7 @@ export class ChatBoxComponent implements OnInit {
   send(evt) {
     if (evt.keyCode === 13) {
       let commandOrMessage = evt.srcElement.value;
+      this.historySrv.save(commandOrMessage);
       if (this.inQuote) {
         commandOrMessage = '<' + this.quoteAuthor + '> ' + this.quoteMessage + ' | ' + commandOrMessage;
         this.inQuote = false;
@@ -97,6 +99,12 @@ export class ChatBoxComponent implements OnInit {
           evt.srcElement.value = writing.join(' ');
         }
       }
+    } else if (evt.keyCode === 38) { // up
+      evt.srcElement.value = this.historySrv.prev();
+    } else if (evt.keyCode === 40) { // down
+      evt.srcElement.value = this.historySrv.next();
+    } else {
+      // console.log(evt.keyCode);
     }
   }
 

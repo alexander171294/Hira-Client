@@ -21,7 +21,8 @@ export const environment = {
   },
   maxServerBuffer: 100,
   maxChannelBuffer: 100,
-  maxPrivateBuffer: 100
+  maxPrivateBuffer: 100,
+  maxCommandHistory: 50
 };
 
 /*
