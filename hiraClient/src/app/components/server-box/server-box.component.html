@@ -1,4 +1,4 @@
-<main>
+<main *ngIf="!nickMode">
   <div class="box" *ngIf="isConnected || isAddingOrEdit">
     <header>
       Configuración del servidor
@@ -75,6 +75,22 @@
     <footer>
       <button class="secondary" (click)="connectByList()">Conectar</button>
       <button (click)="addServer()">Agregar</button>
+    </footer>
+  </div>
+</main>
+<main *ngIf="nickMode">
+  <div class="box">
+    <header>
+      Selección de nick
+    </header>
+    <section>
+      <div class="inputBox">
+        <label class="special">Bienvenido! ingrese su nick para acceder al chat</label>
+        <input type="text" placeholder="MiApodo" [(ngModel)]="apodo" autofocus (keypress)="kp($event)"/>
+      </div>
+    </section>
+    <footer>
+      <button (click)="connect()">Conectar</button>
     </footer>
   </div>
 </main>

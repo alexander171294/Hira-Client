@@ -67,7 +67,7 @@
   <section>
     <header>Ingrese su nuevo nick</header>
     <p>
-      <input type="text" placeholder="mi nick" [(ngModel)]="nuevoNick"/>
+      <input type="text" placeholder="mi nick" id="changeNickInput" [(ngModel)]="nuevoNick" (keypress)="kpChgNick($event)"/>
     </p>
     <footer>
       <button (click)="changeNickConfirmar()">Cambiar</button>

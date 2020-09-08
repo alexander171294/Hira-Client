@@ -66,13 +66,13 @@ export class AppComponent implements OnInit {
       script.setAttribute('src', 'assets/electron.js');
       document.body.append(script);
     }
-    console.log(ParamParse.parametria.skin);
-    if (localStorage.getItem('ThemeForzed')) {
-      document.body.classList.add(environment.skins[localStorage.getItem('ThemeForzed')]);
-    } else if (ParamParse.parametria.skin) {
+    // console.log(ParamParse.parametria.skin);
+    if (ParamParse.parametria.skin) {
       if (environment.skins[ParamParse.parametria.skin]) {
         document.body.classList.add(environment.skins[ParamParse.parametria.skin]);
       }
+    } else if (localStorage.getItem('ThemeForzed')) {
+      document.body.classList.add(environment.skins[localStorage.getItem('ThemeForzed')]);
     }
     this.msgPool.noticed.subscribe((serverID) => {
       this.ircproto.autoJoin(serverID);
@@ -104,7 +104,7 @@ export class AppComponent implements OnInit {
       }
     });
     this.msgPool.chatsChanged.subscribe((chatsDelta: ChatsDelta) => {
-      console.log('Chat Delta', chatsDelta);
+      // console.log('Chat Delta', chatsDelta);
       if (chatsDelta.changeType === DeltaChangeTypes.ADDED) {
         if (chatsDelta.isPrivate) {
           this.privateChats = this.msgPool.getPrivateChats(chatsDelta.serverID);
@@ -239,6 +239,15 @@ export class AppComponent implements OnInit {
 
   changeNick() {
     this.cambiarNickPopup = true;
+    setTimeout(() => {
+      document.getElementById('changeNickInput').focus();
+    }, 100);
+  }
+
+  kpChgNick(event) {
+    if (event.keyCode === 13) {
+      this.changeNickConfirmar();
+    }
   }
 
   doLeave(channel: string) {

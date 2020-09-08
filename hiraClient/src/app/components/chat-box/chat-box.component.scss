@@ -68,6 +68,24 @@ main {
         background: var(--full-version-button-bg-hover);
         color: var(--full-version-button-color-hover);
       }
+      &.desktop {
+        right: calc(2vw + 165px);
+        color: #de9d5c;
+        border-color: #de9d5c;
+        background-color: #4b3526;
+      }
+    }
+    a.desktopFV {
+      font-weight: 100;
+      position: absolute;
+      right: calc(85px);
+      top: 20px;
+      padding: 5px;
+      border-radius: 5px;
+      background: var(--full-version-button-bg);
+      color: var(--full-version-button-color);
+      border: 1px solid var(--full-version-button-border);
+      text-decoration: none;
     }
   }
   section {
@@ -149,6 +167,9 @@ main {
           span {
             font-weight: bold;
             font-style: italic;
+          }
+          &.special {
+            color: var(--cbox-message-action-me-color-special);
           }
         }
         &.mentioned {

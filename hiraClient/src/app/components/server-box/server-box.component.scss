@@ -56,6 +56,12 @@ main {
             right: 0px;
             font-size: 10px;
           }
+          &.special {
+            text-align: center;
+            display: block;
+            margin: 6px;
+            color: #d46d6d;
+          }
         }
         input {
           border: 1px solid var(--popup-separtor);

@@ -9,10 +9,14 @@ export const environment = {
     dark: 'darkSkin',
     light: 'lightSkin'
   },
-  version: '1.0-RC2',
+  version: '1.0-RC3',
   default: {
     name: 'Hira.li',
     server: 'kappa.hira.li',
     isWS: false
-  }
+  },
+  maxServerBuffer: 100,
+  maxChannelBuffer: 100,
+  maxPrivateBuffer: 100,
+  maxCommandHistory: 50
 };

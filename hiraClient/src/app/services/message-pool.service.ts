@@ -13,6 +13,7 @@ import {  ProcessedMessage,
           KickedDTO } from '../utils/IRCParser';
 import { PostProcessor, UserWithMetadata, UserStatuses } from '../utils/PostProcessor';
 import { LogService } from './log.service';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -86,6 +87,9 @@ export class MessagePoolService {
     }
     if (message.messageType === MessageTypes.SERVER || message.messageType === MessageTypes.NOTICE) {
       this.serversInfo[serverID].serverMessages.push(message as ProcessedMessage<IRCMessage>);
+      if (this.serversInfo[serverID].serverMessages.length > environment.maxServerBuffer) {
+        this.serversInfo[serverID].serverMessages.splice(0, 1);
+      }
       const sd = new ServersDelta();
       sd.changeType = DeltaChangeTypes.UPDATED;
       sd.serverID = serverID;
@@ -123,7 +127,7 @@ export class MessagePoolService {
         this.usersChanged.emit(ud);
       }
       if (data.me) {
-        console.log('Leaving me', data);
+        // console.log('Leaving me', data);
         const cd = new ChatsDelta();
         cd.changeType = DeltaChangeTypes.DELETED;
         cd.chat = data.channel;
@@ -263,7 +267,11 @@ export class MessagePoolService {
       const data = message.data as NickChangedDTO;
       Object.entries(this.serversInfo[serverID].channelUsers).forEach(kv => {
         const uid = kv[1].findIndex(user => user.nick === data.origin);
-        this.serversInfo[serverID].channelUsers[kv[0]][uid].nick = data.newNick;
+        if (this.serversInfo[serverID].channelUsers[kv[0]][uid]) {
+          this.serversInfo[serverID].channelUsers[kv[0]][uid].nick = data.newNick;
+        } else {
+          console.error('Invalid uuid: ', uid, this.serversInfo[serverID].channelUsers[kv[0]], data.origin);
+        }
         const pp = new ProcessedMessage<NickChangedDTO>();
         pp.messageType = MessageTypes.NICK_CHANGED;
         pp.data = {
@@ -389,6 +397,9 @@ export class ServerInfo {
       isNew = true;
     }
     this.channelMessages[channel].push(message);
+    if (this.channelMessages[channel].length > environment.maxChannelBuffer) {
+      this.channelMessages[channel].splice(0, 1);
+    }
     return isNew;
   }
 
@@ -398,6 +409,9 @@ export class ServerInfo {
       this.privateMessages[author] = [];
     }
     this.privateMessages[author].push(message);
+    if (this.privateMessages[author].length > environment.maxPrivateBuffer) {
+      this.privateMessages[author].splice(0, 1);
+    }
     return this.addPrivateChat(author);
   }
 

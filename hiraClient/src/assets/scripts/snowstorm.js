@@ -367,7 +367,7 @@ var snowStorm = (function(window, document) {
     this.active = 1;
     this.fontSize = (10+(this.type/5)*10);
     this.o = document.createElement('div');
-    console.log(image);
+    // console.log(image);
     if (image) {
       if(typeof image == 'object') {
         image = image[Math.floor(Math.random() * image.length)];;

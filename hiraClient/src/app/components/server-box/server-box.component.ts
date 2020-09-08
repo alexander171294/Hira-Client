@@ -26,6 +26,8 @@ export class ServerBoxComponent implements OnInit {
   public usuario: string;
   public validError: string;
 
+  public nickMode: boolean;
+
   @Input() isConnected: boolean;
   @Input() connectionError: boolean;
 
@@ -35,7 +37,8 @@ export class ServerBoxComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    this.server = 'kappa.hira.li:6667';
+    this.server = environment.default.server;
+    this.websocket = environment.default.isWS;
     this.servers = JSON.parse(localStorage.getItem('serverList'));
     if (!this.servers) {
       this.servers = [];
@@ -63,7 +66,18 @@ export class ServerBoxComponent implements OnInit {
     this.autojoin = ParamParse.parametria.autojoin ? this.parseAutojoin(encodeURIComponent(ParamParse.parametria.autojoin)) : this.autojoin;
     if (ParamParse.parametria.embedded) {
       this.name = 'Autoconfig';
-      this.connect();
+      if (ParamParse.parametria.requestNick) {
+        this.nickMode = true;
+        if (ParamParse.parametria.requestNick == '0') {
+          this.apodo = 'Invitado' + Math.floor((Math.random() * 9999) + 1000);
+          this.apodoSecundario = 'Invitado' + Math.floor((Math.random() * 9999) + 1000);
+        } else {
+          this.apodo = ParamParse.parametria.requestNick;
+          this.apodoSecundario = 'Invitado' + Math.floor((Math.random() * 9999) + 1000);
+        }
+      } else {
+        this.connect();
+      }
     } else {
       if (localStorage.getItem('serverList') === null) {
         this.name = environment.default.name;
@@ -180,7 +194,7 @@ export class ServerBoxComponent implements OnInit {
   }
 
   selectNetwork(serverU: ServerData) {
-    console.log(serverU);
+    // console.log(serverU);
     this.serverSelected = serverU;
   }
 
