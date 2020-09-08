@@ -170,6 +170,8 @@ main {
           }
           &.special {
             color: var(--cbox-message-action-me-color-special);
+            font-size: 12px;
+            margin: -5px;
           }
         }
         &.mentioned {
