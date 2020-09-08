@@ -1,5 +1,17 @@
 const { app, BrowserWindow } = require('electron');
 const { ipcMain, screen } = require('electron');
+const contextMenu = require('electron-context-menu');
+
+contextMenu({
+//   prepend: (params, browserWindow) => [
+//       {
+//         role: "zoomIn"
+//       },
+//       {
+//         role: "zoomOut"
+//       },
+//   ],
+});
 
 function createWindow () {
   // Create the browser window.
