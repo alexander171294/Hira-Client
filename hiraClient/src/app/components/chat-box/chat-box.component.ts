@@ -4,6 +4,7 @@ import { ParamParse } from 'src/app/utils/ParamParse';
 import { UserWithMetadata, PostProcessor } from 'src/app/utils/PostProcessor';
 import { VcardGetterService } from '../link-vcard/vcard-getter.service';
 import { UserStatusService } from 'src/app/services/user-status.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-chat-box',
@@ -23,6 +24,7 @@ export class ChatBoxComponent implements OnInit {
   public embd: boolean;
   public imageLoading: boolean;
   public fullVersionLink: string;
+  public showDesktopReleases: boolean;
 
   public inQuote = false;
   public quoteAuthor: string;
@@ -32,6 +34,7 @@ export class ChatBoxComponent implements OnInit {
 
   ngOnInit(): void {
     this.embd = ParamParse.parametria.embedded ? true : false;
+    this.showDesktopReleases = !environment.electron;
     if (this.embd) {
       // this.fullVersionLink = window.location.protocol + '//' + window.location.host + '/#';
       this.fullVersionLink = '';
