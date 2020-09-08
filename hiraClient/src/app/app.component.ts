@@ -239,7 +239,9 @@ export class AppComponent implements OnInit {
 
   changeNick() {
     this.cambiarNickPopup = true;
-    document.getElementById('#changeNickInput').focus();
+    setTimeout(() => {
+      document.getElementById('changeNickInput').focus();
+    }, 100);
   }
 
   kpChgNick(event) {
