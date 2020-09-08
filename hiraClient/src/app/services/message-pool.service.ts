@@ -263,7 +263,11 @@ export class MessagePoolService {
       const data = message.data as NickChangedDTO;
       Object.entries(this.serversInfo[serverID].channelUsers).forEach(kv => {
         const uid = kv[1].findIndex(user => user.nick === data.origin);
-        this.serversInfo[serverID].channelUsers[kv[0]][uid].nick = data.newNick;
+        if (this.serversInfo[serverID].channelUsers[kv[0]][uid]) {
+          this.serversInfo[serverID].channelUsers[kv[0]][uid].nick = data.newNick;
+        } else {
+          console.error('Invalid uuid: ', uid, this.serversInfo[serverID].channelUsers[kv[0]], data.origin);
+        }
         const pp = new ProcessedMessage<NickChangedDTO>();
         pp.messageType = MessageTypes.NICK_CHANGED;
         pp.data = {
