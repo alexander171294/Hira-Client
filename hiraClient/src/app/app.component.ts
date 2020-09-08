@@ -67,12 +67,12 @@ export class AppComponent implements OnInit {
       document.body.append(script);
     }
     console.log(ParamParse.parametria.skin);
-    if (localStorage.getItem('ThemeForzed')) {
-      document.body.classList.add(environment.skins[localStorage.getItem('ThemeForzed')]);
-    } else if (ParamParse.parametria.skin) {
+    if (ParamParse.parametria.skin) {
       if (environment.skins[ParamParse.parametria.skin]) {
         document.body.classList.add(environment.skins[ParamParse.parametria.skin]);
       }
+    } else if (localStorage.getItem('ThemeForzed')) {
+      document.body.classList.add(environment.skins[localStorage.getItem('ThemeForzed')]);
     }
     this.msgPool.noticed.subscribe((serverID) => {
       this.ircproto.autoJoin(serverID);
