@@ -37,7 +37,8 @@ export class ServerBoxComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    this.server = 'kappa.hira.li:6667';
+    this.server = environment.default.server;
+    this.websocket = environment.default.isWS;
     this.servers = JSON.parse(localStorage.getItem('serverList'));
     if (!this.servers) {
       this.servers = [];

@@ -5,17 +5,15 @@
 export const environment = {
   production: false,
   electron: false,
-  gateway: 'ws://mxl:8091/webirc/websocket/',
-  // gateway: 'wss://server1.tandilserver.com:4433/webirc/websocket/',
-  // gateway: 'wss://avalon.hira.li:7002',
-  toolService: 'http://localhost:3030/',
+  gateway: 'wss://thira.tandilserver.com:4433/webirc/websocket/',
+  toolService: 'https://thira.tandilserver.com/',
   maxLogs: 50,
   intervalWHO: 10000,
   skins: {
     dark: 'darkSkin',
     light: 'lightSkin'
   },
-  version: '1.0-RC2',
+  version: '1.0-RC3',
   default: {
     name: 'Hira.li',
     server: 'kappa.hira.li',

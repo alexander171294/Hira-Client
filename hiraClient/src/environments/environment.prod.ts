@@ -9,7 +9,7 @@ export const environment = {
     dark: 'darkSkin',
     light: 'lightSkin'
   },
-  version: '1.0-RC2',
+  version: '1.0-RC3',
   default: {
     name: 'Hira.li',
     server: 'avalon.hira.li',
