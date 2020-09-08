@@ -20,8 +20,8 @@ export const environment = {
     isWS: false
   },
   maxServerBuffer: 100,
-  maxChannelBuffer: 100,
-  maxPrivateBuffer: 100,
+  maxChannelBuffer: 200,
+  maxPrivateBuffer: 300,
   maxCommandHistory: 50
 };
 
