@@ -1,11 +1,12 @@
+== Features ==
+
 - butcoins?
 - Canales favoritos
 - search and join button.
 - emoticones Canal/Globales
+- foto de perfil customizable
 
-* Ionic client.
-
- - RC3 -
+== RC3 ==
 ignore
 
 == BUGS ==
@@ -17,3 +18,6 @@ Bug del names
 Mensaje de anuncio de cambio de modo.
 scroll en lista de usuarios.
 Canal fantasma sin nombre
+
+== Port ==
+* Ionic client.
