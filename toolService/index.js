@@ -16,6 +16,9 @@ let urlCache = {};
 
 let rangosCustom = {};
 let globalCustom = {};
+let avatarCustom = {};
+
+
 if(!fs.existsSync('./dataStored/rangos-custom.json')) {
     try {
         fs.mkdirSync('./dataStored');
@@ -32,6 +35,16 @@ if(!fs.existsSync('./dataStored/global-custom.json')) {
 } else {
     globalCustom = JSON.parse(fs.readFileSync('./dataStored/global-custom.json'));
 }
+if(!fs.existsSync('./dataStored/avatar-custom.json')) {
+    try {
+        fs.mkdirSync('./dataStored');
+    } catch(e){}
+    fs.writeFileSync('./dataStored/avatar-custom.json', '{}');
+} else {
+    avatarCustom = JSON.parse(fs.readFileSync('./dataStored/avatar-custom.json'));
+}
+
+const avatarCache = {};
 
 app.use(bodyParser.json({limit: '10mb', extended: true}));
 
@@ -40,7 +53,7 @@ const sitesAllowed = [
     'https://hira.tandilserver.com',
     'http://irc.tandilserver.com:9000',
     'https://web.hira.li'
-]
+];
 
 app.all('*', function(req, res, next) {
     if (sitesAllowed.find(sa => sa === req.get('origin'))) {
@@ -134,6 +147,39 @@ app.get('/customr', function(req, res) {
     }
 });
 
+app.get('/avatar', function(req, res) {
+    const user = decodeURIComponent(req.query.usr);
+    if(avatarCache[user]) {
+        res.type(avatarCache[user].tdata);
+        res.send(avatarCache[user].bdata);
+    } else {
+        if(avatarCustom[user]) {
+            axios.get(avatarCustom[user],{
+                responseType: 'arraybuffer'
+              }).then(r => {
+                avatarCache[user] = {};
+                avatarCache[user].bdata = r.data;
+                avatarCache[user].tdata = 'image/png';
+                res.type(avatarCache[user].tdata);
+                res.send(avatarCache[user].bdata);
+            });
+        } else {
+            const avatarURL = 'https://avatars.dicebear.com/api/jdenticon/' + user + '.svg?options[colorful]=1';
+            console.log('reading avatar', avatarURL);
+            axios.get(avatarURL,{
+                // responseType: 'text'
+                responseType: 'text'
+              }).then(r => {
+                avatarCache[user] = {};
+                avatarCache[user].bdata = r.data;
+                avatarCache[user].tdata = 'image/svg+xml';
+                res.type(avatarCache[user].tdata);
+                res.send(avatarCache[user].bdata);
+            });
+        }
+    }
+});
+
 function checkFetching(url) {
     return new Promise((resolve, reject) => {
         if(urlCache[url] === 'fetching') {
@@ -179,6 +225,7 @@ client.on('message', function(nick, to, text, message){
             client.say(nick, '/hc #canal userNick r RangoNombre #aaa | dar rango en un canal a un usuario');
             client.say(nick, '/hc userNick g RangoNombre #aaa | dar rango global a un usuario');
             client.say(nick, '/hc owners')
+            client.say(nick, '/hc avatar http://imgur.com/a15q3.png | only png accepted')
         } else if (dataPart[2] == 'r') {
             if(channelUsersPrivileges[dataPart[0]] &&
                (channelUsersPrivileges[dataPart[0]][nick] === '&' || 
@@ -220,6 +267,15 @@ client.on('message', function(nick, to, text, message){
             }
         } else if (dataPart[0] == 'owners') {
             client.say(nick, 'Lista de owners: ' + configs.bigBoss)
+        } else if (dataPart[0] == 'avatar') {
+            const url = dataPart[0];
+            if(/(http(s?):)([\/|.|\w|\s|-])*\.(?:jpg|png)/.test(url)) {
+                avatarCustom[nick] = url;
+                avatarCache[user] = undefined;
+                client.say(nick, 'Avatar updated.');
+            } else {
+                client.say(nick, 'Invalid link.');
+            }
         } else if (dataPart[0] == 'join' && dataPart[1]) {
             client.join(dataPart[1]);
         }
