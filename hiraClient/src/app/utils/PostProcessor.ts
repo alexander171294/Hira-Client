@@ -97,6 +97,7 @@ export class PostProcessor {
     } else if (mod === '+') {
       out.status = UserStatuses.VOICE;
     }
+    console.log(user, out);
     return out;
   }
 

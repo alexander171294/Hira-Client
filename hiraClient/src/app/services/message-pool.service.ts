@@ -127,7 +127,6 @@ export class MessagePoolService {
         this.usersChanged.emit(ud);
       }
       if (data.me) {
-        // console.log('Leaving me', data);
         const cd = new ChatsDelta();
         cd.changeType = DeltaChangeTypes.DELETED;
         cd.chat = data.channel;
@@ -443,9 +442,14 @@ export class ServerInfo {
     if (!this.channelUsers[channel]) {
       this.channelUsers[channel] = [];
     }
-    if (this.channelUsers[channel].findIndex(u => u.nick === userMD.nick) === -1) {
+    const uidx = this.channelUsers[channel].findIndex(u => u.nick === userMD.nick);
+    if (uidx === -1) {
       this.channelUsers[channel].push(userMD);
       return true;
+    } else {
+      if (userMD.status) {
+        this.channelUsers[channel][uidx].status = userMD.status;
+      }
     }
     return false;
   }

@@ -54,6 +54,8 @@ export class AppComponent implements OnInit {
 
   intervals = {};
 
+  whoPuller = true;
+
   constructor(private ircproto: IRCProtocolService,
               private msgPool: MessagePoolService,
               private msgHdlr: MessageHandlerService) { }
@@ -112,7 +114,7 @@ export class AppComponent implements OnInit {
           // Check for Away
           this.ircproto.sendMessageOrCommand(chatsDelta.serverID, '/WHO ' + chatsDelta.chat);
           this.intervals[chatsDelta.chat] = setInterval(() => {
-            if ('#' + this.chatName === chatsDelta.chat) {
+            if ('#' + this.chatName === chatsDelta.chat && this.whoPuller) {
               this.ircproto.sendMessageOrCommand(chatsDelta.serverID, '/WHO ' + chatsDelta.chat);
             }
           }, environment.intervalWHO);
@@ -215,6 +217,10 @@ export class AppComponent implements OnInit {
   }
 
   send(command: string) {
+    if (command.trim() === '/nowhox') { // special command
+      this.whoPuller = false;
+      return;
+    }
     if (!this.isInServerLog) {
       let target;
       target = this.chatName;
