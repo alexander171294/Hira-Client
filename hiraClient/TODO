@@ -10,7 +10,6 @@ ignore
 
 == BUGS ==
 Copiar mensajes del chat
-Mutear
 Mensaje de anuncio de cambio de modo.
 
 == Port ==
@@ -20,3 +19,18 @@ Mensaje de anuncio de cambio de modo.
 Bug del names (??)
 
 canal fantasma sin nombre (pero creo que está solucionado)
+
+
+=== Lista de comandos ===
+
+/stop
+(para animación de evento)
+
+/nowhox
+(para el envio de mensajes que valida si hay away)
+
+/sound off (solo desktop)
+para las notificaciones por sonido
+
+/sound on (solo desktop)
+vuelve a activar las notificaciones

@@ -11,6 +11,7 @@ import { MessageHandlerService } from './services/message-handler.service';
 import { environment } from 'src/environments/environment';
 
 declare var electronApi: any;
+declare var GLB_electronConfig: any;
 
 @Component({
   selector: 'app-root',
@@ -217,8 +218,16 @@ export class AppComponent implements OnInit {
   }
 
   send(command: string) {
-    if (command.trim() === '/nowhox') { // special command
+    if (command === '/nowhox') { // special command
       this.whoPuller = false;
+      return;
+    }
+    if (command === '/sound off' && environment.electron) {
+      GLB_electronConfig.sound = false;
+      return;
+    }
+    if (command === '/sound on' && environment.electron) {
+      GLB_electronConfig.sound = true;
       return;
     }
     if (!this.isInServerLog) {
