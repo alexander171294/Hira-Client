@@ -2,6 +2,7 @@ import { UserStatusService } from './../../services/user-status.service';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { ParamParse } from 'src/app/utils/ParamParse';
 import { UserWithMetadata } from 'src/app/utils/PostProcessor';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-user-list',
@@ -14,6 +15,8 @@ export class UserListComponent implements OnInit {
   @Input() channelName: string;
   @Output() openPrivateChat: EventEmitter<string> = new EventEmitter<string>();
   embd: boolean;
+
+  public toolService = environment.toolService;
 
   constructor(public usSrv: UserStatusService) { }
 

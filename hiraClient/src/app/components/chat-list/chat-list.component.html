@@ -52,7 +52,7 @@
       <nav>
         <ul>
           <li class="channel md" *ngFor="let pc of privateChats" [class.active]="actualChat === pc && actualIsPrivateChat" (click)="activeChat(pc, true)">
-            <img src="https://avatars.dicebear.com/api/jdenticon/{{pc}}.svg?options[colorful]=1" />
+            <img [src]="toolService + 'avatar?usr=' + pc" />
             {{pc}}
             <span class="notification" *ngIf="notifications.privates[pc]" [class.mention]="notifications.privates[pc] == 'mentioned'"></span>
             <div class="close" (click)="close(pc)">

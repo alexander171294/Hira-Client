@@ -272,6 +272,7 @@ client.on('message', function(nick, to, text, message){
             if(/(http(s?):)([\/|.|\w|\s|-])*\.(?:jpg|png)/.test(url)) {
                 avatarCustom[nick] = url;
                 avatarCache[user] = undefined;
+                fs.writeFileSync('./dataStored/avatar-custom.json', JSON.stringify(avatarCustom));
                 client.say(nick, 'Avatar updated.');
             } else {
                 client.say(nick, 'Invalid link.');

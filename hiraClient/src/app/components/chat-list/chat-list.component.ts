@@ -28,6 +28,7 @@ export class ChatListComponent implements OnInit {
   embd: boolean;
 
   version = environment.version;
+  public toolService = environment.toolService;
 
   constructor() { }
 
