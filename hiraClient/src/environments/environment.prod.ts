@@ -9,7 +9,7 @@ export const environment = {
     dark: 'darkSkin',
     light: 'lightSkin'
   },
-  version: '1.0-RC3',
+  version: '1.0-RC4',
   default: {
     name: 'Hira.li',
     server: 'kappa.hira.li',
