@@ -4,7 +4,6 @@
 - Canales favoritos
 - search and join button.
 - emoticones Canal/Globales
-- foto de perfil customizable
 
 == RC3 ==
 ignore
@@ -12,10 +11,12 @@ ignore
 == BUGS ==
 Copiar mensajes del chat
 Mutear
-tunnelear api de avatar: https://jdenticon.com/#quick-start-node-js
-Bug del names
 Mensaje de anuncio de cambio de modo.
-Canal fantasma sin nombre
 
 == Port ==
 * Ionic client.
+
+== No reproducibles ==
+Bug del names (??)
+
+canal fantasma sin nombre (pero creo que está solucionado)

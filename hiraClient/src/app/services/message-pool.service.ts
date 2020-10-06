@@ -477,6 +477,9 @@ export class ServerInfo {
 
   public addChannel(channel: string) {
     channel = channel[0] === '#' ? channel.slice(1) : channel;
+    if (channel.length === 0) {
+      return;
+    }
     if (this.channels.findIndex(c => c === channel) === -1) {
       if (!this.channelMessages[channel]) {
         this.channelMessages[channel] = [];
