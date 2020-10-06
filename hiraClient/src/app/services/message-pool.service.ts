@@ -368,6 +368,10 @@ export class MessagePoolService {
       this.chatsChanged.emit(cd);
     }
   }
+
+  public removePrivateChat(serverID: string, user: string) {
+    this.serversInfo[serverID].removePrivateChat(user);
+  }
 }
 
 export class ServerInfoHash {

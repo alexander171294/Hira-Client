@@ -253,4 +253,12 @@ export class AppComponent implements OnInit {
   doLeave(channel: string) {
     this.ircproto.sendMessageOrCommand(this.actualServerID, '/leave ' + channel);
   }
+
+  doClose(pc: string) {
+    if (this.chatName === pc && this.chatType === CBoxChatTypes.PRIVMSG) {
+      this.selectServer();
+      this.msgPool.removePrivateChat(this.actualServerID, pc);
+      this.privateChats = this.msgPool.getPrivateChats(this.actualServerID);
+    }
+  }
 }

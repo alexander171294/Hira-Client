@@ -101,6 +101,11 @@ aside {
             cursor: pointer;
             display: none;
           }
+          &.md {
+            .close {
+              top: 14px;
+            }
+          }
           svg {
             width: 15px;
             vertical-align: middle;
