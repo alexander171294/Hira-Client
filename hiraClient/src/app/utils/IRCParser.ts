@@ -305,7 +305,8 @@ export class IRCParser {
 
     if (parsedMessage.code === 'JOIN') {
       // :Harko!~Harkolandia@harkonidaz.irc.tandilserver.com JOIN :#SniferL4bs
-      const channel = parsedMessage.message;
+      // console.log('Join parser', parsedMessage);
+      const channel = parsedMessage.message ? parsedMessage.message : parsedMessage.target;
       const user = parsedMessage.simplyOrigin;
       const fullUser = parsedMessage.origin;
       const userMsg = parsedMessage.origin.nick + ' (' + parsedMessage.origin.identitity + '@' + parsedMessage.origin.server + ') Joining';

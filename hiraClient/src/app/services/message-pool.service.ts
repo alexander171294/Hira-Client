@@ -287,6 +287,9 @@ export class MessagePoolService {
   }
 
   private addChannelMessage(serverID, channel, message: ProcessedMessage<IRCMessageDTO | UserJoiningDTO | UserLeavingDTO | NickChangedDTO | string>) {
+    if (!channel) {
+      return;
+    }
     const newChat = this.serversInfo[serverID].addChannelMessage(channel, message);
     if (newChat) {
       const cd = new ChatsDelta();
