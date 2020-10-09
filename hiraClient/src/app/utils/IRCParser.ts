@@ -1,4 +1,4 @@
-import { MessageWithMetadata, PostProcessor } from '../utils/PostProcessor';
+import { MessageWithMetadata } from '../utils/PostProcessor';
 
 export class IRCParser {
   public static parseMessage(message: string): IRCMessage[] {
@@ -75,6 +75,7 @@ export class IRCParser {
                   ChannelTopicDTO |
                   IRCMessage |
                   KickedDTO |
+                  ChannelListDTO |
                   ModeChangeDTO // raw for server messages
                   > {
     const msg = new IRCMessage();
@@ -118,6 +119,23 @@ export class IRCParser {
       out.data = {
         channel,
         users
+      };
+      return out;
+    }
+
+    // 321 inicio lista de canales (borrar)
+    if (parsedMessage.code === '321') {
+      const out = new ProcessedMessage<string>();
+      out.messageType = MessageTypes.CLEAN_CHANNEL_LIST;
+      return out;
+    }
+    // 322 canal de lista de canales
+    if (parsedMessage.code === '322') {
+      const out = new ProcessedMessage<ChannelListDTO>();
+      out.messageType = MessageTypes.CHANNEL_LIST_APPEND;
+      out.data = {
+        name: parsedMessage.partials[3],
+        description: parsedMessage.body
       };
       return out;
     }
@@ -434,12 +452,19 @@ export enum MessageTypes {
   BAN = 'BAN',
   BOUNCER = 'BOUNCER', // for server /PASS command connect.
   WHO_DATA = 'WHO_DATA',
-  IM_BANNED = 'IM_BANNED'
+  IM_BANNED = 'IM_BANNED',
+  CLEAN_CHANNEL_LIST = 'CLEAN_CHANNEL_LIST',
+  CHANNEL_LIST_APPEND = 'CHANNEL_LIST_APPEND'
 }
 
 export interface ChannelTopicDTO {
   channel: string;
   topic: string;
+}
+
+export interface ChannelListDTO {
+  name: string;
+  description: string;
 }
 
 export interface ChannelUsersDTO {

@@ -10,7 +10,7 @@ import {  ProcessedMessage,
           IRCMessage,
           ChannelTopicDTO,
           ModeChangeDTO,
-          KickedDTO } from '../utils/IRCParser';
+          KickedDTO, ChannelListDTO } from '../utils/IRCParser';
 import { PostProcessor, UserWithMetadata, UserStatuses } from '../utils/PostProcessor';
 import { LogService } from './log.service';
 import { environment } from 'src/environments/environment';
@@ -43,7 +43,8 @@ export class MessagePoolService {
                                                    IRCMessage |
                                                    ChannelTopicDTO |
                                                    KickedDTO |
-                                                   ModeChangeDTO>,
+                                                   ModeChangeDTO |
+                                                   ChannelListDTO>,
                          serverID: string) {
     if (!this.serversInfo[serverID]) {
       this.serversInfo[serverID] = new ServerInfo();

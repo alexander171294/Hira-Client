@@ -7,7 +7,6 @@
 
 == RC5 ==
 ignore
-/list
 
 == BUGS ==
 Copiar mensajes del chat
@@ -18,8 +17,6 @@ Mensaje de anuncio de cambio de modo.
 
 == No reproducibles ==
 Bug del names (??)
-
-canal fantasma sin nombre (pero creo que está solucionado)
 
 
 === Lista de comandos ===
