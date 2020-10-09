@@ -5,7 +5,7 @@
 - search and join button.
 - emoticones Canal/Globales
 
-== RC3 ==
+== RC5 ==
 ignore
 
 == BUGS ==
@@ -17,8 +17,6 @@ Mensaje de anuncio de cambio de modo.
 
 == No reproducibles ==
 Bug del names (??)
-
-canal fantasma sin nombre (pero creo que está solucionado)
 
 
 === Lista de comandos ===

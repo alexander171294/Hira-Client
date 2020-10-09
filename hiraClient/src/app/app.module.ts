@@ -11,6 +11,7 @@ import { RouterModule } from '@angular/router';
 import { SafePipe } from './utils/safe.pipe';
 import { LinkVcardComponent } from './components/link-vcard/link-vcard.component';
 import { HttpClientModule } from '@angular/common/http';
+import { ChannelListComponent } from './components/channel-list/channel-list.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { HttpClientModule } from '@angular/common/http';
     ChatBoxComponent,
     ServerBoxComponent,
     SafePipe,
-    LinkVcardComponent
+    LinkVcardComponent,
+    ChannelListComponent
   ],
   imports: [
     BrowserModule,

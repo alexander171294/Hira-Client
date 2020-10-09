@@ -4,6 +4,7 @@ import { MessageHandlerService, MessageData, ErrorData } from './message-handler
 import { IRCParser, MessageTypes, ProcessedMessage, IRCMessageDTO, IRCMessage, NickChangedDTO } from '../utils/IRCParser';
 import { ServersHdlrService, ServerDataConnected } from './servers-hdlr.service';
 import { MessagePoolService } from './message-pool.service';
+import { ChannellistsService } from './channellists.service';
 
 declare var stopEff;
 
@@ -14,7 +15,8 @@ export class IRCProtocolService {
 
   constructor(private msgHdlr: MessageHandlerService,
               private srvHdlr: ServersHdlrService,
-              private msgPool: MessagePoolService) {
+              private msgPool: MessagePoolService,
+              private chlList: ChannellistsService) {
     this.msgHdlr.onError.subscribe((err: ErrorData) => {
       console.error('IRCProtocolService:: error detected -> ', err);
       msgPool.clear(err.server.id);
@@ -48,6 +50,14 @@ export class IRCProtocolService {
     IRCParser.parseMessage(msgData.message).forEach(parsedMessage => {
       const pMsg = IRCParser.processMessage(parsedMessage, msgData.message, msgData.server.actualNick);
       if (!pMsg) {
+        return;
+      }
+      if (pMsg.messageType === MessageTypes.CLEAN_CHANNEL_LIST) {
+        this.chlList.clearChannel();
+        return;
+      }
+      if (pMsg.messageType === MessageTypes.CHANNEL_LIST_APPEND) {
+        this.chlList.addChannel(pMsg.data as any);
         return;
       }
       // Sección reactiva (poner aquí las respuestas automatizadas a ciertos cambios) //

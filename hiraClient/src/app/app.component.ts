@@ -9,6 +9,7 @@ import { ParamParse } from './utils/ParamParse';
 import { UserWithMetadata } from './utils/PostProcessor';
 import { MessageHandlerService } from './services/message-handler.service';
 import { environment } from 'src/environments/environment';
+import { ChannellistsService } from './services/channellists.service';
 
 declare var electronApi: any;
 declare var GLB_electronConfig: any;
@@ -52,6 +53,7 @@ export class AppComponent implements OnInit {
   canalKickeado: string;
   advertenciaKickeado: boolean;
   cambiarNickPopup: boolean;
+  channelListPopup: boolean;
 
   intervals = {};
 
@@ -59,7 +61,8 @@ export class AppComponent implements OnInit {
 
   constructor(private ircproto: IRCProtocolService,
               private msgPool: MessagePoolService,
-              private msgHdlr: MessageHandlerService) { }
+              private msgHdlr: MessageHandlerService,
+              private chlLst: ChannellistsService) { }
 
   ngOnInit(): void {
     ParamParse.parseHash(window.location.hash.slice(1));
@@ -180,6 +183,9 @@ export class AppComponent implements OnInit {
       this.connectPopup = true;
       this.connectionError = true;
     });
+    this.chlLst.onCleared.subscribe(() => {
+      this.channelListPopup = true;
+    });
   }
 
   changeChat(cd: ChatData) {
@@ -274,6 +280,13 @@ export class AppComponent implements OnInit {
       this.selectServer();
       this.msgPool.removePrivateChat(this.actualServerID, pc);
       this.privateChats = this.msgPool.getPrivateChats(this.actualServerID);
+    }
+  }
+
+  closeChlList(channel: string) {
+    this.channelListPopup = false;
+    if (channel) {
+      this.send('/join ' + channel);
     }
   }
 }

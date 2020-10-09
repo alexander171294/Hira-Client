@@ -43,6 +43,7 @@ export class ServerBoxComponent implements OnInit {
     if (!this.servers) {
       this.servers = [];
     }
+    this.servers = this.servers.filter(server => server.name !== 'Autoconfig');
     if (!environment.production) {
       this.apodo = 'Zetta007';
       this.apodoSecundario = 'harkonidaz_tst02';
