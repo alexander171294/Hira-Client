@@ -14,7 +14,7 @@ export const environment = {
     dark: 'darkSkin',
     light: 'lightSkin'
   },
-  version: '1.0-RC4',
+  version: '1.0-RC5',
   default: {
     name: 'Hira.li',
     server: 'kappa.hira.li',
