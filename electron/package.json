@@ -21,7 +21,7 @@
     "productName": "Hira Client",
     "win": {
       "target": [
-        "portable"
+        "nsis"
       ],
       "icon": "resources/icon.ico"
     },
