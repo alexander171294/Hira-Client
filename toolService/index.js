@@ -225,7 +225,7 @@ client.on('message', function(nick, to, text, message){
             client.say(nick, '/hc #canal userNick r RangoNombre #aaa | dar rango en un canal a un usuario');
             client.say(nick, '/hc userNick g RangoNombre #aaa | dar rango global a un usuario');
             client.say(nick, '/hc owners')
-            client.say(nick, '/hc avatar http://imgur.com/a15q3.png | only png accepted')
+            client.say(nick, '/hc avatar http:/imgur.com/a15q3.png | only png accepted')
         } else if (dataPart[2] == 'r') {
             if(channelUsersPrivileges[dataPart[0]] &&
                (channelUsersPrivileges[dataPart[0]][nick] === '&' || 
@@ -268,10 +268,11 @@ client.on('message', function(nick, to, text, message){
         } else if (dataPart[0] == 'owners') {
             client.say(nick, 'Lista de owners: ' + configs.bigBoss)
         } else if (dataPart[0] == 'avatar') {
-            const url = dataPart[0];
-            if(/(http(s?):)([\/|.|\w|\s|-])*\.(?:jpg|png)/.test(url)) {
+            const url = dataPart[1];
+            const imageLink = /(http(s?):)([\/|.|\w|\s|-])*\.(?:jpg|png)/.exec(url);
+            if(imageLink) {
                 avatarCustom[nick] = url;
-                avatarCache[user] = undefined;
+                avatarCache[nick] = undefined;
                 fs.writeFileSync('./dataStored/avatar-custom.json', JSON.stringify(avatarCustom));
                 client.say(nick, 'Avatar updated.');
             } else {
