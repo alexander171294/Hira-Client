@@ -11,6 +11,7 @@ import { MessageHandlerService } from './services/message-handler.service';
 import { environment } from 'src/environments/environment';
 
 declare var electronApi: any;
+declare var GLB_electronConfig: any;
 
 @Component({
   selector: 'app-root',
@@ -53,6 +54,8 @@ export class AppComponent implements OnInit {
   cambiarNickPopup: boolean;
 
   intervals = {};
+
+  whoPuller = true;
 
   constructor(private ircproto: IRCProtocolService,
               private msgPool: MessagePoolService,
@@ -112,7 +115,7 @@ export class AppComponent implements OnInit {
           // Check for Away
           this.ircproto.sendMessageOrCommand(chatsDelta.serverID, '/WHO ' + chatsDelta.chat);
           this.intervals[chatsDelta.chat] = setInterval(() => {
-            if ('#' + this.chatName === chatsDelta.chat) {
+            if ('#' + this.chatName === chatsDelta.chat && this.whoPuller) {
               this.ircproto.sendMessageOrCommand(chatsDelta.serverID, '/WHO ' + chatsDelta.chat);
             }
           }, environment.intervalWHO);
@@ -215,6 +218,18 @@ export class AppComponent implements OnInit {
   }
 
   send(command: string) {
+    if (command === '/nowhox') { // special command
+      this.whoPuller = false;
+      return;
+    }
+    if (command === '/sound off' && environment.electron) {
+      GLB_electronConfig.sound = false;
+      return;
+    }
+    if (command === '/sound on' && environment.electron) {
+      GLB_electronConfig.sound = true;
+      return;
+    }
     if (!this.isInServerLog) {
       let target;
       target = this.chatName;
@@ -252,5 +267,13 @@ export class AppComponent implements OnInit {
 
   doLeave(channel: string) {
     this.ircproto.sendMessageOrCommand(this.actualServerID, '/leave ' + channel);
+  }
+
+  doClose(pc: string) {
+    if (this.chatName === pc && this.chatType === CBoxChatTypes.PRIVMSG) {
+      this.selectServer();
+      this.msgPool.removePrivateChat(this.actualServerID, pc);
+      this.privateChats = this.msgPool.getPrivateChats(this.actualServerID);
+    }
   }
 }

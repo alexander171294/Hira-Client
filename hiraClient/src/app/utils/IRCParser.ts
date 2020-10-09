@@ -191,7 +191,7 @@ export class IRCParser {
       out.messageType = MessageTypes.PRIV_MSG;
       out.data = {
         author: parsedMessage.partials[3],
-        message: parsedMessage.message,
+        message: ': Ausente (' + parsedMessage.message + ')',
         meAction: true,
         specialAction: true
       };

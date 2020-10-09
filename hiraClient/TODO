@@ -1,9 +1,51 @@
+== Features ==
+
 - butcoins?
 - Canales favoritos
 - search and join button.
 - emoticones Canal/Globales
 
+== RC3 ==
+ignore
+
+== BUGS ==
+Copiar mensajes del chat
+Mensaje de anuncio de cambio de modo.
+
+== Port ==
 * Ionic client.
 
- - RC3 -
-ignore
+== No reproducibles ==
+Bug del names (??)
+
+canal fantasma sin nombre (pero creo que está solucionado)
+
+
+=== Lista de comandos ===
+
+/stop
+(para animación de evento)
+
+/nowhox
+(para el envio de mensajes que valida si hay away)
+
+/sound off (solo desktop)
+para las notificaciones por sonido
+
+/sound on (solo desktop)
+vuelve a activar las notificaciones
+
+/hc join #channel
+para unir el hira client a un canal.
+
+/hc owners
+para ver la lista de usuarios habilitados
+
+/hc #canal userNick r RangoNombre #aaa
+da a un user el rango en un canal, RangoNombre es el nombre del rango y #aaa es el color en hexadecimal.
+
+/hc userNick g RangoNombre #aaa
+de un rango en todos los canales a un userNick (solo para owners).
+
+/hc avatar http://image.png
+cambia tu avatar por el de la url.

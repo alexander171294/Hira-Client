@@ -20,6 +20,7 @@ export class ChatListComponent implements OnInit {
   @Output() changeNick: EventEmitter<void> = new EventEmitter<void>();
   @Output() openServerCFG: EventEmitter<void> = new EventEmitter<void>();
   @Output() doLeave: EventEmitter<string> = new EventEmitter<string>();
+  @Output() doClosePC: EventEmitter<string> = new EventEmitter<string>();
 
   @Input() notifications: NotificationsChats;
 
@@ -27,6 +28,7 @@ export class ChatListComponent implements OnInit {
   embd: boolean;
 
   version = environment.version;
+  public toolService = environment.toolService;
 
   constructor() { }
 
@@ -56,6 +58,10 @@ export class ChatListComponent implements OnInit {
 
   leave(channel) {
     this.doLeave.emit('#' + channel);
+  }
+
+  close(privateChat) {
+    this.doClosePC.emit(privateChat);
   }
 
   invertTheme() {

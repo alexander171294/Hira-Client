@@ -170,6 +170,8 @@ main {
           }
           &.special {
             color: var(--cbox-message-action-me-color-special);
+            font-size: 12px;
+            margin: -5px;
           }
         }
         &.mentioned {
@@ -272,7 +274,7 @@ main {
       font-family: Helvetica;
       font-size: 15px;
       outline: none;
-      width: calc(100% - 4vw);
+      width: calc(100% - 4vw - 30px);
       background: transparent;
       color: var(--cbox-color)
     }

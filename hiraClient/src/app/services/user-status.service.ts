@@ -27,6 +27,7 @@ export class UserStatusService {
   public processAndUpdateUsers(users: string[]): UserWithMetadata[] {
     const out: UserWithMetadata[] = [];
     users.forEach(user => {
+      console.log('PaU');
       const userMD = PostProcessor.processUserMetadata(user);
       this.updateUser(userMD);
       out.push(userMD);
@@ -79,7 +80,6 @@ export class UserStatusService {
     if (!this.cr[channel][user]) {
       this.cr[channel][user] = new CustomR();
     }
-    // console.log('REFRESH CR', user, channel);
     this.getFromBECR(user, channel);
   }
 

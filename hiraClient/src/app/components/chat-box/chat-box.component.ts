@@ -31,6 +31,8 @@ export class ChatBoxComponent implements OnInit {
   public quoteAuthor: string;
   public quoteMessage: string;
 
+  public toolService = environment.toolService;
+
   constructor(private vcg: VcardGetterService, public usSrv: UserStatusService, private historySrv: HistoryMessageCursorService) { }
 
   ngOnInit(): void {

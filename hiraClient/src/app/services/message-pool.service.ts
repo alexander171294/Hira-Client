@@ -127,7 +127,6 @@ export class MessagePoolService {
         this.usersChanged.emit(ud);
       }
       if (data.me) {
-        // console.log('Leaving me', data);
         const cd = new ChatsDelta();
         cd.changeType = DeltaChangeTypes.DELETED;
         cd.chat = data.channel;
@@ -368,6 +367,10 @@ export class MessagePoolService {
       this.chatsChanged.emit(cd);
     }
   }
+
+  public removePrivateChat(serverID: string, user: string) {
+    this.serversInfo[serverID].removePrivateChat(user);
+  }
 }
 
 export class ServerInfoHash {
@@ -439,9 +442,14 @@ export class ServerInfo {
     if (!this.channelUsers[channel]) {
       this.channelUsers[channel] = [];
     }
-    if (this.channelUsers[channel].findIndex(u => u.nick === userMD.nick) === -1) {
+    const uidx = this.channelUsers[channel].findIndex(u => u.nick === userMD.nick);
+    if (uidx === -1) {
       this.channelUsers[channel].push(userMD);
       return true;
+    } else {
+      if (userMD.status) {
+        this.channelUsers[channel][uidx].status = userMD.status;
+      }
     }
     return false;
   }
@@ -469,6 +477,9 @@ export class ServerInfo {
 
   public addChannel(channel: string) {
     channel = channel[0] === '#' ? channel.slice(1) : channel;
+    if (channel.length === 0) {
+      return;
+    }
     if (this.channels.findIndex(c => c === channel) === -1) {
       if (!this.channelMessages[channel]) {
         this.channelMessages[channel] = [];
