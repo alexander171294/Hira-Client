@@ -10,7 +10,10 @@ ignore
 
 == BUGS ==
 Copiar mensajes del chat
-Mensaje de anuncio de cambio de modo.
+Mensajes vacíos
+Cuando chanserv cambia un modo no impacta ni se ve el mensaje.
+emoticono de abrazo, la roza y el zorro del ppto.
+El primer mensaje despues de cambio de nick no llega solo se abre la pestaña-
 
 == Port ==
 * Ionic client.
