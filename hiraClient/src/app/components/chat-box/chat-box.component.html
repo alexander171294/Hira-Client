@@ -20,7 +20,8 @@
   </header>
   <section id="cboxMessages"
   (drop)="onDrop($event)"
-  (dragover)="onDragOver($event)">
+  (dragover)="onDragOver($event)"
+  (scroll)="onScroll($event)">
     <div class="messageItem" *ngFor="let message of messages" [class.server]="message.messageType === 'SERVER'" [class.notice]="message.messageType === 'NOTICE'" [class.embedded]="embd">
       <div style="display: none;">
         {{dumpMessage(message)}}
@@ -104,6 +105,7 @@
         </div>
       </div>
     </div>
+    <div class="infoNewMessages" *ngIf="scrollLocked && newMessages" (click)="forceBottom()">Nuevos mensajes, baje para verlos.</div>
   </section>
   <footer
   (drop)="onDrop($event)"

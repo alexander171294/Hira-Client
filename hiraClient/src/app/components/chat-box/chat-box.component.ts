@@ -34,6 +34,8 @@ export class ChatBoxComponent implements OnInit {
   public toolService = environment.toolService;
 
   public copied = false;
+  public scrollLocked = false;
+  public newMessages = false;
 
   constructor(private vcg: VcardGetterService, public usSrv: UserStatusService, private historySrv: HistoryMessageCursorService) { }
 
@@ -58,14 +60,33 @@ export class ChatBoxComponent implements OnInit {
     }
   }
 
+  onScroll(evt) {
+    const cbox = document.getElementById('cboxMessages');
+    if (cbox.scrollTop + cbox.clientHeight !== cbox.scrollHeight) {
+      this.scrollLocked = true;
+    } else {
+      this.scrollLocked = false;
+      this.newMessages = false;
+    }
+  }
+
   goBottom() {
-    setTimeout(el => {
-      const cbox = document.getElementById('cboxMessages');
-      cbox.scrollTop = cbox.scrollHeight;
-    }, 100);
+    this.newMessages = true;
+    if (!this.scrollLocked) {
+      setTimeout(el => {
+        const cbox = document.getElementById('cboxMessages');
+        cbox.scrollTop = cbox.scrollHeight;
+      }, 100);
+    }
+  }
+
+  forceBottom() {
+    const cbox = document.getElementById('cboxMessages');
+    cbox.scrollTop = cbox.scrollHeight;
   }
 
   send(evt) {
+    this.scrollLocked = false;
     if (evt.keyCode === 13) {
       let commandOrMessage = evt.srcElement.value.trim();
       if (commandOrMessage.length < 1) {

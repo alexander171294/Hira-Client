@@ -98,7 +98,8 @@ body {
 
   // main box:
   --cbox-background: linear-gradient(170deg, #eff2f5, #e7e9ef);
-  --cbox-color: #e9ebf0;
+  --cbox-color: black;
+  --cbox-input-color: #e9ebf0;
   --cbox-header-background: #212429;
   --cbox-header-main-color: white;
   --cbox-header-color: #797a7d;
@@ -156,6 +157,7 @@ body {
 .darkSkin {
   --cbox-background: #1f1f1f;
   --cbox-color: #a6a6a6;
+  --cbox-input-color: var(--cbox-color);
   --cbox-message-time: #afafaf;
   --cbox-quote-background: #0e0e0e;
   --cbox-quote-border: #676666;
