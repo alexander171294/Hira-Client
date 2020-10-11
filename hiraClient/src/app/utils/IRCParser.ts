@@ -1,4 +1,4 @@
-import { MessageWithMetadata } from '../utils/PostProcessor';
+import { MessageWithMetadata, UserStatuses } from '../utils/PostProcessor';
 
 export class IRCParser {
   public static parseMessage(message: string): IRCMessage[] {
@@ -47,7 +47,7 @@ export class IRCParser {
   }
 
   public static WHOUserParser(message: string) {
-    return /:([^\s]+)\s([0-9]+)\s([^\s]+)\s([^\s]+)\s([^\s]+)\s([^\s]+)\s([^\s]+)\s([^\s]+)\s(H|G)(\*?)/.exec(message);
+    return /:([^\s]+)\s([0-9]+)\s([^\s]+)\s([^\s]+)\s([^\s]+)\s([^\s]+)\s([^\s]+)\s([^\s]+)\s(H|G)(\*?)(\~|\&|\@|\%|\+)/.exec(message);
     /*
       grups:
       1: server
@@ -60,6 +60,7 @@ export class IRCParser {
       8: Nick
       9: H or G if is away
       10: * if is NET OP
+      11: mode in channel
     */
   }
 
@@ -98,13 +99,26 @@ export class IRCParser {
       if (data) {
         const out = new ProcessedMessage<any>();
         out.messageType = MessageTypes.WHO_DATA;
+        const mod = data[11];
         out.data = {
           serverFrom: data[7],
           nick: data[8],
           isAway: data[9] === 'G',
           isNetOp: data[10] === '*',
-          rawMsg: rawMessage
+          rawMsg: rawMessage,
+          mode: data[11]
         };
+        if (mod === '~') {
+          out.data.mode = UserStatuses.FOUNDER;
+        } else if (mod === '&') {
+          out.data.mode = UserStatuses.NET_OPERATOR;
+        } else if (mod === '@') {
+          out.data.mode = UserStatuses.OPERATOR;
+        } else if (mod === '%') {
+          out.data.mode = UserStatuses.HALF_OPERATOR;
+        } else if (mod === '+') {
+          out.data.mode = UserStatuses.VOICE;
+        }
         return out;
       } else {
         console.error('BAD WHO RESPONSE PARSED: ', rawMessage, data);

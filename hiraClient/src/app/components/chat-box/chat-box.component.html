@@ -92,7 +92,12 @@
       </div>
       <div class="banMSG" *ngIf="message.messageType === 'BAN'">
         <div class="messageBody">
-          Se aplicó ban a {{message.data}} <img src="assets/door.jpg" class="notifyDecoration"/>
+          Se aplicó ban a {{message.data}}
+        </div>
+      </div>
+      <div class="changeNickMSG" *ngIf="message.messageType === 'MODE_CHANGE'">
+        <div class="messageBody">
+          {{message.data}}
         </div>
       </div>
       <div class="changeNickMSG" *ngIf="message.messageType === 'NICK_CHANGED' && !embd">

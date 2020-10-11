@@ -19,9 +19,6 @@ export class LogService {
 
   public addLog(target: string, message: IRCMessageDTO) {
     let logs = JSON.parse(localStorage.getItem(target));
-    // if (message.richMessage) {
-    //   delete message.message;
-    // }
     if (!message.date) {
       message.date = IRCParser.getDateStr();
       message.time = IRCParser.getTime();

@@ -208,6 +208,9 @@ export class MessagePoolService {
       userMD.away = data.isAway;
       userMD.isNetOp = data.isNetOp;
       userMD.serverConnected = data.serverFrom;
+      if (data.mode) {
+        userMD.status = data.mode;
+      }
     }
     // only for changes
     if (message.messageType === MessageTypes.CHANNEL_USERS) {
@@ -252,9 +255,16 @@ export class MessagePoolService {
       }
       if (data.channel !== data.target) {
         data.channel = data.channel[0] === '#' ? data.channel.slice(1) : data.channel;
+        data.target = data.target[0] === ':' ? data.target.slice(1) : data.target;
         const ufinded = this.serversInfo[serverID].channelUsers[data.channel].find(user => user.nick === data.target);
         if (ufinded) {
           ufinded.status = realMode;
+          const pp = new ProcessedMessage<string>();
+          pp.messageType = MessageTypes.MODE_CHANGE;
+          pp.data = data.modeAdded ?
+                    'Se aplicó el modo ' + data.mode + ' a ' + data.target :
+                    'Se quitó el modo ' + data.mode + ' a ' + data.target;
+          this.addChannelMessage(serverID, data.channel, pp);
         } else if (data.mode[0] === 'b') { // ban
           const pp = new ProcessedMessage<string>();
           pp.messageType = MessageTypes.BAN;
