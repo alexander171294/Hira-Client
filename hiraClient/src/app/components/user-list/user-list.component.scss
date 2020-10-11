@@ -74,7 +74,8 @@ aside {
         }
         img {
           vertical-align: middle;
-          width: 30px;
+          max-width: 30px;
+          max-height: 30px;
           margin-right: 4px;
         }
         .badge {
