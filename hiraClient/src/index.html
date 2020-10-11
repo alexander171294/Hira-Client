@@ -30,6 +30,8 @@
     function startEventEffect() {
       if (!effectActive) {
         snowStorm.snowStick = false;
+        snowStorm.flakesMax = 64;
+        snowStorm.flakesMaxActive = snowStorm.flakesMax/2;
         snowStorm.start(true, ['assets/eess/star.png']);
         effectActive = true;
         setTimeout(() => {
