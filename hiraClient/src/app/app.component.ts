@@ -225,8 +225,11 @@ export class AppComponent implements OnInit {
   }
 
   send(command: string) {
+    if (command.indexOf('/query') === 0) {
+      this.openPrivateChat(command.split(' ')[1]);
+      return;
+    }
     if (command === '/clear') {
-      console.log('clearing', this.chatName);
       if (this.chatType === CBoxChatTypes.CHANNEL) {
         this.msgPool.clearChannel(this.actualServerID, this.chatName);
         this.messages = this.msgPool.getChannelMessages(this.actualServerID, this.chatName);
