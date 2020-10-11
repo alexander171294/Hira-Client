@@ -213,7 +213,8 @@ export class IRCParser {
         meAction: true,
         specialAction: true,
         time: IRCParser.getTime(),
-        date: IRCParser.getDateStr()
+        date: IRCParser.getDateStr(),
+        notifyAction: false
       };
       return out;
     }
@@ -225,7 +226,8 @@ export class IRCParser {
         author: parsedMessage.partials[3],
         message: ': Ausente (' + parsedMessage.message + ')',
         meAction: true,
-        specialAction: true
+        specialAction: true,
+        notifyAction: false
       };
       out.data.time = IRCParser.getTime();
       out.data.date = IRCParser.getDateStr();
@@ -270,10 +272,25 @@ export class IRCParser {
     }
 
     if (parsedMessage.code === 'NOTICE') {
-      const out = new ProcessedMessage<IRCMessage>();
-      out.messageType = MessageTypes.NOTICE;
-      out.data = parsedMessage;
-      return out;
+      if (parsedMessage.simplyOrigin && parsedMessage.simplyOrigin !== '*status' && parsedMessage.target[0] === '#') {
+        const out = new ProcessedMessage<IRCMessageDTO>();
+        out.messageType = MessageTypes.CHANNEL_MSG;
+        out.data = {
+          author: parsedMessage.simplyOrigin,
+          channel: parsedMessage.target,
+          message: parsedMessage.message,
+          meAction: false,
+          notifyAction: true
+        };
+        out.data.time = IRCParser.getTime();
+        out.data.date = IRCParser.getDateStr();
+        return out;
+      } else {
+        const out = new ProcessedMessage<IRCMessage>();
+        out.messageType = MessageTypes.NOTICE;
+        out.data = parsedMessage;
+        return out;
+      }
     }
 
     if (parsedMessage.code === '332') {
@@ -361,13 +378,15 @@ export class IRCParser {
         out.data = {
           author: parsedMessage.simplyOrigin,
           message:  meMsg[1],
-          meAction: true
+          meAction: true,
+          notifyAction: false
         };
       } else {
         out.data = {
           author: parsedMessage.simplyOrigin,
           message: parsedMessage.message,
-          meAction: false
+          meAction: false,
+          notifyAction: false
         };
       }
       out.data.time = IRCParser.getTime();
@@ -524,6 +543,7 @@ export interface IRCMessageDTO {
   message: string;
   richMessage?: MessageWithMetadata;
   meAction: boolean;
+  notifyAction: boolean;
   specialAction?: boolean;
   time?: string;
   date?: string;

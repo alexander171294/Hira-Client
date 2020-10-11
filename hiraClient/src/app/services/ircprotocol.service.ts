@@ -193,6 +193,7 @@ export class IRCProtocolService {
         author: serverConnected.actualNick,
         message: command,
         meAction,
+        notifyAction: false,
         channel: target,
         date: IRCParser.getDateStr(),
         time: IRCParser.getTime()
@@ -203,6 +204,7 @@ export class IRCProtocolService {
         author: target,
         message: command,
         meAction,
+        notifyAction: false,
         privateAuthor: serverConnected.actualNick,
         date: IRCParser.getDateStr(),
         time: IRCParser.getTime()

@@ -32,7 +32,7 @@
         </nav>
         <img *ngIf="!message.data.privateAuthor && !message.data.meAction" [src]="toolService + 'avatar?usr=' + message.data.author" />
         <img *ngIf="message.data.privateAuthor && !message.data.meAction" [src]="toolService + 'avatar?usr=' + message.data.privateAuthor" />
-        <div class="messageBody" [class.mentioned]="message.data.mention" *ngIf="!message.data.meAction">
+        <div class="messageBody" [class.mentioned]="message.data.mention" *ngIf="!message.data.meAction && !message.data.notifyAction">
           <div class="author" *ngIf="!message.data.privateAuthor" (click)="openPrivate(message.data.author)">{{message.data.author}}<span class="hs">{{message.data.date}} {{message.data.time}}</span></div>
           <div class="author" *ngIf="message.data.privateAuthor">{{message.data.privateAuthor}}<span class="hs">{{message.data.date}} {{message.data.time}}</span></div>
           <div class="quote" *ngIf="message.data.richMessage?.quote">
@@ -52,9 +52,16 @@
           <iframe *ngIf="message.data.richMessage?.youtube" width="560" height="315" [src]="'https://www.youtube.com/embed/' + message.data.richMessage.youtube | safe: 'resourceUrl'" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
           <app-link-vcard *ngIf="message.data.richMessage?.link" [link]="message.data.richMessage.link"></app-link-vcard>
         </div>
-        <div class="messageBody actionOrigin" *ngIf="message.data.meAction" [class.special]="message.data.specialAction">
+        <div class="messageBody actionOrigin" *ngIf="message.data.meAction && !message.data.notifyAction" [class.special]="message.data.specialAction">
           <span *ngIf="!message.data.privateAuthor">{{message.data.author}}</span>
           <span *ngIf="message.data.privateAuthor">{{message.data.privateAuthor}}</span>
+          <span>
+            {{message.data.message}}
+          </span>
+        </div>
+        <div class="messageBody actionNotify" *ngIf="!message.data.meAction && message.data.notifyAction">
+          <div class="author" *ngIf="!message.data.privateAuthor">{{message.data.author}} <span class="hs">{{message.data.date}} {{message.data.time}}</span></div>
+          <div class="author" *ngIf="message.data.privateAuthor">{{message.data.privateAuthor}} <span class="hs">{{message.data.date}} {{message.data.time}}</span></div>
           <span>
             {{message.data.message}}
           </span>
