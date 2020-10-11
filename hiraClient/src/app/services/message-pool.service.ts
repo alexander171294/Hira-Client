@@ -53,7 +53,9 @@ export class MessagePoolService {
     if (message.messageType === MessageTypes.PRIV_MSG) {
       const data = message.data as IRCMessageDTO;
       const messageProcessed = message as ProcessedMessage<IRCMessageDTO>;
-      messageProcessed.data.richMessage = PostProcessor.processMessage(messageProcessed.data.message, data.author);
+      messageProcessed.data.richMessage = PostProcessor.processMessage(messageProcessed.data.message,
+                                                                       data.privateAuthor ? data.privateAuthor : data.author
+      );
       const newChat = this.serversInfo[serverID].addPrivateMessage(data.author, messageProcessed);
       this.logSrv.addLog(data.author, messageProcessed.data);
       if (newChat) {
