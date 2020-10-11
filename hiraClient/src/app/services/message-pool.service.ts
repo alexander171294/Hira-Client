@@ -425,6 +425,7 @@ export class ServerInfo {
   public removePrivateChat(author: string) {
     const idx = this.privateChats.findIndex(a => a === author);
     if (idx >= 0) {
+      this.privateMessages[author] = [];
       this.privateChats.splice(idx, 1);
     }
   }
@@ -434,7 +435,10 @@ export class ServerInfo {
       if (!this.privateMessages[author]) {
         this.privateMessages[author] = [];
       }
-      Array.prototype.push.apply(this.privateMessages[author], ProcessedMessage.getFrom(LogService.getLogs(author), MessageTypes.PRIV_MSG));
+      Array.prototype.unshift.apply(
+        this.privateMessages[author],
+        ProcessedMessage.getFrom(LogService.getLogs(author), MessageTypes.PRIV_MSG)
+      );
       this.privateChats.push(author);
       return true;
     }
