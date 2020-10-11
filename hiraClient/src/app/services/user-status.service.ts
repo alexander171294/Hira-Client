@@ -27,7 +27,7 @@ export class UserStatusService {
   public processAndUpdateUsers(users: string[]): UserWithMetadata[] {
     const out: UserWithMetadata[] = [];
     users.forEach(user => {
-      console.log('PaU');
+      // console.log('PaU');
       const userMD = PostProcessor.processUserMetadata(user);
       this.updateUser(userMD);
       out.push(userMD);
