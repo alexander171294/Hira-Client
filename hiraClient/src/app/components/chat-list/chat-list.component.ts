@@ -1,4 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { timeStamp } from 'console';
 import { ParamParse } from 'src/app/utils/ParamParse';
 import { environment } from 'src/environments/environment';
 
@@ -29,6 +30,10 @@ export class ChatListComponent implements OnInit {
 
   version = environment.version;
   public toolService = environment.toolService;
+
+  searching = false;
+  findedChannels: string[];
+  findedPrivates: string[];
 
   constructor() { }
 
@@ -78,8 +83,21 @@ export class ChatListComponent implements OnInit {
     this.openServerCFG.emit();
   }
 
-  connections() {
+  kp(evt) {
+    const query = evt.srcElement.value;
+    console.log(query);
+    if (query.length >= 2) {
+      this.searching = true;
+      this.findedChannels = this.channels?.filter(channel => channel.toLowerCase().indexOf(query.toLowerCase()) >= 0);
+      this.findedPrivates = this.privateChats?.filter(pc => pc.toLowerCase().indexOf(query.toLowerCase()) >= 0);
+    } else {
+      this.searching = false;
+    }
+  }
 
+  clearSearch() {
+    this.searching = false;
+    (document.getElementById('searchChannelsAndPrivsInput') as any).value = '';
   }
 
 }
