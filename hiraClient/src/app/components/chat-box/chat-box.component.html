@@ -60,8 +60,8 @@
           </span>
         </div>
         <div class="messageBody actionNotify" *ngIf="!message.data.meAction && message.data.notifyAction">
-          <div class="author" *ngIf="!message.data.privateAuthor">{{message.data.author}} <span class="hs">{{message.data.date}} {{message.data.time}}</span></div>
-          <div class="author" *ngIf="message.data.privateAuthor">{{message.data.privateAuthor}} <span class="hs">{{message.data.date}} {{message.data.time}}</span></div>
+          <div class="author" (click)="openPrivate(message.data.author)" *ngIf="!message.data.privateAuthor">{{message.data.author}} <span class="hs">{{message.data.date}} {{message.data.time}}</span></div>
+          <div class="author" (click)="openPrivate(message.data.privateAuthor)" *ngIf="message.data.privateAuthor">{{message.data.privateAuthor}} <span class="hs">{{message.data.date}} {{message.data.time}}</span></div>
           <span>
             {{message.data.message}}
           </span>
