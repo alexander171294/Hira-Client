@@ -74,7 +74,8 @@ export class EmoteList {
     'wineBottle',
     'witchBroom',
     'principito',
-    'baskerville'
+    'baskerville',
+    'cumple'
   ];
 
   public static readonly memes = [
@@ -139,7 +140,7 @@ export class EmoteList {
         startEventEffectPrimavera();
       } else if (name === 'otono') {
         startEventEffectOtono();
-      } else if (name === 'regalo') {
+      } else if (name === 'regaloEff') {
         startEventEffectRegalo();
       }
       return undefined;
@@ -152,7 +153,7 @@ export class EmoteList {
         startEventEffectPrimavera();
       } else if (name === 'otono') {
         startEventEffectOtono();
-      } else if (name === 'regalo') {
+      } else if (name === 'regaloEff') {
         startEventEffectRegalo();
       }
     } else {
