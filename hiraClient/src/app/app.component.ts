@@ -99,6 +99,7 @@ export class AppComponent implements OnInit {
           this.chatsRooms = this.msgPool.getChannels(usersDelta.serverID);
         }
       }
+      this.cbox.goBottom();
     });
     this.msgPool.serverChanged.subscribe((serverDelta: ServersDelta) => {
       // console.log('Server Delta', serverDelta);
