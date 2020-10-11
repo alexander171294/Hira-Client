@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { ProcessedMessage } from 'src/app/utils/IRCParser';
+import { MessageTypes, ProcessedMessage } from 'src/app/utils/IRCParser';
 import { ParamParse } from 'src/app/utils/ParamParse';
 import { UserWithMetadata, PostProcessor } from 'src/app/utils/PostProcessor';
 import { VcardGetterService } from '../link-vcard/vcard-getter.service';
@@ -32,6 +32,8 @@ export class ChatBoxComponent implements OnInit {
   public quoteMessage: string;
 
   public toolService = environment.toolService;
+
+  public copied = false;
 
   constructor(private vcg: VcardGetterService, public usSrv: UserStatusService, private historySrv: HistoryMessageCursorService) { }
 
@@ -157,6 +159,25 @@ export class ChatBoxComponent implements OnInit {
 
   dumpMessage(message) {
     return JSON.stringify(message);
+  }
+
+  copyChat(evt) {
+    let chat = '';
+    this.messages.forEach((message) => {
+      if (message.messageType === MessageTypes.CHANNEL_MSG && !message.data.fromLog) {
+        if (message.data.meAction) {
+          chat += message.data.time + ' **' + message.data.author + '** ' + message.data.message + '\n';
+        } else {
+          chat += message.data.time + ' [' + message.data.author + '] ' + message.data.message + '\n';
+        }
+      }
+    });
+    navigator.clipboard.writeText(chat).then(() => {
+      this.copied = true;
+      setTimeout(() => {
+        this.copied = false;
+      }, 1000);
+    });
   }
 
 }
