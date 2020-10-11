@@ -98,7 +98,7 @@ body {
 
   // main box:
   --cbox-background: linear-gradient(170deg, #eff2f5, #e7e9ef);
-  --cbox-color: black;
+  --cbox-color: #e9ebf0;
   --cbox-header-background: #212429;
   --cbox-header-main-color: white;
   --cbox-header-color: #797a7d;
@@ -137,7 +137,7 @@ body {
   --cbox-scrollbar-track: #e7e9ef;
   --cbox-scrollbar-track-border: #c3c3c3;
 
-  --cbox-footer-bg: #fbfbfc;
+  --cbox-footer-bg: #212429;
   --cbox-footer-border: #c3c3c3;
   --cbox-footer-quote-border: gray;
   --cbox-footer-quote-icon-color: #a7a7a7;
@@ -150,6 +150,7 @@ body {
   --link-color: #2d2d2d;
   --link-loading: linear-gradient(90deg, transparent, #80808094, transparent);
 
+  --cbox-notify-message: #93beff;
 }
 
 .darkSkin {
@@ -203,4 +204,6 @@ body {
 
   --cbox-message-mention-bg: #1f1f1f;
   --cbox-message-mention-color: #c84e4e;
+
+  --cbox-notify-message: #dba9ff;
 }
