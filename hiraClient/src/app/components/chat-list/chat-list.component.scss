@@ -105,6 +105,9 @@ aside {
             .close {
               top: 14px;
             }
+            span.notification {
+              margin-top: 11px;
+            }
           }
           svg {
             width: 15px;
@@ -114,7 +117,8 @@ aside {
           }
           img {
             vertical-align: middle;
-            width: 30px;
+            max-width: 30px;
+            max-height: 30px;
             margin-right: 4px;
           }
           &:hover, &.active {
