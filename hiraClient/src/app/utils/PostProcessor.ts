@@ -42,7 +42,7 @@ export class PostProcessor {
         const realName = face.replace(':', '').replace(':', '');
         const realLocation = EmoteList.getFace(realName, author);
         if (realLocation) {
-          message = message.replace(face, '<img src="' + realLocation + '" class="faceEmote" data-name="' +
+          message = message.replace(face, '<img src="' + realLocation + '" class="faceEmote ' + realName + '" data-name="' +
                                           realName + '" title=":' + realName + ':" alt=":' + realName + ':"/>');
         }
       });
@@ -54,7 +54,7 @@ export class PostProcessor {
         const realName = meme.replace(';', '').replace(';', '');
         const realLocation = EmoteList.getMeme(realName, author);
         if (realLocation) {
-          message = message.replace(meme, '<img src="' + realLocation + '" class="memeEmote" data-name="' + realName +
+          message = message.replace(meme, '<img src="' + realLocation + '" class="memeEmote ' + realName + '" data-name="' + realName +
                                           '" title=";' + realName + ';" alt=";' + realName + ';"/>');
         }
       });

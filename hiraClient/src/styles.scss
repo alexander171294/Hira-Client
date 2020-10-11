@@ -14,7 +14,12 @@ body {
   border-radius: 3px;
   transition: width 1s;
   &:hover {
-    width: 150px
+    width: 150px;
+  }
+  &.rule {
+    &:hover {
+      width: 400px;
+    }
   }
 }
 
