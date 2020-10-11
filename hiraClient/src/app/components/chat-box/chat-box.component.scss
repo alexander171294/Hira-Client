@@ -43,6 +43,7 @@ main {
         border-radius: 3px;
         box-shadow: 0px 0px 5px black;
         border: 1px solid black;
+        color: var(--cbox-color);
         &::before {
           content: "";
           display: block;
