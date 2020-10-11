@@ -225,6 +225,17 @@ export class AppComponent implements OnInit {
   }
 
   send(command: string) {
+    if (command === '/clear') {
+      console.log('clearing', this.chatName);
+      if (this.chatType === CBoxChatTypes.CHANNEL) {
+        this.msgPool.clearChannel(this.actualServerID, this.chatName);
+        this.messages = this.msgPool.getChannelMessages(this.actualServerID, this.chatName);
+      } else if (this.chatType === CBoxChatTypes.PRIVMSG) {
+        this.msgPool.clearPrivateChat(this.actualServerID, this.chatName);
+        this.messages = this.msgPool.getPrivateMessages(this.actualServerID, this.chatName);
+      }
+      return;
+    }
     if (command === '/nowhox') { // special command
       this.whoPuller = false;
       return;

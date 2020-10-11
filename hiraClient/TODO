@@ -11,16 +11,14 @@ ignore
 Cuando chanserv cambia un modo no impacta ni se ve el mensaje.
 emoticono de abrazo, la roza y el zorro del ppto. icono zumo de naranja.
 poder subir un gif
-limpiar el historial con /clear
 
 == Port ==
 * Ionic client.
 
-== No reproducibles ==
-Bug del names (??)
-
-
 === Lista de comandos ===
+
+/clear
+borra el historico de un canal.
 
 /stop
 (para animación de evento)

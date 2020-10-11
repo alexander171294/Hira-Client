@@ -13,6 +13,10 @@ export class LogService {
     return JSON.parse(localStorage.getItem(target));
   }
 
+  public static clearLogs(target: string) {
+    localStorage.removeItem(target);
+  }
+
   public addLog(target: string, message: IRCMessageDTO) {
     let logs = JSON.parse(localStorage.getItem(target));
     // if (message.richMessage) {

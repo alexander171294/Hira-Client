@@ -361,6 +361,10 @@ export class MessagePoolService {
     this.serversInfo[serverID].removeChannel(channel);
   }
 
+  public clearChannel(serverID: string, channel: string) {
+    this.serversInfo[serverID].clearChannel(channel);
+  }
+
   public addPrivateMessage(serverID: string, user: string) {
     if (this.serversInfo[serverID].addPrivateChat(user)) {
       const cd = new ChatsDelta();
@@ -374,6 +378,10 @@ export class MessagePoolService {
 
   public removePrivateChat(serverID: string, user: string) {
     this.serversInfo[serverID].removePrivateChat(user);
+  }
+
+  public clearPrivateChat(serverID: string, user: string) {
+    this.serversInfo[serverID].clearPrivateChat(user);
   }
 }
 
@@ -427,6 +435,14 @@ export class ServerInfo {
     if (idx >= 0) {
       this.privateMessages[author] = [];
       this.privateChats.splice(idx, 1);
+    }
+  }
+
+  public clearPrivateChat(author: string) {
+    const idx = this.privateChats.findIndex(a => a === author);
+    if (idx >= 0) {
+      this.privateMessages[author] = [];
+      LogService.clearLogs(author);
     }
   }
 
@@ -505,6 +521,15 @@ export class ServerInfo {
       this.channels.splice(idx, 1);
     }
     delete this.channelMessages[channel];
+  }
+
+  public clearChannel(channel: string) {
+    channel = channel[0] === '#' ? channel.slice(1) : channel;
+    const idx = this.channels.findIndex(c => c === channel);
+    if (idx >= 0) {
+      LogService.clearLogs('#' + channel);
+      this.channelMessages[channel] = [];
+    }
   }
 }
 
