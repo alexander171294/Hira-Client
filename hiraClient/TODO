@@ -14,6 +14,9 @@ corregir el tamaño y cantidad de efecto regalos, flores, burbujas, otoño
 
 === Lista de comandos ===
 
+/query usuario
+abre un chat con ese usuario.
+
 /clear
 borra el historico de un canal.
 
