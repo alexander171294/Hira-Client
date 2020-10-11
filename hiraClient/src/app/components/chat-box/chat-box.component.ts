@@ -67,7 +67,10 @@ export class ChatBoxComponent implements OnInit {
 
   send(evt) {
     if (evt.keyCode === 13) {
-      let commandOrMessage = evt.srcElement.value;
+      let commandOrMessage = evt.srcElement.value.trim();
+      if (commandOrMessage.length < 1) {
+        return;
+      }
       this.historySrv.save(commandOrMessage);
       if (this.inQuote) {
         commandOrMessage = '<' + this.quoteAuthor + '> ' + this.quoteMessage + ' | ' + commandOrMessage;
