@@ -17,6 +17,7 @@ comando lista de emoticonos
 - el auto-who no funciona en privados
 - los efectos escritos se vuelven a disparar aunque los pauses.
 - mas de una vez el mismo emote se rompe.
+- el mensaje de ver más en el znc se rompe
 
 == Port ==
 * Ionic client.
