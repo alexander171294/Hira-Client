@@ -16,7 +16,11 @@ export class EmoteList {
   public static readonly specialFaces = {
     'Gabriela-': [
       'regla',
-      'magico'
+      'magico',
+      'stamp'
+    ],
+    Polsaker: [
+      'stamp'
     ]
   };
 
