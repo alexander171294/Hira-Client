@@ -190,9 +190,9 @@ export class ChatBoxComponent implements OnInit {
     this.messages.forEach((message) => {
       if (message.messageType === MessageTypes.CHANNEL_MSG && !message.data.fromLog) {
         if (message.data.meAction) {
-          chat += message.data.time + ' **' + message.data.author + ' ' + message.data.message + '\n';
+          chat += message.data.date + ' ' + message.data.time + ' **' + message.data.author + ' ' + message.data.message + '\n';
         } else {
-          chat += message.data.time + ' [' + message.data.author + '] ' + message.data.message + '\n';
+          chat += message.data.date + ' ' + message.data.time + ' [' + message.data.author + '] ' + message.data.message + '\n';
         }
       }
     });

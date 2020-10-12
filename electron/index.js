@@ -1,5 +1,6 @@
 const { app, BrowserWindow } = require('electron');
 const { ipcMain, screen } = require('electron');
+const fs = require('fs');
 const contextMenu = require('electron-context-menu');
 const logsSave = __dirname + '/logs';
 
@@ -15,6 +16,9 @@ contextMenu({
 });
 
 function createWindow () {
+  if (!fs.existsSync(logsSave)){
+    fs.mkdirSync(logsSave);
+  }
   // Create the browser window.
   const win = new BrowserWindow({
     width: parseInt(95*screen.getPrimaryDisplay().size.width/100, 10), // 95% of screen
@@ -41,13 +45,11 @@ function createWindow () {
     }
   });
   ipcMain.on('savelog', async (evt, data) => {
-    const fname = data.target[0] ? 'channel-' + data.target.splice(1) : 'privmsg-' + data.target;
+    const fname = data.target[0] == '#' ? ('channel-' + data.target.slice(1)) : ('privmsg-' + data.target);
     const flocation = logsSave + '/log-'+fname+'.txt';
-    if(fS.existsSync(flocation)) {
-      fs.appendFileSync(flocation, data.message);
-    } else {
-      fs.writeFileSync(flocation, data.message);
-    }
+    fs.writeFile(flocation, data.message, { flag: "a+" }, (err) => {
+      if (err) throw err;
+    }); 
   });
 }
 
@@ -61,9 +63,6 @@ app.whenReady().then(createWindow);
 app.on('activate', () => {
     // On macOS it's common to re-create a window in the app when the
     // dock icon is clicked and there are no other windows open.
-    if (!fs.existsSync(logsSave)){
-      fs.mkdirSync(logsSave);
-    }
     if (BrowserWindow.getAllWindows().length === 0) {
       createWindow();
     }

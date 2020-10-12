@@ -35,18 +35,16 @@ export class LogService {
     }
     localStorage.setItem(target, JSON.stringify(logs));
     if (environment.electron) {
-      let message;
-      if (message.messageType === MessageTypes.CHANNEL_MSG || message.messageType === MessageTypes.PRIV_MSG) {
-        if (message.data.meAction) {
-          message = message.data.time + ' **' + message.data.author + ' ' + message.data.message + '\n';
-        } else {
-          message = message.data.time + ' [' + message.data.author + '] ' + message.data.message + '\n';
-        }
+      let messageTXT;
+      if (message.meAction) {
+        messageTXT = message.date + ' ' + message.time + ' **' + message.author + ' ' + message.message + '\n';
+      } else {
+        messageTXT = message.date + ' ' + message.time + ' [' + message.author + '] ' + message.message + '\n';
       }
       // write to disk:
       electronApi.log({
         target,
-        message
+        message: messageTXT
       });
     }
   }
