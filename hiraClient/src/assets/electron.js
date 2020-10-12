@@ -17,7 +17,10 @@ ipcRenderer.on('playSound', function(evt, data) {
 
 const electronApi = {
   news: function(data){
-      ipcRenderer.send('news', data);
+    ipcRenderer.send('news', data);
+  },
+  log: function(data) {
+    ipcRenderer.send('savelog', data);
   }
 };
 
