@@ -8,6 +8,7 @@
 - actualizador automático
 - cambio de topic no funciona
 - bug iconito nuevo mensaje por display flex
+- logs privados variable author debería ser privAuthor o Author
 
 == BUGS ==
 cambio de nick en una pestaña
