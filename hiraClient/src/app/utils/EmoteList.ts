@@ -144,18 +144,6 @@ export class EmoteList {
         startEventEffectRegalo();
       }
       return undefined;
-    } else if (author === 'Harkito') {
-      if (name === 'invierno') {
-        startEventEffectInvierno();
-      } else if (name === 'verano') {
-        startEventEffectVerano();
-      } else if (name === 'primavera') {
-        startEventEffectPrimavera();
-      } else if (name === 'otono') {
-        startEventEffectOtono();
-      } else if (name === 'regaloEff') {
-        startEventEffectRegalo();
-      }
     } else {
       return undefined;
     }
