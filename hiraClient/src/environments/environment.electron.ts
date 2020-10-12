@@ -10,7 +10,7 @@ export const environment = {
     dark: 'darkSkin',
     light: 'lightSkin'
   },
-  version: 'RC6-Starfox',
+  version: 'RC7-NightWitch',
   default: {
     name: 'Hira.li',
     server: 'kappa.hira.li',

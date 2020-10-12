@@ -9,6 +9,7 @@
 - cambio de topic no funciona
 - bug iconito nuevo mensaje por display flex
 - logs privados variable author debería ser privAuthor o Author
+- copiar solo anda en canales
 
 == BUGS ==
 cambio de nick en una pestaña
