@@ -2,7 +2,7 @@ const { app, BrowserWindow } = require('electron');
 const { ipcMain, screen } = require('electron');
 const fs = require('fs');
 const contextMenu = require('electron-context-menu');
-const logsSave = require('electron').remote.app.getAppPath() + '/logs';
+const logsSave = app.getAppPath() + '/logs';
 
 contextMenu({
 //   prepend: (params, browserWindow) => [
