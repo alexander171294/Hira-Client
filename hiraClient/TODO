@@ -5,6 +5,8 @@
 
 - Permitir configurar gateway
 - Poder ver ruta de los logs
+- actualizador automático
+- cambio de topic no funciona
 
 == BUGS ==
 cambio de nick en una pestaña
