@@ -55,6 +55,9 @@
         <div class="messageBody actionOrigin" *ngIf="message.data.meAction && !message.data.notifyAction" [class.special]="message.data.specialAction">
           <span *ngIf="!message.data.privateAuthor">{{message.data.author}}</span>
           <span *ngIf="message.data.privateAuthor">{{message.data.privateAuthor}}</span>
+          <span *ngIf="message.data.isAwayNotify">
+            (Away)
+          </span>
           <span>
             {{message.data.message}}
           </span>
