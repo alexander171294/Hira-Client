@@ -5,6 +5,7 @@ import { IRCParser, MessageTypes, ProcessedMessage, IRCMessageDTO, IRCMessage, N
 import { ServersHdlrService, ServerDataConnected } from './servers-hdlr.service';
 import { MessagePoolService } from './message-pool.service';
 import { ChannellistsService } from './channellists.service';
+import { O_WRONLY } from 'constants';
 
 declare var stopEff;
 
@@ -172,7 +173,9 @@ export class IRCProtocolService {
       }
       if (verb === 'away') {
         if (cmd.length === 4) {
-          cmd += ' AFK';
+          const now = new Date();
+          cmd += ' AFK desde ' + now.getDay() + '/' + (now.getMonth() + 1) + '/' + now.getFullYear() + ' ' +
+                  now.getHours() + ':' + now.getMinutes();
         }
       }
       if (verb === 'back') {
