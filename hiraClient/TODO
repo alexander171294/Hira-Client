@@ -6,6 +6,10 @@
 - Permitir configurar gateway
 - Poder ver ruta de los logs
 - actualizador automático
+
+== BUGS ==
+cambio de nick en una pestaña
+comando lista de emoticonos
 - cambio de topic no funciona
 - bug iconito nuevo mensaje por display flex
 - logs privados variable author debería ser privAuthor o Author
@@ -13,10 +17,6 @@
 - el auto-who no funciona en privados
 - los efectos escritos se vuelven a disparar aunque los pauses.
 - mas de una vez el mismo emote se rompe.
-
-== BUGS ==
-cambio de nick en una pestaña
-comando lista de emoticonos
 
 == Port ==
 * Ionic client.
