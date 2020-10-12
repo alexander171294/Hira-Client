@@ -279,8 +279,10 @@ export class AppComponent implements OnInit {
   }
 
   openPrivateChat(user: string) {
-    this.msgPool.addPrivateMessage(this.actualServerID, user);
-    this.changeChat(new ChatData(true, user));
+    if (user !== this.actualNick) {
+      this.msgPool.addPrivateMessage(this.actualServerID, user);
+      this.changeChat(new ChatData(true, user));
+    }
   }
 
   changeNick() {
