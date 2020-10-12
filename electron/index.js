@@ -9,9 +9,8 @@ let logsSave;
 if (os.platform() == 'linux') {
   logsSave = process.env['HOME'].toString() + '/hiraclient-logs';
 } else {
-  logsSave = app.getAppPath() + '/hiraclient-logs';
+  logsSave = process.env['USERPROFILE'].toString() + '/hiraclient-logs';
 }
-
 
 contextMenu({
 //   prepend: (params, browserWindow) => [
