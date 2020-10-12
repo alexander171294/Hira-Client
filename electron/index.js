@@ -2,7 +2,16 @@ const { app, BrowserWindow } = require('electron');
 const { ipcMain, screen } = require('electron');
 const fs = require('fs');
 const contextMenu = require('electron-context-menu');
-const logsSave = app.getAppPath() + '/logs';
+const os = require('os');
+
+
+let logsSave;
+if (os.platform() == 'linux') {
+  logsSave = process.env['HOME'].toString() + '/hiraclient-logs';
+} else {
+  logsSave = app.getAppPath() + '/hiraclient-logs';
+}
+
 
 contextMenu({
 //   prepend: (params, browserWindow) => [
