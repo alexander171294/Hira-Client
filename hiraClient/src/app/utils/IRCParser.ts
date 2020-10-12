@@ -212,6 +212,7 @@ export class IRCParser {
         message: parsedMessage.message,
         meAction: true,
         specialAction: true,
+        isAwayNotify: true,
         time: IRCParser.getTime(),
         date: IRCParser.getDateStr(),
         notifyAction: false
@@ -545,6 +546,7 @@ export interface IRCMessageDTO {
   meAction: boolean;
   notifyAction: boolean;
   specialAction?: boolean;
+  isAwayNotify?: boolean;
   time?: string;
   date?: string;
   channel?: string;

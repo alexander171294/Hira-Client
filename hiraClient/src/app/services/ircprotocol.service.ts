@@ -5,7 +5,6 @@ import { IRCParser, MessageTypes, ProcessedMessage, IRCMessageDTO, IRCMessage, N
 import { ServersHdlrService, ServerDataConnected } from './servers-hdlr.service';
 import { MessagePoolService } from './message-pool.service';
 import { ChannellistsService } from './channellists.service';
-import { O_WRONLY } from 'constants';
 
 declare var stopEff;
 
