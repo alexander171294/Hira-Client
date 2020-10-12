@@ -27,6 +27,8 @@ export class MessagePoolService {
   public serverChanged: EventEmitter<ServersDelta> = new EventEmitter<ServersDelta>();
   public noticed: EventEmitter<string> = new EventEmitter<string>();
 
+  public aways = {};
+
   constructor(private logSrv: LogService, private usSrv: UserStatusService) { }
 
   public clear(serverID: string) {
@@ -52,6 +54,15 @@ export class MessagePoolService {
     // Standards messages:
     if (message.messageType === MessageTypes.PRIV_MSG) {
       const data = message.data as IRCMessageDTO;
+      if (data.isAwayNotify) {
+        // away repetido?
+        if (this.aways[data.author] === data.message) {
+          return;
+        } else {
+          this.aways[data.author] = data.message;
+        }
+      }
+
       const messageProcessed = message as ProcessedMessage<IRCMessageDTO>;
       messageProcessed.data.richMessage = PostProcessor.processMessage(messageProcessed.data.message,
                                                                        data.privateAuthor ? data.privateAuthor.trim() : data.author.trim()
