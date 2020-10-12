@@ -6,7 +6,7 @@ import { ProcessedMessage, IRCMessage, IRCMessageDTO, UserJoiningDTO, UserLeavin
 import { CBoxChatTypes, ChatBoxComponent } from './components/chat-box/chat-box.component';
 import { ChatData, NotificationsChats } from './components/chat-list/chat-list.component';
 import { ParamParse } from './utils/ParamParse';
-import { UserWithMetadata } from './utils/PostProcessor';
+import { UserStatuses, UserWithMetadata } from './utils/PostProcessor';
 import { MessageHandlerService } from './services/message-handler.service';
 import { environment } from 'src/environments/environment';
 import { ChannellistsService } from './services/channellists.service';
@@ -196,12 +196,22 @@ export class AppComponent implements OnInit {
     if (cd.privateChat) {
       this.messages = this.msgPool.getPrivateMessages(this.actualServerID, this.chatName);
       this.chatTopic = '';
+      this.channelUsers = [
+        {
+          nick: this.chatName,
+          status: undefined
+        },
+        {
+          nick: this.actualNick,
+          status: undefined
+        }
+      ];
     } else {
       this.messages = this.msgPool.getChannelMessages(this.actualServerID, this.chatName);
       this.chatTopic = this.msgPool.getChannelTopic(this.actualServerID, this.chatName);
+      this.channelUsers = this.msgPool.getChannelUsers(this.actualServerID, this.chatName);
     }
     this.cbox.goBottom();
-    this.channelUsers = this.msgPool.getChannelUsers(this.actualServerID, this.chatName);
   }
 
   selectServer() {
