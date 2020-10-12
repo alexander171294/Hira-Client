@@ -107,9 +107,6 @@ aside {
           cursor: pointer;
           border-radius: 5px;
           position: relative;
-          height: 30px;
-          display: flex;
-          align-items: center;
           .close {
             position: absolute;
             right: 20px;
@@ -125,6 +122,9 @@ aside {
             span.notification {
               margin-top: 11px;
             }
+            height: 30px;
+            display: flex;
+            align-items: center;
           }
           svg {
             width: 15px;
