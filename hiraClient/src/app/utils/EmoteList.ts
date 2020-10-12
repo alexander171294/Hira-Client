@@ -75,7 +75,23 @@ export class EmoteList {
     'witchBroom',
     'principito',
     'baskerville',
-    'cumple'
+    'cumple',
+    'cumple2',
+    'abrazo',
+    'agua1',
+    'agua2',
+    'angry',
+    'barco',
+    'eagle',
+    'fatcat',
+    'fox',
+    'handshake',
+    'kiss',
+    'rose',
+    'tarta',
+    'te',
+    'whisky',
+    'zumo'
   ];
 
   public static readonly memes = [
