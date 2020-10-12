@@ -154,12 +154,12 @@ app.get('/avatar', function(req, res) {
         res.send(avatarCache[user].bdata);
     } else {
         if(avatarCustom[user]) {
-            axios.get(avatarCustom[user],{
+            axios.get(avatarCustom[user].url ? avatarCustom[user].url : avatarCustom[user],{
                 responseType: 'arraybuffer'
               }).then(r => {
                 avatarCache[user] = {};
                 avatarCache[user].bdata = r.data;
-                avatarCache[user].tdata = 'image/png';
+                avatarCache[user].tdata = avatarCustom[user].type ? avatarCustom[user].type : 'image/png';
                 res.type(avatarCache[user].tdata);
                 res.send(avatarCache[user].bdata);
             });
@@ -269,9 +269,16 @@ client.on('message', function(nick, to, text, message){
             client.say(nick, 'Lista de owners: ' + configs.bigBoss)
         } else if (dataPart[0] == 'avatar') {
             const url = dataPart[1];
-            const imageLink = /(http(s?):)([\/|.|\w|\s|-])*\.(?:jpg|png)/.exec(url);
+            const imageLink = /(http(s?):)([\/|.|\w|\s|-])*\.(jpg|gif|png)/.exec(url);
             if(imageLink) {
-                avatarCustom[nick] = url;
+                let type = 'image/'+imageLink[4];
+                if(imageLink[4] === 'jpg') {
+                    type = 'image/jpeg';
+                }
+                avatarCustom[nick] = {
+                    url,
+                    type
+                };
                 avatarCache[nick] = undefined;
                 fs.writeFileSync('./dataStored/avatar-custom.json', JSON.stringify(avatarCustom));
                 client.say(nick, 'Avatar updated.');

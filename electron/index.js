@@ -1,6 +1,17 @@
 const { app, BrowserWindow } = require('electron');
 const { ipcMain, screen } = require('electron');
+const fs = require('fs');
 const contextMenu = require('electron-context-menu');
+const os = require('os');
+
+
+let logsSave;
+if (os.platform() == 'linux') {
+  logsSave = process.env['HOME'].toString() + '/hiraclient-logs';
+} else {
+  logsSave = app.getAppPath() + '/hiraclient-logs';
+}
+
 
 contextMenu({
 //   prepend: (params, browserWindow) => [
@@ -14,6 +25,9 @@ contextMenu({
 });
 
 function createWindow () {
+  if (!fs.existsSync(logsSave)){
+    fs.mkdirSync(logsSave);
+  }
   // Create the browser window.
   const win = new BrowserWindow({
     width: parseInt(95*screen.getPrimaryDisplay().size.width/100, 10), // 95% of screen
@@ -38,6 +52,13 @@ function createWindow () {
       win.flashFrame(true)
       evt.reply('playSound', {});
     }
+  });
+  ipcMain.on('savelog', async (evt, data) => {
+    const fname = data.target[0] == '#' ? ('channel-' + data.target.slice(1)) : ('privmsg-' + data.target);
+    const flocation = logsSave + '/log-'+fname+'.txt';
+    fs.writeFile(flocation, data.message, { flag: "a+" }, (err) => {
+      if (err) throw err;
+    }); 
   });
 }
 

@@ -5,7 +5,8 @@
 export const environment = {
   production: false,
   electron: false,
-  gateway: 'wss://thira.tandilserver.com:4433/webirc/websocket/',
+  // gateway: 'wss://thira.tandilserver.com:4433/webirc/websocket/',
+  gateway: 'wss://wircg.tandilserver.com/webirc/websocket/',
   // toolService: 'https://thira.tandilserver.com/',
   toolService: 'http://localhost:3030/',
   maxLogs: 50,
@@ -14,7 +15,7 @@ export const environment = {
     dark: 'darkSkin',
     light: 'lightSkin'
   },
-  version: '1.0-RC5',
+  version: 'RC6-Starfox',
   default: {
     name: 'Hira.li',
     server: 'kappa.hira.li',

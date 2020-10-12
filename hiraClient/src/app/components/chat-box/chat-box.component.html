@@ -6,7 +6,8 @@
     <h3>
       {{chatName}}
       <span *ngIf="members">{{members}}</span>
-      <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="heart" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="svg-inline--fa fa-heart fa-w-16"><path fill="currentColor" d="M462.3 62.6C407.5 15.9 326 24.3 275.7 76.2L256 96.5l-19.7-20.3C186.1 24.3 104.5 15.9 49.7 62.6c-62.8 53.6-66.1 149.8-9.9 207.9l193.5 199.8c12.5 12.9 32.8 12.9 45.3 0l193.5-199.8c56.3-58.1 53-154.3-9.8-207.9z" class=""></path></svg>
+      <svg aria-hidden="true" title="Copiar la conversación" (click)="copyChat($event)" focusable="false" data-prefix="fas" data-icon="paste" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="svg-inline--fa fa-paste fa-w-14"><path fill="currentColor" d="M128 184c0-30.879 25.122-56 56-56h136V56c0-13.255-10.745-24-24-24h-80.61C204.306 12.89 183.637 0 160 0s-44.306 12.89-55.39 32H24C10.745 32 0 42.745 0 56v336c0 13.255 10.745 24 24 24h104V184zm32-144c13.255 0 24 10.745 24 24s-10.745 24-24 24-24-10.745-24-24 10.745-24 24-24zm184 248h104v200c0 13.255-10.745 24-24 24H184c-13.255 0-24-10.745-24-24V184c0-13.255 10.745-24 24-24h136v104c0 13.2 10.8 24 24 24zm104-38.059V256h-96v-96h6.059a24 24 0 0 1 16.97 7.029l65.941 65.941a24.002 24.002 0 0 1 7.03 16.971z" class=""></path></svg>
+      <div class="copiado" *ngIf="copied">copiado!</div>
     </h3>
     <div class="subtitle" *ngIf="topic">{{topic}}</div>
     <a class="desktopFV" *ngIf="showDesktopReleases" target="_blank" href="https://github.com/alexander171294/Hira-Client/releases">Versión desktop</a>
@@ -19,7 +20,8 @@
   </header>
   <section id="cboxMessages"
   (drop)="onDrop($event)"
-  (dragover)="onDragOver($event)">
+  (dragover)="onDragOver($event)"
+  (scroll)="onScroll($event)">
     <div class="messageItem" *ngFor="let message of messages" [class.server]="message.messageType === 'SERVER'" [class.notice]="message.messageType === 'NOTICE'" [class.embedded]="embd">
       <div style="display: none;">
         {{dumpMessage(message)}}
@@ -30,7 +32,7 @@
         </nav>
         <img *ngIf="!message.data.privateAuthor && !message.data.meAction" [src]="toolService + 'avatar?usr=' + message.data.author" />
         <img *ngIf="message.data.privateAuthor && !message.data.meAction" [src]="toolService + 'avatar?usr=' + message.data.privateAuthor" />
-        <div class="messageBody" [class.mentioned]="message.data.mention" *ngIf="!message.data.meAction">
+        <div class="messageBody" [class.mentioned]="message.data.mention" *ngIf="!message.data.meAction && !message.data.notifyAction">
           <div class="author" *ngIf="!message.data.privateAuthor" (click)="openPrivate(message.data.author)">{{message.data.author}}<span class="hs">{{message.data.date}} {{message.data.time}}</span></div>
           <div class="author" *ngIf="message.data.privateAuthor">{{message.data.privateAuthor}}<span class="hs">{{message.data.date}} {{message.data.time}}</span></div>
           <div class="quote" *ngIf="message.data.richMessage?.quote">
@@ -50,9 +52,19 @@
           <iframe *ngIf="message.data.richMessage?.youtube" width="560" height="315" [src]="'https://www.youtube.com/embed/' + message.data.richMessage.youtube | safe: 'resourceUrl'" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
           <app-link-vcard *ngIf="message.data.richMessage?.link" [link]="message.data.richMessage.link"></app-link-vcard>
         </div>
-        <div class="messageBody actionOrigin" *ngIf="message.data.meAction" [class.special]="message.data.specialAction">
+        <div class="messageBody actionOrigin" *ngIf="message.data.meAction && !message.data.notifyAction" [class.special]="message.data.specialAction">
           <span *ngIf="!message.data.privateAuthor">{{message.data.author}}</span>
           <span *ngIf="message.data.privateAuthor">{{message.data.privateAuthor}}</span>
+          <span *ngIf="message.data.isAwayNotify">
+            (Away)
+          </span>
+          <span>
+            {{message.data.message}}
+          </span>
+        </div>
+        <div class="messageBody actionNotify" *ngIf="!message.data.meAction && message.data.notifyAction">
+          <div class="author" (click)="openPrivate(message.data.author)" *ngIf="!message.data.privateAuthor">{{message.data.author}} <span class="hs">{{message.data.date}} {{message.data.time}}</span></div>
+          <div class="author" (click)="openPrivate(message.data.privateAuthor)" *ngIf="message.data.privateAuthor">{{message.data.privateAuthor}} <span class="hs">{{message.data.date}} {{message.data.time}}</span></div>
           <span>
             {{message.data.message}}
           </span>
@@ -90,7 +102,12 @@
       </div>
       <div class="banMSG" *ngIf="message.messageType === 'BAN'">
         <div class="messageBody">
-          Se aplicó ban a {{message.data}} <img src="assets/door.jpg" class="notifyDecoration"/>
+          Se aplicó ban a {{message.data}}
+        </div>
+      </div>
+      <div class="changeNickMSG" *ngIf="message.messageType === 'MODE_CHANGE'">
+        <div class="messageBody">
+          {{message.data}}
         </div>
       </div>
       <div class="changeNickMSG" *ngIf="message.messageType === 'NICK_CHANGED' && !embd">
@@ -103,6 +120,7 @@
         </div>
       </div>
     </div>
+    <div class="infoNewMessages" *ngIf="scrollLocked && newMessages" (click)="forceBottom()">Nuevos mensajes, baje para verlos.</div>
   </section>
   <footer
   (drop)="onDrop($event)"
@@ -115,7 +133,7 @@
       {{quoteMessage}}
       <svg (click)="inQuote = false" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="times" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 352 512" class="svg-inline--fa fa-times fa-w-11"><path fill="currentColor" d="M242.72 256l100.07-100.07c12.28-12.28 12.28-32.19 0-44.48l-22.24-22.24c-12.28-12.28-32.19-12.28-44.48 0L176 189.28 75.93 89.21c-12.28-12.28-32.19-12.28-44.48 0L9.21 111.45c-12.28 12.28-12.28 32.19 0 44.48L109.28 256 9.21 356.07c-12.28 12.28-12.28 32.19 0 44.48l22.24 22.24c12.28 12.28 32.2 12.28 44.48 0L176 322.72l100.07 100.07c12.28 12.28 32.2 12.28 44.48 0l22.24-22.24c12.28-12.28 12.28-32.19 0-44.48L242.72 256z" class=""></path></svg>
     </div>
-    <input type="text" id="cboxInput" placeholder="your message" (keypress)="send($event)" (keydown)="kdown($event)"/>
+    <input type="text" id="cboxInput" placeholder="algun mensaje..." (keypress)="send($event)" (keydown)="kdown($event)"/>
     <input type="file" style="display: none;" accept="image/*" id="fileInput" (change)="onFileSelected($event)"/>
     <button (click)="openFile()">
       <svg *ngIf="imageLoading" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="spinner" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="svg-inline--fa fa-spinner fa-w-16"><path fill="currentColor" d="M304 48c0 26.51-21.49 48-48 48s-48-21.49-48-48 21.49-48 48-48 48 21.49 48 48zm-48 368c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48zm208-208c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.49-48-48-48zM96 256c0-26.51-21.49-48-48-48S0 229.49 0 256s21.49 48 48 48 48-21.49 48-48zm12.922 99.078c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48c0-26.509-21.491-48-48-48zm294.156 0c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48c0-26.509-21.49-48-48-48zM108.922 60.922c-26.51 0-48 21.49-48 48s21.49 48 48 48 48-21.49 48-48-21.491-48-48-48z" class=""></path></svg>

@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { ProcessedMessage } from 'src/app/utils/IRCParser';
+import { MessageTypes, ProcessedMessage } from 'src/app/utils/IRCParser';
 import { ParamParse } from 'src/app/utils/ParamParse';
 import { UserWithMetadata, PostProcessor } from 'src/app/utils/PostProcessor';
 import { VcardGetterService } from '../link-vcard/vcard-getter.service';
@@ -33,6 +33,10 @@ export class ChatBoxComponent implements OnInit {
 
   public toolService = environment.toolService;
 
+  public copied = false;
+  public scrollLocked = false;
+  public newMessages = false;
+
   constructor(private vcg: VcardGetterService, public usSrv: UserStatusService, private historySrv: HistoryMessageCursorService) { }
 
   ngOnInit(): void {
@@ -56,16 +60,38 @@ export class ChatBoxComponent implements OnInit {
     }
   }
 
+  onScroll(evt) {
+    const cbox = document.getElementById('cboxMessages');
+    if (cbox.scrollTop + cbox.clientHeight !== cbox.scrollHeight) {
+      this.scrollLocked = true;
+    } else {
+      this.scrollLocked = false;
+      this.newMessages = false;
+    }
+  }
+
   goBottom() {
-    setTimeout(el => {
-      const cbox = document.getElementById('cboxMessages');
-      cbox.scrollTop = cbox.scrollHeight;
-    }, 100);
+    this.newMessages = true;
+    if (!this.scrollLocked) {
+      setTimeout(el => {
+        const cbox = document.getElementById('cboxMessages');
+        cbox.scrollTop = cbox.scrollHeight;
+      }, 100);
+    }
+  }
+
+  forceBottom() {
+    const cbox = document.getElementById('cboxMessages');
+    cbox.scrollTop = cbox.scrollHeight;
   }
 
   send(evt) {
+    this.scrollLocked = false;
     if (evt.keyCode === 13) {
-      let commandOrMessage = evt.srcElement.value;
+      let commandOrMessage = evt.srcElement.value.trim();
+      if (commandOrMessage.length < 1) {
+        return;
+      }
       this.historySrv.save(commandOrMessage);
       if (this.inQuote) {
         commandOrMessage = '<' + this.quoteAuthor + '> ' + this.quoteMessage + ' | ' + commandOrMessage;
@@ -157,6 +183,25 @@ export class ChatBoxComponent implements OnInit {
 
   dumpMessage(message) {
     return JSON.stringify(message);
+  }
+
+  copyChat(evt) {
+    let chat = '';
+    this.messages.forEach((message) => {
+      if (message.messageType === MessageTypes.CHANNEL_MSG && !message.data.fromLog) {
+        if (message.data.meAction) {
+          chat += message.data.date + ' ' + message.data.time + ' **' + message.data.author + ' ' + message.data.message + '\n';
+        } else {
+          chat += message.data.date + ' ' + message.data.time + ' [' + message.data.author + '] ' + message.data.message + '\n';
+        }
+      }
+    });
+    navigator.clipboard.writeText(chat).then(() => {
+      this.copied = true;
+      setTimeout(() => {
+        this.copied = false;
+      }, 1000);
+    });
   }
 
 }

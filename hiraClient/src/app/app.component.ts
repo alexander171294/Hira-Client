@@ -6,7 +6,7 @@ import { ProcessedMessage, IRCMessage, IRCMessageDTO, UserJoiningDTO, UserLeavin
 import { CBoxChatTypes, ChatBoxComponent } from './components/chat-box/chat-box.component';
 import { ChatData, NotificationsChats } from './components/chat-list/chat-list.component';
 import { ParamParse } from './utils/ParamParse';
-import { UserWithMetadata } from './utils/PostProcessor';
+import { UserStatuses, UserWithMetadata } from './utils/PostProcessor';
 import { MessageHandlerService } from './services/message-handler.service';
 import { environment } from 'src/environments/environment';
 import { ChannellistsService } from './services/channellists.service';
@@ -99,6 +99,7 @@ export class AppComponent implements OnInit {
           this.chatsRooms = this.msgPool.getChannels(usersDelta.serverID);
         }
       }
+      this.cbox.goBottom();
     });
     this.msgPool.serverChanged.subscribe((serverDelta: ServersDelta) => {
       // console.log('Server Delta', serverDelta);
@@ -195,12 +196,22 @@ export class AppComponent implements OnInit {
     if (cd.privateChat) {
       this.messages = this.msgPool.getPrivateMessages(this.actualServerID, this.chatName);
       this.chatTopic = '';
+      this.channelUsers = [
+        {
+          nick: this.chatName,
+          status: undefined
+        },
+        {
+          nick: this.actualNick,
+          status: undefined
+        }
+      ];
     } else {
       this.messages = this.msgPool.getChannelMessages(this.actualServerID, this.chatName);
       this.chatTopic = this.msgPool.getChannelTopic(this.actualServerID, this.chatName);
+      this.channelUsers = this.msgPool.getChannelUsers(this.actualServerID, this.chatName);
     }
     this.cbox.goBottom();
-    this.channelUsers = this.msgPool.getChannelUsers(this.actualServerID, this.chatName);
   }
 
   selectServer() {
@@ -224,6 +235,20 @@ export class AppComponent implements OnInit {
   }
 
   send(command: string) {
+    if (command.indexOf('/query') === 0) {
+      this.openPrivateChat(command.split(' ')[1]);
+      return;
+    }
+    if (command === '/clear') {
+      if (this.chatType === CBoxChatTypes.CHANNEL) {
+        this.msgPool.clearChannel(this.actualServerID, this.chatName);
+        this.messages = this.msgPool.getChannelMessages(this.actualServerID, this.chatName);
+      } else if (this.chatType === CBoxChatTypes.PRIVMSG) {
+        this.msgPool.clearPrivateChat(this.actualServerID, this.chatName);
+        this.messages = this.msgPool.getPrivateMessages(this.actualServerID, this.chatName);
+      }
+      return;
+    }
     if (command === '/nowhox') { // special command
       this.whoPuller = false;
       return;
@@ -254,8 +279,10 @@ export class AppComponent implements OnInit {
   }
 
   openPrivateChat(user: string) {
-    this.msgPool.addPrivateMessage(this.actualServerID, user);
-    this.changeChat(new ChatData(true, user));
+    if (user !== this.actualNick) {
+      this.msgPool.addPrivateMessage(this.actualServerID, user);
+      this.changeChat(new ChatData(true, user));
+    }
   }
 
   changeNick() {

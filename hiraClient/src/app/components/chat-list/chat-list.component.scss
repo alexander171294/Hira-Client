@@ -52,6 +52,7 @@ aside {
     justify-content: center;
     border-bottom: 1px solid var(--aside-separator);
     margin-bottom: 1vh;
+    position: relative;
     input {
       background: var(--aside-input-bg);
       border: none;
@@ -60,6 +61,19 @@ aside {
       font-size: 16px;
       outline: none;
       color: var(--aside-input-color);
+    }
+    button.clearSearch {
+      position: absolute;
+      bottom: 0.8vh;
+      right: calc(2vw + 4px);
+      background: transparent;
+      border: none;
+      color: var(--aside-input-color);
+      outline: none;
+      cursor: pointer;
+      svg {
+        width: 16px;
+      }
     }
     .title {
       color: var(--aside-title-color);
@@ -105,6 +119,12 @@ aside {
             .close {
               top: 14px;
             }
+            span.notification {
+              margin-top: 11px;
+            }
+            height: 30px;
+            display: flex;
+            align-items: center;
           }
           svg {
             width: 15px;
@@ -114,7 +134,8 @@ aside {
           }
           img {
             vertical-align: middle;
-            width: 30px;
+            max-width: 30px;
+            max-height: 30px;
             margin-right: 4px;
           }
           &:hover, &.active {

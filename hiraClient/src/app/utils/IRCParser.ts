@@ -1,4 +1,4 @@
-import { MessageWithMetadata } from '../utils/PostProcessor';
+import { MessageWithMetadata, UserStatuses } from '../utils/PostProcessor';
 
 export class IRCParser {
   public static parseMessage(message: string): IRCMessage[] {
@@ -47,7 +47,7 @@ export class IRCParser {
   }
 
   public static WHOUserParser(message: string) {
-    return /:([^\s]+)\s([0-9]+)\s([^\s]+)\s([^\s]+)\s([^\s]+)\s([^\s]+)\s([^\s]+)\s([^\s]+)\s(H|G)(\*?)/.exec(message);
+    return /:([^\s]+)\s([0-9]+)\s([^\s]+)\s([^\s]+)\s([^\s]+)\s([^\s]+)\s([^\s]+)\s([^\s]+)\s(H|G)(\*?)(\~|\&|\@|\%|\+)?/.exec(message);
     /*
       grups:
       1: server
@@ -60,6 +60,7 @@ export class IRCParser {
       8: Nick
       9: H or G if is away
       10: * if is NET OP
+      11: mode in channel
     */
   }
 
@@ -98,13 +99,26 @@ export class IRCParser {
       if (data) {
         const out = new ProcessedMessage<any>();
         out.messageType = MessageTypes.WHO_DATA;
+        const mod = data[11];
         out.data = {
           serverFrom: data[7],
           nick: data[8],
           isAway: data[9] === 'G',
           isNetOp: data[10] === '*',
-          rawMsg: rawMessage
+          rawMsg: rawMessage,
+          mode: data[11]
         };
+        if (mod === '~') {
+          out.data.mode = UserStatuses.FOUNDER;
+        } else if (mod === '&') {
+          out.data.mode = UserStatuses.NET_OPERATOR;
+        } else if (mod === '@') {
+          out.data.mode = UserStatuses.OPERATOR;
+        } else if (mod === '%') {
+          out.data.mode = UserStatuses.HALF_OPERATOR;
+        } else if (mod === '+') {
+          out.data.mode = UserStatuses.VOICE;
+        }
         return out;
       } else {
         console.error('BAD WHO RESPONSE PARSED: ', rawMessage, data);
@@ -198,8 +212,10 @@ export class IRCParser {
         message: parsedMessage.message,
         meAction: true,
         specialAction: true,
+        isAwayNotify: true,
         time: IRCParser.getTime(),
-        date: IRCParser.getDateStr()
+        date: IRCParser.getDateStr(),
+        notifyAction: false
       };
       return out;
     }
@@ -211,7 +227,8 @@ export class IRCParser {
         author: parsedMessage.partials[3],
         message: ': Ausente (' + parsedMessage.message + ')',
         meAction: true,
-        specialAction: true
+        specialAction: true,
+        notifyAction: false
       };
       out.data.time = IRCParser.getTime();
       out.data.date = IRCParser.getDateStr();
@@ -256,10 +273,25 @@ export class IRCParser {
     }
 
     if (parsedMessage.code === 'NOTICE') {
-      const out = new ProcessedMessage<IRCMessage>();
-      out.messageType = MessageTypes.NOTICE;
-      out.data = parsedMessage;
-      return out;
+      if (parsedMessage.simplyOrigin && parsedMessage.simplyOrigin !== '*status' && parsedMessage.target[0] === '#') {
+        const out = new ProcessedMessage<IRCMessageDTO>();
+        out.messageType = MessageTypes.CHANNEL_MSG;
+        out.data = {
+          author: parsedMessage.simplyOrigin,
+          channel: parsedMessage.target,
+          message: parsedMessage.message,
+          meAction: false,
+          notifyAction: true
+        };
+        out.data.time = IRCParser.getTime();
+        out.data.date = IRCParser.getDateStr();
+        return out;
+      } else {
+        const out = new ProcessedMessage<IRCMessage>();
+        out.messageType = MessageTypes.NOTICE;
+        out.data = parsedMessage;
+        return out;
+      }
     }
 
     if (parsedMessage.code === '332') {
@@ -347,13 +379,15 @@ export class IRCParser {
         out.data = {
           author: parsedMessage.simplyOrigin,
           message:  meMsg[1],
-          meAction: true
+          meAction: true,
+          notifyAction: false
         };
       } else {
         out.data = {
           author: parsedMessage.simplyOrigin,
           message: parsedMessage.message,
-          meAction: false
+          meAction: false,
+          notifyAction: false
         };
       }
       out.data.time = IRCParser.getTime();
@@ -510,7 +544,9 @@ export interface IRCMessageDTO {
   message: string;
   richMessage?: MessageWithMetadata;
   meAction: boolean;
+  notifyAction: boolean;
   specialAction?: boolean;
+  isAwayNotify?: boolean;
   time?: string;
   date?: string;
   channel?: string;

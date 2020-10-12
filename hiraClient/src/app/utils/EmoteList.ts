@@ -16,7 +16,11 @@ export class EmoteList {
   public static readonly specialFaces = {
     'Gabriela-': [
       'regla',
-      'magico'
+      'magico',
+      'stamp'
+    ],
+    Polsaker: [
+      'stamp'
     ]
   };
 
@@ -74,7 +78,24 @@ export class EmoteList {
     'wineBottle',
     'witchBroom',
     'principito',
-    'baskerville'
+    'baskerville',
+    'cumple',
+    'cumple2',
+    'abrazo',
+    'agua1',
+    'agua2',
+    'angry',
+    'barco',
+    'eagle',
+    'fatcat',
+    'fox',
+    'handshake',
+    'kiss',
+    'rose',
+    'tarta',
+    'te',
+    'whisky',
+    'zumo'
   ];
 
   public static readonly memes = [
@@ -139,22 +160,10 @@ export class EmoteList {
         startEventEffectPrimavera();
       } else if (name === 'otono') {
         startEventEffectOtono();
-      } else if (name === 'regalo') {
+      } else if (name === 'regaloEff') {
         startEventEffectRegalo();
       }
       return undefined;
-    } else if (author === 'Harkito') {
-      if (name === 'invierno') {
-        startEventEffectInvierno();
-      } else if (name === 'verano') {
-        startEventEffectVerano();
-      } else if (name === 'primavera') {
-        startEventEffectPrimavera();
-      } else if (name === 'otono') {
-        startEventEffectOtono();
-      } else if (name === 'regalo') {
-        startEventEffectRegalo();
-      }
     } else {
       return undefined;
     }

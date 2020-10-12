@@ -1,25 +1,22 @@
 == Features ==
 
 - butcoins?
-- Canales favoritos
-- search and join button.
 - emoticones Canal/Globales
 
-== RC5 ==
-ignore
-
 == BUGS ==
-Copiar mensajes del chat
-Mensaje de anuncio de cambio de modo.
+cambio de nick en una pestaña
+comando lista de emoticonos
 
 == Port ==
 * Ionic client.
 
-== No reproducibles ==
-Bug del names (??)
-
-
 === Lista de comandos ===
+
+/query usuario
+abre un chat con ese usuario.
+
+/clear
+borra el historico de un canal.
 
 /stop
 (para animación de evento)

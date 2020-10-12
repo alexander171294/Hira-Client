@@ -27,6 +27,8 @@ export class MessagePoolService {
   public serverChanged: EventEmitter<ServersDelta> = new EventEmitter<ServersDelta>();
   public noticed: EventEmitter<string> = new EventEmitter<string>();
 
+  public aways = {};
+
   constructor(private logSrv: LogService, private usSrv: UserStatusService) { }
 
   public clear(serverID: string) {
@@ -52,8 +54,19 @@ export class MessagePoolService {
     // Standards messages:
     if (message.messageType === MessageTypes.PRIV_MSG) {
       const data = message.data as IRCMessageDTO;
+      if (data.isAwayNotify) {
+        // away repetido?
+        if (this.aways[data.author] === data.message) {
+          return;
+        } else {
+          this.aways[data.author] = data.message;
+        }
+      }
+
       const messageProcessed = message as ProcessedMessage<IRCMessageDTO>;
-      messageProcessed.data.richMessage = PostProcessor.processMessage(messageProcessed.data.message, data.author);
+      messageProcessed.data.richMessage = PostProcessor.processMessage(messageProcessed.data.message,
+                                                                       data.privateAuthor ? data.privateAuthor.trim() : data.author.trim()
+      );
       const newChat = this.serversInfo[serverID].addPrivateMessage(data.author, messageProcessed);
       this.logSrv.addLog(data.author, messageProcessed.data);
       if (newChat) {
@@ -208,6 +221,9 @@ export class MessagePoolService {
       userMD.away = data.isAway;
       userMD.isNetOp = data.isNetOp;
       userMD.serverConnected = data.serverFrom;
+      if (data.mode) {
+        userMD.status = data.mode;
+      }
     }
     // only for changes
     if (message.messageType === MessageTypes.CHANNEL_USERS) {
@@ -252,9 +268,16 @@ export class MessagePoolService {
       }
       if (data.channel !== data.target) {
         data.channel = data.channel[0] === '#' ? data.channel.slice(1) : data.channel;
+        data.target = data.target[0] === ':' ? data.target.slice(1) : data.target;
         const ufinded = this.serversInfo[serverID].channelUsers[data.channel].find(user => user.nick === data.target);
         if (ufinded) {
           ufinded.status = realMode;
+          const pp = new ProcessedMessage<string>();
+          pp.messageType = MessageTypes.MODE_CHANGE;
+          pp.data = data.modeAdded ?
+                    'Se aplicó el modo ' + data.mode + ' a ' + data.target :
+                    'Se quitó el modo ' + data.mode + ' a ' + data.target;
+          this.addChannelMessage(serverID, data.channel, pp);
         } else if (data.mode[0] === 'b') { // ban
           const pp = new ProcessedMessage<string>();
           pp.messageType = MessageTypes.BAN;
@@ -361,6 +384,10 @@ export class MessagePoolService {
     this.serversInfo[serverID].removeChannel(channel);
   }
 
+  public clearChannel(serverID: string, channel: string) {
+    this.serversInfo[serverID].clearChannel(channel);
+  }
+
   public addPrivateMessage(serverID: string, user: string) {
     if (this.serversInfo[serverID].addPrivateChat(user)) {
       const cd = new ChatsDelta();
@@ -374,6 +401,10 @@ export class MessagePoolService {
 
   public removePrivateChat(serverID: string, user: string) {
     this.serversInfo[serverID].removePrivateChat(user);
+  }
+
+  public clearPrivateChat(serverID: string, user: string) {
+    this.serversInfo[serverID].clearPrivateChat(user);
   }
 }
 
@@ -425,7 +456,16 @@ export class ServerInfo {
   public removePrivateChat(author: string) {
     const idx = this.privateChats.findIndex(a => a === author);
     if (idx >= 0) {
+      this.privateMessages[author] = [];
       this.privateChats.splice(idx, 1);
+    }
+  }
+
+  public clearPrivateChat(author: string) {
+    const idx = this.privateChats.findIndex(a => a === author);
+    if (idx >= 0) {
+      this.privateMessages[author] = [];
+      LogService.clearLogs(author);
     }
   }
 
@@ -434,7 +474,10 @@ export class ServerInfo {
       if (!this.privateMessages[author]) {
         this.privateMessages[author] = [];
       }
-      Array.prototype.push.apply(this.privateMessages[author], ProcessedMessage.getFrom(LogService.getLogs(author), MessageTypes.PRIV_MSG));
+      Array.prototype.unshift.apply(
+        this.privateMessages[author],
+        ProcessedMessage.getFrom(LogService.getLogs(author), MessageTypes.PRIV_MSG)
+      );
       this.privateChats.push(author);
       return true;
     }
@@ -501,6 +544,15 @@ export class ServerInfo {
       this.channels.splice(idx, 1);
     }
     delete this.channelMessages[channel];
+  }
+
+  public clearChannel(channel: string) {
+    channel = channel[0] === '#' ? channel.slice(1) : channel;
+    const idx = this.channels.findIndex(c => c === channel);
+    if (idx >= 0) {
+      LogService.clearLogs('#' + channel);
+      this.channelMessages[channel] = [];
+    }
   }
 }
 
