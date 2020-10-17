@@ -7,7 +7,9 @@
 - Poder ver ruta de los logs
 - actualizador automático
 - configuración de logs
-- efecto tormenta de fuego
+- vhost e info de usuario en menu de la derecha.
+- cabras voladoras y meteoritos de fuego
+- quitar rango (/hc -r)
 
 == BUGS ==
 cambio de nick en una pestaña
@@ -19,8 +21,10 @@ comando lista de emoticonos
 - el auto-who no funciona en privados
 - los efectos escritos se vuelven a disparar aunque los pauses.
 - mas de una vez el mismo emote se rompe.
-- el mensaje de ver más en el znc se rompe
+- el mensaje de ver más en el znc se rompe, revisar.
 - version embebida, si abres un privado y lo cierras te lleva a server sin darte oportunidad de volver
+- El whois, para los op globales no es completo.
+- multiquote regex.
 
 == Port ==
 * Ionic client.
