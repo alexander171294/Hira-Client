@@ -203,6 +203,9 @@ export class ServerBoxComponent implements OnInit {
     if (this.serverSelected) {
       this.connected.emit(this.serverSelected);
       this.isConnected = true;
+    } else if (this.servers.length === 1) {
+      this.connected.emit(this.servers[0]);
+      this.isConnected = true;
     }
   }
 
