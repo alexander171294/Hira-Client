@@ -43,7 +43,7 @@ export class PostProcessor {
         const realLocation = EmoteList.getFace(realName, author);
         if (realLocation) {
           message = message.replace(face, '<img src="' + realLocation + '" class="faceEmote ' + realName + '" data-name="' +
-                                          realName + '" title=":' + realName + ':" alt=":' + realName + ':"/>');
+                                          realName + '" title="' + realName + '" alt="' + realName + '"/>');
         }
       });
     }
