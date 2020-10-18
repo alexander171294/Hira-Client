@@ -21,6 +21,7 @@ export class ChatListComponent implements OnInit {
   @Output() openServerCFG: EventEmitter<void> = new EventEmitter<void>();
   @Output() doLeave: EventEmitter<string> = new EventEmitter<string>();
   @Output() doClosePC: EventEmitter<string> = new EventEmitter<string>();
+  @Output() sendCommand: EventEmitter<string> = new EventEmitter<string>();
 
   @Input() notifications: NotificationsChats;
 

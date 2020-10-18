@@ -187,6 +187,18 @@ aside {
     padding: 1vh 1vw;
     background: var(--aside-footer-bg);
     box-shadow: 0px 0px 5px black;
+    a.help {
+      position: absolute;
+      top: -25px;
+      display: block;
+      width: 100%;
+      text-align: center;
+      right: 0px;
+      cursor: pointer;
+      color: #5bccdc;
+      font-family: Poppins;
+      font-size: 12px;
+    }
     svg {
       width: 1.8vw;
       color: var(--alternative-button-color);
