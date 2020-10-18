@@ -36,10 +36,11 @@ export class LogService {
     localStorage.setItem(target, JSON.stringify(logs));
     if (environment.electron) {
       let messageTXT;
+      const author = message.privateAuthor ? message.privateAuthor :  message.author;
       if (message.meAction) {
-        messageTXT = message.date + ' ' + message.time + ' **' + message.author + ' ' + message.message + '\n';
+        messageTXT = message.date + ' ' + message.time + ' **' + author + ' ' + message.message + '\n';
       } else {
-        messageTXT = message.date + ' ' + message.time + ' [' + message.author + '] ' + message.message + '\n';
+        messageTXT = message.date + ' ' + message.time + ' [' + author + '] ' + message.message + '\n';
       }
       // write to disk:
       electronApi.log({
