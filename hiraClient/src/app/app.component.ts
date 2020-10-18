@@ -211,7 +211,7 @@ export class AppComponent implements OnInit {
       this.chatTopic = this.msgPool.getChannelTopic(this.actualServerID, this.chatName);
       this.channelUsers = this.msgPool.getChannelUsers(this.actualServerID, this.chatName);
     }
-    this.cbox.goBottom();
+    this.cbox.goBottom(true);
   }
 
   selectServer() {
@@ -220,7 +220,7 @@ export class AppComponent implements OnInit {
     this.chatType = CBoxChatTypes.SERVER;
     this.isInServerLog = true;
     this.messages = this.msgPool.getServerMessages(this.actualServerID);
-    this.cbox.goBottom();
+    this.cbox.goBottom(true);
     this.channelUsers = [];
   }
 

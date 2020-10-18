@@ -70,9 +70,9 @@ export class ChatBoxComponent implements OnInit {
     }
   }
 
-  goBottom() {
+  goBottom(forced?: boolean) {
     this.newMessages = true;
-    if (!this.scrollLocked) {
+    if (!this.scrollLocked || forced) {
       setTimeout(el => {
         const cbox = document.getElementById('cboxMessages');
         cbox.scrollTop = cbox.scrollHeight;
