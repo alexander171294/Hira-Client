@@ -13,8 +13,8 @@ export const environment = {
   version: 'RC7-NightWitch',
   default: {
     name: 'Hira.li',
-    server: 'kappa.hira.li',
-    isWS: false
+    server: 'avalon.hira.li',
+    isWS: true
   },
   maxServerBuffer: 100,
   maxChannelBuffer: 200,
