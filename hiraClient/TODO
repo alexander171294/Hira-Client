@@ -16,7 +16,7 @@ cambio de nick en una pestaña
 comando lista de emoticonos
 - cambio de topic no funciona
 - el auto-who no funciona en privados
-- el mensaje de ver más en el znc se rompe, revisar.
+- el mensaje de ver más en segundo plano roto (ver en windows).
 - version embebida, si abres un privado y lo cierras te lleva a server sin darte oportunidad de volver
 - El whois, para los op globales no es completo.
 - multiquote regex.
