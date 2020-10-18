@@ -15,7 +15,6 @@
 cambio de nick en una pestaña
 comando lista de emoticonos
 - cambio de topic no funciona
-- bug iconito nuevo mensaje por display flex
 - logs privados variable author debería ser privAuthor o Author
 - copiar solo anda en canales
 - el auto-who no funciona en privados

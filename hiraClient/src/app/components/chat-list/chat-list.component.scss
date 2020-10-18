@@ -163,7 +163,9 @@ aside {
             width: 8px;
             height: 8px;
             border-radius: 50%;
-            float: right;
+            position: absolute;
+            right: 5px;
+            top: 10px;
             margin: 5px;
             box-shadow: 0px 0px 10px var(--aside-notify-bg);
             &.mention {
