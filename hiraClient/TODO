@@ -10,16 +10,13 @@
 - vhost e info de usuario en menu de la derecha.
 - cabras voladoras y meteoritos de fuego
 - quitar rango (/hc -r)
+- comando lista de emoticonos
+- Whois full.
 
 == BUGS ==
 cambio de nick en una pestaña
-comando lista de emoticonos
 - el auto-who no funciona en privados
 - el mensaje de ver más en segundo plano roto (ver en windows).
-- El whois, para los op globales no es completo.
-
-== Port ==
-* Ionic client.
 
 === Lista de comandos ===
 
