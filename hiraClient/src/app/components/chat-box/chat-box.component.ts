@@ -188,11 +188,12 @@ export class ChatBoxComponent implements OnInit {
   copyChat(evt) {
     let chat = '';
     this.messages.forEach((message) => {
-      if (message.messageType === MessageTypes.CHANNEL_MSG && !message.data.fromLog) {
+      if ((message.messageType === MessageTypes.CHANNEL_MSG || message.messageType === MessageTypes.PRIV_MSG) && !message.data.fromLog) {
+        const author = message.data.privateAuthor ? message.data.privateAuthor :  message.data.author;
         if (message.data.meAction) {
-          chat += message.data.date + ' ' + message.data.time + ' **' + message.data.author + ' ' + message.data.message + '\n';
+          chat += message.data.date + ' ' + message.data.time + ' **' + author + ' ' + message.data.message + '\n';
         } else {
-          chat += message.data.date + ' ' + message.data.time + ' [' + message.data.author + '] ' + message.data.message + '\n';
+          chat += message.data.date + ' ' + message.data.time + ' [' + author + '] ' + message.data.message + '\n';
         }
       }
     });
