@@ -14,11 +14,9 @@
 == BUGS ==
 cambio de nick en una pestaña
 comando lista de emoticonos
-- cambio de topic no funciona
 - el auto-who no funciona en privados
 - el mensaje de ver más en segundo plano roto (ver en windows).
 - El whois, para los op globales no es completo.
-- multiquote regex.
 
 == Port ==
 * Ionic client.

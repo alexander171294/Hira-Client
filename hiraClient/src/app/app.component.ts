@@ -180,6 +180,11 @@ export class AppComponent implements OnInit {
           }
         }
       }
+
+      if (chatsDelta.changeType === DeltaChangeTypes.FIXED_UPDATE) {
+        // cambio algo del canal, por ejemplo el topic.
+        this.chatTopic = this.msgPool.getChannelTopic(chatsDelta.serverID, chatsDelta.chat);
+      }
     });
     this.msgHdlr.onError.subscribe(d => {
       this.isConnected = false;

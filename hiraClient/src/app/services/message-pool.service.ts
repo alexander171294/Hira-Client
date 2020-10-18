@@ -241,7 +241,13 @@ export class MessagePoolService {
     }
     if (message.messageType === MessageTypes.CHANNEL_TOPIC) {
       const data = message.data as ChannelTopicDTO;
+      data.channel = data.channel[0] === '#' ? data.channel.substr(1) : data.channel;
       this.serversInfo[serverID].channelTopics[data.channel] = data.topic;
+      const cd = new ChatsDelta();
+      cd.changeType = DeltaChangeTypes.FIXED_UPDATE;
+      cd.chat = data.channel;
+      cd.serverID = serverID;
+      this.chatsChanged.emit(cd);
     }
     if (message.messageType === MessageTypes.MOTD) {
       // si es el primer notice avisamos

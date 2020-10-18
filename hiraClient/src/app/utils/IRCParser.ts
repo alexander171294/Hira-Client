@@ -305,6 +305,17 @@ export class IRCParser {
       return out;
     }
 
+    if (parsedMessage.code === 'TOPIC') {
+      const out = new ProcessedMessage<ChannelTopicDTO>();
+      out.messageType = MessageTypes.CHANNEL_TOPIC;
+      out.data = {
+        channel: parsedMessage.target,
+        topic: parsedMessage.message,
+      };
+      console.log('changing topic', out);
+      return out;
+    }
+
     if (parsedMessage.code === '315') {
       // End of who
       return;
