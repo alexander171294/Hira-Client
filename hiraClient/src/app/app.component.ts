@@ -55,6 +55,8 @@ export class AppComponent implements OnInit {
   cambiarNickPopup: boolean;
   channelListPopup: boolean;
 
+  actualServerAutojoin: string;
+
   intervals = {};
 
   whoPuller = true;
@@ -232,6 +234,7 @@ export class AppComponent implements OnInit {
     this.actualNick = serverData.apodo;
     this.connectPopup = false;
     this.isConnected = true;
+    this.actualServerAutojoin = serverData.autojoin;
   }
 
   send(command: string) {
@@ -304,7 +307,16 @@ export class AppComponent implements OnInit {
 
   doClose(pc: string) {
     if (this.chatName === pc && this.chatType === CBoxChatTypes.PRIVMSG) {
-      this.selectServer();
+      if (this.embd) {
+        const firstC = this.actualServerAutojoin?.split(',')[0].replace(' ', '');
+        if (firstC) {
+          this.changeChat(new ChatData(false, firstC))
+        } else {
+          this.selectServer();
+        }
+      } else {
+        this.selectServer();
+      }
       this.msgPool.removePrivateChat(this.actualServerID, pc);
       this.privateChats = this.msgPool.getPrivateChats(this.actualServerID);
     }
