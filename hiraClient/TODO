@@ -15,9 +15,7 @@
 cambio de nick en una pestaña
 comando lista de emoticonos
 - cambio de topic no funciona
-- copiar solo anda en canales
 - el auto-who no funciona en privados
-- los efectos escritos se vuelven a disparar aunque los pauses.
 - mas de una vez el mismo emote se rompe.
 - el mensaje de ver más en el znc se rompe, revisar.
 - version embebida, si abres un privado y lo cierras te lleva a server sin darte oportunidad de volver
