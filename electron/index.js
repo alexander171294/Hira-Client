@@ -3,7 +3,7 @@ const { ipcMain, screen } = require('electron');
 const fs = require('fs');
 const contextMenu = require('electron-context-menu');
 const os = require('os');
-
+const { autoUpdater } = require("electron-updater");
 
 let logsSave;
 if (os.platform() == 'linux') {
@@ -24,6 +24,8 @@ contextMenu({
 });
 
 function createWindow () {
+  autoUpdater.checkForUpdatesAndNotify();
+
   if (!fs.existsSync(logsSave)){
     fs.mkdirSync(logsSave);
   }

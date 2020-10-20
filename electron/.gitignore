@@ -2,3 +2,5 @@ node_modules
 www
 dist
 logs
+publish-linux64.sh
+publish-win64.sh
