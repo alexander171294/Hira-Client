@@ -8,7 +8,7 @@
   <link rel="icon" type="image/x-icon" href="favicon.ico">
   <script type="text/javascript" src="assets/scripts/snowstorm.js"></script>
   <script type="text/javascript">
-    var effectActive = false;
+    var effectActive = 0;
     window.onload = () => {
       const now = new Date();
       if(now.getDate() == 21 && now.getMonth() == 5) { // 21 junio, invierno
@@ -28,38 +28,38 @@
       }
     };
     function startEventEffect() {
-      if (!effectActive) {
+      if (effectActive <= 0) {
         snowStorm.snowStick = false;
         snowStorm.flakesMax = 64;
         snowStorm.flakesMaxActive = snowStorm.flakesMax/2;
-        snowStorm.start(true, ['assets/eess/star.png']);
-        effectActive = true;
         setTimeout(() => {
           this.stopEff();
         }, 60000);
-      } else {
-        resumeEff();
-        setTimeout(() => {
-          this.stopEff();
-        }, 60000);
+        if(effectActive == -1) {
+          snowStorm.show(['assets/eess/star.png']);
+          snowStorm.resume();
+        } else {
+          snowStorm.start(true, ['assets/eess/star.png']);
+        }
+        effectActive = 1;
       }
     }
     function startEventEffectInvierno() {
-      if (!effectActive) {
-        snowStorm.start(true);
-        effectActive = true;
+      if (effectActive <= 0) {
         setTimeout(() => {
           this.stopEff();
         }, 120000);
-      } else {
-        resumeEff();
-        setTimeout(() => {
-          this.stopEff();
-        }, 120000);
+        if(effectActive == -1) {
+          snowStorm.show();
+          snowStorm.resume();
+        } else {
+          snowStorm.start(true);
+        }
+        effectActive = 1;
       }
     }
     function startEventEffectOtono() {
-      if (!effectActive) {
+      if (effectActive <= 0) {
         snowStorm.flakesMax = 50;
         snowStorm.flakesMaxActive = snowStorm.flakesMax/2;
         snowStorm.animationInterval = 50;
@@ -67,20 +67,20 @@
         snowStorm.vMaxY = 2;
         snowStorm.followMouse = false;
         snowStorm.snowStick = false;
-        snowStorm.start(true, ['assets/eess/otoño.png', 'assets/eess/otoño2.png', 'assets/eess/otoño3.png']);
-        effectActive = true;
         setTimeout(() => {
           this.stopEff();
         }, 60000);
-      } else {
-        resumeEff();
-        setTimeout(() => {
-          this.stopEff();
-        }, 60000);
+        if(effectActive == -1) {
+          snowStorm.show(['assets/eess/otoño.png', 'assets/eess/otoño2.png', 'assets/eess/otoño3.png']);
+          snowStorm.resume();
+        } else {
+          snowStorm.start(true, ['assets/eess/otoño.png', 'assets/eess/otoño2.png', 'assets/eess/otoño3.png']);
+        }
+        effectActive = 1;
       }
     }
     function startEventEffectVerano() {
-      if (!effectActive) {
+      if (effectActive <= 0) {
         snowStorm.flakesMax = 50;
         snowStorm.flakesMaxActive = snowStorm.flakesMax/2;
         snowStorm.animationInterval = 50;
@@ -88,20 +88,20 @@
         snowStorm.vMaxY = 2;
         snowStorm.followMouse = false;
         snowStorm.snowStick = false;
-        snowStorm.start(true, 'assets/eess/verano.png');
-        effectActive = true;
         setTimeout(() => {
           this.stopEff();
         }, 60000);
-      } else {
-        resumeEff();
-        setTimeout(() => {
-          this.stopEff();
-        }, 60000);
+        if(effectActive == -1) {
+          snowStorm.show(['assets/eess/verano.png']);
+          snowStorm.resume();
+        } else {
+          snowStorm.start(true, 'assets/eess/verano.png');
+        }
+        effectActive = 1;
       }
     }
     function startEventEffectPrimavera() {
-      if (!effectActive) {
+      if (effectActive <= 0) {
         snowStorm.flakesMax = 50;
         snowStorm.flakesMaxActive = snowStorm.flakesMax/2;
         snowStorm.animationInterval = 50;
@@ -109,36 +109,27 @@
         snowStorm.vMaxY = 2;
         snowStorm.followMouse = false;
         snowStorm.snowStick = false;
-        snowStorm.start(true, ['assets/eess/primavera.png','assets/eess/primavera2.png','assets/eess/primavera3.png']);
-        effectActive = true;
         setTimeout(() => {
           this.stopEff();
         }, 60000);
-      } else {
-        resumeEff();
-        setTimeout(() => {
-          this.stopEff();
-        }, 60000);
+        if(effectActive == -1) {
+          snowStorm.show(['assets/eess/primavera.png','assets/eess/primavera2.png','assets/eess/primavera3.png']);
+          snowStorm.resume();
+        } else {
+          snowStorm.start(true, ['assets/eess/primavera.png','assets/eess/primavera2.png','assets/eess/primavera3.png']);
+        }
+        effectActive = 1;
       }
     }
     function stopEff() {
-      if (effectActive) {
-        const stars = document.getElementsByClassName('specialEffectElement');
-        for (let star of stars) {
-          star.style.display = 'none';
-        }
+      if (effectActive > 0) {
+        snowStorm.stop();
         snowStorm.freeze();
+        effectActive = -1;
       }
-    }
-    function resumeEff() {
-      const stars = document.getElementsByClassName('specialEffectElement');
-      for (let star of stars) {
-        star.style.display = 'block';
-      }
-      snowStorm.resume();
     }
     function startEventEffectRegalo() {
-      if (!effectActive) {
+      if (effectActive <= 0) {
         snowStorm.flakesMax = 50;
         snowStorm.flakesMaxActive = snowStorm.flakesMax/2;
         snowStorm.animationInterval = 50;
@@ -146,7 +137,8 @@
         snowStorm.vMaxY = 1;
         snowStorm.followMouse = false;
         snowStorm.snowStick = false;
-        snowStorm.start(true, [
+        if(effectActive == -1) {
+          snowStorm.show([
             'assets/eess/cumple.png',
             'assets/eess/cumple2.png',
             'assets/eess/cumple3.png',
@@ -157,12 +149,23 @@
             'assets/eess/cumple8.png',
             'assets/eess/cumple9.png',
             'assets/eess/cumple10.png']);
-        effectActive = true;
-      } else {
-        snowStorm.resume();
+          snowStorm.resume();
+        } else {
+          snowStorm.start(true, [
+            'assets/eess/cumple.png',
+            'assets/eess/cumple2.png',
+            'assets/eess/cumple3.png',
+            'assets/eess/cumple4.png',
+            'assets/eess/cumple5.png',
+            'assets/eess/cumple6.png',
+            'assets/eess/cumple7.png',
+            'assets/eess/cumple8.png',
+            'assets/eess/cumple9.png',
+            'assets/eess/cumple10.png']);
+        }
+        effectActive = 1;
       }
     }
-    // startEventEffectInvierno();
   </script>
 </head>
 <body>

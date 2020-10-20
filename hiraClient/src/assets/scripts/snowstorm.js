@@ -343,10 +343,13 @@ var snowStorm = (function(window, document) {
     }
   };
 
-  this.show = function() {
+  this.show = function(imgd) {
     var i;
     for (i=0; i<this.flakes.length; i++) {
       this.flakes[i].o.style.display = 'block';
+      if(imgd) {
+        this.flakes[i].o.children[0].src = imgd[Math.floor(Math.random() * imgd.length)];
+      }
     }
   };
 

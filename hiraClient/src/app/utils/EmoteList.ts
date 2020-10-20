@@ -1,8 +1,4 @@
 declare var startEventEffect: any;
-declare var startEventEffectInvierno: any;
-declare var startEventEffectVerano: any;
-declare var startEventEffectPrimavera: any;
-declare var startEventEffectOtono: any;
 declare var startEventEffectRegalo: any;
 
 export class EmoteList {
@@ -152,15 +148,6 @@ export class EmoteList {
       if (name === 'magia') {
         startEventEffect();
       }
-      // if (name === 'invierno') {
-      //   startEventEffectInvierno();
-      // } else if (name === 'verano') {
-      //   startEventEffectVerano();
-      // } else if (name === 'primavera') {
-      //   startEventEffectPrimavera();
-      // } else if (name === 'otono') {
-      //   startEventEffectOtono();
-      // } else
       if (name === 'regalos') {
         startEventEffectRegalo();
       }
