@@ -14,6 +14,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { ChannelListComponent } from './components/channel-list/channel-list.component';
 import { EmoteListComponent } from './components/chat-box/emote-list/emote-list.component';
 import { WhoisComponent } from './components/whois/whois.component';
+import { GmodeComponent } from './components/gmode/gmode.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { WhoisComponent } from './components/whois/whois.component';
     LinkVcardComponent,
     ChannelListComponent,
     EmoteListComponent,
-    WhoisComponent
+    WhoisComponent,
+    GmodeComponent
   ],
   imports: [
     BrowserModule,

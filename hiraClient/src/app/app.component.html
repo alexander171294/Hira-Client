@@ -80,3 +80,4 @@
 </div>
 
 <app-whois *ngIf="whoDataOf" [nick]="whoDataOf" (oClose)="whoDataOf = undefined"></app-whois>
+<app-gmode *ngIf="gmode" [nick]="gmode" (oClose)="closeGmode($event)"></app-gmode>

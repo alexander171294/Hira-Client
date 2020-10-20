@@ -99,6 +99,15 @@ export class IRCParser {
       }
     }
 
+    if (parsedMessage.code === '718') {
+      // :avalon.hira.io 718 Tulkalex Tulkaz ~Harkito@net-j7j.cur.32.45.IP :is messaging you, and you have user mode +g set.
+      // Use /ACCEPT +Tulkaz to allow.
+      const out = new ProcessedMessage<string>();
+      out.messageType = MessageTypes.GMODE;
+      out.data = parsedMessage.partials[3];
+      return out;
+    }
+
     if (parsedMessage.code === '378') {
       // connecting from
       // :avalon.hira.io 378 Tulkalex Tulkalex :is connecting from ~Tulkalandi@167.99.172.78 167.99.172.78
@@ -547,7 +556,8 @@ export enum MessageTypes {
   IM_BANNED = 'IM_BANNED',
   CLEAN_CHANNEL_LIST = 'CLEAN_CHANNEL_LIST',
   CHANNEL_LIST_APPEND = 'CHANNEL_LIST_APPEND',
-  WHOIS = 'WHOIS'
+  WHOIS = 'WHOIS',
+  GMODE = 'GMODE'
 }
 
 export interface ChannelTopicDTO {

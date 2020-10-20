@@ -55,6 +55,7 @@ export class AppComponent implements OnInit {
   cambiarNickPopup: boolean;
   channelListPopup: boolean;
   whoDataOf: string;
+  gmode: string;
 
   actualServerAutojoin: string;
 
@@ -197,6 +198,9 @@ export class AppComponent implements OnInit {
     });
     this.chlLst.whoisResponse.subscribe((d: string) => {
       this.whoDataOf = d;
+    });
+    this.chlLst.gmodeResponse.subscribe((d: string) => {
+      this.gmode = d;
     });
   }
 
@@ -345,5 +349,12 @@ export class AppComponent implements OnInit {
     } else {
       this.send('/join #hiraClient');
     }
+  }
+
+  closeGmode(accept: boolean) {
+    if (accept) {
+      this.send('/accept +' + this.gmode);
+    }
+    this.gmode = undefined;
   }
 }

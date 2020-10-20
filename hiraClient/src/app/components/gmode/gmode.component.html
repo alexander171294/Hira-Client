@@ -1,0 +1,12 @@
+<div class="boxAlert">
+  <section>
+    <header>Solicitud de privado</header>
+    <p>
+      El usuario {{nick}} solicita un privado contigo.
+    </p>
+    <footer>
+      <button (click)="oClose.emit(false)">Cancelar</button>
+      <button (click)="oClose.emit(true)">Autorizar</button>
+    </footer>
+  </section>
+</div>
