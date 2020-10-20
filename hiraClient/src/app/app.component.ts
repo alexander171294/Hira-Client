@@ -333,4 +333,13 @@ export class AppComponent implements OnInit {
       this.send('/join ' + channel);
     }
   }
+
+  openHelp() {
+    const chnl = this.chatsRooms.find(channel => channel.toLowerCase() === 'hiraclient');
+    if (chnl) {
+      this.changeChat(new ChatData(false, chnl))
+    } else {
+      this.send('/join #hiraClient');
+    }
+  }
 }
