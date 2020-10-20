@@ -1,15 +1,14 @@
-== Features ==
-
 - butcoins?
 - emoticones Canal/Globales
 
+== Features ==
+
+- Whois full.
 - Permitir configurar gateway
 - Poder ver ruta de los logs
 - configuración de logs
 - vhost e info de usuario en menu de la derecha.
 - cabras voladoras y meteoritos de fuego
-- quitar rango (/hc -r)
-- Whois full.
 
 == BUGS ==
 cambio de nick en una pestaña

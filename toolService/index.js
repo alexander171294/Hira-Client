@@ -252,6 +252,37 @@ client.on('message', function(nick, to, text, message){
                     client.say(nick, 'No eres admin o founder del canal.');
                 }
             }
+        } else if (dataPart[2] == '-r') {
+            if(channelUsersPrivileges[dataPart[0]] &&
+               (channelUsersPrivileges[dataPart[0]][nick] === '&' || 
+                channelUsersPrivileges[dataPart[0]][nick] === '~')) {
+                let channel = dataPart[0]; 
+                if(dataPart[0][0] == '#') {
+                    channel = channel.slice(1);
+                }
+                if(!rangosCustom[channel]) {
+                    rangosCustom[channel] = {};
+                }
+                delete rangosCustom[channel][dataPart[1]];
+                fs.writeFileSync('./dataStored/rangos-custom.json', JSON.stringify(rangosCustom));
+                client.say(nick, 'ok');
+            } else {
+                if(!channelUsersPrivileges[dataPart[0]]) {
+                    client.say(nick, 'No estaba en el canal, prueba de nuevo.');
+                    client.join(dataPart[0]);
+                } else {
+                    client.say(nick, 'No eres admin o founder del canal.');
+                }
+            }
+        } else if (dataPart[1] == '-g') {
+            if(configs.bigBoss.find(boss => boss === nick)) {
+                const user = dataPart[0];
+                delete globalCustom[user];
+                fs.writeFileSync('./dataStored/global-custom.json', JSON.stringify(globalCustom));
+                client.say(nick, 'ok');
+            } else {
+                client.say(nick, 'No te encuentras en la lista de nicks habilitados. ');
+            }
         } else if (dataPart[1] == 'g') {
             if(configs.bigBoss.find(boss => boss === nick)) {
                 const user = dataPart[0];

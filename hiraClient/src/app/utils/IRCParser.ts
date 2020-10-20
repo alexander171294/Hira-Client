@@ -154,6 +154,8 @@ export class IRCParser {
       return out;
     }
 
+    // TODO: /whois command
+
     if (parsedMessage.code === '433') { // nick already in use
       const out = new ProcessedMessage<undefined>();
       out.messageType = MessageTypes.NICK_ALREADY_IN_USE;
