@@ -104,7 +104,7 @@ export class EmoteList {
     'baneo3',
     'buscar',
     'buscar2',
-    'communicacion',
+    'comunicacion',
     'despedida',
     'expulsar',
     'hacker',

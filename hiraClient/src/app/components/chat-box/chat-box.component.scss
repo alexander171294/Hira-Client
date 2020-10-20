@@ -274,7 +274,7 @@ main {
     .infoNewMessages {
       text-align: center;
       position: absolute;
-      bottom: 60px;
+      bottom: 7vh;
       width: 50%;
       padding: 10px;
       box-sizing: border-box;
@@ -326,7 +326,7 @@ main {
       font-family: Helvetica;
       font-size: 15px;
       outline: none;
-      width: calc(100% - 4vw - 30px);
+      width: calc(100% - 4vw - 70px);
       background: transparent;
       color: var(--cbox-input-color)
     }

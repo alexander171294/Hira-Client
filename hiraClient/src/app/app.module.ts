@@ -12,6 +12,7 @@ import { SafePipe } from './utils/safe.pipe';
 import { LinkVcardComponent } from './components/link-vcard/link-vcard.component';
 import { HttpClientModule } from '@angular/common/http';
 import { ChannelListComponent } from './components/channel-list/channel-list.component';
+import { EmoteListComponent } from './components/chat-box/emote-list/emote-list.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { ChannelListComponent } from './components/channel-list/channel-list.com
     ServerBoxComponent,
     SafePipe,
     LinkVcardComponent,
-    ChannelListComponent
+    ChannelListComponent,
+    EmoteListComponent
   ],
   imports: [
     BrowserModule,

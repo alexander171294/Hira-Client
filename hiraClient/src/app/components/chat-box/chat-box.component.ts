@@ -37,6 +37,8 @@ export class ChatBoxComponent implements OnInit {
   public scrollLocked = false;
   public newMessages = false;
 
+  public emoteListOpened: boolean;
+
   constructor(private vcg: VcardGetterService, public usSrv: UserStatusService, private historySrv: HistoryMessageCursorService) { }
 
   ngOnInit(): void {
@@ -203,6 +205,17 @@ export class ChatBoxComponent implements OnInit {
         this.copied = false;
       }, 1000);
     });
+  }
+
+  emoteList() {
+    this.emoteListOpened = !this.emoteListOpened;
+  }
+
+  writeEmote(emote: string) {
+    this.emoteListOpened = false;
+    const ci = document.getElementById('cboxInput') as any;
+    ci.value = ci.value + ' ' + emote + ' ';
+    ci.focus();
   }
 
 }
