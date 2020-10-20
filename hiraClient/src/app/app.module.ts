@@ -13,6 +13,7 @@ import { LinkVcardComponent } from './components/link-vcard/link-vcard.component
 import { HttpClientModule } from '@angular/common/http';
 import { ChannelListComponent } from './components/channel-list/channel-list.component';
 import { EmoteListComponent } from './components/chat-box/emote-list/emote-list.component';
+import { WhoisComponent } from './components/whois/whois.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { EmoteListComponent } from './components/chat-box/emote-list/emote-list.
     SafePipe,
     LinkVcardComponent,
     ChannelListComponent,
-    EmoteListComponent
+    EmoteListComponent,
+    WhoisComponent
   ],
   imports: [
     BrowserModule,

@@ -54,6 +54,7 @@ export class AppComponent implements OnInit {
   advertenciaKickeado: boolean;
   cambiarNickPopup: boolean;
   channelListPopup: boolean;
+  whoDataOf: string;
 
   actualServerAutojoin: string;
 
@@ -193,6 +194,9 @@ export class AppComponent implements OnInit {
     });
     this.chlLst.onCleared.subscribe(() => {
       this.channelListPopup = true;
+    });
+    this.chlLst.whoisResponse.subscribe((d: string) => {
+      this.whoDataOf = d;
     });
   }
 

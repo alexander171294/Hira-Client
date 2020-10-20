@@ -78,3 +78,5 @@
     </footer>
   </section>
 </div>
+
+<app-whois *ngIf="whoDataOf" [nick]="whoDataOf" (oClose)="whoDataOf = undefined"></app-whois>

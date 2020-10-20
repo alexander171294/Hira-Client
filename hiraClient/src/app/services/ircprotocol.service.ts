@@ -52,6 +52,10 @@ export class IRCProtocolService {
       if (!pMsg) {
         return;
       }
+      if (pMsg.messageType === MessageTypes.WHOIS) {
+        this.chlList.whoisData(pMsg.data as string);
+        return;
+      }
       if (pMsg.messageType === MessageTypes.CLEAN_CHANNEL_LIST) {
         this.chlList.clearChannel();
         return;

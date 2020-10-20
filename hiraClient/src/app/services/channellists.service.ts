@@ -7,6 +7,7 @@ export class ChannellistsService {
 
   private channels: {name: string, description: string}[] = [];
   public onCleared: EventEmitter<void> = new EventEmitter<void>();
+  public whoisResponse: EventEmitter<string> = new EventEmitter<string>();
 
   constructor() { }
 
@@ -21,5 +22,9 @@ export class ChannellistsService {
 
   public getChannelList() {
     return this.channels;
+  }
+
+  public whoisData(user: string) {
+    this.whoisResponse.emit(user);
   }
 }

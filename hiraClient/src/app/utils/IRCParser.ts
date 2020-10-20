@@ -1,6 +1,10 @@
 import { MessageWithMetadata, UserStatuses } from '../utils/PostProcessor';
+import { WhoData, WhoDatas } from './WhoData';
 
 export class IRCParser {
+
+  public static whoUsersData: WhoDatas = {};
+
   public static parseMessage(message: string): IRCMessage[] {
       const out = [];
       message.split('\r\n').forEach(msgLine => {
@@ -82,6 +86,7 @@ export class IRCParser {
     const msg = new IRCMessage();
     // 464 bad bouncer connection?
     if (parsedMessage.code === '319') { // lista de canales
+      WhoData.appendTo(this.whoUsersData, parsedMessage.partials[3], 'channelList', parsedMessage.message.split(' '));
       if (parsedMessage.target === actualNick) {
         const out = new ProcessedMessage<string[]>();
         out.messageType = MessageTypes.CHANNEL_LIST;
@@ -92,6 +97,46 @@ export class IRCParser {
         out.data = channels;
         return out;
       }
+    }
+
+    if (parsedMessage.code === '378') {
+      // connecting from
+      // :avalon.hira.io 378 Tulkalex Tulkalex :is connecting from ~Tulkalandi@167.99.172.78 167.99.172.78
+      WhoData.appendTo(this.whoUsersData, parsedMessage.partials[3], 'connectedFrom', parsedMessage.body.replace('is connecting from ', ''));
+    }
+    if (parsedMessage.code === '312') {
+      // server desde donde está conectado
+      // :avalon.hira.io 312 Tulkalex Tulkalex avalon.hira.io :Avalon - Frankfurt, Germany
+      WhoData.appendTo(this.whoUsersData, parsedMessage.partials[3], 'server', parsedMessage.body);
+    }
+    if (parsedMessage.code === '313') {
+      // :avalon.hira.io 313 Tulkalex Tulkalex :is a GlobalOp on Hira
+      WhoData.appendTo(this.whoUsersData, parsedMessage.partials[3], 'isGOP', true);
+    }
+    if (parsedMessage.code === '379') {
+      // :avalon.hira.io 379 Tulkalex Tulkalex :is using modes +Iiow
+      const modes = parsedMessage.body.split(' ');
+      WhoData.appendTo(this.whoUsersData, parsedMessage.partials[3], 'modes', modes[modes.length - 1]);
+    }
+    if (parsedMessage.code === '330') {
+      // :avalon.hira.io 330 Tulkalex Tulkalex alexander1712 :is logged in as
+      WhoData.appendTo(this.whoUsersData, parsedMessage.partials[3], 'userAccount', parsedMessage.partials[4]);
+    }
+    if (parsedMessage.code === '671') {
+      // :avalon.hira.io 671 Tulkalex Tulkalex :is using a secure connection
+      WhoData.appendTo(this.whoUsersData, parsedMessage.partials[3], 'isSecured', true);
+    }
+    if (parsedMessage.code === '317') {
+      // :avalon.hira.io 317 Tulkalex Tulkalex 6318 1602266231 :seconds idle, signon time
+      WhoData.appendTo(this.whoUsersData, parsedMessage.partials[3], 'idle', parseInt(parsedMessage.partials[4]));
+      WhoData.appendTo(this.whoUsersData, parsedMessage.partials[3], 'lastLogin', parsedMessage.partials[5]);
+    }
+    if (parsedMessage.code === '318') {
+      // end WHO
+      const out = new ProcessedMessage<string>();
+      out.messageType = MessageTypes.WHOIS;
+      out.data = parsedMessage.partials[3];
+      return out;
     }
 
     if (parsedMessage.code === '352') { // user info (WHO response)
@@ -501,7 +546,8 @@ export enum MessageTypes {
   WHO_DATA = 'WHO_DATA',
   IM_BANNED = 'IM_BANNED',
   CLEAN_CHANNEL_LIST = 'CLEAN_CHANNEL_LIST',
-  CHANNEL_LIST_APPEND = 'CHANNEL_LIST_APPEND'
+  CHANNEL_LIST_APPEND = 'CHANNEL_LIST_APPEND',
+  WHOIS = 'WHOIS'
 }
 
 export interface ChannelTopicDTO {
