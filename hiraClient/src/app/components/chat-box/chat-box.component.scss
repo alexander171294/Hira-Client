@@ -365,6 +365,17 @@ main {
   }
 }
 
+.avatar {
+  display: inline-block;
+  height: 50px;
+  width: 50px;
+  img {
+    width: initial;
+    max-height: 50px;
+    max-width: 50px;
+  }
+}
+
 img, svg {
   width: 50px;
   vertical-align: middle;
