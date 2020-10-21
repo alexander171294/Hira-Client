@@ -91,7 +91,27 @@ export class EmoteList {
     'tarta',
     'te',
     'whisky',
-    'zumo'
+    'zumo',
+    'burguer',
+    'candy',
+    'caniche',
+    'celtic',
+    'coca',
+    'editorial',
+    'gaviota',
+    'goat',
+    'icecream',
+    'listado',
+    'magicwind',
+    'medal',
+    'musical',
+    'palette',
+    'pizza',
+    'podium',
+    'smoothie',
+    'strawberry',
+    'wizard',
+    'xane'
   ];
 
   public static readonly memes = [
