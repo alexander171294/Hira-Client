@@ -28,6 +28,10 @@ import { Part } from './dto/Part';
 import { QuitHandler } from './handlers/Quit.handler';
 import { Quit } from './dto/Quit';
 import { JoinHandler } from './handlers/Join.handler';
+import { ServerHandler } from './handlers/Server.handler';
+import { MessageHandler } from './handlers/Message.handler';
+import { IndividualMessage, IndividualMessageTypes } from './dto/IndividualMessage';
+import { Time } from './utils/Time.util';
 
 export class IRCParserV2 {
 
@@ -240,23 +244,19 @@ export class IRCParserV2 {
 
     if (parsedMessage.code === 'NOTICE') {
       if (parsedMessage.simplyOrigin && parsedMessage.simplyOrigin !== '*status' && parsedMessage.target[0] === '#') {
-        const out = new ProcessedMessage<IRCMessageDTO>();
-        out.messageType = MessageTypes.CHANNEL_MSG;
-        out.data = {
-          author: parsedMessage.simplyOrigin,
-          channel: parsedMessage.target,
-          message: parsedMessage.message,
-          meAction: false,
-          notifyAction: true
-        };
-        out.data.time = IRCParser.getTime();
-        out.data.date = IRCParser.getDateStr();
-        return out;
+        const message = new IndividualMessage();
+        message.messageType = IndividualMessageTypes.NOTIFY;
+        message.author = parsedMessage.simplyOrigin;
+        message.message = parsedMessage.message;
+        message.meAction = false;
+        message.channel = parsedMessage.target;
+        message.time = Time.getTime();
+        message.date = Time.getDateStr();
+        MessageHandler.onMessage(message);
+        return;
       } else {
-        const out = new ProcessedMessage<IRCMessage>();
-        out.messageType = MessageTypes.NOTICE;
-        out.data = parsedMessage;
-        return out;
+        ServerHandler.onServerNoticeResponse(parsedMessage);
+        return;
       }
     }
 
@@ -313,175 +313,31 @@ export class IRCParserV2 {
     }
 
     if (parsedMessage.code === 'PRIVMSG') {
-      // es mensaje /me ?
-      const meMsg = /\x01ACTION ([^\x01]+)\x01/.exec(parsedMessage.message);
-      const out = new ProcessedMessage<IRCMessageDTO>();
+      const meMsg = MessageHandler.getMeAction(parsedMessage);
+      const message = new IndividualMessage();
+      message.author = parsedMessage.simplyOrigin;
       if (meMsg) {
-        out.data = {
-          author: parsedMessage.simplyOrigin,
-          message:  meMsg[1],
-          meAction: true,
-          notifyAction: false
-        };
+        message.message = meMsg[1];
+        message.meAction = true;
       } else {
-        out.data = {
-          author: parsedMessage.simplyOrigin,
-          message: parsedMessage.message,
-          meAction: false,
-          notifyAction: false
-        };
+        message.message = parsedMessage.message;
+        message.meAction = false;
       }
-      out.data.time = IRCParser.getTime();
-      out.data.date = IRCParser.getDateStr();
+      message.time = Time.getTime();
+      message.date = Time.getDateStr();
       if (parsedMessage.target === actualNick) { // privado
-        out.messageType = MessageTypes.PRIV_MSG;
+        message.messageType = IndividualMessageTypes.PRIVMSG;
       } else {
-        out.messageType = MessageTypes.CHANNEL_MSG;
-        out.data.channel = parsedMessage.target;
+        message.messageType = IndividualMessageTypes.CHANMSG;
+        message.channel = parsedMessage.target;
       }
-      out.data.mention = out.data.message ? out.data.message.indexOf(actualNick) >= 0 : false;
-      return out;
+      message.mention = message.message ? message.message.indexOf(actualNick) >= 0 : false;
+      MessageHandler.onMessage(message);
+      return;
     }
 
-    // console.log('Uknown message: ', parsedMessage);
-    const out = new ProcessedMessage<IRCMessage>();
-    out.messageType = MessageTypes.SERVER;
-    out.data = parsedMessage;
-    return out;
+    ServerHandler.onServerResponse(parsedMessage);
+    return;
   }
 
-  public static getTime(): string {
-    const now = new Date();
-    const hours = now.getHours() < 10 ? '0' + now.getHours() : now.getHours();
-    const min = now.getMinutes() < 10 ? '0' + now.getMinutes() : now.getMinutes();
-    const second = now.getSeconds() < 10 ? '0' + now.getSeconds() : now.getSeconds();
-    return hours + ':' + min + ':' + second;
-  }
-
-  public static getDateStr(): string {
-    const now = new Date();
-    const month = (now.getMonth() + 1);
-    const monthStr = month < 10 ? '0' + month : month;
-    const day = now.getDate();
-    const dayStr = day < 10 ? '0' + day : day;
-    return dayStr + '/' + monthStr + '/' + now.getFullYear();
-  }
 }
-/*
-
-
-
-
-
-
-export class ProcessedMessage<dataType> {
-  public messageType: MessageTypes;
-  public data: dataType;
-
-  public static getFrom(messages: IRCMessageDTO[], type: MessageTypes) {
-    const out: ProcessedMessage<IRCMessageDTO>[] = [];
-    if (!messages) {
-      return [];
-    }
-    messages.forEach(msg => {
-      const pm = new ProcessedMessage<IRCMessageDTO>();
-      msg.fromLog = true;
-      pm.data = msg;
-      pm.messageType = type;
-      out.push(pm);
-    });
-    return out;
-  }
-}
-
-export enum MessageTypes {
-  CHANNEL_LIST = 'CHANNEL_LIST',
-  CHANNEL_USERS = 'CHANNEL_USERS',
-  NICK_ALREADY_IN_USE = 'NICK_ALREADY_IN_USE',
-  OUR_NICK_CHANGED = 'OUR_NICK_CHANGED',
-  NICK_CHANGED = 'NICK_CHANGED',
-  USER_LEAVING = 'USER_LEAVING',
-  USER_JOINING = 'USER_JOINING',
-  PRIV_MSG = 'PRIV_MSG',
-  CHANNEL_MSG = 'CHANNEL_MSG',
-  SERVER = 'SERVER',
-  NOTICE = 'NOTICE',
-  MOTD = 'MOTD',
-  CHANNEL_TOPIC = 'CHANNEL_TOPIC',
-  QUIT = 'QUIT',
-  MODE_CHANGE = 'MODE_CHANGE',
-  KICK = 'KICK',
-  BAN = 'BAN',
-  BOUNCER = 'BOUNCER', // for server /PASS command connect.
-  WHO_DATA = 'WHO_DATA',
-  IM_BANNED = 'IM_BANNED',
-  CLEAN_CHANNEL_LIST = 'CLEAN_CHANNEL_LIST',
-  CHANNEL_LIST_APPEND = 'CHANNEL_LIST_APPEND',
-  WHOIS = 'WHOIS',
-  GMODE = 'GMODE'
-}
-
-export interface ChannelTopicDTO {
-  channel: string;
-  topic: string;
-}
-
-export interface ChannelListDTO {
-  name: string;
-  description: string;
-}
-
-export interface ChannelUsersDTO {
-  channel: string;
-  users: string[];
-}
-
-export interface ModeChangeDTO {
-  target: string;
-  channel: string;
-  modeAdded: boolean;
-  mode: string;
-}
-
-export interface NickChangedDTO {
-  origin: string;
-  newNick: string;
-}
-
-export interface KickedDTO {
-  channel: string;
-  operator: string;
-  userTarget: string;
-  me: boolean;
-}
-
-export interface UserLeavingDTO {
-  channel: string;
-  user: string;
-  message: string;
-  me?: boolean;
-}
-
-export interface UserJoiningDTO {
-  channel: string;
-  user: string;
-  fullUser: OriginData;
-  userMsg: string;
-}
-
-export interface IRCMessageDTO {
-  author: string;
-  message: string;
-  richMessage?: MessageWithMetadata;
-  meAction: boolean;
-  notifyAction: boolean;
-  specialAction?: boolean;
-  isAwayNotify?: boolean;
-  time?: string;
-  date?: string;
-  channel?: string;
-  mention?: boolean;
-  fromLog?: boolean;
-  privateAuthor?: string; // when i send private message my nick is here.
-}
-*/
