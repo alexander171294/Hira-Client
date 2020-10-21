@@ -223,7 +223,9 @@ client.on('message', function(nick, to, text, message){
         if (dataPart[0] == 'ayuda' || dataPart[0] == 'help') {
             client.say(nick, '/hc join #canal | para unir el bot al canal');
             client.say(nick, '/hc #canal userNick r RangoNombre #aaa | dar rango en un canal a un usuario');
+            client.say(nick, '/hc #canal userNick -r | eliminar rango en un canal a un usuario');
             client.say(nick, '/hc userNick g RangoNombre #aaa | dar rango global a un usuario');
+            client.say(nick, '/hc userNick -g | eliminar rango global a un usuario');
             client.say(nick, '/hc owners')
             client.say(nick, '/hc avatar http:/imgur.com/a15q3.png | only png accepted')
         } else if (dataPart[2] == 'r') {
@@ -259,9 +261,6 @@ client.on('message', function(nick, to, text, message){
                 let channel = dataPart[0]; 
                 if(dataPart[0][0] == '#') {
                     channel = channel.slice(1);
-                }
-                if(!rangosCustom[channel]) {
-                    rangosCustom[channel] = {};
                 }
                 delete rangosCustom[channel][dataPart[1]];
                 fs.writeFileSync('./dataStored/rangos-custom.json', JSON.stringify(rangosCustom));
