@@ -6,15 +6,12 @@
 - vhost e info de usuario en menu de la derecha.
 - cabras voladoras y meteoritos de fuego
 
-// whois: https://i.imgur.com/IZZrTIz.png
-// emotes: https://imgur.com/3xDLkLM.png
-// /umode +g : https://imgur.com/Dz2lpzF.png
-
 == BUGS ==
 cambio de nick en una pestaña
 - el auto-who no funciona en privados
 - el mensaje de ver más en segundo plano roto (ver en windows).
 - quoteo doble filtro: https://i.imgur.com/hW3dQxZ.png https://i.imgur.com/mJ7yjTq.png
+- al resize ajustar scroll (mensaje).
 
 === Lista de comandos ===
 
