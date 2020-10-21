@@ -54,6 +54,7 @@ export class AppComponent implements OnInit {
   advertenciaKickeado: boolean;
   cambiarNickPopup: boolean;
   channelListPopup: boolean;
+  electronCFG: boolean;
   whoDataOf: string;
   gmode: string;
 
@@ -356,5 +357,9 @@ export class AppComponent implements OnInit {
       this.send('/accept +' + this.gmode);
     }
     this.gmode = undefined;
+  }
+
+  openElectronCFG() {
+    this.electronCFG = true;
   }
 }

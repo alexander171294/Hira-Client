@@ -5,8 +5,25 @@ const contextMenu = require('electron-context-menu');
 const os = require('os');
 const { autoUpdater } = require("electron-updater");
 
-let logsSave;
+let hiraClientCFG;
 if (os.platform() == 'linux') {
+  hiraClientCFG = process.env['HOME'].toString() + '/.hiraclient';
+} else {
+  hiraClientCFG = process.env['USERPROFILE'].toString() + '/.hiraclient';
+}
+
+let HCCFG;
+if(fs.existsSync(hiraClientCFG)) {
+  HCCFG = JSON.parse(fs.readFileSync(hiraClientCFG));
+}
+if(!HCCFG) {
+  HCCFG = {};
+}
+
+let logsSave;
+if(HCCFG.logsSave) {
+  logsSave = HCCFG.logsSave;
+} else if (os.platform() == 'linux') {
   logsSave = process.env['HOME'].toString() + '/hiraclient-logs';
 } else {
   logsSave = process.env['USERPROFILE'].toString() + '/hiraclient-logs';
@@ -60,6 +77,24 @@ function createWindow () {
     fs.writeFile(flocation, data.message, { flag: "a+" }, (err) => {
       if (err) throw err;
     }); 
+  });
+  ipcMain.on('getLogRoute', async(evt, data) => {
+    win.webContents.send('logRoute', logsSave)
+  });
+  ipcMain.on('setLogRoute', async(evt, data) => {
+    let validRoute = true;
+    if(!fs.existsSync(data)) {
+      try {
+        fs.mkdirSync(data);
+      } catch(e) {
+        validRoute = false;
+      }
+    }
+    if (validRoute) {
+      logsSave = data;
+      HCCFG.logsSave = data;
+      fs.writeFileSync(hiraClientCFG, JSON.stringify(HCCFG));
+    }
   });
 }
 

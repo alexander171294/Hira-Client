@@ -34,7 +34,7 @@ export class LogService {
       logs = logs.slice(environment.maxLogs * -1);
     }
     localStorage.setItem(target, JSON.stringify(logs));
-    if (environment.electron) {
+    if (environment.electron && !localStorage.getItem('ignoreLogs')) {
       let messageTXT;
       const author = message.privateAuthor ? message.privateAuthor :  message.author;
       if (message.meAction) {

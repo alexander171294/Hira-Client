@@ -15,6 +15,7 @@
   (sendCommand)="send($event)"
   (openHelp)="openHelp()"
   (doClosePC)="doClose($event)"
+  (electronCFG)="openElectronCFG()"
 ></app-chat-list>
 <app-chat-box #cbox
   [users]="channelUsers"
@@ -81,3 +82,4 @@
 
 <app-whois *ngIf="whoDataOf" [nick]="whoDataOf" (oClose)="whoDataOf = undefined"></app-whois>
 <app-gmode *ngIf="gmode" [nick]="gmode" (oClose)="closeGmode($event)"></app-gmode>
+<app-electron-cfg *ngIf="electronCFG" (oClose)="electronCFG=false"></app-electron-cfg>

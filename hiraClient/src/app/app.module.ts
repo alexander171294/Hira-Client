@@ -15,6 +15,7 @@ import { ChannelListComponent } from './components/channel-list/channel-list.com
 import { EmoteListComponent } from './components/chat-box/emote-list/emote-list.component';
 import { WhoisComponent } from './components/whois/whois.component';
 import { GmodeComponent } from './components/gmode/gmode.component';
+import { ElectronCFGComponent } from './components/electron-cfg/electron-cfg.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { GmodeComponent } from './components/gmode/gmode.component';
     ChannelListComponent,
     EmoteListComponent,
     WhoisComponent,
-    GmodeComponent
+    GmodeComponent,
+    ElectronCFGComponent
   ],
   imports: [
     BrowserModule,

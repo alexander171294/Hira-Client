@@ -1,0 +1,19 @@
+<div class="boxAlert">
+  <section>
+    <header>Configuración de la app</header>
+    <p>
+      <input type="text" placeholder="gateway" [(ngModel)]="gateway"/>
+    </p>
+    <!--  *ngIf="isElectron" -->
+    <p *ngIf="isElectron">
+      <input type="text" placeholder="log route" [(ngModel)]="logRoute"/>
+    </p>
+    <p *ngIf="isElectron">
+      <label>Guardar logs?</label>
+      <input type="checkbox" [(ngModel)]="saveLogs"/>
+    </p>
+    <footer>
+      <button (click)="save()">Guardar</button>
+    </footer>
+  </section>
+</div>
