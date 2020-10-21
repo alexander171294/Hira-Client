@@ -15,7 +15,7 @@ export const environment = {
     dark: 'darkSkin',
     light: 'lightSkin'
   },
-  version: 'RC7-NightWitch',
+  version: 'RC8-Apocalipsis',
   default: {
     name: 'Hira.li',
     server: 'kappa.hira.li',
