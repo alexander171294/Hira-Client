@@ -1,5 +1,10 @@
 declare var startEventEffect: any;
 declare var startEventEffectRegalo: any;
+declare var startEventEffectCabritas: any;
+declare var startEventEffectPrimavera: any;
+declare var startEventEffectVerano: any;
+declare var startEventEffectOtono: any;
+declare var startEventEffectInvierno: any;
 
 export class EmoteList {
 
@@ -167,6 +172,18 @@ export class EmoteList {
     } else if (author === 'Gabriela-') {
       if (name === 'magia') {
         startEventEffect();
+      }
+      if (name === 'primavera') {
+        startEventEffectPrimavera();
+      }
+      if (name === 'verano') {
+        startEventEffectVerano();
+      }
+      if (name === 'otono') {
+        startEventEffectOtono();
+      }
+      if (name === 'cabritas') {
+        startEventEffectCabritas();
       }
       if (name === 'regalos') {
         startEventEffectRegalo();
