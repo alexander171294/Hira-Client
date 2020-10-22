@@ -1,6 +1,6 @@
 {
   "name": "hira-client-desktop",
-  "version": "0.0.7",
+  "version": "0.7.1",
   "description": "Hira client ported to desktop",
   "main": "index.js",
   "dependencies": {
