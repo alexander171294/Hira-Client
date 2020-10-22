@@ -15,7 +15,7 @@ export class PostProcessor {
       message = message.replace(imageLink[0], '');
       mwm.image = imageLink[0];
     }
-    const otherLink = /(http|https):\/\/([\w_-]+(?:(?:\.[\w_-]+)+))([\w.,@?^=%&:\/~+#-]*[\w@?^=%&\/~+#-])?/.exec(message);
+    const otherLink = /(http|https):\/\/([\w_-]+(?:(?:\.[\w_-]+)+))([\w.,@?^=%&:\/~+#\(\)-]*[\w@?^=%&\/~+#-])?/.exec(message);
     if (otherLink) {
       message = message.replace(otherLink[0], '');
       mwm.link = otherLink[0];
