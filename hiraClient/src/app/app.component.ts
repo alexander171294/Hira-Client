@@ -6,7 +6,7 @@ import { ProcessedMessage, IRCMessage, IRCMessageDTO, UserJoiningDTO, UserLeavin
 import { CBoxChatTypes, ChatBoxComponent } from './components/chat-box/chat-box.component';
 import { ChatData, NotificationsChats } from './components/chat-list/chat-list.component';
 import { ParamParse } from './utils/ParamParse';
-import { UserStatuses, UserWithMetadata } from './utils/PostProcessor';
+import { UserWithMetadata } from './utils/PostProcessor';
 import { MessageHandlerService } from './services/message-handler.service';
 import { environment } from 'src/environments/environment';
 import { ChannellistsService } from './services/channellists.service';
