@@ -24,6 +24,12 @@ export class ChannelStatusHandler {
     return channels;
   }
 
+  public static setHandler(hdlr: OnTopicUpdate) {
+    this.channelTopicResponse.subscribe(topic => {
+      hdlr.onTopicUpdate(topic.channel, topic.newTopic);
+    });
+  }
+
 }
 
 export class ChannelsTopic {
@@ -37,4 +43,8 @@ export class ChannelTopicUpdate {
     this.channel = channel;
     this.newTopic = newTopic;
   }
+}
+
+export interface OnTopicUpdate {
+  onTopicUpdate(channel: string, newTopic: string);
 }

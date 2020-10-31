@@ -1,3 +1,4 @@
+import { OnTopicUpdate } from './../handlers/ChannelStatus.handler';
 import { ChannelListHandler, OnChannelList } from './../handlers/ChannelList.handler';
 import { OnUserList, UsersHandler } from './../handlers/Users.handler';
 import { PartHandler } from './../handlers/Part.handler';
@@ -14,6 +15,7 @@ import { Channel } from '../dto/Channel';
 import { OnNickChanged, StatusHandler } from '../handlers/Status.handler';
 import { NickChange } from '../dto/NickChange';
 import { User } from '../dto/User';
+import { ChannelStatusHandler } from '../handlers/ChannelStatus.handler';
 
 /**
  * Servicio para gestionar mis canales y los usuarios en esos canales
@@ -21,7 +23,7 @@ import { User } from '../dto/User';
 @Injectable({
   providedIn: 'root'
 })
-export class ChannelsService implements OnJoin, OnPart, OnKick, OnUserList, OnChannelList, OnNickChanged {
+export class ChannelsService implements OnJoin, OnPart, OnKick, OnUserList, OnChannelList, OnNickChanged, OnTopicUpdate {
 
   private channels: ChannelData[] = [];
   private meNick: string;
@@ -34,6 +36,7 @@ export class ChannelsService implements OnJoin, OnPart, OnKick, OnUserList, OnCh
     UsersHandler.setHandler(this);
     ChannelListHandler.setHandler(this);
     StatusHandler.setHandlerNickChanged(this);
+    ChannelStatusHandler.setHandler(this);
   }
 
   public setMe(nick: string) {
@@ -64,6 +67,8 @@ export class ChannelsService implements OnJoin, OnPart, OnKick, OnUserList, OnCh
   private addChannel(channel: string) {
     const nChannel = new ChannelData();
     nChannel.name = channel;
+    nChannel.topic = ChannelStatusHandler.getChannelTopic(nChannel.name);
+    nChannel.messages = []; // Get from log?
     this.channels.push(nChannel);
     return nChannel;
   }
@@ -105,7 +110,7 @@ export class ChannelsService implements OnJoin, OnPart, OnKick, OnUserList, OnCh
           chnlObj.users.splice(idx, 1);
         }
       } else {
-        console.error('No se encontró el canal en el que se kickeó el usuario.');
+        console.error('No se encontró el canal en el que se kickeó el usuario.', data.channel);
       }
     }
   }
@@ -121,7 +126,7 @@ export class ChannelsService implements OnJoin, OnPart, OnKick, OnUserList, OnCh
           chnlObj.users.splice(idx, 1);
         }
       } else {
-        console.error('No se encontró el canal en el que partió el usuario.');
+        console.error('No se encontró el canal en el que partió el usuario.', data.channel);
       }
     }
   }
@@ -138,7 +143,7 @@ export class ChannelsService implements OnJoin, OnPart, OnKick, OnUserList, OnCh
         newUser.mode = data.user.mode;
         chnlObj.users.push(newUser);
       } else {
-        console.error('No se encontró el canal en el que se unió el usuario.');
+        console.error('No se encontró el canal en el que se unió el usuario.', data.channel);
       }
     }
   }
@@ -152,6 +157,15 @@ export class ChannelsService implements OnJoin, OnPart, OnKick, OnUserList, OnCh
       const oldUsr = chnl.users.find(usr => usr.nick === nick.oldNick);
       oldUsr.nick = nick.newNick;
     });
+  }
+
+  onTopicUpdate(channel: string, newTopic: string) {
+    const chnlObj = this.channels.find(chnl => chnl.name === channel);
+    if (chnlObj) {
+      chnlObj.topic = newTopic;
+    } else {
+      console.error('No se encontró el canal en el que se cambió el topic. ', channel);
+    }
   }
 
   getChannels() {
