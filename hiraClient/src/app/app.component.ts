@@ -77,6 +77,7 @@ export class AppComponent implements OnInit {
     this.isConnected = true;
     if (!this.server.isWS) {
       // enviar datos de conexión del gateway
+
     }
   }
 

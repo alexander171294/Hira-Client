@@ -1,3 +1,4 @@
+import { UserInfoService } from './user-info.service';
 import { OnTopicUpdate } from './../handlers/ChannelStatus.handler';
 import { ChannelListHandler, OnChannelList } from './../handlers/ChannelList.handler';
 import { OnUserList, UsersHandler } from './../handlers/Users.handler';
@@ -26,9 +27,8 @@ import { ChannelStatusHandler } from '../handlers/ChannelStatus.handler';
 export class ChannelsService implements OnJoin, OnPart, OnKick, OnUserList, OnChannelList, OnNickChanged, OnTopicUpdate {
 
   private channels: ChannelData[] = [];
-  private meNick: string;
 
-  constructor() {
+  constructor(private userSrv: UserInfoService) {
     // Subscribe to events
     JoinHandler.setHandler(this);
     KickHandler.setHandler(this);
@@ -39,13 +39,9 @@ export class ChannelsService implements OnJoin, OnPart, OnKick, OnUserList, OnCh
     ChannelStatusHandler.setHandler(this);
   }
 
-  public setMe(nick: string) {
-    this.meNick = nick;
-  }
-
   onChannelList(user: string, channels: Channel[]) {
     // actualizamos nuestra lista de canales:
-    if (user === this.meNick) {
+    if (user === this.userSrv.getNick()) {
       // agregamos nuevos canales
       const actualChnls = [];
       channels.forEach(channel => {
@@ -100,7 +96,7 @@ export class ChannelsService implements OnJoin, OnPart, OnKick, OnUserList, OnCh
   }
 
   onKick(data: KickInfo) {
-    if (data.userTarget.nick === this.meNick) {
+    if (data.userTarget.nick === this.userSrv.getNick()) {
       //
     } else {
       const chnlObj = this.channels.find(chnl => chnl.name === data.channel.name);
@@ -116,7 +112,7 @@ export class ChannelsService implements OnJoin, OnPart, OnKick, OnUserList, OnCh
   }
 
   onPart(data: Part) {
-    if (data.user.nick === this.meNick) {
+    if (data.user.nick === this.userSrv.getNick()) {
 
     } else {
       const chnlObj = this.channels.find(chnl => chnl.name === data.channel.name);
@@ -132,7 +128,7 @@ export class ChannelsService implements OnJoin, OnPart, OnKick, OnUserList, OnCh
   }
 
   onJoin(data: Join) {
-    if (data.user.nick === this.meNick) {
+    if (data.user.nick === this.userSrv.getNick()) {
       if (!this.channels.find(chnl => chnl.name === data.channel.name)) {
         this.addChannel(data.channel.name);
       }
@@ -149,9 +145,6 @@ export class ChannelsService implements OnJoin, OnPart, OnKick, OnUserList, OnCh
   }
 
   onNickChanged(nick: NickChange) {
-    if (nick.oldNick === this.meNick) {
-      this.setMe(nick.newNick);
-    }
     // buscar en la lista de usuarios en cada canal el nick y cambiarlo
     this.channels.forEach(chnl => {
       const oldUsr = chnl.users.find(usr => usr.nick === nick.oldNick);
