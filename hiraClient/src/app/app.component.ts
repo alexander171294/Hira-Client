@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { ParamParse } from './utils/ParamParse';
-import { MessageHandlerService } from './services/message-handler.service';
 import { environment } from 'src/environments/environment';
 
 declare var electronApi: any;
@@ -27,7 +26,7 @@ export class AppComponent implements OnInit {
   public gmodeOf: string;
   public electronCFG: boolean;
 
-  constructor(private msgHdlr: MessageHandlerService) { }
+  constructor() { }
 
   ngOnInit(): void {
     ParamParse.parseHash(window.location.hash.slice(1));
