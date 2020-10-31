@@ -10,7 +10,7 @@ export class ModeHandler {
   public static readonly modeChange: EventEmitter<NewMode> = new EventEmitter<NewMode>();
 
   public static modeParser(rawMessage: string): string[] {
-    return /(\+|\-)([a-zA-Z]+)\s(.*)/.exec(rawMessage);
+    return /(\+|\-)?([a-zA-Z]+)\s(.*)/.exec(rawMessage);
   }
 
   public static changeMode(mode: NewMode) {

@@ -1,9 +1,10 @@
 import { ConnectionStatus, ConnectionStatusData, WebSocketUtil } from './IRCore/utils/WebSocket.util';
-import { ServerData } from 'src/app/utils/ServerData';
+import { ConnectionMethods, ServerData } from 'src/app/utils/ServerData';
 import { IRCoreService } from './IRCore/IRCore.service';
 import { Component, OnInit } from '@angular/core';
 import { ParamParse } from './utils/ParamParse';
 import { environment } from 'src/environments/environment';
+import { MotdHandler } from './IRCore/handlers/Motd.handler';
 
 declare var electronApi: any;
 declare var GLB_electronConfig: any;
@@ -42,6 +43,9 @@ export class AppComponent implements OnInit {
         if (status.status === ConnectionStatus.ERROR) {
           this.onDisconnect();
         }
+    });
+    MotdHandler.requirePasswordResponse.subscribe(d => {
+      this.onRequiredPassword();
     });
   }
 
@@ -83,6 +87,14 @@ export class AppComponent implements OnInit {
         hostGW = this.server.server;
       }
       this.irCoreSrv.handshake(uname, this.server.apodo, hostGW);
+    }
+  }
+
+  private onRequiredPassword() {
+    if (this.server.autoConnect === ConnectionMethods.PASS) {
+      this.irCoreSrv.serverPass(this.server.username, this.server.password, this.server.apodo);
+    } else {
+      // TODO: popup de aviso que se requiere login
     }
   }
 

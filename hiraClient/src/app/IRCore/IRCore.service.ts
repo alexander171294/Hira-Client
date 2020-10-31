@@ -25,7 +25,9 @@ export class IRCoreService {
         console.error('Received error from stream: ', message.message);
         return;
       }
-      IRCParserV2.parseMessage(message.message);
+      IRCParserV2.parseMessage(message.message).forEach(msg => {
+        IRCParserV2.processMessage(msg, message.message, this.userSrv.getNick());
+      });
     });
   }
 
@@ -49,7 +51,6 @@ export class IRCoreService {
 
   public serverPass(user: string, password: string, apodo: string) {
     this.sendRaw('PASS ' + user + ':' + password);
-    this.setNick(apodo);
   }
 
   public setNick(nick: string) {

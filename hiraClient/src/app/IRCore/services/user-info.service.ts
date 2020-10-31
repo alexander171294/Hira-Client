@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, EventEmitter } from '@angular/core';
 import { NickChange } from '../dto/NickChange';
 import { OnNickChanged, StatusHandler } from '../handlers/Status.handler';
 
@@ -11,6 +11,7 @@ import { OnNickChanged, StatusHandler } from '../handlers/Status.handler';
 export class UserInfoService implements OnNickChanged {
 
   private actualNick: string;
+  public readonly onChangeNick = new EventEmitter<string>();
 
   constructor() {
     StatusHandler.setHandlerNickChanged(this);
@@ -22,6 +23,7 @@ export class UserInfoService implements OnNickChanged {
 
   public setNick(nick: string) {
     this.actualNick = nick;
+    this.onChangeNick.emit(nick);
   }
 
   onNickChanged(nick: NickChange) {

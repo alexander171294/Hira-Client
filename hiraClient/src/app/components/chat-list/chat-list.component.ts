@@ -1,6 +1,9 @@
+import { UserInfoService } from './../../IRCore/services/user-info.service';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { ParamParse } from 'src/app/utils/ParamParse';
 import { environment } from 'src/environments/environment';
+import { ChannelsService } from 'src/app/IRCore/services/channels.service';
+import { ChannelData } from 'src/app/IRCore/services/ChannelData';
 
 @Component({
   selector: 'app-chat-list',
@@ -9,8 +12,9 @@ import { environment } from 'src/environments/environment';
 })
 export class ChatListComponent implements OnInit {
 
-  @Input() channels: string[];
-  @Input() privateChats: string[];
+  channels: ChannelData[];
+  privateChats: string[];
+  actualNick: string;
   @Input() actualChat?: string;
   @Input() actualIsPrivateChat?: boolean;
   @Input() serverSelected: boolean;
@@ -25,46 +29,41 @@ export class ChatListComponent implements OnInit {
   @Output() sendCommand: EventEmitter<string> = new EventEmitter<string>();
   @Output() openHelp: EventEmitter<string> = new EventEmitter<string>();
 
-  @Input() notifications: NotificationsChats;
-
-  @Input() actualNick: string;
   embd: boolean;
 
   version = environment.version;
   public toolService = environment.toolService;
 
   searching = false;
-  findedChannels: string[];
+  findedChannels: ChannelData[];
   findedPrivates: string[];
 
-  constructor() { }
+  constructor(private userSrv: UserInfoService, private chanSrv: ChannelsService) {
+    this.userSrv.onChangeNick.subscribe(newnick => {
+      this.actualNick = newnick;
+    });
+    this.channels = this.chanSrv.getChannels();
+  }
 
   ngOnInit(): void {
     this.embd = ParamParse.parametria.embedded ? true : false;
   }
 
   activeChat(chatName: string, isPrivateChat: boolean) {
-    // this.actualChat = chatName;
-    // this.actualIsPrivateChat = isPrivateChat;
     this.changeChat.emit(new ChatData(isPrivateChat, chatName));
-    if (isPrivateChat) {
-      this.notifications.privates[chatName] = undefined;
-    } else {
-      this.notifications.channels[chatName] = undefined;
-    }
   }
 
   deactiveChat() {
     this.selectServer.emit();
-    this.notifications.server = false;
+    // this.notifications.server = false;
   }
 
   chgNick() {
     this.changeNick.emit();
   }
 
-  leave(channel) {
-    this.doLeave.emit('#' + channel);
+  leave(channel: ChannelData) {
+    this.doLeave.emit(channel.name);
   }
 
   close(privateChat) {
@@ -90,7 +89,7 @@ export class ChatListComponent implements OnInit {
     console.log(query);
     if (query.length >= 2) {
       this.searching = true;
-      this.findedChannels = this.channels?.filter(channel => channel.toLowerCase().indexOf(query.toLowerCase()) >= 0);
+      this.findedChannels = this.channels?.filter(channel => channel.name.toLowerCase().indexOf(query.toLowerCase()) >= 0);
       this.findedPrivates = this.privateChats?.filter(pc => pc.toLowerCase().indexOf(query.toLowerCase()) >= 0);
     } else {
       this.searching = false;
