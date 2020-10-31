@@ -5,5 +5,5 @@ import { IRCMessage } from '../utils/IRCMessage.util';
  */
 export class MotdHandler {
   public static readonly motdResponse: EventEmitter<IRCMessage> = new EventEmitter<IRCMessage>();
-  public static readonly bouncerHookResponse: EventEmitter<IRCMessage> = new EventEmitter<IRCMessage>();
+  public static readonly requirePasswordResponse: EventEmitter<IRCMessage> = new EventEmitter<IRCMessage>();
 }

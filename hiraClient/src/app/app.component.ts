@@ -77,7 +77,12 @@ export class AppComponent implements OnInit {
     this.isConnected = true;
     if (!this.server.isWS) {
       // enviar datos de conexión del gateway
-
+      const uname = this.server.username ? this.server.username : this.server.apodo;
+      let hostGW;
+      if (!this.server.isWS) {
+        hostGW = this.server.server;
+      }
+      this.irCoreSrv.handshake(uname, this.server.apodo, hostGW);
     }
   }
 

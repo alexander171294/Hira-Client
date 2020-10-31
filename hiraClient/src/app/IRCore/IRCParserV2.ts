@@ -233,7 +233,7 @@ export class IRCParserV2 {
     }
 
     if (parsedMessage.code === '464') {
-      MotdHandler.bouncerHookResponse.emit(parsedMessage);
+      MotdHandler.requirePasswordResponse.emit(parsedMessage);
       return;
     }
 
