@@ -70,10 +70,10 @@ export class ChannelsService implements OnJoin, OnPart, OnKick, OnUserList, OnCh
   }
 
   onUserList(channel: string, users: UserInChannel[]) {
-    const channelObj = this.channels.find(chnl => chnl.name = channel);
+    let channelObj = this.channels.find(chnl => chnl.name === channel);
     // si no existe este canal lo agregamos.
     if (!channelObj) {
-      this.addChannel(channel);
+      channelObj = this.addChannel(channel);
     }
     const actualUsers = [];
     users.forEach(currentUser => {

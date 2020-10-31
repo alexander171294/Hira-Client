@@ -169,7 +169,8 @@ export class IRCParserV2 {
       users.forEach(user => {
         usersInChannel.push(new UserInChannel(user, channel));
       });
-      UsersHandler.addUsersToChannel(channel, usersInChannel);
+      const chnlObj = new Channel(channel);
+      UsersHandler.addUsersToChannel(chnlObj.name, usersInChannel);
       return;
     }
 
