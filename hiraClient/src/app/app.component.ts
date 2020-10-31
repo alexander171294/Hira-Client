@@ -1,3 +1,6 @@
+import { ConnectionStatus, ConnectionStatusData, WebSocketUtil } from './IRCore/utils/WebSocket.util';
+import { ServerData } from 'src/app/utils/ServerData';
+import { IRCoreService } from './IRCore/IRCore.service';
 import { Component, OnInit } from '@angular/core';
 import { ParamParse } from './utils/ParamParse';
 import { environment } from 'src/environments/environment';
@@ -13,9 +16,9 @@ declare var GLB_electronConfig: any;
 export class AppComponent implements OnInit {
 
   public embd: boolean;
-  public connectPopup: boolean;
+  public connectPopup = true;
   public isConnected: boolean;
-  public connectionError: boolean;
+  public connectionError: string;
   public channelListPopup: boolean;
   public advertenciaBanneado: boolean;
   public advertenciaKickeado: boolean;
@@ -26,7 +29,21 @@ export class AppComponent implements OnInit {
   public gmodeOf: string;
   public electronCFG: boolean;
 
-  constructor() { }
+  private server: ServerData;
+
+  constructor(private irCoreSrv: IRCoreService) {
+    WebSocketUtil.statusChanged.subscribe((status: ConnectionStatusData<any>) => {
+        if (status.status === ConnectionStatus.CONNECTED) {
+          this.onConnect();
+        }
+        if (status.status === ConnectionStatus.DISCONNECTED) {
+          this.onDisconnect();
+        }
+        if (status.status === ConnectionStatus.ERROR) {
+          this.onDisconnect();
+        }
+    });
+  }
 
   ngOnInit(): void {
     ParamParse.parseHash(window.location.hash.slice(1));
@@ -44,6 +61,28 @@ export class AppComponent implements OnInit {
     } else if (localStorage.getItem('ThemeForzed')) {
       document.body.classList.add(environment.skins[localStorage.getItem('ThemeForzed')]);
     }
+  }
+
+  connect(serverData: ServerData) {
+    if (serverData.isWS) {
+      this.irCoreSrv.connect('wss://' + serverData.server);
+    } else {
+      this.irCoreSrv.connect(environment.gateway);
+    }
+    this.server = serverData;
+    this.connectPopup = false;
+  }
+
+  private onConnect() {
+    this.isConnected = true;
+    if (!this.server.isWS) {
+      // enviar datos de conexión del gateway
+    }
+  }
+
+  private onDisconnect() {
+    this.connectPopup = true;
+    this.connectionError = 'Ocurrió un error de conexión';
   }
 
   closeChlList(evt) {

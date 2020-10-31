@@ -8,6 +8,7 @@
 <app-server-box *ngIf="connectPopup"
   [isConnected]="isConnected"
   [connectionError]="connectionError"
+  (connected)="connect($event)"
   (closePopup)="connectPopup = false"
 ></app-server-box>
 <app-channel-list *ngIf="channelListPopup" (closeEvt)="closeChlList($event)"></app-channel-list>
