@@ -5,6 +5,8 @@ import { Component, OnInit } from '@angular/core';
 import { ParamParse } from './utils/ParamParse';
 import { environment } from 'src/environments/environment';
 import { MotdHandler } from './IRCore/handlers/Motd.handler';
+import { CBoxChatTypes } from './components/chat-box/chat-box.component';
+import { ChatData } from './components/chat-list/chat-list.component';
 
 declare var electronApi: any;
 declare var GLB_electronConfig: any;
@@ -31,6 +33,11 @@ export class AppComponent implements OnInit {
   public electronCFG: boolean;
 
   private server: ServerData;
+
+  public inServerChat = true;
+  public messages: any;
+  public chatName: string = 'SERVER';
+  public chatType = CBoxChatTypes.SERVER;
 
   constructor(private irCoreSrv: IRCoreService) {
     WebSocketUtil.statusChanged.subscribe((status: ConnectionStatusData<any>) => {
@@ -117,5 +124,13 @@ export class AppComponent implements OnInit {
 
   closeGmode(evt) {
 
+  }
+
+  changeChat(cdata: ChatData) {
+    if (cdata.privateChat) {
+
+    } else {
+
+    }
   }
 }

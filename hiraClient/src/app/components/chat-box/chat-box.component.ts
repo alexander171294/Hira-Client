@@ -15,7 +15,6 @@ export class ChatBoxComponent implements OnInit {
   @Input() messages: any[];
   @Input() chatName: string;
   @Input() chatType: CBoxChatTypes;
-  @Input() members: number;
   @Input() topic: string;
   @Input() users: UserWithMetadata[];
   @Output() sendCommand: EventEmitter<string> = new EventEmitter<string>();

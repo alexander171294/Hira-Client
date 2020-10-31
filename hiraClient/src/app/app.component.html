@@ -1,7 +1,13 @@
 <app-chat-list
   *ngIf="!this.embd"
+  [serverSelected]="inServerChat"
+  (changeChat)="changeChat($event)"
 ></app-chat-list>
-<app-chat-box #cbox></app-chat-box>
+<app-chat-box #cbox
+  [messages]="messages"
+  [chatName]="chatName"
+  [chatType]="chatType"
+></app-chat-box>
 <app-user-list
   *ngIf="!this.embd"
 ></app-user-list>
