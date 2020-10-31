@@ -7,4 +7,14 @@ export class QuitHandler {
   public static onQuit(quit: Quit) {
     this.quitResponse.emit(quit);
   }
+
+  public static setHandler(hdlr: OnQuit) {
+    this.quitResponse.subscribe(data => {
+      hdlr.onQuit(data);
+    });
+  }
+}
+
+export interface OnQuit {
+  onQuit(data: Quit);
 }

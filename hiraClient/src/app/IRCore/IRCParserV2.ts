@@ -162,7 +162,7 @@ export class IRCParserV2 {
       return;
     }
 
-    if (parsedMessage.code === '353') {
+    if (parsedMessage.code === '353') { // names
       const channel = UsersHandler.getChannelOfMessage(rawMessage);
       const users = parsedMessage.message.trim().split(' ');
       const usersInChannel: UserInChannel[] = [];
@@ -277,7 +277,7 @@ export class IRCParserV2 {
     }
 
     if (parsedMessage.code === 'KICK') {
-      const channel = parsedMessage.target;
+      let channel = parsedMessage.target;
       const kickData = KickHandler.kickParse(rawMessage);
       const kickInfo = new KickInfo();
       kickInfo.channel = new Channel(channel);

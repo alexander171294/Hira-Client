@@ -7,4 +7,14 @@ export class PartHandler {
   public static onPart(part: Part) {
     this.partResponse.emit(part);
   }
+
+  public static setHandler(hdlr: OnPart) {
+    this.partResponse.subscribe(data => {
+      hdlr.onPart(data);
+    });
+  }
+}
+
+export interface OnPart {
+  onPart(data: Part);
 }

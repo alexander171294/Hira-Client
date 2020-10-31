@@ -23,4 +23,34 @@ export class StatusHandler {
     this.nickChanged.emit(nick);
   }
 
+  public static setHandlerNickAlreadyInUse(hdlr: OnNickAlreadyInUse) {
+    this.nickAlreadyInUse.subscribe(data => {
+      hdlr.onNickAlreadyInUse(data);
+    });
+  }
+
+  public static setHandlerBanned(hdlr: OnBanned) {
+    this.banned.subscribe(data => {
+      hdlr.onBanned(data);
+    });
+  }
+
+  public static setHandlerNickChanged(hdlr: OnNickChanged) {
+    this.nickChanged.subscribe(data => {
+      hdlr.onNickChanged(data);
+    });
+  }
+
+}
+
+export interface OnNickAlreadyInUse {
+  onNickAlreadyInUse(nickInUse: string);
+}
+
+export interface OnBanned {
+  onBanned(channel: string);
+}
+
+export interface OnNickChanged {
+  onNickChanged(nick: NickChange);
 }

@@ -18,35 +18,18 @@ cambio de nick en una pestaña
 
 === Lista de comandos ===
 
-/query usuario
-abre un chat con ese usuario.
+manejo de modos:
 
-/clear
-borra el historico de un canal.
+El numerico 005 retorna esta wea: CHANMODES=IXbe,k,FLl,ABCDKMOPRSTcimnprstz
+esos 4 grupos de modos representan:
+1. modos que crean "listados" (Requieren un parámetro para agregar y para sacar y crean un listado que se puede consultar si no se pasa el parametro)
+2. Modos ocultos (requieren un parámetro si o si, y una vez seteado no se puede ver cual es el parámetro). Para eliminarlo NO hay que pasar el parametro
+3. Modos que requieren parámetro (y se lo puede ver al consultar los modos del canal). Para eliminar estos modos NO hay que pasar el parámetro
+4. Modos que _no_ requieren parámetros
 
-/stop
-(para animación de evento)
+(con los modos de usuario es exactamente identico pero el parametro en el 005 es USERMODES)
+5. Luego están los modos que representan prefijos (o rangos) de canal, que aparecen en el parametro PREFIX del 005 (ej PREFIX=(qaohv)~&@%+)
+A partir de eso el cliente debería saber que modos requieren parámetros si o si al setearlos (grupos 1, 2, 3 y 5) y que modos muestran parametros al consultar los modos del canal (grupos 1 y 3)
+yo por lo general divido el string de modos en un array de modos y un array de parámetros y luego itero para irlos asociando
+ej +pvvobi-qIs alguien alguien2 blah a!b@c bleh q!d@e => "+p", "+v alguien", "+v alguien2", "+o blah", "+b a!b@c", "-q bleh", "-I q!d@E", "-s"
 
-/nowhox
-(para el envio de mensajes que valida si hay away)
-
-/sound off (solo desktop)
-para las notificaciones por sonido
-
-/sound on (solo desktop)
-vuelve a activar las notificaciones
-
-/hc join #channel
-para unir el hira client a un canal.
-
-/hc owners
-para ver la lista de usuarios habilitados
-
-/hc #canal userNick r RangoNombre #aaa
-da a un user el rango en un canal, RangoNombre es el nombre del rango y #aaa es el color en hexadecimal.
-
-/hc userNick g RangoNombre #aaa
-de un rango en todos los canales a un userNick (solo para owners).
-
-/hc avatar http://image.png
-cambia tu avatar por el de la url.

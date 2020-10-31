@@ -3,8 +3,8 @@ import { User } from '../dto/User';
 export class ChannelData {
   name: string;
   topic: string;
-  users: User[];
-  messages: GenericMessage[];
+  users: User[] = [];
+  messages: GenericMessage[] = [];
 }
 
 export class GenericMessage {

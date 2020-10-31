@@ -3,6 +3,7 @@ import { Channel } from '../dto/Channel';
 
 /*
   Clase para manejar los canales que tiene un usuario.
+  Lista de canales que trae el whois de un usuario o el mensaje inicial
 */
 export class ChannelListHandler {
 
@@ -19,6 +20,12 @@ export class ChannelListHandler {
     return this.uChannelList;
   }
 
+  public static setHandler(hdlr: OnChannelList) {
+    this.channelListUpdated.subscribe(data => {
+      hdlr.onChannelList(data.user, data.channels);
+    });
+  }
+
 }
 
 export class UserChannelList {
@@ -32,4 +39,8 @@ export class UpdateChannelList {
     this.user = user;
     this.channels = channels;
   }
+}
+
+export interface OnChannelList {
+  onChannelList(user: string, channels: Channel[]);
 }

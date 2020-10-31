@@ -12,4 +12,14 @@ export class KickHandler {
   public static onKick(kick: KickInfo) {
     this.kicked.emit(kick);
   }
+
+  public static setHandler(hdlr: OnKick) {
+    this.kicked.subscribe(data => {
+      hdlr.onKick(data);
+    });
+  }
+}
+
+export interface OnKick {
+  onKick(data: KickInfo);
 }

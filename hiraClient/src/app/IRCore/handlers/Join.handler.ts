@@ -7,4 +7,14 @@ export class JoinHandler {
   public static onJoin(join: Join) {
     this.joinResponse.emit(join);
   }
+
+  public static setHandler(hdlr: OnJoin) {
+    this.joinResponse.subscribe((join: Join) => {
+      hdlr.onJoin(join);
+    });
+  }
+}
+
+export interface OnJoin {
+  onJoin(data: Join);
 }
