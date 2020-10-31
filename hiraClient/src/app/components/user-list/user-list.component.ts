@@ -1,4 +1,3 @@
-import { UserStatusService } from './../../services/user-status.service';
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { ParamParse } from 'src/app/utils/ParamParse';
 import { UserWithMetadata } from 'src/app/utils/PostProcessor';
@@ -18,7 +17,7 @@ export class UserListComponent implements OnInit {
 
   public toolService = environment.toolService;
 
-  constructor(public usSrv: UserStatusService) { }
+  constructor() { }
 
   ngOnInit(): void {
     this.embd = ParamParse.parametria.embedded ? true : false;

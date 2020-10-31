@@ -1,4 +1,3 @@
-import { ChannellistsService } from './../../services/channellists.service';
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 
 @Component({
@@ -12,10 +11,10 @@ export class ChannelListComponent implements OnInit {
 
   public channels: {name: string, description: string}[];
 
-  constructor(private chlList: ChannellistsService) { }
+  constructor() { }
 
   ngOnInit(): void {
-    this.channels = this.chlList.getChannelList();
+    // this.channels = this.chlList.getChannelList();
   }
 
   selectChannel(channel: string) {

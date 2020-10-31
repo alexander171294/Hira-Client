@@ -1,5 +1,4 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { IRCParser } from 'src/app/utils/IRCParser';
 import { WhoData } from 'src/app/utils/WhoData';
 
 @Component({
@@ -17,8 +16,6 @@ export class WhoisComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    this.data = IRCParser.whoUsersData[this.nick];
-    this.channels = this.data.getChannelParsed();
   }
 
 }

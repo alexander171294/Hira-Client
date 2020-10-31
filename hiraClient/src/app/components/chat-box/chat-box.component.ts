@@ -1,9 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { MessageTypes, ProcessedMessage } from 'src/app/utils/IRCParser';
 import { ParamParse } from 'src/app/utils/ParamParse';
 import { UserWithMetadata, PostProcessor } from 'src/app/utils/PostProcessor';
 import { VcardGetterService } from '../link-vcard/vcard-getter.service';
-import { UserStatusService } from 'src/app/services/user-status.service';
 import { environment } from 'src/environments/environment';
 import { HistoryMessageCursorService } from './history-message-cursor.service';
 
@@ -14,7 +12,7 @@ import { HistoryMessageCursorService } from './history-message-cursor.service';
 })
 export class ChatBoxComponent implements OnInit {
 
-  @Input() messages: ProcessedMessage<any>[];
+  @Input() messages: any[];
   @Input() chatName: string;
   @Input() chatType: CBoxChatTypes;
   @Input() members: number;
@@ -39,7 +37,7 @@ export class ChatBoxComponent implements OnInit {
 
   public emoteListOpened: boolean;
 
-  constructor(private vcg: VcardGetterService, public usSrv: UserStatusService, private historySrv: HistoryMessageCursorService) { }
+  constructor(private vcg: VcardGetterService, private historySrv: HistoryMessageCursorService) { }
 
   ngOnInit(): void {
     this.embd = ParamParse.parametria.embedded ? true : false;
@@ -189,16 +187,16 @@ export class ChatBoxComponent implements OnInit {
 
   copyChat(evt) {
     let chat = '';
-    this.messages.forEach((message) => {
-      if ((message.messageType === MessageTypes.CHANNEL_MSG || message.messageType === MessageTypes.PRIV_MSG) && !message.data.fromLog) {
-        const author = message.data.privateAuthor ? message.data.privateAuthor :  message.data.author;
-        if (message.data.meAction) {
-          chat += message.data.date + ' ' + message.data.time + ' **' + author + ' ' + message.data.message + '\n';
-        } else {
-          chat += message.data.date + ' ' + message.data.time + ' [' + author + '] ' + message.data.message + '\n';
-        }
-      }
-    });
+    // this.messages.forEach((message) => {
+    //   if ((message.messageType === MessageTypes.CHANNEL_MSG || message.messageType === MessageTypes.PRIV_MSG) && !message.data.fromLog) {
+    //     const author = message.data.privateAuthor ? message.data.privateAuthor :  message.data.author;
+    //     if (message.data.meAction) {
+    //       chat += message.data.date + ' ' + message.data.time + ' **' + author + ' ' + message.data.message + '\n';
+    //     } else {
+    //       chat += message.data.date + ' ' + message.data.time + ' [' + author + '] ' + message.data.message + '\n';
+    //     }
+    //   }
+    // });
     navigator.clipboard.writeText(chat).then(() => {
       this.copied = true;
       setTimeout(() => {
