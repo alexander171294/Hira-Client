@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, HostListener } from '@angular/core';
 import { MessageTypes, ProcessedMessage } from 'src/app/utils/IRCParser';
 import { ParamParse } from 'src/app/utils/ParamParse';
 import { UserWithMetadata, PostProcessor } from 'src/app/utils/PostProcessor';
@@ -60,6 +60,11 @@ export class ChatBoxComponent implements OnInit {
         this.fullVersionLink += '/#autojoin=' + ParamParse.parametria.autojoin + ';';
       }
     }
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event) {
+    this.goBottom();
   }
 
   onScroll(evt) {
