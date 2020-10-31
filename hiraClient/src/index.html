@@ -121,6 +121,27 @@
         effectActive = 1;
       }
     }
+    function startEventEffectMeteor() {
+      if (effectActive <= 0) {
+        snowStorm.flakesMax = 50;
+        snowStorm.flakesMaxActive = snowStorm.flakesMax/2;
+        snowStorm.animationInterval = 50;
+        snowStorm.vMaxX = 1;
+        snowStorm.vMaxY = 10;
+        snowStorm.followMouse = false;
+        snowStorm.snowStick = false;
+        setTimeout(() => {
+          this.stopEff();
+        }, 60000);
+        if(effectActive == -1) {
+          snowStorm.show(['assets/eess/meteor.webp']);
+          snowStorm.resume();
+        } else {
+          snowStorm.start(true, ['assets/eess/meteor.webp']);
+        }
+        effectActive = 1;
+      }
+    }
     function stopEff() {
       if (effectActive > 0) {
         snowStorm.stop();

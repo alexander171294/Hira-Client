@@ -1,5 +1,6 @@
 declare var startEventEffect: any;
 declare var startEventEffectRegalo: any;
+declare var startEventEffectMeteor: any;
 
 export class EmoteList {
 
@@ -170,6 +171,9 @@ export class EmoteList {
       }
       if (name === 'regalos') {
         startEventEffectRegalo();
+      }
+      if (name === 'lluvia') {
+        startEventEffectMeteor();
       }
       return undefined;
     } else {
