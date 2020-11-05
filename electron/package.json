@@ -1,6 +1,10 @@
 {
   "name": "hira-client-desktop",
+<<<<<<< HEAD
   "version": "0.8.0",
+=======
+  "version": "0.7.1",
+>>>>>>> master
   "description": "Hira client ported to desktop",
   "main": "index.js",
   "dependencies": {
@@ -23,6 +27,10 @@
     "win": {
       "target": [
         "nsis"
+      ],
+      "arch": [
+          "x64",
+          "ia32"
       ],
       "icon": "resources/icon.ico"
     },
