@@ -66,7 +66,7 @@ function createWindow () {
     require('electron').shell.openExternal(url);
   });
   ipcMain.on('news', async (evt, data) => {
-    if(!win.isFocused()) {
+    if(!win.isFocused() || win.isMinimized() || !win.isVisible()) {
       win.flashFrame(true)
       evt.reply('playSound', {});
     }
