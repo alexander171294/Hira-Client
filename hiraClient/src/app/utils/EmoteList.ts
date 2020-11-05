@@ -193,7 +193,7 @@ export class EmoteList {
         startEventEffectMeteor();
       }
       if (name === 'kz2') {
-        startEventEffectKz2();
+        startEventEffectKz2s();
       }
       return undefined;
     } else if (author === 'Alex' || author === 'Tulkalex' || author === 'Tulkalen') {
