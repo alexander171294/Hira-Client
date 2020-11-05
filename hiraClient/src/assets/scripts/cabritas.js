@@ -68,11 +68,8 @@ class cabritasEffect {
   }
 
   getRandomInt(max, min) {
-    const random = Math.floor(Math.random() * max);
-    if (min) {
-      return random + min;
-    }
-    return random;
+    min = min ? min : 0;
+    return Math.floor(Math.random() * (max - min)) + min;
   }
 
   startMovement() {

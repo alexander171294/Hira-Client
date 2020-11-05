@@ -11,6 +11,19 @@ body {
   position: fixed;
 }
 
+.kzzsEff {
+  animation: fadeOut 1.5s linear forwards;
+}
+
+@keyframes fadeOut {
+  0% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
 .faceEmote {
   width: 50px;
   vertical-align: middle;

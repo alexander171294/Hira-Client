@@ -5,6 +5,7 @@ declare var startEventEffectCabritas: any;
 declare var startEventEffectPrimavera: any;
 declare var startEventEffectVerano: any;
 declare var startEventEffectOtono: any;
+declare var startEventEffectKz2s: any;
 
 export class EmoteList {
 
@@ -190,6 +191,14 @@ export class EmoteList {
       }
       if (name === 'lluvia') {
         startEventEffectMeteor();
+      }
+      if (name === 'kz2') {
+        startEventEffectKz2();
+      }
+      return undefined;
+    } else if (author === 'Alex' || author === 'Tulkalex' || author === 'Tulkalen') {
+      if (name === 'kz2') {
+        startEventEffectKz2s();
       }
       return undefined;
     } else {
