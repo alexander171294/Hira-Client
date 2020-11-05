@@ -93,7 +93,7 @@ export class EmoteList {
     'te',
     'whisky',
     'zumo',
-    'burguer',
+    'burger',
     'candy',
     'caniche',
     'celtic',
