@@ -12,8 +12,8 @@ export const environment = {
   },
   version: 'RC7-NightWitch',
   default: {
-    name: 'Hira.li',
-    server: 'avalon.hira.li',
+    name: 'Hirana',
+    server: 'irc.hirana.net',
     isWS: true
   },
   maxServerBuffer: 100,

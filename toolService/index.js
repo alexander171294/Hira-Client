@@ -52,7 +52,8 @@ const sitesAllowed = [
     'http://localhost:4200',
     'https://hira.tandilserver.com',
     'http://irc.tandilserver.com:9000',
-    'https://web.hira.li'
+    'https://web.hira.li',
+    'https://web.hirana.net'
 ];
 
 app.all('*', function(req, res, next) {

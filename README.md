@@ -12,7 +12,7 @@ https://hub.docker.com/r/alexander171294/hira-client/tags
 
 ## Live instance:
 
-https://web.hira.li/
+https://web.hirana.net/
 
 https://hira.tandilserver.com/
 
@@ -21,7 +21,7 @@ https://hira.tandilserver.com/
 Puede embeber el cliente con un iframe agregando un parametro de embebido para eliminar la lista de chats y que quede más grande.
 
 ```
-<iframe style="width: 100%;border: none;height: 60vh;" id="iframeCBox" src="https://web.hira.li/#skin=dark;embedded=true;apodoSecundario=Tulkalen;autojoin=alcatraz;requestNick=Tulkalex"></iframe>
+<iframe style="width: 100%;border: none;height: 60vh;" id="iframeCBox" src="https://web.hirana.net/#skin=dark;embedded=true;apodoSecundario=Tulkalen;autojoin=alcatraz;requestNick=Tulkalex"></iframe>
 ```
 
 Parametros disponibles:
