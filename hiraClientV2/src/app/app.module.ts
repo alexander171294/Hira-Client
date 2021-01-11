@@ -1,3 +1,4 @@
+import { ListComponent } from './sections/menu/list/list.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
@@ -10,6 +11,7 @@ import { MenuComponent } from './sections/menu/menu.component';
     AppComponent,
     NavComponent,
     MenuComponent,
+    ListComponent
   ],
   imports: [
     BrowserModule,

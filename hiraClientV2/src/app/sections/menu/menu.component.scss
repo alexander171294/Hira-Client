@@ -1,0 +1,37 @@
+aside {
+  width: 18vw;
+  background: linear-gradient(120deg, #282f37, #1d232a);
+  height: 100%;
+  border-right: 2px solid #1c2228;
+  header {
+    border-bottom: 1px solid #30363e;
+    height: 8vh;
+    display: block;
+    position: relative;
+    .searcher {
+      background: #363d45;
+      border-radius: 50px;
+      overflow: hidden;
+      margin: 2vh 0px;
+      position: absolute;
+      width: 80%;
+      left: 10%;
+      svg {
+        width: 18px;
+        position: absolute;
+        margin: 8px;
+        color: #a7aaad;
+        margin-left: 10px;
+      }
+      input {
+        height: 30px;
+        width: 100%;
+        border: none;
+        text-indent: 35px;
+        color: #9fa2a5;
+        outline: none;
+        background: transparent;
+      }
+    }
+  }
+}

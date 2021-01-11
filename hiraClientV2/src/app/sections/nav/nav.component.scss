@@ -7,17 +7,18 @@ nav {
   header {
     svg {
       color: #dcdcdc;
-      width: 80%;
-      margin: 10%;
+      width: 70%;
+      margin: 15%;
+      margin-top: 2vh;
     }
   }
-
   ul {
     list-style: none;
     padding: 0px;
     li {
       color: #96979c;
       position: relative;
+      cursor: pointer;
       svg {
         width: 50%;
         margin: 25%;
@@ -33,15 +34,18 @@ nav {
         border-radius: 3px;
         width: max-content;
         box-shadow: 0px 0px 3px black;
+        font-family: 'Chata Normal';
         &::after {
           content: "";
           display: block;
-          width: 10px;
-          height: 10px;
+          width: 7px;
+          height: 7px;
           position: absolute;
           background: black;
-          top: 7px;
-          left: -7px;
+          background: #000000b8;
+          top: 8px;
+          left: -5px;
+          z-index: 0;
           transform: rotate(45deg);
         }
       }
@@ -49,9 +53,10 @@ nav {
         span {
           display: block;
         }
+        background: #272e36;
       }
       &.active {
-
+        background: #272e36;
       }
     }
   }

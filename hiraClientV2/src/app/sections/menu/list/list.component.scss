@@ -1,0 +1,36 @@
+nav {
+  padding: 0px 0.5vw;
+  h4 {
+    text-transform: uppercase;
+    font-family: helvetica;
+    color: #7a7f83;
+  }
+  ul {
+    list-style: none;
+    padding: 0px;
+    li {
+      font-family: helvetica;
+      color: #7a7f83;
+      padding: 7px 7px;
+      border-radius: 7px;
+      cursor: pointer;
+      .defaultImage, img {
+        width: 25px;
+        height: 25px;
+        vertical-align: middle;
+      }
+      .times {
+        width: 15px;
+        vertical-align: middle;
+        float: right;
+        display: none;
+      }
+      &:hover, &.active {
+        background: #343c45;
+        .times {
+          display: block;
+        }
+      }
+    }
+  }
+}

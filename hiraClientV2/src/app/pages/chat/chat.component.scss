@@ -1,0 +1,47 @@
+main {
+  width: 61vw;
+  float: left;
+  height: 100vh;
+  background: #eef1f5;
+  &.full {
+    width: 79vw;
+  }
+  header {
+    height: 8vh;
+    background: #2c333b;
+    position: relative;
+    h3 {
+      margin: 0px;
+      padding: 1vh 2vw;
+      color: white;
+      font-family: helvetica;
+      padding-bottom: 0px;
+      svg {
+        width: 25px;
+        color: #7a7f83;
+        vertical-align: bottom;
+        margin-right: 7px;
+      }
+    }
+    span {
+      margin: 0px;
+      padding: 1vh 2vw;
+      color: #afb6bb;
+      font-family: helvetcia;
+      margin-left: 2vw;
+    }
+    svg.options {
+      width: 10px;
+      color: gray;
+      position: absolute;
+      top: 2vh;
+      right: 2vw;
+      cursor: pointer;
+    }
+  }
+}
+app-info-panel {
+  width: calc(18vw - 2px);
+  float: right;
+  height: 100vh;
+}
