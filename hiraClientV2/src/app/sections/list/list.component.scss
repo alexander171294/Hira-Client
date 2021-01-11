@@ -9,6 +9,7 @@ nav {
     list-style: none;
     padding: 0px;
     li {
+      position: relative;
       font-family: helvetica;
       color: #7a7f83;
       padding: 7px 7px;
@@ -30,6 +31,15 @@ nav {
         .times {
           display: block;
         }
+      }
+      .notify {
+        width: 5px;
+        height: 30px;
+        background: #4bb91e;
+        position: absolute;
+        top: 5px;
+        left: -6px;
+        border-radius: 5px;
       }
     }
   }

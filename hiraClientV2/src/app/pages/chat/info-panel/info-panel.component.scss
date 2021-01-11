@@ -8,6 +8,37 @@ aside {
     width: 100%;
     height: 8vh;
     border-bottom: 1px solid #30363e;
-
+    h3 {
+      margin: 0px;
+      padding: 1vh 2vw;
+      color: white;
+      font-family: helvetica;
+      padding-bottom: 0px;
+      svg {
+        width: 25px;
+        color: #7a7f83;
+        vertical-align: bottom;
+        margin-right: 7px;
+      }
+    }
+    span {
+      margin: 0px;
+      padding: 1vh 2vw;
+      color: #afb6bb;
+      font-family: monospace;
+      margin-left: 2vw;
+      display: block;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    svg.options {
+      width: 10px;
+      color: gray;
+      position: absolute;
+      top: 2vh;
+      right: 2vw;
+      cursor: pointer;
+    }
   }
 }

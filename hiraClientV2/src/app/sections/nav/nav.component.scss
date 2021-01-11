@@ -5,6 +5,7 @@ nav {
   display: inline-block;
   position: relative;
   header {
+    height: 8vh;
     svg {
       color: #dcdcdc;
       width: 70%;
@@ -15,6 +16,7 @@ nav {
   ul {
     list-style: none;
     padding: 0px;
+    margin: 0px;
     li {
       color: #96979c;
       position: relative;
@@ -25,6 +27,7 @@ nav {
       }
       span {
         display: none;
+        z-index: 1;
         position: absolute;
         top: 13px;
         left: calc(3vw - 2px);

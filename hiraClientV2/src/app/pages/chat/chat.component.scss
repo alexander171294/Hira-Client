@@ -27,8 +27,12 @@ main {
       margin: 0px;
       padding: 1vh 2vw;
       color: #afb6bb;
-      font-family: helvetcia;
+      font-family: monospace;
       margin-left: 2vw;
+      display: block;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
     svg.options {
       width: 10px;
@@ -37,6 +41,59 @@ main {
       top: 2vh;
       right: 2vw;
       cursor: pointer;
+    }
+  }
+  section {
+    height: 85vh;
+    .messageBox {
+      height: 100%;
+      flex-flow: column nowrap;
+      display: flex;
+      ul {
+        margin: 0px 1vw;
+        padding: 0px;
+        list-style: none;
+        font-family: monospace;
+        margin-top: auto;
+        max-height: 100%;
+        overflow-y: auto;
+        li {
+          padding: 2px 5px;
+        }
+      }
+    }
+  }
+  footer {
+    height: 7vh;
+    background: #2c333b;
+    input {
+      width: calc(100% - 130px - 4vh);
+      margin: 2vh 2vh;
+      height: 3vh;
+      border: 1px solid #3e4b5a;
+      border-radius: 3px;
+      background: #1c2229;
+      padding-left: 0.5vw;
+      color: white;
+      display: inline-block;
+      margin-right: 0px;
+    }
+    button {
+      width: 30px;
+      height: 30px;
+      padding: 0px;
+      border-radius: 50%;
+      border: none;
+      background: #1c2229;
+      vertical-align: middle;
+      margin: 0px 7px;
+      outline: none;
+      cursor: pointer;
+      box-shadow: 2px 2px 5px #000000ad;
+      svg {
+        color: #96979c;
+        width: 17px;
+      }
     }
   }
 }
