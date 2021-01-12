@@ -10,8 +10,14 @@
     <app-menu-list title="Miembros del canal" [elements]="[
     {name:'Alex', image: 'https://thira.tandilserver.com/avatar?usr=Alex'},
     {name:'Zaratuxtra', image: 'https://thira.tandilserver.com/avatar?usr=Zaratuxtra'},
-    {name:'Gabriela-', image: 'https://thira.tandilserver.com/avatar?usr=Gabriela-'},
-    {name:'Mendax', image: 'https://thira.tandilserver.com/avatar?usr=Mendax'}
+    {name:'Gabriela-', image: 'https://thira.tandilserver.com/avatar?usr=Gabriela-', labels: [
+    {
+      name: 'admin',
+      color: '#a977de',
+      background: '#3d264b'
+    }
+    ]},
+    {name:'Mendax', image: 'https://thira.tandilserver.com/avatar?usr=Mendax', color: '#00b7ff'}
     ]"></app-menu-list>
   </main>
 </aside>

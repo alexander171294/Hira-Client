@@ -9,6 +9,7 @@ export class ListComponent implements OnInit {
 
   @Input() title: string;
   @Input() elements: ListElement[] = [];
+  @Input() closable: boolean;
 
   constructor() { }
 
@@ -22,4 +23,12 @@ export interface ListElement {
   notify: boolean;
   image?: string;
   active: boolean;
+  labels?: Label[];
+  color?: string;
+}
+
+export interface Label {
+  name: string;
+  color: string;
+  background: string;
 }

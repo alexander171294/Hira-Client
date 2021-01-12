@@ -41,6 +41,17 @@ nav {
         left: -6px;
         border-radius: 5px;
       }
+      .badges {
+        display: inline-block;
+        .badge {
+          padding: 2px 4px;
+          border: 1px solid;
+          border-radius: 3px;
+          display: inline-block;
+          font-size: 13px;
+          font-family: Helvetica;
+        }
+      }
     }
   }
 }
