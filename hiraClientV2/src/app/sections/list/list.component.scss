@@ -55,3 +55,18 @@ nav {
     }
   }
 }
+
+@media(max-height: 600px) {
+  nav {
+    h4 {
+      margin: 10px 5px;
+      font-size: 12px;
+    }
+    ul {
+      margin: 0px;
+      li {
+        font-size: 14px;
+      }
+    }
+  }
+}

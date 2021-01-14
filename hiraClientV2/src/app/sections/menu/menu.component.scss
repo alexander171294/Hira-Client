@@ -35,3 +35,9 @@ aside {
     }
   }
 }
+
+@media(max-height: 600px) {
+  aside {
+    display: none;
+  }
+}
