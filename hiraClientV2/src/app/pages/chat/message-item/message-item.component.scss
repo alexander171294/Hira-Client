@@ -1,0 +1,92 @@
+article {
+  margin: 5px 0px;
+  aside {
+    width: 6%;
+    display: inline-flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    vertical-align: top;
+    img {
+      width: 80%;
+    }
+  }
+  section {
+    display: inline-block;
+    width: 93%;
+    position: relative;
+    p {
+      margin: 0px;
+    }
+    nav {
+      position: absolute;
+      top: 0px;
+      right: 0px;
+      svg {
+        width: 20px;
+        opacity: 0;
+        color: gray;
+        transition: opacity 0.3s;
+        cursor: pointer;
+      }
+    }
+    &:hover {
+      nav {
+        svg {
+          opacity: 1;
+        }
+      }
+    }
+    header {
+      span {
+        display: inline-block;
+        margin-left: 5px;
+      }
+    }
+    q {
+      display: block;
+      background: #fff;
+      border: 1px solid #808080;
+      border-radius: 3px;
+      padding: 5px;
+      margin: 5px 0;
+      font-size: 12px;
+      &::before {
+        content: '';
+      }
+      svg {
+        width: 20px;
+        color: #a7a7a7;
+        margin-right: 5px;
+        vertical-align: middle;
+      }
+    }
+  }
+  &.me {
+    color: #06af0c;
+    padding-left: 6%;
+    svg {
+      width: 15px;
+      vertical-align: baseline;
+      margin-right: 5px;
+    }
+  }
+  &.notify {
+    color: #490098;
+    padding-left: 6%;
+    svg {
+      width: 15px;
+      transform: rotate(45deg);
+      vertical-align: middle;
+    }
+  }
+}
+
+.nick {
+  font-size: 15px;
+  font-family: helvetica;
+  &:hover {
+    color: #004dff;
+    cursor: pointer;
+  }
+}

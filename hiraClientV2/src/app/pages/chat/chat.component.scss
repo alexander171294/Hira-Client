@@ -50,13 +50,27 @@ main {
       flex-flow: column nowrap;
       display: flex;
       ul {
-        margin: 0px 1vw;
-        padding: 0px;
+        margin: 0px;
+        padding: 0px 1vw;
         list-style: none;
         font-family: monospace;
         margin-top: auto;
         max-height: 100%;
         overflow-y: auto;
+        &::-webkit-scrollbar-thumb {
+          background: #6c6d72;
+        }
+        &::-webkit-scrollbar-thumb:hover {
+          background: #96979c;
+        }
+        &::-webkit-scrollbar-track {
+          background: #1c2229;
+          border-left: 1px solid black;
+          border-right: 1px solid black;
+        }
+        &::-webkit-scrollbar {
+          width: 10px;
+        }
         li {
           padding: 2px 5px;
         }

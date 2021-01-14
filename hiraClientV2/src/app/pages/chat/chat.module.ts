@@ -4,6 +4,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { ListModule } from 'src/app/sections/list/list.module';
+import { MessageItemComponent } from './message-item/message-item.component';
 
 const routes: Routes = [
   {
@@ -15,7 +16,8 @@ const routes: Routes = [
 @NgModule({
   declarations: [
     ChatComponent,
-    InfoPanelComponent
+    InfoPanelComponent,
+    MessageItemComponent
   ],
   imports: [
     CommonModule,
