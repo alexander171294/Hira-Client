@@ -80,6 +80,37 @@ main {
   footer {
     height: 7vh;
     background: #2c333b;
+    position: relative;
+    q {
+      display: block;
+      background: #fff;
+      border: 1px solid #808080;
+      border-radius: 3px;
+      padding: 5px;
+      margin: 5px 0;
+      font-size: 12px;
+      position: absolute;
+      top: -25px;
+      margin-left: 2vh;
+      box-shadow: 0px 0px 5px black;
+      width: calc(100% - 130px - 4vh);
+      height: 20px;
+      &::before {
+        content: '';
+      }
+      svg.fa-quote-right {
+        width: 20px;
+        color: #a7a7a7;
+        margin-right: 5px;
+        vertical-align: middle;
+      }
+      svg.fa-times {
+        position: absolute;
+        right: 5px;
+        width: 15px;
+        cursor: pointer;
+      }
+    }
     input {
       width: calc(100% - 130px - 4vh);
       margin: 2vh 2vh;
