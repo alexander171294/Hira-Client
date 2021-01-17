@@ -21,6 +21,7 @@ nav {
       color: #96979c;
       a {
         color: #96979c;
+        display: block;
       }
       position: relative;
       cursor: pointer;
@@ -33,7 +34,7 @@ nav {
         z-index: 1;
         position: absolute;
         top: 13px;
-        left: calc(3vw - 2px);
+        left: calc(3vw - 4px);
         background: black;
         color: white;
         padding: 3px;
