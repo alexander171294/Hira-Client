@@ -45,6 +45,13 @@ main {
       a {
         color: #4bb91e;
         text-decoration: none;
+        svg {
+          width: 25px;
+          margin-left: 5px;
+          vertical-align: middle;
+          float: right;
+          margin-right: 15px;
+        }
       }
       label {
         display: inline-block;
