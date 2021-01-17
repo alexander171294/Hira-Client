@@ -7,6 +7,7 @@ import { AppComponent } from './app.component';
 import { NavComponent } from './sections/nav/nav.component';
 import { MenuComponent } from './sections/menu/menu.component';
 import { ListModule } from './sections/list/list.module';
+
 @NgModule({
   declarations: [
     AppComponent,
