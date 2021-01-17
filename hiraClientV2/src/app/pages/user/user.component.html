@@ -1,0 +1,90 @@
+<main style="display: none;">
+  <section>
+    <header>
+      Datos de conexión
+    </header>
+    <p class="error">
+      Error de conexión
+    </p>
+    <div id="server">
+      <label>
+        Server
+      </label>
+      <input type="text" placeholder="irc.hirana.net" />
+      <span>Websocket</span>
+      <input type="checkbox" name="ws" />
+    </div>
+    <div id="apodo">
+      <label>
+        Apodo
+        <span>Después se puede cambiar con /nick</span>
+      </label>
+      <input type="text" />
+    </div>
+    <div id="secundario">
+      <label>
+        Apodo secundario
+        <span>En caso de que el anterior esté en uso</span>
+      </label>
+      <input type="text" />
+    </div>
+    <div id="canales">
+      <label>Unirse a canales:</label>
+      <span>Agregar presionando enter</span>
+      <ul>
+        <li>
+          #underc0de
+          <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="times" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 352 512" class="svg-inline--fa fa-times fa-w-11"><path fill="currentColor" d="M242.72 256l100.07-100.07c12.28-12.28 12.28-32.19 0-44.48l-22.24-22.24c-12.28-12.28-32.19-12.28-44.48 0L176 189.28 75.93 89.21c-12.28-12.28-32.19-12.28-44.48 0L9.21 111.45c-12.28 12.28-12.28 32.19 0 44.48L109.28 256 9.21 356.07c-12.28 12.28-12.28 32.19 0 44.48l22.24 22.24c12.28 12.28 32.2 12.28 44.48 0L176 322.72l100.07 100.07c12.28 12.28 32.2 12.28 44.48 0l22.24-22.24c12.28-12.28 12.28-32.19 0-44.48L242.72 256z" class=""></path></svg>
+        </li>
+        <li>
+          #main
+          <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="times" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 352 512" class="svg-inline--fa fa-times fa-w-11"><path fill="currentColor" d="M242.72 256l100.07-100.07c12.28-12.28 12.28-32.19 0-44.48l-22.24-22.24c-12.28-12.28-32.19-12.28-44.48 0L176 189.28 75.93 89.21c-12.28-12.28-32.19-12.28-44.48 0L9.21 111.45c-12.28 12.28-12.28 32.19 0 44.48L109.28 256 9.21 356.07c-12.28 12.28-12.28 32.19 0 44.48l22.24 22.24c12.28 12.28 32.2 12.28 44.48 0L176 322.72l100.07 100.07c12.28 12.28 32.2 12.28 44.48 0l22.24-22.24c12.28-12.28 12.28-32.19 0-44.48L242.72 256z" class=""></path></svg>
+        </li>
+      </ul>
+      <input type="text">
+      <button>
+        <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="plus" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="svg-inline--fa fa-plus fa-w-14"><path fill="currentColor" d="M416 208H272V64c0-17.67-14.33-32-32-32h-32c-17.67 0-32 14.33-32 32v144H32c-17.67 0-32 14.33-32 32v32c0 17.67 14.33 32 32 32h144v144c0 17.67 14.33 32 32 32h32c17.67 0 32-14.33 32-32V304h144c17.67 0 32-14.33 32-32v-32c0-17.67-14.33-32-32-32z" class=""></path></svg>
+      </button>
+    </div>
+    <div id="auth">
+      <label>
+        Autenticación
+      </label>
+      <span>
+        Tipo login:
+        <select>
+          <option>Ninguno</option>
+          <option>Login plano</option>
+          <option>Server pass</option>
+        </select>
+      </span>
+      <input type="password" placeholder="password" />
+    </div>
+    <footer>
+      <button>Conectar</button>
+      <button>Reconectar</button>
+      <button>Actualizar</button>
+    </footer>
+  </section>
+</main>
+
+<main>
+  <section>
+    <header>
+      Accede al chat ingresando tu nick
+    </header>
+    <p class="error">
+      Error de conexión
+    </p>
+    <div id="apodo">
+      <label>
+        Tu nick
+        <span>Después se puede cambiar con /nick</span>
+      </label>
+      <input type="text" />
+    </div>
+    <footer>
+      <button>Conectar</button>
+    </footer>
+  </section>
+</main>
