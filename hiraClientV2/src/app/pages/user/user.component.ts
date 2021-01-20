@@ -2,6 +2,9 @@ import { IRCoreService } from 'src/app/IRCore/IRCore.service';
 import { AfterViewChecked, AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core'
 import { ConnectionStatus, ConnectionStatusData, WebSocketUtil } from 'src/app/IRCore/utils/WebSocket.util';
 import { Subscription } from 'rxjs';
+import { StatusHandler } from 'src/app/IRCore/handlers/Status.handler';
+import { MotdHandler } from 'src/app/IRCore/handlers/Motd.handler';
+import { IRCMessage } from 'src/app/IRCore/utils/IRCMessage.util';
 
 @Component({
   selector: 'app-user',
@@ -81,9 +84,21 @@ export class UserComponent implements OnInit, AfterViewInit, OnDestroy {
       let host = this.host;
       if(this.isWS) {
         this.ircSrv.connect('wss://' + this.host);
-        let subscription_status_b = WebSocketUtil.statusChanged.subscribe(d => {
+        const subscription_status_b = WebSocketUtil.statusChanged.subscribe(d => {
           this.ircSrv.handshake(this.nick, this.nick);
           subscription_status_b.unsubscribe();
+        })
+        const subscription_nick = StatusHandler.nickAlreadyInUse.subscribe(d => {
+          console.log('Nick in use', d);
+          this.ircSrv.setNick(this.nickSecundario);
+          subscription_nick.unsubscribe();
+        })
+        const subscripion_motd = MotdHandler.motdResponse.subscribe((d: IRCMessage) => {
+          // joineamos canales?
+          this.canales.forEach(canal => {
+            this.ircSrv.join(canal);
+          });
+          subscripion_motd.unsubscribe();
         })
       } else {
         // TODO: conectar al gateway y enviar el host.

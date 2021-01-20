@@ -18,7 +18,7 @@ export class ListComponent implements OnInit {
 
 }
 
-export interface ListElement {
+export class ListElement {
   name: string;
   notify: boolean;
   image?: string;

@@ -5,7 +5,7 @@ import { OnUserList, UsersHandler } from './../handlers/Users.handler';
 import { PartHandler } from './../handlers/Part.handler';
 import { KickHandler, OnKick } from './../handlers/Kick.handler';
 import { JoinHandler, OnJoin } from './../handlers/Join.handler';
-import { Injectable } from '@angular/core';
+import { Injectable, EventEmitter } from '@angular/core';
 import { ChannelData } from './ChannelData';
 import { Join } from '../dto/Join';
 import { OnPart } from '../handlers/Part.handler';
@@ -25,6 +25,8 @@ import { ChannelStatusHandler } from '../handlers/ChannelStatus.handler';
   providedIn: 'root'
 })
 export class ChannelsService implements OnJoin, OnPart, OnKick, OnUserList, OnChannelList, OnNickChanged, OnTopicUpdate {
+
+  public readonly listChanged: EventEmitter<ChannelData[]> = new EventEmitter<ChannelData[]>();
 
   private channels: ChannelData[] = [];
 
@@ -57,6 +59,7 @@ export class ChannelsService implements OnJoin, OnPart, OnKick, OnUserList, OnCh
           this.channels.splice(idx, 1);
         }
       });
+      this.listChanged.emit(this.channels);
     }
   }
 
@@ -97,7 +100,7 @@ export class ChannelsService implements OnJoin, OnPart, OnKick, OnUserList, OnCh
 
   onKick(data: KickInfo) {
     if (data.userTarget.nick === this.userSrv.getNick()) {
-      //
+      this.listChanged.emit(this.channels);
     } else {
       const chnlObj = this.channels.find(chnl => chnl.name === data.channel.name);
       if (chnlObj) {
@@ -109,11 +112,12 @@ export class ChannelsService implements OnJoin, OnPart, OnKick, OnUserList, OnCh
         console.error('No se encontró el canal en el que se kickeó el usuario.', data.channel);
       }
     }
+
   }
 
   onPart(data: Part) {
     if (data.user.nick === this.userSrv.getNick()) {
-
+      this.listChanged.emit(this.channels);
     } else {
       const chnlObj = this.channels.find(chnl => chnl.name === data.channel.name);
       if (chnlObj) {
@@ -132,6 +136,7 @@ export class ChannelsService implements OnJoin, OnPart, OnKick, OnUserList, OnCh
       if (!this.channels.find(chnl => chnl.name === data.channel.name)) {
         this.addChannel(data.channel.name);
       }
+      this.listChanged.emit(this.channels);
     } else {
       const chnlObj = this.channels.find(chnl => chnl.name === data.channel.name);
       if (chnlObj) {

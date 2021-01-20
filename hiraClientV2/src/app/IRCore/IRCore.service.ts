@@ -58,6 +58,13 @@ export class IRCoreService {
     this.userSrv.setNick(nick);
   }
 
+  public join(channel: string) {
+    if(channel[0] != '#') {
+      channel = '#' + channel;
+    }
+    this.sendRaw('JOIN ' + channel)
+  }
+
   public disconnect(): void {
     this.webSocket.disconnect();
   }

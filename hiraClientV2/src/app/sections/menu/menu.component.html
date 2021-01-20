@@ -5,16 +5,6 @@
       <input type="text" placeholder="search"/>
     </div>
   </header>
-  <app-menu-list title="Canales" [elements]="[
-  {name:'underc0de', active: true},
-  {name:'underc0deTG'},
-  {name:'services', notify: true},
-  {name:'main'}
-  ]" [closable]="true"></app-menu-list>
-  <app-menu-list title="Mensajes privados" [elements]="[
-    {name:'Alex', image: 'https://thira.tandilserver.com/avatar?usr=Alex'},
-    {name:'Zaratuxtra', image: 'https://thira.tandilserver.com/avatar?usr=Zaratuxtra'},
-    {name:'Gabriela-', notify: true, image: 'https://thira.tandilserver.com/avatar?usr=Gabriela-'},
-    {name:'Mendax', image: 'https://thira.tandilserver.com/avatar?usr=Mendax'}
-  ]" [closable]="true"></app-menu-list>
+  <app-menu-list title="Canales" [elements]="channels" [closable]="true"></app-menu-list>
+  <app-menu-list title="Mensajes privados" [elements]="privMsg" [closable]="true"></app-menu-list>
 </aside>
