@@ -243,6 +243,10 @@ export class IRCParserV2 {
       return;
     }
 
+    if (parsedMessage.code === 'PONG') {
+      return;
+    }
+
     if (parsedMessage.code === 'NOTICE') {
       if (parsedMessage.simplyOrigin && parsedMessage.simplyOrigin !== '*status' && parsedMessage.target[0] === '#') {
         const message = new IndividualMessage();
