@@ -1,5 +1,6 @@
 import { EventEmitter } from '@angular/core';
 import { NewMode } from '../dto/NewMode';
+import { ValidRegex } from '../utils/validRegex';
 
 /**
  * Clase para gestionar los cambios de modos en un canal (sobre un usuario)
@@ -10,7 +11,31 @@ export class ModeHandler {
   public static readonly modeChange: EventEmitter<NewMode> = new EventEmitter<NewMode>();
 
   public static modeParser(rawMessage: string): string[] {
-    return /(\+|\-)?([a-zA-Z]+)\s(.*)/.exec(rawMessage);
+    let modeRaw = rawMessage.split(' MODE ')[1];
+    if(modeRaw.indexOf('#') == -1) {
+      const modeCut = modeRaw.split(':');
+      const regex = ValidRegex.getRegex(ValidRegex.modeRegex()).exec(modeCut[1]);
+      return [
+        undefined,
+        regex[1], // + o -
+        regex[2], // modo
+        modeCut[0].trim() // usuario
+      ];
+    } else {
+      const regex = ValidRegex.channelRegex()+
+      '\\s'+ValidRegex.modeRegex()+'\\s\\:?'+ // modos
+      ValidRegex.userRegex();
+      const regOut = ValidRegex.getRegex(
+        regex
+      ).exec(modeRaw);
+      console.log(regex,modeRaw, regOut);
+      return [
+        undefined,
+        regOut[2],
+        regOut[3],
+        regOut[4]
+      ];
+    }
   }
 
   public static changeMode(mode: NewMode) {

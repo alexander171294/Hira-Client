@@ -1,3 +1,4 @@
+import { ModeHandler } from './../handlers/Mode.handler';
 import { IndividualMessage, IndividualMessageTypes } from './../dto/IndividualMessage';
 import { MessageHandler, OnMessageReceived } from './../handlers/Message.handler';
 import { UserInfoService } from './user-info.service';
@@ -44,6 +45,9 @@ export class ChannelsService implements OnJoin, OnPart, OnKick, OnUserList, OnCh
     StatusHandler.setHandlerNickChanged(this);
     ChannelStatusHandler.setHandler(this);
     MessageHandler.setHandler(this);
+    ModeHandler.modeChange.subscribe(d => {
+      console.log('changing mode: ',d);
+    });
   }
 
   onChannelList(user: string, channels: Channel[]) {

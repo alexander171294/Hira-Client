@@ -1,6 +1,7 @@
 import { IndividualMessage } from './../dto/IndividualMessage';
 import { IRCMessage } from '../utils/IRCMessage.util';
 import { EventEmitter } from '@angular/core';
+import { ValidRegex } from '../utils/validRegex';
 
 /**
  * Clase para manejar la recepción de mensajes privados y de canal.
@@ -15,7 +16,7 @@ export class MessageHandler {
   }
 
   public static getMeAction(parsedMessage: IRCMessage): string[] {
-    return /\x01ACTION ([^\x01]+)\x01/.exec(parsedMessage.message);
+    return ValidRegex.actionRegex().exec(parsedMessage.message);
   }
 
   public static setHandler(hdlr: OnMessageReceived) {
