@@ -12,6 +12,6 @@ export class AppComponent {
   codename = environment.codename;
   version = environment.version;
 
-  constructor(private srvSrv: ServerMsgService) {}
+  constructor(private srvSrv: ServerMsgService) { }
 
 }

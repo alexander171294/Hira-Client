@@ -11,6 +11,8 @@ export class WebSocketUtil {
   private readonly onOpenSubject = new Subject();
   private readonly onCloseSubject = new Subject();
 
+  private static connected: boolean = false;
+
   connect(url: string, uuid: string): Observable<string> {
       this.wss = webSocket<string>({
         url,
@@ -29,18 +31,21 @@ export class WebSocketUtil {
         status.data = {uuid, err};
         console.error('WS errror?', status.data);
         WebSocketUtil.statusChanged.emit(status);
+        WebSocketUtil.connected = false;
       });
       this.onCloseSubject.subscribe(() => {
         const status = new ConnectionStatusData<string>();
         status.status = ConnectionStatus.DISCONNECTED;
         status.data = uuid;
         WebSocketUtil.statusChanged.emit(status);
+        WebSocketUtil.connected = false;
       });
       this.onOpenSubject.subscribe(() => {
         const status = new ConnectionStatusData<string>();
         status.status = ConnectionStatus.CONNECTED;
         status.data = uuid;
         WebSocketUtil.statusChanged.emit(status);
+        WebSocketUtil.connected = true;
       });
       return obs;
   }
@@ -51,6 +56,10 @@ export class WebSocketUtil {
 
   public disconnect() {
     this.wss.complete();
+  }
+
+  public static isConnected() {
+    return WebSocketUtil.connected;
   }
 
 }
