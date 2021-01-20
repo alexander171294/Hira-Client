@@ -1,4 +1,3 @@
-import { type } from 'os';
 import { environment } from 'src/environments/environment';
 import { User } from '../dto/User';
 

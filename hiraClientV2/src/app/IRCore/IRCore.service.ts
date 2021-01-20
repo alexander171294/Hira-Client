@@ -19,10 +19,8 @@ export class IRCoreService {
 
   constructor(private userSrv: UserInfoService) {
     WebSocketUtil.messageReceived.subscribe((message: MessageData) => {
-      console.log('MD', message);
       if (message.message.indexOf('PING') === 0) {
         const pingResp = message.message.slice(5);
-        console.log('PONG');
         this.sendRaw('PONG ' + pingResp);
         return;
       }
