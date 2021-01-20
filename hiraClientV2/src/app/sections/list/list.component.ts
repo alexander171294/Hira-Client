@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-menu-list',
@@ -10,10 +11,15 @@ export class ListComponent implements OnInit {
   @Input() title: string;
   @Input() elements: ListElement[] = [];
   @Input() closable: boolean;
+  @Input() path: string;
 
-  constructor() { }
+  constructor(private router: Router) { }
 
   ngOnInit(): void {
+  }
+
+  open(elem: ListElement) {
+    this.router.navigateByUrl(this.path + elem.name);
   }
 
 }

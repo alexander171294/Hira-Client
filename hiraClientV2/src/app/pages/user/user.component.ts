@@ -32,6 +32,7 @@ export class UserComponent implements OnInit, AfterViewInit, OnDestroy {
   constructor(private ircSrv: IRCoreService, private router: Router) { }
 
   ngOnInit(): void {
+    this.connected = WebSocketUtil.isConnected();
     this.subscription_status = WebSocketUtil.statusChanged.subscribe((status: ConnectionStatusData<any>) => {
       if(status.status == ConnectionStatus.CONNECTED) {
         this.connected = true;
