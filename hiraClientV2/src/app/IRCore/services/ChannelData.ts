@@ -1,3 +1,5 @@
+import { type } from 'os';
+import { environment } from 'src/environments/environment';
 import { User } from '../dto/User';
 
 export class ChannelData {
@@ -23,4 +25,14 @@ export class Quote {
 export class Author<t> {
   user: t;
   image: string;
+
+  constructor(user: t) {
+    if(typeof user == 'string') {
+      this.image = environment.hiranaTools + '/avatar?usr=' + user;
+    } else {
+      // typeof User
+      this.image = environment.hiranaTools + '/avatar?usr=' + (user as any).nick;
+    }
+    this.user = user;
+  }
 }

@@ -1,3 +1,6 @@
 export const environment = {
-  production: true
+  production: true,
+  version: '2.0.1',
+  codename: 'B612',
+  hiranaTools: 'https://thira.tandilserver.com'
 };

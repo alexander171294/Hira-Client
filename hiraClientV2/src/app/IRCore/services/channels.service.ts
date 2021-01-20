@@ -1,3 +1,5 @@
+import { IndividualMessage, IndividualMessageTypes } from './../dto/IndividualMessage';
+import { MessageHandler, OnMessageReceived } from './../handlers/Message.handler';
 import { UserInfoService } from './user-info.service';
 import { OnTopicUpdate } from './../handlers/ChannelStatus.handler';
 import { ChannelListHandler, OnChannelList } from './../handlers/ChannelList.handler';
@@ -6,7 +8,7 @@ import { PartHandler } from './../handlers/Part.handler';
 import { KickHandler, OnKick } from './../handlers/Kick.handler';
 import { JoinHandler, OnJoin } from './../handlers/Join.handler';
 import { Injectable, EventEmitter } from '@angular/core';
-import { ChannelData } from './ChannelData';
+import { Author, ChannelData, GenericMessage } from './ChannelData';
 import { Join } from '../dto/Join';
 import { OnPart } from '../handlers/Part.handler';
 import { Part } from '../dto/Part';
@@ -24,9 +26,10 @@ import { ChannelStatusHandler } from '../handlers/ChannelStatus.handler';
 @Injectable({
   providedIn: 'root'
 })
-export class ChannelsService implements OnJoin, OnPart, OnKick, OnUserList, OnChannelList, OnNickChanged, OnTopicUpdate {
+export class ChannelsService implements OnJoin, OnPart, OnKick, OnUserList, OnChannelList, OnNickChanged, OnTopicUpdate, OnMessageReceived {
 
   public readonly listChanged: EventEmitter<ChannelData[]> = new EventEmitter<ChannelData[]>();
+  public readonly messagesReceived: EventEmitter<GenericMessage> = new EventEmitter<GenericMessage>();
 
   private channels: ChannelData[] = [];
 
@@ -39,6 +42,7 @@ export class ChannelsService implements OnJoin, OnPart, OnKick, OnUserList, OnCh
     ChannelListHandler.setHandler(this);
     StatusHandler.setHandlerNickChanged(this);
     ChannelStatusHandler.setHandler(this);
+    MessageHandler.setHandler(this);
   }
 
   onChannelList(user: string, channels: Channel[]) {
@@ -168,5 +172,26 @@ export class ChannelsService implements OnJoin, OnPart, OnKick, OnUserList, OnCh
 
   getChannels() {
     return this.channels;
+  }
+
+  getChannel(channel: string) {
+    return this.channels.find(chanObj => chanObj.name == channel);
+  }
+
+  onMessageReceived(message: IndividualMessage) {
+    if(message.messageType == IndividualMessageTypes.CHANMSG) {
+      const tgtChan =  message.channel[0] == '#' ?  message.channel.substring(1) :  message.channel;
+      const chanObj = this.channels.find(chan => chan.name == tgtChan);
+      // FIXME: mejorar esto
+      const msg: GenericMessage = {
+        message: (message.message as string),
+        author: new Author<string>(message.author),
+        date: message.date + ' ' + message.time,
+        special: message.meAction,
+        quote: undefined
+      };
+      chanObj.messages.push(msg);
+      this.messagesReceived.emit(msg);
+    }
   }
 }

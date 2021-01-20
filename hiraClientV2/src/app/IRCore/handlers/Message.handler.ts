@@ -17,4 +17,15 @@ export class MessageHandler {
   public static getMeAction(parsedMessage: IRCMessage): string[] {
     return /\x01ACTION ([^\x01]+)\x01/.exec(parsedMessage.message);
   }
+
+  public static setHandler(hdlr: OnMessageReceived) {
+    this.messageResponse.subscribe(message => {
+      hdlr.onMessageReceived(message);
+    });
+  }
+
+}
+
+export interface OnMessageReceived {
+  onMessageReceived(message: IndividualMessage);
 }

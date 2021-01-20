@@ -5,6 +5,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { ListModule } from 'src/app/sections/list/list.module';
 import { MessageItemComponent } from './message-item/message-item.component';
+import { FormsModule } from '@angular/forms';
 
 const routes: Routes = [
   {
@@ -17,12 +18,13 @@ const routes: Routes = [
   declarations: [
     ChatComponent,
     InfoPanelComponent,
-    MessageItemComponent
+    MessageItemComponent,
   ],
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
-    ListModule
+    ListModule,
+    FormsModule
   ],
 })
 export class ChatModule { }

@@ -1,3 +1,4 @@
+import { GenericMessage } from './../../../IRCore/services/ChannelData';
 import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
@@ -8,6 +9,7 @@ import { Component, Input, OnInit } from '@angular/core';
 export class MessageItemComponent implements OnInit {
 
   @Input() messageType: MessagesTypes;
+  @Input() message: GenericMessage;
 
   constructor() { }
 
