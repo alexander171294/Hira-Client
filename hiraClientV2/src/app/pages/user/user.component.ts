@@ -5,6 +5,7 @@ import { Subscription } from 'rxjs';
 import { StatusHandler } from 'src/app/IRCore/handlers/Status.handler';
 import { MotdHandler } from 'src/app/IRCore/handlers/Motd.handler';
 import { IRCMessage } from 'src/app/IRCore/utils/IRCMessage.util';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-user',
@@ -28,7 +29,7 @@ export class UserComponent implements OnInit, AfterViewInit, OnDestroy {
   private subscription_status: Subscription;
 
 
-  constructor(private ircSrv: IRCoreService) { }
+  constructor(private ircSrv: IRCoreService, private router: Router) { }
 
   ngOnInit(): void {
     this.subscription_status = WebSocketUtil.statusChanged.subscribe((status: ConnectionStatusData<any>) => {
@@ -86,6 +87,7 @@ export class UserComponent implements OnInit, AfterViewInit, OnDestroy {
         this.ircSrv.connect('wss://' + this.host);
         const subscription_status_b = WebSocketUtil.statusChanged.subscribe(d => {
           this.ircSrv.handshake(this.nick, this.nick);
+          this.router.navigateByUrl('/server');
           subscription_status_b.unsubscribe();
         })
         const subscription_nick = StatusHandler.nickAlreadyInUse.subscribe(d => {
