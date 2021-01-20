@@ -31,7 +31,13 @@ export class MenuComponent implements OnInit, OnDestroy {
   ]
    */
 
-  constructor(private cSrv: ChannelsService, private userSrv: UserInfoService, private router: Router) { }
+  constructor(private cSrv: ChannelsService, private userSrv: UserInfoService, private router: Router) {
+    this.joinSubscription = JoinHandler.joinResponse.subscribe((data: Join) => {
+      if (data.user.nick === this.userSrv.getNick()) {
+        this.router.navigateByUrl('/chat/' + data.channel.name);
+      }
+    });
+  }
 
   ngOnInit(): void {
     this.cSrv.listChanged.subscribe((d: ChannelData[]) => {
@@ -43,11 +49,6 @@ export class MenuComponent implements OnInit, OnDestroy {
         elem.name = channel.name[0] == '#' ? channel.name.substring(1) : channel.name;
         this.channels.push(elem);
       })
-    });
-    this.joinSubscription = JoinHandler.joinResponse.subscribe((data: Join) => {
-      if (data.user.nick === this.userSrv.getNick()) {
-        // this.router.navigateByUrl('/chat/' + data.channel.channel);
-      }
     });
   }
 

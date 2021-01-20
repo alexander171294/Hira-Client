@@ -1,4 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
+import { ChannelsService } from 'src/app/IRCore/services/channels.service';
+import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { User } from 'src/app/IRCore/dto/User';
 import { UModes } from 'src/app/IRCore/utils/UModes.utils';
 import { ListElement } from 'src/app/sections/list/list.component';
@@ -9,13 +11,25 @@ import { environment } from 'src/environments/environment';
   templateUrl: './info-panel.component.html',
   styleUrls: ['./info-panel.component.scss']
 })
-export class InfoPanelComponent implements OnInit {
+export class InfoPanelComponent implements OnInit, OnDestroy {
 
   @Input() members: ListElement[] = [];
+  @Input() channelName: string;
 
-  constructor() { }
+  private memberSubscription: Subscription;
 
-  ngOnInit(): void { }
+  constructor(private chanSrv: ChannelsService) {
+    this.memberSubscription = chanSrv.membersChanged.subscribe((d: {channel: string, users: User[]}) => {
+      console.log('Cambio miembros en: ', d, this.channelName);
+      if(d.channel === this.channelName) {
+        this.recalcUsers(d.users);
+      }
+    })
+  }
+
+  ngOnInit(): void {
+
+  }
 
   public recalcUsers(users: User[]) {
     this.members = [];
@@ -69,6 +83,10 @@ export class InfoPanelComponent implements OnInit {
       }
       this.members.push(member);
     });
+  }
+
+  ngOnDestroy() {
+    this.memberSubscription.unsubscribe();
   }
 
 }

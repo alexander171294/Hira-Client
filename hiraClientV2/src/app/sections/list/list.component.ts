@@ -12,6 +12,7 @@ export class ListComponent implements OnInit {
   @Input() elements: ListElement[] = [];
   @Input() closable: boolean;
   @Input() path: string;
+  @Input() selected: string;
 
   constructor(private router: Router) { }
 
