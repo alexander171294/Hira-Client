@@ -1,7 +1,9 @@
-import { IndividualMessage } from './../../IRCore/dto/IndividualMessage';
+import { Subscription } from 'rxjs';
+import { Time } from './../../IRCore/utils/Time.util';
+import { IndividualMessage, IndividualMessageTypes } from './../../IRCore/dto/IndividualMessage';
 import { IRCoreService } from 'src/app/IRCore/IRCore.service';
-import { Component, Input, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Component, Input, OnInit, OnDestroy } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ChannelData } from 'src/app/IRCore/services/ChannelData';
 import { ChannelsService } from 'src/app/IRCore/services/channels.service';
 import { MessageHandler } from 'src/app/IRCore/handlers/Message.handler';
@@ -12,7 +14,7 @@ import { UserInfoService } from 'src/app/IRCore/services/user-info.service';
   templateUrl: './chat.component.html',
   styleUrls: ['./chat.component.scss']
 })
-export class ChatComponent implements OnInit {
+export class ChatComponent implements OnInit, OnDestroy {
 
   image: string = undefined;
   members: number = 15;
@@ -20,9 +22,13 @@ export class ChatComponent implements OnInit {
 
   private channelName: string;
   public channel: ChannelData;
+  private routeSubscription: Subscription;
 
-  constructor(route: ActivatedRoute, private chanSrv: ChannelsService, private ircSrv: IRCoreService, private uInfoSrv: UserInfoService) {
-    this.channelName = route.snapshot.params.channel;
+  constructor(router: Router, route: ActivatedRoute, private chanSrv: ChannelsService, private ircSrv: IRCoreService, private uInfoSrv: UserInfoService) {
+    this.routeSubscription = router.events.subscribe(d => {
+      this.channelName = route.snapshot.params.channel;
+      this.ngOnInit();
+    });
   }
 
   ngOnInit(): void {
@@ -41,15 +47,11 @@ export class ChatComponent implements OnInit {
 
   send() {
     this.ircSrv.sendMessageOrCommand(this.message, '#'+this.channelName);
-    const iMessage = new IndividualMessage();
-    iMessage.author = this.uInfoSrv.getNick();
-    iMessage.message = this.message;
-    iMessage.meAction = false;
-    iMessage.date = 'ymd';
-    iMessage.time = 'now';
-    MessageHandler.onMessage(iMessage);
     this.message = '';
     document.getElementById('messageInput').focus();
   }
 
+  ngOnDestroy() {
+    this.routeSubscription.unsubscribe();
+  }
 }

@@ -2,6 +2,9 @@ import { MessageData, WebSocketUtil } from './utils/WebSocket.util';
 import { Injectable } from '@angular/core';
 import { IRCParserV2 } from './IRCParserV2';
 import { UserInfoService } from './services/user-info.service';
+import { IndividualMessage, IndividualMessageTypes } from './dto/IndividualMessage';
+import { Time } from './utils/Time.util';
+import { MessageHandler } from './handlers/Message.handler';
 
 declare var stopEff;
 
@@ -75,7 +78,7 @@ export class IRCoreService {
     this.webSocket.send(rawMessage);
   }
 
-  public sendMessageOrCommand(command: string, target?: string) {
+  public sendMessageOrCommand(command: string, target?: string): boolean { // return true if is message or false if is command.
     if (command[0] === '/') {
       let cmd = command.slice(1);
       const verb = cmd.split(' ')[0].toLowerCase();
@@ -86,7 +89,7 @@ export class IRCoreService {
       if (verb === 'join') {
         // enviar cmd esto es un join
         this.sendRaw(cmd);
-        return;
+        return false;
       }
       if (verb === 'umode') {
         // enviar cmd esto es un join
@@ -95,13 +98,13 @@ export class IRCoreService {
       if (verb === 'stop') {
         // enviar cmd esto es un join
         stopEff();
-        return;
+        return false;
       }
       if (verb === 'me') {
         cmd = cmd.slice(2).trim();
         this.sendRaw('PRIVMSG ' + target + ' :' + String.fromCharCode(1) + 'ACTION ' + cmd + String.fromCharCode(1));
-        // TODO: registrar mensaje.
-        return;
+        this._triggerMessage(command, target, true);
+        return true;
       }
       if (verb === 'cs') {
         // chanserv?
@@ -132,10 +135,29 @@ export class IRCoreService {
         cmd = cmd.replace('back', 'away');
       }
       this.sendRaw(cmd);
+      return false;
     } else {
       this.sendRaw('PRIVMSG ' + target + ' :' + command);
-      // TODO: registrar mensaje
+      this._triggerMessage(command, target, false);
+      return true;
     }
+  }
+
+  private _triggerMessage(command: string, target: string, isMe: boolean) {
+    const iMessage = new IndividualMessage();
+    iMessage.author = this.userSrv.getNick();
+    iMessage.message = command;
+    iMessage.meAction = isMe;
+    iMessage.date = Time.getDateStr();
+    iMessage.time = Time.getTime();
+    iMessage.messageType = target[0] == '#' ? IndividualMessageTypes.CHANMSG : IndividualMessageTypes.PRIVMSG;
+    if(iMessage.messageType === IndividualMessageTypes.CHANMSG) {
+      iMessage.channel = target;
+    } else {
+      iMessage.author = target;
+      iMessage.privateAuthor = iMessage.author;
+    }
+    MessageHandler.onMessage(iMessage);
   }
 
   public getWS(): WebSocketUtil{
