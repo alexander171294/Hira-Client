@@ -30,6 +30,7 @@ export class ChannelsService implements OnJoin, OnPart, OnKick, OnUserList, OnCh
 
   public readonly listChanged: EventEmitter<ChannelData[]> = new EventEmitter<ChannelData[]>();
   public readonly messagesReceived: EventEmitter<GenericMessage> = new EventEmitter<GenericMessage>();
+  public readonly membersChanged: EventEmitter<string> = new EventEmitter<string>();
 
   private channels: ChannelData[] = [];
 
@@ -115,6 +116,7 @@ export class ChannelsService implements OnJoin, OnPart, OnKick, OnUserList, OnCh
       } else {
         console.error('No se encontró el canal en el que se kickeó el usuario.', data.channel);
       }
+      this.membersChanged.emit(data.channel.channel);
     }
 
   }
@@ -132,6 +134,7 @@ export class ChannelsService implements OnJoin, OnPart, OnKick, OnUserList, OnCh
       } else {
         console.error('No se encontró el canal en el que partió el usuario.', data.channel);
       }
+      this.membersChanged.emit(data.channel.channel);
     }
   }
 
@@ -150,6 +153,7 @@ export class ChannelsService implements OnJoin, OnPart, OnKick, OnUserList, OnCh
       } else {
         console.error('No se encontró el canal en el que se unió el usuario.', data.channel);
       }
+      this.membersChanged.emit(data.channel.channel);
     }
   }
 

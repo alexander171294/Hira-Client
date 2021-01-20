@@ -17,7 +17,6 @@ import { UserInfoService } from 'src/app/IRCore/services/user-info.service';
 export class ChatComponent implements OnInit, OnDestroy {
 
   image: string = undefined;
-  members: number = 15;
   public message: string;
 
   private channelName: string;
@@ -34,7 +33,6 @@ export class ChatComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     if(this.channelName) {
       this.channel = this.chanSrv.getChannel(this.channelName);
-      this.members = this.channel.users.length;
     }
     document.getElementById('messageInput').focus();
   }
