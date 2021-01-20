@@ -18,7 +18,7 @@ export class ModeHandler {
       return [
         undefined,
         regex[1], // + o -
-        regex[2], // modo
+        regex[2].trim(), // modo
         modeCut[0].trim() // usuario
       ];
     } else {
@@ -32,7 +32,7 @@ export class ModeHandler {
       return [
         undefined,
         regOut[2],
-        regOut[3],
+        regOut[3].trim(),
         regOut[4]
       ];
     }

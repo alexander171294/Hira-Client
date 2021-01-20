@@ -20,6 +20,8 @@ import { OnNickChanged, StatusHandler } from '../handlers/Status.handler';
 import { NickChange } from '../dto/NickChange';
 import { User } from '../dto/User';
 import { ChannelStatusHandler } from '../handlers/ChannelStatus.handler';
+import { NewMode } from '../dto/NewMode';
+import { UModes } from '../utils/UModes.utils';
 
 /**
  * Servicio para gestionar mis canales y los usuarios en esos canales
@@ -45,8 +47,35 @@ export class ChannelsService implements OnJoin, OnPart, OnKick, OnUserList, OnCh
     StatusHandler.setHandlerNickChanged(this);
     ChannelStatusHandler.setHandler(this);
     MessageHandler.setHandler(this);
-    ModeHandler.modeChange.subscribe(d => {
-      console.log('changing mode: ',d);
+    ModeHandler.modeChange.subscribe((d: NewMode) => {
+      if(d.channelTarget != d.userTarget.nick) {
+        const channel = d.channelTarget[0] == '#' ? d.channelTarget.substring(1) : d.channelTarget;
+        let channelObj = this.channels.find(chnl => chnl.name === channel);
+        if(channelObj) {
+          const user = channelObj.users.find(user => user.nick === d.userTarget.nick);
+          if(user) {
+            if(d.modeAdded) {
+              if(d.mode.indexOf('q') > -1) {
+                user.mode = UModes.FOUNDER;
+              } else if(d.mode.indexOf('a') > -1 || d.mode.indexOf('A') > -1) {
+                user.mode = UModes.ADMIN;
+              } else if(d.mode.indexOf('o') > -1 || d.mode.indexOf('O') > -1) {
+                user.mode = UModes.OPER;
+              } else if(d.mode.indexOf('h') > -1 || d.mode.indexOf('H') > -1) {
+                user.mode = UModes.HALFOPER;
+              } else if(d.mode.indexOf('v') > -1 || d.mode.indexOf('V') > -1) {
+                user.mode = UModes.VOICE;
+              }
+            } else {
+              user.mode = undefined; // FIXME: acá habría que ver que modos le quedan.
+            }
+            this.membersChanged.emit({
+              channel,
+              users: channelObj.users
+            });
+          }
+        }
+      }
     });
   }
 

@@ -1,5 +1,4 @@
 *** Channel ***
-. Mode
 . Menu (Copiar)
 . Ordenar miembros
 . Ir hacia abajo
@@ -10,6 +9,7 @@
 .  * Imagenes,
 .  * Videos,
 .  * Links
+.  * Efectos
 . Mensajes de join/part/kick/ban
 . Quotes
 
