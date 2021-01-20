@@ -20,7 +20,6 @@ export class InfoPanelComponent implements OnInit, OnDestroy {
 
   constructor(private chanSrv: ChannelsService) {
     this.memberSubscription = chanSrv.membersChanged.subscribe((d: {channel: string, users: User[]}) => {
-      console.log('Cambio miembros en: ', d, this.channelName);
       if(d.channel === this.channelName) {
         this.recalcUsers(d.users);
       }

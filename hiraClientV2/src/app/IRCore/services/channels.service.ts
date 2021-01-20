@@ -193,9 +193,10 @@ export class ChannelsService implements OnJoin, OnPart, OnKick, OnUserList, OnCh
 
   onNickChanged(nick: NickChange) {
     // buscar en la lista de usuarios en cada canal el nick y cambiarlo
-    this.channels.forEach(chnl => {
+    this.channels.forEach((chnl: ChannelData) => {
       const oldUsr = chnl.users.find(usr => usr.nick === nick.oldNick);
       oldUsr.nick = nick.newNick;
+      this.membersChanged.emit({channel: chnl.name, users: chnl.users});
     });
   }
 

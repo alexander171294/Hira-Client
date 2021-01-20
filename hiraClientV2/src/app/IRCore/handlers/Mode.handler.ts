@@ -28,7 +28,6 @@ export class ModeHandler {
       const regOut = ValidRegex.getRegex(
         regex
       ).exec(modeRaw);
-      console.log(regex,modeRaw, regOut);
       return [
         undefined,
         regOut[2],
