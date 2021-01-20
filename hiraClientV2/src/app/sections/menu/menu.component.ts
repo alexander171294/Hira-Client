@@ -1,19 +1,26 @@
+import { Subscription } from 'rxjs';
+import { UserInfoService } from './../../IRCore/services/user-info.service';
 import { ChannelData } from './../../IRCore/services/ChannelData';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ChannelsService } from 'src/app/IRCore/services/channels.service';
 import { ListElement } from '../list/list.component';
+import { JoinHandler } from 'src/app/IRCore/handlers/Join.handler';
+import { Join } from 'src/app/IRCore/dto/Join';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-menu',
   templateUrl: './menu.component.html',
   styleUrls: ['./menu.component.scss']
 })
-export class MenuComponent implements OnInit {
+export class MenuComponent implements OnInit, OnDestroy {
 
   public channels: ListElement[];
   public activeChannel: string = undefined;
 
   public privMsg: ListElement[];
+
+  private joinSubscription: Subscription;
 
   /**
    * [
@@ -24,7 +31,7 @@ export class MenuComponent implements OnInit {
   ]
    */
 
-  constructor(private cSrv: ChannelsService) { }
+  constructor(private cSrv: ChannelsService, private userSrv: UserInfoService, private router: Router) { }
 
   ngOnInit(): void {
     this.cSrv.listChanged.subscribe((d: ChannelData[]) => {
@@ -37,6 +44,15 @@ export class MenuComponent implements OnInit {
         this.channels.push(elem);
       })
     });
+    this.joinSubscription = JoinHandler.joinResponse.subscribe((data: Join) => {
+      if (data.user.nick === this.userSrv.getNick()) {
+        // this.router.navigateByUrl('/chat/' + data.channel.channel);
+      }
+    });
+  }
+
+  ngOnDestroy() {
+    this.joinSubscription.unsubscribe();
   }
 
 }

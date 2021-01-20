@@ -11,13 +11,15 @@ import { environment } from 'src/environments/environment';
 })
 export class InfoPanelComponent implements OnInit {
 
-  @Input() users: User[];
   @Input() members: ListElement[] = [];
 
   constructor() { }
 
-  ngOnInit(): void {
-    this.users.forEach(user => {
+  ngOnInit(): void { }
+
+  public recalcUsers(users: User[]) {
+    this.members = [];
+    users.forEach(user => {
       const member = new ListElement();
       member.name = user.nick;
       member.labels = [];
