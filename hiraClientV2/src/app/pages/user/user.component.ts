@@ -1,4 +1,5 @@
 import { AfterViewChecked, AfterViewInit, Component, OnInit } from '@angular/core'
+import { ConnectionStatus, ConnectionStatusData, WebSocketUtil } from 'src/app/IRCore/utils/WebSocket.util';
 
 @Component({
   selector: 'app-user',
@@ -22,7 +23,16 @@ export class UserComponent implements OnInit, AfterViewInit {
   constructor() { }
 
   ngOnInit(): void {
-
+    WebSocketUtil.statusChanged.subscribe((status: ConnectionStatusData<any>) => {
+      if(status.status == ConnectionStatus.CONNECTED) {
+        this.connected = true;
+        this.error = '';
+      }
+      if(status.status == ConnectionStatus.DISCONNECTED || status.status === ConnectionStatus.ERROR) {
+        this.error = 'Error de conexión';
+        this.connected = false;
+      }
+    });
   }
 
   ngAfterViewInit(): void {
