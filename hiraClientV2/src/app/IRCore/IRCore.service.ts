@@ -103,7 +103,7 @@ export class IRCoreService {
       if (verb === 'me') {
         cmd = cmd.slice(2).trim();
         this.sendRaw('PRIVMSG ' + target + ' :' + String.fromCharCode(1) + 'ACTION ' + cmd + String.fromCharCode(1));
-        this._triggerMessage(command, target, true);
+        this._triggerMessage(cmd, target, true);
         return true;
       }
       if (verb === 'cs') {

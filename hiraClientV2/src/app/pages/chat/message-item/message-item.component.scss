@@ -65,9 +65,10 @@ article {
   &.me {
     color: #06af0c;
     padding-left: 6%;
+    margin: 2vh 0px;
     svg {
       width: 15px;
-      vertical-align: baseline;
+      vertical-align: middle;
       margin-right: 5px;
     }
   }
