@@ -167,6 +167,9 @@ export class ChannelsService implements OnJoin, OnPart, OnKick, OnUserList, OnCh
   }
 
   onTopicUpdate(channel: string, newTopic: string) {
+    if(channel[0] === '#') {
+      channel = channel.substring(1);
+    }
     const chnlObj = this.channels.find(chnl => chnl.name === channel);
     if (chnlObj) {
       chnlObj.topic = newTopic;
