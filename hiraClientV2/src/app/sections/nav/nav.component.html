@@ -35,7 +35,7 @@
     </li>
   </ul>
   <footer>
-    <div class="activeBox active">
+    <div class="activeBox" [class.active]="connected" [class.error]="error">
       <img src="https://thira.tandilserver.com/avatar?usr=Alex" />
     </div>
   </footer>

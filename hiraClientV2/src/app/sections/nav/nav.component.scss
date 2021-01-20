@@ -93,10 +93,13 @@ nav {
         top: 5px;
         right: 5px;
         border-radius: 50px;
-        background: #af3232;
+        background: #325eaf;
       }
       &.active::after {
         background: #00ff72;
+      }
+      &.error::after {
+        background: #af3232;
       }
     }
   }

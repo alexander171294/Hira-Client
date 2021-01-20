@@ -52,6 +52,10 @@ main {
       width: fit-content;
       label {
         display: block;
+        i {
+          font-size: 10px;
+          color: #4bb91e;
+        }
       }
       input[type=text], input[type=password] {
         padding: 6px;

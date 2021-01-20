@@ -1,4 +1,4 @@
-import { MessageWithMetadata } from 'src/app/utils/PostProcessor';
+import { MessageWithMetadata } from '../utils/PostProcessor';
 
 export class IndividualMessage {
   messageType: IndividualMessageTypes;

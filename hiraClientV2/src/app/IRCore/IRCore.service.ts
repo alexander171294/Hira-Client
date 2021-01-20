@@ -128,4 +128,8 @@ export class IRCoreService {
       // TODO: registrar mensaje
     }
   }
+
+  public getWS(): WebSocketUtil{
+    return this.webSocket;
+  }
 }
