@@ -3,7 +3,7 @@ import { Subscription } from 'rxjs';
 import { IRCoreService } from 'src/app/IRCore/IRCore.service';
 import { Component, OnInit, OnDestroy, ViewChild, HostListener } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ChannelData } from 'src/app/IRCore/services/ChannelData';
+import { ChannelData, Quote } from 'src/app/IRCore/services/ChannelData';
 import { ChannelsService } from 'src/app/IRCore/services/channels.service';
 import { UserInfoService } from 'src/app/IRCore/services/user-info.service';
 import { MenuSelectorEvent, MenuType } from 'src/app/sections/menu/menu-selector.event';
@@ -25,6 +25,7 @@ export class ChatComponent implements OnInit, OnDestroy {
   public autoDownLocked: boolean;
   public newMessages: boolean;
   public messageSubscription: Subscription;
+  public quote: Quote;
 
   @ViewChild('infoPanel', {static: true}) appInfoPanel: InfoPanelComponent;
 
@@ -93,6 +94,11 @@ export class ChatComponent implements OnInit, OnDestroy {
     this.autoGoDown();
   }
 
+  quotear(q: Quote) {
+    this.quote = q;
+    document.getElementById('messageInput').focus();
+  }
+
   kp(event) {
     if(event.keyCode === 13) {
       if(this.message?.trim().length > 0) {
@@ -116,6 +122,10 @@ export class ChatComponent implements OnInit, OnDestroy {
   }
 
   send() {
+    if(this.quote) {
+      this.message = '<'+this.quote.author+'> '+this.quote.quote+' |' + this.message;
+      this.quote = undefined;
+    }
     this.ircSrv.sendMessageOrCommand(this.message, '#'+this.channelName);
     this.message = '';
     document.getElementById('messageInput').focus();

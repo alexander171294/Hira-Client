@@ -4,9 +4,7 @@
 . Subir imagen
 . Parseo de mensajes:
 .  * Efectos
-. pinguear
 . Mensajes de join/part/kick/ban
-. Quotes
 . Leave
 . flecha arriba/abajo
 
@@ -35,6 +33,8 @@ Gabriela-> y la fresa que se llame fresa
 - Emotes de apocalipsis:
 
 ================================================
+
+. Remover al quotear el quote previo
 
 *** Channel ***
 
