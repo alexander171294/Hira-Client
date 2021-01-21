@@ -3,6 +3,7 @@ main {
   float: left;
   height: 100vh;
   background:#bdcad4;
+  position: relative;
   &.full {
     width: 79vw;
   }

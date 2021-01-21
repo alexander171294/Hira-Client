@@ -1,3 +1,4 @@
+import { EmoteListComponent } from './emote-list/emote-list.component';
 import { InfoPanelComponent } from './info-panel/info-panel.component';
 import { ChatComponent } from './chat.component';
 import { NgModule } from '@angular/core';
@@ -21,7 +22,8 @@ const routes: Routes = [
     ChatComponent,
     InfoPanelComponent,
     MessageItemComponent,
-    LinkVcardComponent
+    LinkVcardComponent,
+    EmoteListComponent
   ],
   imports: [
     CommonModule,

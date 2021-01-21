@@ -16,7 +16,7 @@ import { MenuSelectorEvent, MenuType } from 'src/app/sections/menu/menu-selector
 export class ChatComponent implements OnInit, OnDestroy {
 
   image: string = undefined;
-  public message: string;
+  public message: string = '';
 
   private channelName: string;
   public channel: ChannelData = new ChannelData();
@@ -28,6 +28,7 @@ export class ChatComponent implements OnInit, OnDestroy {
   public quote: Quote;
   public altMenu: boolean;
   public imageLoading: boolean;
+  public emotePopupOpened: boolean;
 
   @ViewChild('infoPanel', {static: true}) appInfoPanel: InfoPanelComponent;
 
@@ -67,6 +68,11 @@ export class ChatComponent implements OnInit, OnDestroy {
         this.goDown();
       }
     });
+  }
+
+  writeEmote(emote: string) {
+    this.message += ' ' + emote;
+    this.emotePopupOpened = false;
   }
 
   onScroll(evt) {
