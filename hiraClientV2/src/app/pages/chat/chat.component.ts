@@ -3,7 +3,7 @@ import { Subscription } from 'rxjs';
 import { IRCoreService } from 'src/app/IRCore/IRCore.service';
 import { Component, OnInit, OnDestroy, ViewChild, HostListener } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ChannelData, Quote } from 'src/app/IRCore/services/ChannelData';
+import { ChannelData, GenericMessage, Quote } from 'src/app/IRCore/services/ChannelData';
 import { ChannelsService } from 'src/app/IRCore/services/channels.service';
 import { UserInfoService } from 'src/app/IRCore/services/user-info.service';
 import { MenuSelectorEvent, MenuType } from 'src/app/sections/menu/menu-selector.event';
@@ -26,6 +26,7 @@ export class ChatComponent implements OnInit, OnDestroy {
   public newMessages: boolean;
   public messageSubscription: Subscription;
   public quote: Quote;
+  public altMenu: boolean;
 
   @ViewChild('infoPanel', {static: true}) appInfoPanel: InfoPanelComponent;
 
@@ -135,5 +136,21 @@ export class ChatComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.routeSubscription.unsubscribe();
     this.messageSubscription.unsubscribe();
+  }
+
+  copyChat(evt) {
+    // evt.stopPropagation();
+    let chat = '';
+    this.channel.messages.forEach((msg: GenericMessage) => {
+      chat += msg.date + ' <' + msg.author.user + '> ' + msg.message + '\r\n';
+    });
+    navigator.clipboard.writeText(chat).then(d => {
+      console.log('copied');
+    });
+  }
+
+  copyLinkChat(evt) {
+    // evt.stopPropagation();
+
   }
 }
