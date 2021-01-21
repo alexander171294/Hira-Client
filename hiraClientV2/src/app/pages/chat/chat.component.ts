@@ -1,7 +1,7 @@
 import { InfoPanelComponent } from './info-panel/info-panel.component';
 import { Subscription } from 'rxjs';
 import { IRCoreService } from 'src/app/IRCore/IRCore.service';
-import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, HostListener } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ChannelData } from 'src/app/IRCore/services/ChannelData';
 import { ChannelsService } from 'src/app/IRCore/services/channels.service';
@@ -21,6 +21,9 @@ export class ChatComponent implements OnInit, OnDestroy {
   private channelName: string;
   public channel: ChannelData = new ChannelData();
   private routeSubscription: Subscription;
+  public preventOnScroll: boolean;
+  public autoDownLocked: boolean;
+  public newMessages: boolean;
 
   @ViewChild('infoPanel', {static: true}) appInfoPanel: InfoPanelComponent;
 
@@ -34,14 +37,33 @@ export class ChatComponent implements OnInit, OnDestroy {
   goDown() {
     const elem = document.getElementById('listMessages');
     setTimeout(() => {
+      this.preventOnScroll = true;
       elem.scrollTo({top: elem.scrollHeight});
+      setTimeout(() => {
+        this.preventOnScroll = false;
+      }, 50);
     }, 100);
   }
 
   autoGoDown() {
     this.chanSrv.messagesReceived.subscribe(d => {
+      this.newMessages = false;
+      if(this.autoDownLocked) {
+        this.newMessages = true;
+        return;
+      }
       this.goDown();
     })
+  }
+
+  onScroll(evt) {
+    if(this.preventOnScroll) {
+      return;
+    }
+    this.autoDownLocked = evt.srcElement.scrollTop + evt.srcElement.clientHeight != evt.srcElement.scrollHeight;
+    if(!this.autoDownLocked) {
+      this.newMessages = false;
+    }
   }
 
   ngOnInit(): void {
