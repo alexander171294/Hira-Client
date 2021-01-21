@@ -12,6 +12,16 @@ body, html {
   src: url(assets/fonts/chata-normal.otf);
 }
 
+
+@keyframes spinner {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
 .faceEmote {
   width: 50px;
   vertical-align: middle;

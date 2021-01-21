@@ -207,10 +207,16 @@ main {
       svg {
         color: #96979c;
         width: 17px;
+        &.fa-spinner {
+          margin-top: 4px;
+          margin-left: 2px;
+          animation: spinner 1s linear infinite;
+        }
       }
     }
   }
 }
+
 app-info-panel {
   width: calc(18vw - 2px);
   float: right;

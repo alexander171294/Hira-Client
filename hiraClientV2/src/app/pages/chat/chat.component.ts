@@ -1,3 +1,4 @@
+import { VcardGetterService } from './message-item/link-vcard/vcard-getter.service';
 import { InfoPanelComponent } from './info-panel/info-panel.component';
 import { Subscription } from 'rxjs';
 import { IRCoreService } from 'src/app/IRCore/IRCore.service';
@@ -5,7 +6,6 @@ import { Component, OnInit, OnDestroy, ViewChild, HostListener } from '@angular/
 import { ActivatedRoute, Router } from '@angular/router';
 import { ChannelData, GenericMessage, Quote } from 'src/app/IRCore/services/ChannelData';
 import { ChannelsService } from 'src/app/IRCore/services/channels.service';
-import { UserInfoService } from 'src/app/IRCore/services/user-info.service';
 import { MenuSelectorEvent, MenuType } from 'src/app/sections/menu/menu-selector.event';
 
 @Component({
@@ -27,10 +27,11 @@ export class ChatComponent implements OnInit, OnDestroy {
   public messageSubscription: Subscription;
   public quote: Quote;
   public altMenu: boolean;
+  public imageLoading: boolean;
 
   @ViewChild('infoPanel', {static: true}) appInfoPanel: InfoPanelComponent;
 
-  constructor(private router: Router, route: ActivatedRoute, private chanSrv: ChannelsService, private ircSrv: IRCoreService, private uInfoSrv: UserInfoService) {
+  constructor(private router: Router, route: ActivatedRoute, private chanSrv: ChannelsService, private ircSrv: IRCoreService, private vcg: VcardGetterService) {
     this.routeSubscription = this.router.events.subscribe(d => {
       if(this.channelName != route.snapshot.params.channel) {
         this.channelName = route.snapshot.params.channel;
@@ -152,5 +153,47 @@ export class ChatComponent implements OnInit, OnDestroy {
   copyLinkChat(evt) {
     // evt.stopPropagation();
 
+  }
+
+  onFileSelected(event) {
+    this.uploadFile(event.srcElement.files[0]);
+  }
+
+  uploadFile(file) {
+    const fr = new FileReader();
+    fr.onloadend = () => {
+      this.vcg.uploadImage((fr.result as string).split('base64,')[1]).subscribe(d => {
+        const cboxI = (document.getElementById('messageInput') as any);
+        if (cboxI.value.length > 0) {
+          cboxI.value = (document.getElementById('messageInput') as any).value.trim() + ' ';
+        }
+        cboxI.value += d.image;
+        cboxI.focus();
+        this.imageLoading = false;
+      }, err => {
+        this.imageLoading = false;
+      });
+    };
+    if (file) {
+      this.imageLoading = true;
+      fr.readAsDataURL(file);
+    }
+  }
+
+  openFile() {
+    document.getElementById('fileInput').click();
+  }
+
+  onDrop(event) {
+    const file = event.dataTransfer.files[0];
+    if (file.type === 'image/png' || file.type === 'image/jpg' || file.type === 'image/jpeg') {
+      this.uploadFile(file);
+    }
+    event.preventDefault();
+  }
+
+  onDragOver(event) {
+    event.stopPropagation();
+    event.preventDefault();
   }
 }
