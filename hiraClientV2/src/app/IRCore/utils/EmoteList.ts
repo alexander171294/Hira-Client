@@ -1,5 +1,11 @@
 declare var startEventEffect: any;
 declare var startEventEffectRegalo: any;
+declare var startEventEffectMeteor: any;
+declare var startEventEffectCabritas: any;
+declare var startEventEffectPrimavera: any;
+declare var startEventEffectVerano: any;
+declare var startEventEffectOtono: any;
+declare var startEventEffectKz2s: any;
 
 export class EmoteList {
 
@@ -91,7 +97,27 @@ export class EmoteList {
     'tarta',
     'te',
     'whisky',
-    'zumo'
+    'zumo',
+    'burger',
+    'candy',
+    'caniche',
+    'celtic',
+    'coca',
+    'editorial',
+    'gaviota',
+    'goat',
+    'icecream',
+    'listado',
+    'magicwind',
+    'medal',
+    'musical',
+    'palette',
+    'pizza',
+    'podium',
+    'smoothie',
+    'strawberry',
+    'wizard',
+    'xane'
   ];
 
   public static readonly memes = [
@@ -148,8 +174,31 @@ export class EmoteList {
       if (name === 'magia') {
         startEventEffect();
       }
+      if (name === 'primavera') {
+        startEventEffectPrimavera();
+      }
+      if (name === 'verano') {
+        startEventEffectVerano();
+      }
+      if (name === 'otono') {
+        startEventEffectOtono();
+      }
+      if (name === 'cabritas') {
+        startEventEffectCabritas();
+      }
       if (name === 'regalos') {
         startEventEffectRegalo();
+      }
+      if (name === 'lluvia') {
+        startEventEffectMeteor();
+      }
+      if (name === 'kz2') {
+        startEventEffectKz2s();
+      }
+      return undefined;
+    } else if (author === 'Alex' || author === 'Tulkalex' || author === 'Tulkalen') {
+      if (name === 'kz2') {
+        startEventEffectKz2s();
       }
       return undefined;
     } else {
