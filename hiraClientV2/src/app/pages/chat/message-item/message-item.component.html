@@ -19,9 +19,7 @@
       <!-- Mensaje aquí Mensaje aquí Mensaje aquí Mensaje aquí Mensaje aquí Mensaje aquí Mensaje aquí Mensaje aquí Mensaje aquí Mensaje aquí Mensaje aquí Mensaje aquí -->
       {{message.message}}
     </p>
-    <p *ngIf="message.messageWithMetadata" class="mwm">
-      {{message.messageWithMetadata.message}}
-    </p>
+    <p *ngIf="message.messageWithMetadata" class="mwm" [innerHTML]="message.messageWithMetadata.message"></p>
     <a *ngIf="message.messageWithMetadata?.image" [href]="message.messageWithMetadata.image" target="_blank" class="banner">
       <img [src]="message.messageWithMetadata.image" class="banner" />
     </a>

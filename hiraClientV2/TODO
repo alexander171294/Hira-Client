@@ -5,7 +5,6 @@
 . Popup emotes
 . Subir imagen
 . Parseo de mensajes:
-.  * Emotes,
 .  * Efectos
 . pinguear
 . Mensajes de join/part/kick/ban
@@ -25,6 +24,7 @@ List
 Whois
 Guardar logs
 Skin dark
+Actualizar emotelist y emotes, y corregir burger
 
 ================================================
 

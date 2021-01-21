@@ -11,3 +11,29 @@ body, html {
   font-family: 'Chata Normal';
   src: url(assets/fonts/chata-normal.otf);
 }
+
+.faceEmote {
+  width: 50px;
+  vertical-align: middle;
+  background: var(--face-emote-bg);
+  border-radius: 3px;
+  transition: width 1s;
+  &:hover {
+    width: 150px;
+  }
+  &.regla {
+    &:hover {
+      width: 400px;
+    }
+  }
+}
+
+.memeEmote {
+  max-width: 200px;
+  vertical-align: middle;
+  border-radius: 3px;
+  transition: max-width 1s;
+  &:hover {
+    max-width: 400px;
+  }
+}
