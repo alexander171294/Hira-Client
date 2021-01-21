@@ -20,4 +20,8 @@ export class ValidRegex {
     return new RegExp(regex);
   }
 
+  public static pingRegex(nick: string) {
+    return '^(.*(\\s|,|:))?('+nick.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')+')((\\s|,|:).*)?$';
+  }
+
 }

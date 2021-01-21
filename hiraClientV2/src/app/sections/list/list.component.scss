@@ -40,6 +40,9 @@ nav {
         top: 5px;
         left: -6px;
         border-radius: 5px;
+        &.warn {
+          background: #d01010;
+        }
       }
       .badges {
         display: inline-block;

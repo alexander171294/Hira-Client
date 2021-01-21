@@ -8,6 +8,7 @@ import { ListElement } from '../list/list.component';
 import { JoinHandler } from 'src/app/IRCore/handlers/Join.handler';
 import { Join } from 'src/app/IRCore/dto/Join';
 import { Router } from '@angular/router';
+import { ValidRegex } from 'src/app/IRCore/utils/validRegex';
 
 @Component({
   selector: 'app-menu',
@@ -52,7 +53,19 @@ export class MenuComponent implements OnInit, OnDestroy {
       } else if(this.lastSelected?.type === MenuType.PRIV_MSG) {
         this.privMsg.find(channel => channel.name == this.lastSelected.name).active = true;
       }
-    })
+    });
+    this.cSrv.messagesReceived.subscribe(d => {
+      if(d.target !== this.activeChannel) {
+        const channel = this.channels.find(channel => channel.name == d.target);
+        const regex = ValidRegex.getRegex(ValidRegex.pingRegex(this.userSrv.getNick()));
+        const result = regex.exec(d.message);
+        if(result) {
+          channel.warn = true;
+        } else if(!channel.warn) {
+          channel.notify = true;
+        }
+      }
+    });
   }
 
   ngOnInit(): void {

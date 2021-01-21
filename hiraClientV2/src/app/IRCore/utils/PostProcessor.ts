@@ -1,8 +1,9 @@
 import { EmoteList } from './EmoteList';
+import { ValidRegex } from './validRegex';
 
 export class PostProcessor {
 
-  public static processMessage(message: string, author: string): MessageWithMetadata {
+  public static processMessage(message: string, author: string, me: string): MessageWithMetadata {
     const mwm = new MessageWithMetadata();
 
     const youtubeLink = /((?:https?:)?\/\/)?((?:www|m)\.)?((?:youtube\.com|youtu.be))(\/(?:[\w\-]+\?v=|embed\/|v\/)?)([\w\-]+)(\S+)?/.exec(message);
@@ -60,7 +61,30 @@ export class PostProcessor {
       });
     }
 
-    mwm.message = message;
+    mwm.message = PostProcessor.processPings(message, me);
+    return mwm;
+  }
+
+  public static processPings(mwm: string, me: string) {
+    const regex = ValidRegex.getRegex(ValidRegex.pingRegex(me));
+    const result = regex.exec(mwm);
+    if(result) {
+      mwm = '';
+      if(result[1]) {
+        mwm += result[1];
+      }
+      if(result[2]) {
+        mwm += result[2];
+      }
+      mwm += '<b class="ping">' + result[3] + '</b>';
+      if(result[4]) {
+        mwm += result[4];
+      }
+      if(result[5]) {
+        mwm += result[5];
+      }
+      mwm = mwm.replace(', ,', ',');
+    }
     return mwm;
   }
 

@@ -227,7 +227,7 @@ export class ChannelsService implements OnJoin, OnPart, OnKick, OnUserList, OnCh
       const chanObj = this.channels.find(chan => chan.name == tgtChan);
       const msg: GenericMessage = {
         message: (message.message as string),
-        messageWithMetadata:  PostProcessor.processMessage(message.message as string, message.author),
+        messageWithMetadata:  PostProcessor.processMessage(message.message as string, message.author, this.userSrv.getNick()),
         author: new Author<string>(message.author),
         date: message.date + ' ' + message.time,
         special: message.meAction,

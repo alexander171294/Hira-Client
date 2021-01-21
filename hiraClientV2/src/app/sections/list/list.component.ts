@@ -20,6 +20,8 @@ export class ListComponent implements OnInit {
   }
 
   open(elem: ListElement) {
+    elem.notify = false;
+    elem.warn = false;
     this.router.navigateByUrl(this.path + elem.name);
   }
 
@@ -28,6 +30,7 @@ export class ListComponent implements OnInit {
 export class ListElement {
   name: string;
   notify: boolean;
+  warn: boolean;
   image?: string;
   active: boolean;
   labels?: Label[];
