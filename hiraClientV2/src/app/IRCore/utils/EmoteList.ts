@@ -198,7 +198,7 @@ export class EmoteList {
       return undefined;
     } else if (author === 'Alex' || author === 'Tulkalex' || author === 'Tulkalen') {
       if (name === 'kz2') {
-        startEventEffectKz2s();
+        startEventEffectKz2s(); // Probando
       }
       return undefined;
     } else {
