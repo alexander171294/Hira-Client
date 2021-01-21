@@ -32,7 +32,7 @@ export class InfoPanelComponent implements OnInit, OnDestroy {
 
   public recalcUsers(users: User[]) {
     this.members = [];
-    users.forEach(user => {
+    users.sort((a: User, b: User) => a.nick.localeCompare(b.nick)).forEach(user => {
       const member = new ListElement();
       member.name = user.nick;
       member.labels = [];
