@@ -39,6 +39,8 @@ export class ChatComponent implements OnInit, OnDestroy {
 
   goDown() {
     const elem = document.getElementById('listMessages');
+    this.autoDownLocked = false;
+    this.newMessages = false;
     setTimeout(() => {
       this.preventOnScroll = true;
       elem.scrollTo({top: elem.scrollHeight});

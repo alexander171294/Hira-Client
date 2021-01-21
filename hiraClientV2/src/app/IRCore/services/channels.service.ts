@@ -232,7 +232,7 @@ export class ChannelsService implements OnJoin, OnPart, OnKick, OnUserList, OnCh
         date: message.date + ' ' + message.time,
         special: message.meAction,
         quote: undefined,
-        target: chanObj.name
+        target: tgtChan
       };
       chanObj.messages.push(msg);
       this.messagesReceived.emit(msg);

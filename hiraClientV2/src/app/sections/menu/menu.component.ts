@@ -53,6 +53,7 @@ export class MenuComponent implements OnInit, OnDestroy {
       } else if(this.lastSelected?.type === MenuType.PRIV_MSG) {
         this.privMsg.find(channel => channel.name == this.lastSelected.name).active = true;
       }
+      this.activeChannel = this.lastSelected.name;
     });
     this.cSrv.messagesReceived.subscribe(d => {
       if(d.target !== this.activeChannel) {
