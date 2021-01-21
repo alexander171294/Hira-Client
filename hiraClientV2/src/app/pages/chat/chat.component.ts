@@ -31,6 +31,19 @@ export class ChatComponent implements OnInit, OnDestroy {
     });
   }
 
+  goDown() {
+    const elem = document.getElementById('listMessages');
+    setTimeout(() => {
+      elem.scrollTo({top: elem.scrollHeight});
+    }, 100);
+  }
+
+  autoGoDown() {
+    this.chanSrv.messagesReceived.subscribe(d => {
+      this.goDown();
+    })
+  }
+
   ngOnInit(): void {
     if(this.channelName) {
       this.channel = this.chanSrv.getChannel(this.channelName);
@@ -45,6 +58,7 @@ export class ChatComponent implements OnInit, OnDestroy {
     }
     document.getElementById('messageInput').focus();
     this.appInfoPanel.recalcUsers(this.channel.users);
+    this.autoGoDown();
   }
 
   kp(event) {

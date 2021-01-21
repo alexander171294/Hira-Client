@@ -23,7 +23,7 @@
   </header>
   <section>
     <div class="messageBox">
-      <ul>
+      <ul id="listMessages">
         <li>
           <app-message-item *ngFor="let message of channel.messages" messageType="0" [message]="message"></app-message-item>
         </li>
