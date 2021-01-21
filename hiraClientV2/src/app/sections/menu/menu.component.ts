@@ -1,3 +1,4 @@
+import { MenuElement, MenuSelectorEvent, MenuType } from './menu-selector.event';
 import { Subscription } from 'rxjs';
 import { UserInfoService } from './../../IRCore/services/user-info.service';
 import { ChannelData } from './../../IRCore/services/ChannelData';
@@ -22,6 +23,8 @@ export class MenuComponent implements OnInit, OnDestroy {
 
   private joinSubscription: Subscription;
 
+  public lastSelected: MenuElement;
+
   /**
    * [
     {name:'Alex', image: 'https://thira.tandilserver.com/avatar?usr=Alex'},
@@ -37,6 +40,19 @@ export class MenuComponent implements OnInit, OnDestroy {
         this.router.navigateByUrl('/chat/' + data.channel.name);
       }
     });
+    MenuSelectorEvent.menuChange.subscribe(d => {
+      if(this.lastSelected?.type === MenuType.CHANNEL) {
+        this.channels.find(channel => channel.name == this.lastSelected.name).active = false;
+      } else if(this.lastSelected?.type === MenuType.PRIV_MSG) {
+        this.privMsg.find(channel => channel.name == this.lastSelected.name).active = false;
+      }
+      this.lastSelected = d;
+      if(this.lastSelected?.type === MenuType.CHANNEL) {
+        this.channels.find(channel => channel.name == this.lastSelected.name).active = true;
+      } else if(this.lastSelected?.type === MenuType.PRIV_MSG) {
+        this.privMsg.find(channel => channel.name == this.lastSelected.name).active = true;
+      }
+    })
   }
 
   ngOnInit(): void {

@@ -6,6 +6,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ChannelData } from 'src/app/IRCore/services/ChannelData';
 import { ChannelsService } from 'src/app/IRCore/services/channels.service';
 import { UserInfoService } from 'src/app/IRCore/services/user-info.service';
+import { MenuSelectorEvent, MenuType } from 'src/app/sections/menu/menu-selector.event';
 
 @Component({
   selector: 'app-chat',
@@ -33,6 +34,10 @@ export class ChatComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     if(this.channelName) {
       this.channel = this.chanSrv.getChannel(this.channelName);
+      MenuSelectorEvent.menuChange.emit({
+        type: MenuType.CHANNEL,
+        name: this.channelName
+      });
     } else if(this.chanSrv.getChannels().length > 0) {
       this.router.navigateByUrl('/chat/' + this.chanSrv.getChannels()[0].name);
     } else {
