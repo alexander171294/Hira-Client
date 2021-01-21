@@ -64,7 +64,7 @@ export class ChatComponent implements OnInit, OnDestroy {
         }
         this.goDown();
       }
-    })
+    });
   }
 
   onScroll(evt) {
@@ -80,6 +80,7 @@ export class ChatComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     if(this.channelName) {
       this.channel = this.chanSrv.getChannel(this.channelName);
+      // FIXME: mover a guard:
       MenuSelectorEvent.menuChange.emit({
         type: MenuType.CHANNEL,
         name: this.channelName

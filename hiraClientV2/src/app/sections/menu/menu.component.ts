@@ -1,3 +1,4 @@
+import { IRCoreService } from './../../IRCore/IRCore.service';
 import { MenuElement, MenuSelectorEvent, MenuType } from './menu-selector.event';
 import { Subscription } from 'rxjs';
 import { UserInfoService } from './../../IRCore/services/user-info.service';
@@ -35,7 +36,7 @@ export class MenuComponent implements OnInit, OnDestroy {
   ]
    */
 
-  constructor(private cSrv: ChannelsService, private userSrv: UserInfoService, private router: Router) {
+  constructor(private cSrv: ChannelsService, private userSrv: UserInfoService, private router: Router, private ircoreSrv: IRCoreService) {
     this.joinSubscription = JoinHandler.joinResponse.subscribe((data: Join) => {
       if (data.user.nick === this.userSrv.getNick()) {
         this.router.navigateByUrl('/chat/' + data.channel.name);
@@ -69,6 +70,10 @@ export class MenuComponent implements OnInit, OnDestroy {
     });
   }
 
+  closeChannel(elem: ListElement) {
+    this.ircoreSrv.sendMessageOrCommand('/leave #' + elem.name);
+  }
+
   ngOnInit(): void {
     this.cSrv.listChanged.subscribe((d: ChannelData[]) => {
       // validamos la lista
@@ -78,7 +83,12 @@ export class MenuComponent implements OnInit, OnDestroy {
         elem.active = this.activeChannel == channel.name;
         elem.name = channel.name[0] == '#' ? channel.name.substring(1) : channel.name;
         this.channels.push(elem);
-      })
+      });
+      // estoy en un canal que no existe?
+      if(this.channels.findIndex(chan => chan.name === this.activeChannel) == -1) {
+        this.activeChannel = undefined;
+        this.router.navigateByUrl('/chat');
+      }
     });
   }
 

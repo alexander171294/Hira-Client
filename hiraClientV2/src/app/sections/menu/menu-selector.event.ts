@@ -11,5 +11,6 @@ export class MenuElement {
 
 export enum MenuType {
   PRIV_MSG,
-  CHANNEL
+  CHANNEL,
+  MENU
 }

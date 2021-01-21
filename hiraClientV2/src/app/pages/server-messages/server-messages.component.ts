@@ -3,6 +3,7 @@ import { IRCoreService } from 'src/app/IRCore/IRCore.service';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ServerMsgService } from 'src/app/IRCore/services/server-msg.service';
 import { IRCMessage } from 'src/app/IRCore/utils/IRCMessage.util';
+import { MenuSelectorEvent, MenuType } from 'src/app/sections/menu/menu-selector.event';
 
 @Component({
   selector: 'app-server-messages',
@@ -24,6 +25,11 @@ export class ServerMessagesComponent implements OnInit, OnDestroy {
       this.goDown();
     });
     this.goDown();
+    // FIXME: mover a guard:
+    MenuSelectorEvent.menuChange.emit({
+      type: MenuType.MENU,
+      name: 'server'
+    });
   }
 
   goDown() {

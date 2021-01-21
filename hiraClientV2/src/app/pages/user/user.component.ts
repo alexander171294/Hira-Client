@@ -6,6 +6,7 @@ import { StatusHandler } from 'src/app/IRCore/handlers/Status.handler';
 import { MotdHandler } from 'src/app/IRCore/handlers/Motd.handler';
 import { IRCMessage } from 'src/app/IRCore/utils/IRCMessage.util';
 import { Router } from '@angular/router';
+import { MenuSelectorEvent, MenuType } from 'src/app/sections/menu/menu-selector.event';
 
 @Component({
   selector: 'app-user',
@@ -42,6 +43,11 @@ export class UserComponent implements OnInit, AfterViewInit, OnDestroy {
         this.error = 'Error de conexión';
         this.connected = false;
       }
+    });
+    // FIXME: mover a guard:
+    MenuSelectorEvent.menuChange.emit({
+      type: MenuType.MENU,
+      name: 'user'
     });
   }
 

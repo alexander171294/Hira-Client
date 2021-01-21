@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
@@ -13,6 +13,7 @@ export class ListComponent implements OnInit {
   @Input() closable: boolean;
   @Input() path: string;
   @Input() selected: string;
+  @Output() close: EventEmitter<ListElement> = new EventEmitter<ListElement>();
 
   constructor(private router: Router) { }
 
@@ -23,6 +24,10 @@ export class ListComponent implements OnInit {
     elem.notify = false;
     elem.warn = false;
     this.router.navigateByUrl(this.path + elem.name);
+  }
+
+  doClose(elem: ListElement) {
+    this.close.emit(elem);
   }
 
 }

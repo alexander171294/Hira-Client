@@ -140,6 +140,7 @@ export class ChannelsService implements OnJoin, OnPart, OnKick, OnUserList, OnCh
 
   onKick(data: KickInfo) {
     if (data.userTarget.nick === this.userSrv.getNick()) {
+      this.channels.splice(this.channels.findIndex(chan => chan.name === data.channel.name));
       this.listChanged.emit(this.channels);
     } else {
       const chnlObj = this.channels.find(chnl => chnl.name === data.channel.name);
@@ -158,6 +159,7 @@ export class ChannelsService implements OnJoin, OnPart, OnKick, OnUserList, OnCh
 
   onPart(data: Part) {
     if (data.user.nick === this.userSrv.getNick()) {
+      this.channels.splice(this.channels.findIndex(chan => chan.name === data.channel.name));
       this.listChanged.emit(this.channels);
     } else {
       const chnlObj = this.channels.find(chnl => chnl.name === data.channel.name);
