@@ -231,7 +231,8 @@ export class ChannelsService implements OnJoin, OnPart, OnKick, OnUserList, OnCh
         author: new Author<string>(message.author),
         date: message.date + ' ' + message.time,
         special: message.meAction,
-        quote: undefined
+        quote: undefined,
+        target: chanObj.name
       };
       chanObj.messages.push(msg);
       this.messagesReceived.emit(msg);

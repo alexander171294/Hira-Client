@@ -11,11 +11,14 @@ export class ChannelData {
 
 export class GenericMessage {
   message: string;
-  messageWithMetadata?: MessageWithMetadata;
   author: Author<User | string>;
   date: string;
   special: boolean; // for actions "me"
   quote: Quote;
+
+  // post-loaded
+  messageWithMetadata?: MessageWithMetadata;
+  target?: string; // nombre del chat o conversación
 }
 
 export class Quote {

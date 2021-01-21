@@ -24,13 +24,16 @@ export class ChatComponent implements OnInit, OnDestroy {
   public preventOnScroll: boolean;
   public autoDownLocked: boolean;
   public newMessages: boolean;
+  public messageSubscription: Subscription;
 
   @ViewChild('infoPanel', {static: true}) appInfoPanel: InfoPanelComponent;
 
   constructor(private router: Router, route: ActivatedRoute, private chanSrv: ChannelsService, private ircSrv: IRCoreService, private uInfoSrv: UserInfoService) {
     this.routeSubscription = this.router.events.subscribe(d => {
-      this.channelName = route.snapshot.params.channel;
-      this.ngOnInit();
+      if(this.channelName != route.snapshot.params.channel) {
+        this.channelName = route.snapshot.params.channel;
+        this.ngOnInit();
+      }
     });
   }
 
@@ -46,13 +49,18 @@ export class ChatComponent implements OnInit, OnDestroy {
   }
 
   autoGoDown() {
-    this.chanSrv.messagesReceived.subscribe(d => {
-      this.newMessages = false;
-      if(this.autoDownLocked) {
-        this.newMessages = true;
-        return;
+    if(this.messageSubscription) {
+      this.messageSubscription.unsubscribe();
+    }
+    this.messageSubscription = this.chanSrv.messagesReceived.subscribe(d => {
+      if(d.target === this.channelName) {
+        this.newMessages = false;
+        if(this.autoDownLocked) {
+          this.newMessages = true;
+          return;
+        }
+        this.goDown();
       }
-      this.goDown();
     })
   }
 
@@ -97,5 +105,6 @@ export class ChatComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.routeSubscription.unsubscribe();
+    this.messageSubscription.unsubscribe();
   }
 }
