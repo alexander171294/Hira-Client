@@ -95,7 +95,23 @@ export class ChatComponent implements OnInit, OnDestroy {
 
   kp(event) {
     if(event.keyCode === 13) {
-      this.send();
+      if(this.message?.trim().length > 0) {
+        this.send();
+      }
+    }
+  }
+
+  kd(event) {
+    // tabulador
+    if(event.keyCode == 9) {
+      event.stopPropagation();
+      event.preventDefault();
+      const curPos = event.target.selectionStart;
+      const partial = this.message.substr(0, curPos).split(' ');
+      const search = partial[partial.length-1];
+      const user = this.channel.users.find(user => user.nick.toLocaleLowerCase().indexOf(search.toLocaleLowerCase()) > -1);
+      const startPos = curPos - search.length;
+      this.message = this.message.substr(0, startPos) + user.nick + this.message.substr(curPos);
     }
   }
 
