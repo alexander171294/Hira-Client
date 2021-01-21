@@ -44,9 +44,15 @@ export class MenuComponent implements OnInit, OnDestroy {
     });
     MenuSelectorEvent.menuChange.subscribe(d => {
       if(this.lastSelected?.type === MenuType.CHANNEL) {
-        this.channels.find(channel => channel.name == this.lastSelected.name).active = false;
+        const fdn = this.channels.find(channel => channel.name == this.lastSelected.name);
+        if(fdn) {
+          fdn.active = false;
+        }
       } else if(this.lastSelected?.type === MenuType.PRIV_MSG) {
-        this.privMsg.find(channel => channel.name == this.lastSelected.name).active = false;
+        const fdn = this.channels.find(channel => channel.name == this.lastSelected.name);
+        if(fdn) {
+          fdn.active = false;
+        }
       }
       this.lastSelected = d;
       if(this.lastSelected?.type === MenuType.CHANNEL) {
