@@ -1,3 +1,4 @@
+import { MessageWithMetadata } from './../utils/PostProcessor';
 import { environment } from 'src/environments/environment';
 import { User } from '../dto/User';
 
@@ -10,6 +11,7 @@ export class ChannelData {
 
 export class GenericMessage {
   message: string;
+  messageWithMetadata?: MessageWithMetadata;
   author: Author<User | string>;
   date: string;
   special: boolean; // for actions "me"

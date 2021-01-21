@@ -16,6 +16,10 @@ export class MessageItemComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  quotear() {
+
+  }
+
 }
 
 export enum MessagesTypes {

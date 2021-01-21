@@ -6,10 +6,8 @@
 . Subir imagen
 . Parseo de mensajes:
 .  * Emotes,
-.  * Imagenes,
-.  * Videos,
-.  * Links
 .  * Efectos
+. pinguear
 . Mensajes de join/part/kick/ban
 . Quotes
 . Leave

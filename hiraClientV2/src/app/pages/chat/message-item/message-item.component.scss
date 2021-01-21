@@ -1,5 +1,7 @@
 article {
   margin: 5px 0px;
+  font-family: helvetica;
+  color: #111519;
   aside {
     width: 6%;
     display: inline-flex;
@@ -17,6 +19,17 @@ article {
     position: relative;
     p {
       margin: 0px;
+    }
+    img.banner {
+      max-width: 15vw;
+      max-height: 20vh;
+    }
+    a.banner {
+      display: block;
+    }
+    app-link-vcard {
+      width: 90%;
+      display: block;
     }
     nav {
       position: absolute;
@@ -86,6 +99,7 @@ article {
 .nick {
   font-size: 15px;
   font-family: helvetica;
+  font-weight: bolder;
   &:hover {
     color: #004dff;
     cursor: pointer;

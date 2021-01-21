@@ -7,6 +7,7 @@ import { AppComponent } from './app.component';
 import { NavComponent } from './sections/nav/nav.component';
 import { MenuComponent } from './sections/menu/menu.component';
 import { ListModule } from './sections/list/list.module';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { ListModule } from './sections/list/list.module';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    ListModule
+    ListModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

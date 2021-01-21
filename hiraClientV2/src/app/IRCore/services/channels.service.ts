@@ -22,6 +22,7 @@ import { User } from '../dto/User';
 import { ChannelStatusHandler } from '../handlers/ChannelStatus.handler';
 import { NewMode } from '../dto/NewMode';
 import { UModes } from '../utils/UModes.utils';
+import { PostProcessor } from '../utils/PostProcessor';
 
 /**
  * Servicio para gestionar mis canales y los usuarios en esos canales
@@ -224,9 +225,9 @@ export class ChannelsService implements OnJoin, OnPart, OnKick, OnUserList, OnCh
     if(message.messageType == IndividualMessageTypes.CHANMSG) {
       const tgtChan =  message.channel[0] == '#' ?  message.channel.substring(1) :  message.channel;
       const chanObj = this.channels.find(chan => chan.name == tgtChan);
-      // FIXME: mejorar esto
       const msg: GenericMessage = {
         message: (message.message as string),
+        messageWithMetadata:  PostProcessor.processMessage(message.message as string, message.author),
         author: new Author<string>(message.author),
         date: message.date + ' ' + message.time,
         special: message.meAction,
