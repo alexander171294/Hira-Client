@@ -1,13 +1,13 @@
 .emotePopup {
   position: absolute;
-  bottom: 6vh;
-  right: 60px;
+  bottom: 65px;
+  right: 0px;
   height: 50%;
   width: 363px;
   overflow-y: auto;
-  border-radius: 5px;
   background: #1c2229;
   border: 1px solid black;
+  z-index: 1;
   &::-webkit-scrollbar-thumb {
     background: #6c6d72;
   }

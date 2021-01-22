@@ -110,9 +110,7 @@ export class ChatComponent implements OnInit, OnDestroy {
 
   kp(event) {
     if(event.keyCode === 13) {
-      if(this.message?.trim().length > 0) {
-        this.send();
-      }
+      this.send();
     }
   }
 
@@ -131,6 +129,9 @@ export class ChatComponent implements OnInit, OnDestroy {
   }
 
   send() {
+    if(this.message?.trim().length == 0) {
+      return;
+    }
     if(this.quote) {
       this.message = '<'+this.quote.author+'> '+this.quote.quote+' |' + this.message;
       this.quote = undefined;
