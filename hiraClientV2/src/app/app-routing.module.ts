@@ -6,6 +6,7 @@ const routes: Routes = [
   { path: '',   redirectTo: '/user', pathMatch: 'full' },
   { path: 'chat', loadChildren: () => import('./pages/chat/chat.module').then(m => m.ChatModule), canActivate: [ConnectedGuard]},
   { path: 'chat/:channel', loadChildren: () => import('./pages/chat/chat.module').then(m => m.ChatModule), canActivate: [ConnectedGuard]},
+  { path: 'priv/:nick', loadChildren: () => import('./pages/privmsg/privmsg.module').then(m => m.PrivmsgModule), canActivate: [ConnectedGuard]},
   { path: 'user', loadChildren: () => import('./pages/user/user.module').then(m => m.UserModule)},
   { path: 'server', loadChildren: () => import('./pages/server-messages/server.module').then(m => m.ServerModule), canActivate: [ConnectedGuard]},
   { path: 'about', loadChildren: () => import('./pages/about/about.module').then(m => m.AboutModule)},
