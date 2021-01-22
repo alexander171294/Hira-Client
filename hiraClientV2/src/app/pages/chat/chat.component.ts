@@ -1,5 +1,3 @@
-import { VcardGetterService } from './message-item/link-vcard/vcard-getter.service';
-import { InfoPanelComponent } from './info-panel/info-panel.component';
 import { Subscription } from 'rxjs';
 import { IRCoreService } from 'src/app/IRCore/IRCore.service';
 import { Component, OnInit, OnDestroy, ViewChild, HostListener } from '@angular/core';
@@ -8,6 +6,8 @@ import { ChannelData, GenericMessage, Quote } from 'src/app/IRCore/services/Chan
 import { ChannelsService } from 'src/app/IRCore/services/channels.service';
 import { MenuSelectorEvent, MenuType } from 'src/app/sections/menu/menu-selector.event';
 import { HistoryMessageCursorService } from '../utils/history-message-cursor.service';
+import { InfoPanelComponent } from 'src/app/sections/chat-parts/info-panel/info-panel.component';
+import { VcardGetterService } from 'src/app/sections/chat-parts/message-item/link-vcard/vcard-getter.service';
 
 @Component({
   selector: 'app-chat',
@@ -94,6 +94,7 @@ export class ChatComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.goDown();
     if(this.channelName) {
       this.channel = this.chanSrv.getChannel(this.channelName);
       // FIXME: mover a guard:
@@ -130,7 +131,7 @@ export class ChatComponent implements OnInit, OnDestroy {
       const curPos = event.target.selectionStart;
       const partial = this.message.substr(0, curPos).split(' ');
       const search = partial[partial.length-1];
-      const user = this.channel.users.find(user => user.nick.toLocaleLowerCase().indexOf(search.toLocaleLowerCase()) > -1);
+      const user = this.channel.users.find(user => user.nick.toLocaleLowerCase().indexOf(search.toLocaleLowerCase()) == 0);
       const startPos = curPos - search.length;
       this.message = this.message.substr(0, startPos) + user.nick + this.message.substr(curPos) + ' ';
     }
