@@ -8,14 +8,12 @@ import { NavComponent } from './sections/nav/nav.component';
 import { MenuComponent } from './sections/menu/menu.component';
 import { ListModule } from './sections/list/list.module';
 import { HttpClientModule } from '@angular/common/http';
-import { PrivmsgComponent } from './pages/privmsg/privmsg.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavComponent,
     MenuComponent,
-    PrivmsgComponent,
   ],
   imports: [
     BrowserModule,
