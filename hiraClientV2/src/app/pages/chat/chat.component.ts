@@ -7,6 +7,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ChannelData, GenericMessage, Quote } from 'src/app/IRCore/services/ChannelData';
 import { ChannelsService } from 'src/app/IRCore/services/channels.service';
 import { MenuSelectorEvent, MenuType } from 'src/app/sections/menu/menu-selector.event';
+import { HistoryMessageCursorService } from '../utils/history-message-cursor.service';
 
 @Component({
   selector: 'app-chat',
@@ -32,7 +33,14 @@ export class ChatComponent implements OnInit, OnDestroy {
 
   @ViewChild('infoPanel', {static: true}) appInfoPanel: InfoPanelComponent;
 
-  constructor(private router: Router, route: ActivatedRoute, private chanSrv: ChannelsService, private ircSrv: IRCoreService, private vcg: VcardGetterService) {
+  constructor(
+      private router: Router,
+      route: ActivatedRoute,
+      private chanSrv: ChannelsService,
+      private ircSrv: IRCoreService,
+      private vcg: VcardGetterService,
+      private hmcSrv: HistoryMessageCursorService
+  ) {
     this.routeSubscription = this.router.events.subscribe(d => {
       if(this.channelName != route.snapshot.params.channel) {
         this.channelName = route.snapshot.params.channel;
@@ -126,6 +134,12 @@ export class ChatComponent implements OnInit, OnDestroy {
       const startPos = curPos - search.length;
       this.message = this.message.substr(0, startPos) + user.nick + this.message.substr(curPos) + ' ';
     }
+    if(event.keyCode == 38) { // arrow up
+      this.message = this.hmcSrv.prev();
+    }
+    if(event.keyCode == 40) { // arrow down
+      this.message = this.hmcSrv.next();
+    }
   }
 
   send() {
@@ -136,6 +150,7 @@ export class ChatComponent implements OnInit, OnDestroy {
       this.message = '<'+this.quote.author+'> '+this.quote.quote+' |' + this.message;
       this.quote = undefined;
     }
+    this.hmcSrv.save(this.message);
     this.ircSrv.sendMessageOrCommand(this.message, '#'+this.channelName);
     this.message = '';
     document.getElementById('messageInput').focus();
