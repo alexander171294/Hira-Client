@@ -94,7 +94,6 @@ export class ChatComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.goDown();
     if(this.channelName) {
       this.channel = this.chanSrv.getChannel(this.channelName);
       // FIXME: mover a guard:
@@ -102,6 +101,7 @@ export class ChatComponent implements OnInit, OnDestroy {
         type: MenuType.CHANNEL,
         name: this.channelName
       });
+      this.goDown();
     } else if(this.chanSrv.getChannels().length > 0) {
       this.router.navigateByUrl('/chat/' + this.chanSrv.getChannels()[0].name);
     } else {
