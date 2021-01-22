@@ -1,6 +1,9 @@
 
 *** Privados ***
 . Full
+. modo g
+. mensaje away
+. multi-away
 
 *** Usuario ***
 . embedded
@@ -13,6 +16,7 @@ Whois
 Guardar logs
 Skin dark
 searcher
+detección away
 
 == Detalles:
 
