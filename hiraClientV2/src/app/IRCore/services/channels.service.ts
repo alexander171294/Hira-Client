@@ -1,3 +1,4 @@
+import { Time } from './../utils/Time.util';
 import { ModeHandler } from './../handlers/Mode.handler';
 import { IndividualMessage, IndividualMessageTypes } from './../dto/IndividualMessage';
 import { MessageHandler, OnMessageReceived } from './../handlers/Message.handler';
@@ -75,6 +76,17 @@ export class ChannelsService implements OnJoin, OnPart, OnKick, OnUserList, OnCh
               users: channelObj.users
             });
           }
+
+          const action = d.modeAdded ? 'agregó' : 'quitó';
+          const mod = d.modeAdded ? '+' : '-';
+          this.sendSpecialMSG(channelObj, 'Se ' + action + ' el modo "' + mod + d.mode + '" a ' + d.userTarget.nick);
+        }
+      } else {
+        // modo de canal
+        const channel = d.channelTarget[0] == '#' ? d.channelTarget.substring(1) : d.channelTarget;
+        const channelObj = this.channels.find(chnl => chnl.name === channel);
+        if(channelObj) {
+          this.sendSpecialMSG(channelObj, 'Se cambió el modo del canal: ' + d.mode);
         }
       }
     });
@@ -138,6 +150,18 @@ export class ChannelsService implements OnJoin, OnPart, OnKick, OnUserList, OnCh
     this.membersChanged.emit({channel: channel, users: channelObj.users});
   }
 
+  private sendSpecialMSG(channel: ChannelData, message: string) {
+    const msg: GenericMessage = {
+      message: message,
+      date: Time.getTime() + ' ' + Time.getDateStr(),
+      special: false,
+      target: channel.name,
+      notify: true
+    };
+    channel.messages.push(msg);
+    this.messagesReceived.emit(msg);
+  }
+
   onKick(data: KickInfo) {
     if (data.userTarget.nick === this.userSrv.getNick()) {
       this.channels.splice(this.channels.findIndex(chan => chan.name === data.channel.name));
@@ -153,6 +177,7 @@ export class ChannelsService implements OnJoin, OnPart, OnKick, OnUserList, OnCh
         console.error('No se encontró el canal en el que se kickeó el usuario.', data.channel);
       }
       this.membersChanged.emit({channel: data.channel.name, users: chnlObj.users});
+      this.sendSpecialMSG(chnlObj, data.userTarget.nick + ' fué kickeado/a del canal por '+ data.operator +'.');
     }
 
   }
@@ -172,6 +197,7 @@ export class ChannelsService implements OnJoin, OnPart, OnKick, OnUserList, OnCh
         console.error('No se encontró el canal en el que partió el usuario.', data.channel);
       }
       this.membersChanged.emit({channel: data.channel.name, users: chnlObj.users});
+      this.sendSpecialMSG(chnlObj, data.user.nick + ' se fué del canal');
     }
   }
 
@@ -191,6 +217,7 @@ export class ChannelsService implements OnJoin, OnPart, OnKick, OnUserList, OnCh
         console.error('No se encontró el canal en el que se unió el usuario.', data.channel);
       }
       this.membersChanged.emit({channel: data.channel.name, users: chnlObj.users});
+      this.sendSpecialMSG(chnlObj, data.user.nick + ' se unió al canal');
     }
   }
 
@@ -200,6 +227,7 @@ export class ChannelsService implements OnJoin, OnPart, OnKick, OnUserList, OnCh
       const oldUsr = chnl.users.find(usr => usr.nick === nick.oldNick);
       oldUsr.nick = nick.newNick;
       this.membersChanged.emit({channel: chnl.name, users: chnl.users});
+      this.sendSpecialMSG(chnl, nick.oldNick + ' se cambió el nick a ' + nick.newNick);
     });
   }
 
@@ -233,7 +261,6 @@ export class ChannelsService implements OnJoin, OnPart, OnKick, OnUserList, OnCh
         author: new Author<string>(message.author),
         date: message.date + ' ' + message.time,
         special: message.meAction,
-        quote: undefined,
         target: tgtChan
       };
       chanObj.messages.push(msg);

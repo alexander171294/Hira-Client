@@ -209,12 +209,20 @@ export class IRCParserV2 {
 
     if (parsedMessage.code === 'MODE') {
       const mode = ModeHandler.modeParser(rawMessage);
-      const nmode = new NewMode();
-      nmode.userTarget = new User(mode[3]);
-      nmode.channelTarget = parsedMessage.target;
-      nmode.modeAdded = mode[1] === '+';
-      nmode.mode = mode[2];
-      ModeHandler.changeMode(nmode);
+      if(mode[3]) {
+        const nmode = new NewMode();
+        nmode.userTarget = new User(mode[3]);
+        nmode.channelTarget = parsedMessage.target;
+        nmode.modeAdded = mode[1] === '+';
+        nmode.mode = mode[2];
+        ModeHandler.changeMode(nmode);
+      } else {
+        const nmode = new NewMode();
+        nmode.channelTarget = parsedMessage.target;
+        nmode.userTarget = new User(parsedMessage.target);
+        nmode.mode = mode[2];
+        ModeHandler.changeMode(nmode);
+      }
       return;
     }
 

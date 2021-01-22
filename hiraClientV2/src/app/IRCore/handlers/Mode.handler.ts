@@ -28,12 +28,23 @@ export class ModeHandler {
       const regOut = ValidRegex.getRegex(
         regex
       ).exec(modeRaw);
-      return [
-        undefined,
-        regOut[2],
-        regOut[3].trim(),
-        regOut[4]
-      ];
+      if(regOut) {
+        return [
+          undefined,
+          regOut[2],
+          regOut[3].trim(),
+          regOut[4]
+        ];
+      } else {
+        // modo de canal?
+        const modos = modeRaw.split(':');
+        return [
+          undefined,
+          undefined,
+          modos[1],
+          undefined
+        ]
+      }
     }
   }
 
