@@ -24,6 +24,7 @@ import { ChannelStatusHandler } from '../handlers/ChannelStatus.handler';
 import { NewMode } from '../dto/NewMode';
 import { UModes } from '../utils/UModes.utils';
 import { PostProcessor } from '../utils/PostProcessor';
+import { ModeratedHandler } from '../handlers/Moderated.handler';
 
 /**
  * Servicio para gestionar mis canales y los usuarios en esos canales
@@ -49,10 +50,18 @@ export class ChannelsService implements OnJoin, OnPart, OnKick, OnUserList, OnCh
     StatusHandler.setHandlerNickChanged(this);
     ChannelStatusHandler.setHandler(this);
     MessageHandler.setHandler(this);
+    ModeratedHandler.channelModerated.subscribe(d => {
+      // canal moderado:
+      const channel = d.partials[3][0] == '#' ? d.partials[3].substring(1) : d.partials[3];
+      const channelObj = this.channels.find(chnl => chnl.name === channel);
+      if(channelObj) {
+        this.sendSpecialMSG(channelObj, d.body);
+      }
+    });
     ModeHandler.modeChange.subscribe((d: NewMode) => {
       if(d.channelTarget != d.userTarget.nick) {
         const channel = d.channelTarget[0] == '#' ? d.channelTarget.substring(1) : d.channelTarget;
-        let channelObj = this.channels.find(chnl => chnl.name === channel);
+        const channelObj = this.channels.find(chnl => chnl.name === channel);
         if(channelObj) {
           const user = channelObj.users.find(user => user.nick === d.userTarget.nick);
           if(user) {

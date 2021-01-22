@@ -32,6 +32,7 @@ import { ServerHandler } from './handlers/Server.handler';
 import { MessageHandler } from './handlers/Message.handler';
 import { IndividualMessage, IndividualMessageTypes } from './dto/IndividualMessage';
 import { Time } from './utils/Time.util';
+import { ModeratedHandler } from './handlers/Moderated.handler';
 
 export class IRCParserV2 {
 
@@ -243,6 +244,11 @@ export class IRCParserV2 {
 
     if (parsedMessage.code === '464') {
       MotdHandler.requirePasswordResponse.emit(parsedMessage);
+      return;
+    }
+
+    if (parsedMessage.code === '404') {
+      ModeratedHandler.channelModerated.emit(parsedMessage);
       return;
     }
 
