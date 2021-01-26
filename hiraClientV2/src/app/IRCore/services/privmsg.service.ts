@@ -22,10 +22,12 @@ export class PrivmsgService implements OnMessageReceived {
 
   onMessageReceived(message: IndividualMessage) {
     if(message.messageType == IndividualMessageTypes.PRIVMSG) {
+      console.log('PMSG', message);
+      const msgAuthor = message.privateAuthor ? message.privateAuthor : message.author;
       const msg: GenericMessage = {
         message: (message.message as string),
-        messageWithMetadata:  PostProcessor.processMessage(message.message as string, message.author, this.userSrv.getNick()),
-        author: new Author<string>(message.author),
+        messageWithMetadata:  PostProcessor.processMessage(message.message as string, msgAuthor, this.userSrv.getNick()),
+        author: new Author<string>(msgAuthor),
         date: message.date + ' ' + message.time,
         special: message.meAction,
         target: message.channel

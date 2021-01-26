@@ -152,8 +152,8 @@ export class IRCoreService {
     if(iMessage.messageType === IndividualMessageTypes.CHANMSG) {
       iMessage.channel = target;
     } else {
-      iMessage.author = target;
       iMessage.privateAuthor = iMessage.author;
+      iMessage.author = target;
     }
     MessageHandler.onMessage(iMessage);
   }
