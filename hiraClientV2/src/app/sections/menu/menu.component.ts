@@ -61,9 +61,11 @@ export class MenuComponent implements OnInit, OnDestroy {
       if(this.lastSelected?.type === MenuType.CHANNEL) {
         this.channels.find(channel => channel.name == this.lastSelected.name).active = true;
         this.activeChannel = this.lastSelected.name;
+        this.activePrivMsg = undefined;
       } else if(this.lastSelected?.type === MenuType.PRIV_MSG) {
         this.privMsg.find(channel => channel.name == this.lastSelected.name).active = true;
         this.activePrivMsg = this.lastSelected.name;
+        this.activeChannel = undefined;
       }
     });
     this.cSrv.messagesReceived.subscribe(d => {
@@ -79,8 +81,8 @@ export class MenuComponent implements OnInit, OnDestroy {
       }
     });
     this.pmsgSrv.messagesReceived.subscribe(d => {
-      if(d.author.user !== this.activePrivMsg) {
-        const chat = this.privMsg.find(pms => pms.name === d.author.user);
+      if(d.author.user !== this.activePrivMsg && d.author.user != this.userSrv.getNick()) {
+        let chat = this.privMsg.find(pms => pms.name === d.author.user);
         const regex = ValidRegex.getRegex(ValidRegex.pingRegex(this.userSrv.getNick()));
         const result = regex.exec(d.message);
         if(result) {

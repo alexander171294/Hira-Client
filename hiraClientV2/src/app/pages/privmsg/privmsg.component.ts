@@ -45,7 +45,6 @@ export class PrivmsgComponent implements OnInit {
     private uis: UserInfoService
 ) {
   this.routeSubscription = this.router.events.subscribe(d => {
-    console.log('INIT', this.nickTarget, route.snapshot.params);
     if(this.nickTarget != route.snapshot.params.nick) {
       this.nickTarget = route.snapshot.params.nick;
       this.image = environment.hiranaTools + '/avatar?usr=' + this.nickTarget;
@@ -100,7 +99,6 @@ export class PrivmsgComponent implements OnInit {
 
   ngOnInit(): void {
     if(this.nickTarget) {
-      console.log('GP', this.nickTarget, this.pmsgSrv.getPrivate(this.nickTarget));
       this.privMsg = this.pmsgSrv.getPrivate(this.nickTarget);
       MenuSelectorEvent.menuChange.emit({
         type: MenuType.PRIV_MSG,
