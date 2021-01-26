@@ -6,13 +6,15 @@ import { ListModule } from 'src/app/sections/list/list.module';
 import { MessageItemComponent } from './message-item/message-item.component';
 import { FormsModule } from '@angular/forms';
 import { LinkVcardComponent } from './message-item/link-vcard/link-vcard.component';
+import { SafePipe } from './message-item/safe.pipe';
 
 @NgModule({
   declarations: [
     InfoPanelComponent,
     MessageItemComponent,
     LinkVcardComponent,
-    EmoteListComponent
+    EmoteListComponent,
+    SafePipe
   ],
   imports: [
     CommonModule,

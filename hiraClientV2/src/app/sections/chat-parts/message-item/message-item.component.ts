@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { GenericMessage, Quote } from './../../../IRCore/services/ChannelData';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
@@ -12,7 +13,7 @@ export class MessageItemComponent implements OnInit {
   @Input() message: GenericMessage;
   @Output() quote: EventEmitter<Quote> = new EventEmitter<Quote>();
 
-  constructor() { }
+  constructor(private router: Router) { }
 
   ngOnInit(): void {
   }
@@ -22,6 +23,10 @@ export class MessageItemComponent implements OnInit {
     q.author = this.message.author.user;
     q.quote = this.message.message;
     this.quote.emit(q);
+  }
+
+  openPM(nick:string) {
+    this.router.navigateByUrl('/priv/' + nick);
   }
 
 }
