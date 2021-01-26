@@ -36,3 +36,39 @@ footer {
     text-decoration: none;
   }
 }
+
+.popup {
+  position: fixed;
+  bottom: 75px;
+  right: 5px;
+  background: #bdd4cc;
+  padding: 5px;
+  border: 1px solid #005a0f;
+  border-left: 3px solid #005a0f;
+  font-family: Helvetica;
+  color: black;
+  font-size: 1.1vw;
+  box-shadow: 0px 0px 5px black;
+  border-radius: 4px;
+  b {
+    color: #005a0f;
+  }
+  button {
+    cursor: pointer;
+    border: none;
+    background: #04dbe8;
+    vertical-align: middle;
+    margin: 0px 7px;
+    outline: none;
+    cursor: pointer;
+    box-shadow: 2px 2px 5px #000000ad;
+    font-weight: bolder;
+    color: #002700;
+    padding: 5px;
+    font-size: 1vw;
+    &.cancel {
+      background: #9a9a9a;
+      color: #000000;
+    }
+  }
+}

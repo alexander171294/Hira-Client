@@ -190,6 +190,8 @@ export class PrivmsgComponent implements OnInit {
   ngOnDestroy() {
     this.routeSubscription.unsubscribe();
     this.messageSubscription.unsubscribe();
+    this.gmodeSubscription.unsubscribe();
+    this.awaySubscription.unsubscribe();
   }
 
   copyChat(evt) {
