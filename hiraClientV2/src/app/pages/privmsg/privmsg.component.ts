@@ -30,7 +30,7 @@ export class PrivmsgComponent implements OnInit {
   public message: string;
   public messageSubscription: Subscription;
 
-  public privMsg: PrivmsgData = {};
+  public privMsg: PrivmsgData = new PrivmsgData();
   public quote: Quote;
 
   constructor(

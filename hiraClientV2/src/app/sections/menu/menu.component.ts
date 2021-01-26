@@ -23,7 +23,7 @@ export class MenuComponent implements OnInit, OnDestroy {
   public activeChannel: string = undefined;
   public activePrivMsg: string = undefined;
 
-  public privMsg: ListElement[];
+  public privMsg: ListElement[] = [];
 
   private joinSubscription: Subscription;
 
@@ -51,7 +51,7 @@ export class MenuComponent implements OnInit, OnDestroy {
           fdn.active = false;
         }
       } else if(this.lastSelected?.type === MenuType.PRIV_MSG) {
-        const fdn = this.channels.find(channel => channel.name == this.lastSelected.name);
+        const fdn = this.privMsg.find(channel => channel.name == this.lastSelected.name);
         if(fdn) {
           fdn.active = false;
         }

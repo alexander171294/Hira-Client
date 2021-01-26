@@ -42,12 +42,12 @@ export class PrivmsgService implements OnMessageReceived {
   }
 
   getPrivate(nick: string): PrivmsgData {
-    if(!this.messagesReceived[nick]) {
-      this.newPrivOpened.emit(nick);
+    if(!this.privMsgs[nick]) {
       this.privMsgs[nick] = new PrivmsgData();
       this.privMsgs[nick].user = nick;
+      this.newPrivOpened.emit(nick);
     }
-    return this.messagesReceived[nick];
+    return this.privMsgs[nick];
   }
 
   closePrivate(nick: string) {
