@@ -13,6 +13,7 @@ import { VcardGetterService } from 'src/app/sections/chat-parts/message-item/lin
 import { environment } from 'src/environments/environment';
 import { AwayHandler } from 'src/app/IRCore/handlers/Away.handler';
 import { Away } from 'src/app/IRCore/dto/Away';
+import { IgnoreHandler } from 'src/app/IRCore/handlers/Ignore.Handler';
 
 @Component({
   selector: 'app-privmsg',
@@ -124,9 +125,8 @@ export class PrivmsgComponent implements OnInit {
         }, 2500);
       }
     });
-    this.gmodeSubscription = GmodeHandler.onPrivateRequest.subscribe(nick => {
-      console.log(nick);
-      if(this.nickTarget == nick) {
+    this.gmodeSubscription = IgnoreHandler.ignoreResponse.subscribe((nick: Away) => {
+      if(this.nickTarget == nick.author) {
         this.gmodeMessage = true;
         setTimeout(d => {
           this.gmodeMessage = false;
