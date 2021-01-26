@@ -11,6 +11,7 @@ import { JoinHandler } from 'src/app/IRCore/handlers/Join.handler';
 import { Join } from 'src/app/IRCore/dto/Join';
 import { Router } from '@angular/router';
 import { ValidRegex } from 'src/app/IRCore/utils/validRegex';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-menu',
@@ -77,6 +78,18 @@ export class MenuComponent implements OnInit, OnDestroy {
         }
       }
     });
+    this.pmsgSrv.messagesReceived.subscribe(d => {
+      if(d.author.user !== this.activePrivMsg) {
+        const chat = this.privMsg.find(pms => pms.name === d.author.user);
+        const regex = ValidRegex.getRegex(ValidRegex.pingRegex(this.userSrv.getNick()));
+        const result = regex.exec(d.message);
+        if(result) {
+          chat.warn = true;
+        } else if(!chat.warn) {
+          chat.notify = true;
+        }
+      }
+    });
   }
 
   closeChannel(elem: ListElement) {
@@ -103,6 +116,7 @@ export class MenuComponent implements OnInit, OnDestroy {
       const elem = new ListElement();
       elem.active = this.activePrivMsg == nick;
       elem.name = nick;
+      elem.image = environment.hiranaTools + '/avatar?usr=' + nick;
       this.privMsg.push(elem);
     });
     this.pmsgSrv.closedPriv.subscribe(nick => {
