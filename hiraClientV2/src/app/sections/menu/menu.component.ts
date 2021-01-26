@@ -1,3 +1,4 @@
+import { PrivmsgService } from 'src/app/IRCore/services/privmsg.service';
 import { IRCoreService } from './../../IRCore/IRCore.service';
 import { MenuElement, MenuSelectorEvent, MenuType } from './menu-selector.event';
 import { Subscription } from 'rxjs';
@@ -20,6 +21,7 @@ export class MenuComponent implements OnInit, OnDestroy {
 
   public channels: ListElement[];
   public activeChannel: string = undefined;
+  public activePrivMsg: string = undefined;
 
   public privMsg: ListElement[];
 
@@ -36,7 +38,7 @@ export class MenuComponent implements OnInit, OnDestroy {
   ]
    */
 
-  constructor(private cSrv: ChannelsService, private userSrv: UserInfoService, private router: Router, private ircoreSrv: IRCoreService) {
+  constructor(private cSrv: ChannelsService, private userSrv: UserInfoService, private router: Router, private ircoreSrv: IRCoreService, private pmsgSrv: PrivmsgService) {
     this.joinSubscription = JoinHandler.joinResponse.subscribe((data: Join) => {
       if (data.user.nick === this.userSrv.getNick()) {
         this.router.navigateByUrl('/chat/' + data.channel.name);
@@ -96,6 +98,24 @@ export class MenuComponent implements OnInit, OnDestroy {
         this.router.navigateByUrl('/chat');
       }
     });
+    this.pmsgSrv.newPrivOpened.subscribe((nick) => {
+      const elem = new ListElement();
+      elem.active = this.activePrivMsg == nick;
+      elem.name = nick;
+      this.privMsg.push(elem);
+    });
+    this.pmsgSrv.closedPriv.subscribe(nick => {
+      const pi = this.privMsg.findIndex(p => p == nick);
+      this.privMsg.splice(pi, 1);
+      if(this.activePrivMsg == nick) {
+        this.activePrivMsg = undefined;
+        this.router.navigateByUrl('/chat');
+      }
+    });
+  }
+
+  closePrivmsg(elem: ListElement) {
+    this.pmsgSrv.closePrivate(elem.name);
   }
 
   ngOnDestroy() {
