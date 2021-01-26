@@ -1,3 +1,4 @@
+import { GmodeHandler } from './../../IRCore/handlers/Gmode.handler';
 import { UserInfoService } from './../../IRCore/services/user-info.service';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -10,6 +11,8 @@ import { HistoryMessageCursorService } from '../utils/history-message-cursor.ser
 import { GenericMessage, Quote } from 'src/app/IRCore/services/ChannelData';
 import { VcardGetterService } from 'src/app/sections/chat-parts/message-item/link-vcard/vcard-getter.service';
 import { environment } from 'src/environments/environment';
+import { AwayHandler } from 'src/app/IRCore/handlers/Away.handler';
+import { Away } from 'src/app/IRCore/dto/Away';
 
 @Component({
   selector: 'app-privmsg',
@@ -30,6 +33,10 @@ export class PrivmsgComponent implements OnInit {
   public newMessages: boolean;
   public message: string;
   public messageSubscription: Subscription;
+  public awaySubscription: Subscription;
+  public awayMessage: string;
+  public gmodeSubscription: Subscription;
+  public gmodeMessage: boolean;
 
   public privMsg: PrivmsgData = new PrivmsgData();
   public quote: Quote;
@@ -108,6 +115,24 @@ export class PrivmsgComponent implements OnInit {
     }
     document.getElementById('messageInput').focus();
     this.autoGoDown();
+    this.awaySubscription = AwayHandler.awayResponse.subscribe((d: Away) => {
+      console.log(d);
+      if(d.author == this.nickTarget) {
+        this.awayMessage = d.message;
+        setTimeout(d => {
+          this.awayMessage = undefined;
+        }, 2500);
+      }
+    });
+    this.gmodeSubscription = GmodeHandler.onPrivateRequest.subscribe(nick => {
+      console.log(nick);
+      if(this.nickTarget == nick) {
+        this.gmodeMessage = true;
+        setTimeout(d => {
+          this.gmodeMessage = false;
+        }, 5000);
+      }
+    })
   }
 
   quotear(q: Quote) {

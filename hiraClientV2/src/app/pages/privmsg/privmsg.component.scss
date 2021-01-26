@@ -7,6 +7,28 @@ main {
   &.full {
     width: 79vw;
   }
+  .errorPopup {
+    position: absolute;
+    width: 59%;
+    left: 25%;
+    bottom: 75px;
+    padding: 5px;
+    background: pink;
+    border: 1px solid #770000;
+    border-radius: 3px;
+    font-family: Helvetica;
+    color: #770000;
+    opacity: 0;
+    z-index: 1;
+    transition: opacity 0.5s;
+    svg {
+      width: 22px;
+      vertical-align: bottom;
+    }
+    &.visible {
+      opacity: 1;
+    }
+  }
   header {
     height: 75px;
     background: #2c333b;
