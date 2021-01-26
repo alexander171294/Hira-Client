@@ -71,7 +71,7 @@ export class PrivmsgComponent implements OnInit {
       this.messageSubscription.unsubscribe();
     }
     this.messageSubscription = this.pmsgSrv.messagesReceived.subscribe(d => {
-      if(d.target === this.nickTarget) {
+      if(d.author.user === this.nickTarget) {
         this.newMessages = false;
         if(this.autoDownLocked) {
           this.newMessages = true;
@@ -153,6 +153,13 @@ export class PrivmsgComponent implements OnInit {
     this.ircSrv.sendMessageOrCommand(this.message, this.nickTarget);
     this.message = '';
     document.getElementById('messageInput').focus();
+
+    this.newMessages = false;
+    if(this.autoDownLocked) {
+      this.newMessages = true;
+      return;
+    }
+    this.goDown();
   }
 
   ngOnDestroy() {
