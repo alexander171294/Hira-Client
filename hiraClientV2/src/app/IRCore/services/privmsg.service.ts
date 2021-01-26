@@ -38,6 +38,7 @@ export class PrivmsgService implements OnMessageReceived {
         this.newPrivOpened.emit(message.author);
         this.privMsgs[message.author] = new PrivmsgData();
         this.privMsgs[message.author].user = message.author;
+        this.privMsgs[message.author].messages.push(msg);
       }
       this.messagesReceived.emit(msg);
     }
