@@ -9,6 +9,7 @@ import { MenuSelectorEvent, MenuType } from 'src/app/sections/menu/menu-selector
 import { HistoryMessageCursorService } from '../utils/history-message-cursor.service';
 import { GenericMessage, Quote } from 'src/app/IRCore/services/ChannelData';
 import { VcardGetterService } from 'src/app/sections/chat-parts/message-item/link-vcard/vcard-getter.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-privmsg',
@@ -32,6 +33,7 @@ export class PrivmsgComponent implements OnInit {
 
   public privMsg: PrivmsgData = new PrivmsgData();
   public quote: Quote;
+  public image: string;
 
   constructor(
     private router: Router,
@@ -46,6 +48,7 @@ export class PrivmsgComponent implements OnInit {
     console.log('INIT', this.nickTarget, route.snapshot.params);
     if(this.nickTarget != route.snapshot.params.nick) {
       this.nickTarget = route.snapshot.params.nick;
+      this.image = environment.hiranaTools + '/avatar?usr=' + this.nickTarget;
       this.ngOnInit();
     }
   });
