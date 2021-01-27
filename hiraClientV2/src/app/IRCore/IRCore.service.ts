@@ -135,8 +135,12 @@ export class IRCoreService {
       this.sendRaw(cmd);
       return false;
     } else {
-      this.sendRaw('PRIVMSG ' + target + ' :' + command);
-      this._triggerMessage(command, target, false);
+      if(target) {
+        this.sendRaw('PRIVMSG ' + target + ' :' + command);
+        this._triggerMessage(command, target, false);
+      } else {
+        this.sendRaw(command);
+      }
       return true;
     }
   }

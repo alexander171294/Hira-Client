@@ -46,7 +46,7 @@ export class ServerMessagesComponent implements OnInit, OnDestroy {
   }
 
   send() {
-    this.ircSrv.sendRaw(this.serverCommand);
+    this.ircSrv.sendMessageOrCommand(this.serverCommand);
     this.serverCommand = '';
     document.getElementById('commandInput').focus();
   }
