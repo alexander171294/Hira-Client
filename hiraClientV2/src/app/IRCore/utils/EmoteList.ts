@@ -78,7 +78,7 @@ export class EmoteList {
     'stick',
     'wine',
     'wineBottle',
-    'witchBroom',
+    'escoba',
     'principito',
     'baskerville',
     'cumple',
@@ -114,8 +114,8 @@ export class EmoteList {
     'palette',
     'pizza',
     'podium',
-    'smoothie',
-    'strawberry',
+    'batido',
+    'fresas',
     'wizard',
     'xane'
   ];
