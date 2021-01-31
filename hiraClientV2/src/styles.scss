@@ -11,13 +11,18 @@ body {
         width: calc(100vw - 55px);;
       }
     }
-    app-about, app-server-messages, app-chat {
+    app-about, app-server-messages {
       main {
         width: calc(100vw - 55px);;
       }
     }
+    app-chat {
+      main {
+        width: calc(100vw - 350px);
+      }
+    }
     app-info-panel {
-      display: none;
+      width: 293px;
     }
   }
 

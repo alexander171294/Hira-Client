@@ -226,7 +226,7 @@ app-info-panel {
 
 @media(max-width: 1024px) {
   app-info-panel {
-    width: 200px;
+    width: 200px!important;
   }
   main#chat {
     width: calc(100vw - 257px);
