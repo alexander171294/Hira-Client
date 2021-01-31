@@ -1,11 +1,11 @@
 main {
-  width: 61vw;
+  width: calc(64vw - 57px);
   float: left;
   height: 100vh;
   background:#bdcad4;
   position: relative;
   &.full {
-    width: 79vw;
+    width: calc(82vw - 55px);
   }
   header {
     height: 75px;
@@ -224,9 +224,12 @@ app-info-panel {
   height: 100vh;
 }
 
-@media(max-height: 600px) {
+@media(max-width: 1024px) {
+  app-info-panel {
+    width: 200px;
+  }
   main#chat {
-    width: 79vw;
+    width: calc(100vw - 257px);
     header {
       height: 40px;
       svg.options {

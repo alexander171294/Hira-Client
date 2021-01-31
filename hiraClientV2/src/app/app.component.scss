@@ -1,5 +1,5 @@
 main {
-  width: 97vw;
+  width: calc(100vw - 55px);
   float: right;
   overflow: hidden;
   height: 100%;
@@ -70,5 +70,13 @@ footer {
       background: #9a9a9a;
       color: #000000;
     }
+  }
+}
+
+
+@media(max-width: 1024px) {
+  footer {
+    bottom: 50px;
+    display: none;
   }
 }

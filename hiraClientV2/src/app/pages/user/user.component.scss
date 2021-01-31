@@ -1,5 +1,5 @@
 main {
-  width: 79vw;
+  width: calc(82vw - 55px);
   float: left;
   height: 100vh;
   background: url('../../../assets/wp/login.jpg') #1c2229;
@@ -151,9 +151,9 @@ main {
 }
 
 
-@media(max-height: 600px) {
+@media(max-width: 1024px) {
   main {
-    width: 97vw;
+    width: calc(100vw - 55px);;
     background: #1c2229;
   }
 }

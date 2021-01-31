@@ -1,5 +1,5 @@
 main {
-  width: 79vw;
+  width: calc(82vw - 55px);
   float: left;
   height: 100vh;
   background:#bdcad4;
@@ -124,9 +124,9 @@ app-info-panel {
   height: 100vh;
 }
 
-@media(max-height: 600px) {
+@media(max-width: 1024px) {
   main#chat {
-    width: 97vw;
+    width: calc(100vw - 55px);
     header {
       height: 40px;
       svg.options {

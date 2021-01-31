@@ -36,7 +36,7 @@ aside {
   }
 }
 
-@media(max-height: 600px) {
+@media(max-width: 1024px) {
   aside {
     display: none;
   }

@@ -1,11 +1,11 @@
 main {
-  width: 79vw;
+  width: calc(82vw - 55px);
   float: left;
   height: 100vh;
   background:#bdcad4;
   position: relative;
   &.full {
-    width: 79vw;
+    width: calc(82vw - 55px);
   }
   .errorPopup {
     position: absolute;
@@ -251,9 +251,9 @@ app-info-panel {
   height: 100vh;
 }
 
-@media(max-height: 600px) {
+@media(max-width: 1024px) {
   main#chat {
-    width: 97vw;
+    width: calc(100vw - 55px);
     header {
       height: 40px;
       svg.options {
@@ -262,6 +262,10 @@ app-info-panel {
       h3 {
         i {
           display: inline;
+        }
+        img {
+          width: 25px;
+          margin-top: 2px;
         }
       }
       span {
