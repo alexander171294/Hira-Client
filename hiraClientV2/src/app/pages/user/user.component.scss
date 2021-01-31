@@ -7,6 +7,9 @@ main {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  #embeddedPopup {
+    display: none;
+  }
   section {
     background: rgb(28 34 41 / 95%);
     border-radius: 3px;
@@ -155,5 +158,11 @@ main {
   main {
     width: calc(100vw - 55px);;
     background: #1c2229;
+    #embeddedPopup {
+      display: block;
+    }
+    #fullPopup {
+      display: none;
+    }
   }
 }

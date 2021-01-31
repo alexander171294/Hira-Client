@@ -174,8 +174,10 @@ export class ChatComponent implements OnInit, OnDestroy {
   }
 
   copyLinkChat(evt) {
-    // evt.stopPropagation();
-
+    const url = window.location.protocol + '//' + window.location.host + '/user#chat=' + this.channelName;
+    navigator.clipboard.writeText(url).then(d => {
+      console.log('copied');
+    });
   }
 
   onFileSelected(event) {

@@ -1,3 +1,4 @@
+import { ParamParse } from './../../ParamsParse';
 import { IRCoreService } from 'src/app/IRCore/IRCore.service';
 import { AfterViewChecked, AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core'
 import { ConnectionStatus, ConnectionStatusData, WebSocketUtil } from 'src/app/IRCore/utils/WebSocket.util';
@@ -30,7 +31,9 @@ export class UserComponent implements OnInit, AfterViewInit, OnDestroy {
   private subscription_status: Subscription;
 
 
-  constructor(private ircSrv: IRCoreService, private router: Router) { }
+  constructor(private ircSrv: IRCoreService, private router: Router) {
+    ParamParse.parseHash(window.location.hash.slice(1));
+  }
 
   ngOnInit(): void {
     this.connected = WebSocketUtil.isConnected();
@@ -52,14 +55,31 @@ export class UserComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit(): void {
+    if(ParamParse.parametria['chat']) {
+      const chat = ParamParse.parametria['chat'][0] != '#' ? '#' +ParamParse.parametria['chat'] : ParamParse.parametria['chat'];
+      this.canales = [
+        chat
+      ];
+    }
+    if(ParamParse.parametria['nick']) {
+      this.nick = ParamParse.parametria['nick'];
+      this.nickSecundario = ParamParse.parametria['nick'] + '_';
+    }
+    if(ParamParse.parametria['connect'] && ParamParse.parametria['connect'] == 'yes') {
+      this.connect();
+    }
     if(localStorage.getItem('cHost')) {
       this.host = localStorage.getItem('cHost');
-      this.nick = localStorage.getItem('cNick');
-      this.nickSecundario = localStorage.getItem('cNickAlt');
+      if(!ParamParse.parametria['nick']) {
+        this.nick = localStorage.getItem('cNick');
+        this.nickSecundario = localStorage.getItem('cNickAlt');
+      }
       this.tipoLogin = localStorage.getItem('cAuthMethod') as TiposLogin;
       this.password = localStorage.getItem('cPassword');
-      const canales = JSON.parse(localStorage.getItem('cChannels'));
-      this.canales = canales ? canales : [];
+      if(!ParamParse.parametria['chat']) {
+        const canales = JSON.parse(localStorage.getItem('cChannels'));
+        this.canales = canales ? canales : [];
+      }
     }
     document.getElementById('nickInput').focus();
   }
