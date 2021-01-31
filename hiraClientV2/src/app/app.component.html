@@ -3,7 +3,7 @@
   <app-menu></app-menu>
   <router-outlet></router-outlet>
   <div class="popup" *ngIf="requestNick">
-    El usuario <b>Alex_</b> desea hablar contigo
+    El usuario <b>{{requestNick}}</b> desea hablar contigo
     <button (click)="accept(requestNick)">Aceptar</button>
     <button class="cancel" (click)="requestNick = undefined">Ignorar</button>
   </div>

@@ -32,7 +32,7 @@ export class UserComponent implements OnInit, AfterViewInit, OnDestroy {
 
 
   constructor(private ircSrv: IRCoreService, private router: Router) {
-    ParamParse.parseHash(window.location.hash.slice(1));
+
   }
 
   ngOnInit(): void {

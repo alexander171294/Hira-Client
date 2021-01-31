@@ -3,6 +3,7 @@ import { environment } from './../environments/environment';
 import { Component } from '@angular/core';
 import { ServerMsgService } from './IRCore/services/server-msg.service';
 import { IRCoreService } from './IRCore/IRCore.service';
+import { ParamParse } from './ParamsParse';
 
 @Component({
   selector: 'app-root',
@@ -21,6 +22,10 @@ export class AppComponent {
       console.log(d);
       this.requestNick = d;
     });
+    ParamParse.parseHash(window.location.hash.slice(1));
+    if(ParamParse.parametria['embedded'] && ParamParse.parametria['embedded'] == 'yes') {
+      document.body.classList.add('embedded');
+    }
   }
 
   accept(nick: string) {
