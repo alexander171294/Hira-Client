@@ -3,6 +3,24 @@ aside {
   background: var(--menu-background);
   height: 100%;
   border-right: 2px solid var(--menu-border-right);
+  .contentScrolleable {
+    height: calc(100vh - 76px);
+    overflow-y: auto;
+    &::-webkit-scrollbar-thumb {
+      background: var(--scrollbar-thumb-bg);
+    }
+    &::-webkit-scrollbar-thumb:hover {
+      background: var(--scrollbar-thumb-hover);
+    }
+    &::-webkit-scrollbar-track {
+      background: var(--scrollbar-track-bg);
+      border-left: 1px solid var(--scrollbar-track-border-left);
+      border-right: 1px solid var(--scrollbar-track-border-right);
+    }
+    &::-webkit-scrollbar {
+      width: 10px;
+    }
+  }
   header {
     border-bottom: 1px solid var(--menu-separator-color);
     height: 75px;

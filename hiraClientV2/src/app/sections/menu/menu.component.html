@@ -5,6 +5,8 @@
       <input type="text" placeholder="search"/>
     </div>
   </header>
-  <app-menu-list title="Canales" [elements]="channels" path="/chat/" [closable]="true" (close)="closeChannel($event)"></app-menu-list>
-  <app-menu-list title="Mensajes privados" [elements]="privMsg" path="/priv/" [closable]="true" (close)="closePrivmsg($event)"></app-menu-list>
+  <div class="contentScrolleable">
+    <app-menu-list title="Canales" [elements]="channels" path="/chat/" [closable]="true" (close)="closeChannel($event)"></app-menu-list>
+    <app-menu-list title="Mensajes privados" [elements]="privMsg" path="/priv/" [closable]="true" (close)="closePrivmsg($event)"></app-menu-list>
+  </div>
 </aside>
