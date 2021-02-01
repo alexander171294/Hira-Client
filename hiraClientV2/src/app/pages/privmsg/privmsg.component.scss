@@ -4,6 +4,7 @@ main {
   height: 100vh;
   background: var(--chat-background);
   position: relative;
+  color: var(--chat-color);
   &.full {
     width: calc(82vw - 55px);
   }
@@ -219,6 +220,7 @@ main {
       color: var(--chat-footer-input-color);
       display: inline-block;
       margin-right: 0px;
+      outline: none;
     }
     button {
       width: 30px;

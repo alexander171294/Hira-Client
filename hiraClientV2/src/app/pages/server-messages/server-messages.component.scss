@@ -3,6 +3,7 @@ main {
   float: left;
   height: 100vh;
   background: var(--server-background);
+  color: var(--chat-color);
   header {
     height: 75px;
     background: var(--server-header-bg);
@@ -98,6 +99,7 @@ main {
       color: var(--server-footer-input-color);
       display: inline-block;
       margin-right: 0px;
+      outline: none;
     }
     button {
       width: 30px;
