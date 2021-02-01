@@ -162,6 +162,10 @@ export class UserComponent implements OnInit, AfterViewInit, OnDestroy {
     return true;
   }
 
+  changeNick() {
+    this.ircSrv.setNick(this.nick);
+  }
+
   ngOnDestroy(): void {
     this.subscription_status.unsubscribe();
   }

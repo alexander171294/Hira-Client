@@ -1,12 +1,12 @@
 body.dark {
-  --ping-color: #d01010;
+  --ping-color: #d08410;
   --face-emote-bg: transparent;
 
   // footer colors:
   --footer-bg: #353535;
   --footer-color: #7a7f83;
   --footer-shadow: #0e0e0e;
-  --footer-link-color: #4bb91e;
+  --footer-link-color: #a0591b;
 
   // popup de aviso de contacto en g-mode
   --popup-bg: #bdd4cc;
@@ -45,19 +45,19 @@ body.dark {
   --menu-list-header-color: #7a7f83;
   --menu-list-item-color: #7a7f83;
   --menu-list-item-hover: #0e0e0e;
-  --menu-list-notify: #4bb91e;
+  --menu-list-notify: #a0591b;
   --menu-list-warn: #d01010;
   --menu-list-text-color: #676767;
 
   // messages in chat box:
-  --message-color: #111519;
+  --message-color: #948f86;
   --message-quote-icon-color: gray;
   --message-quote-bg: #fff;
   --message-quote-border: #808080;
   --message-quote-svg-color: #a7a7a7;
-  --message-me: #06af0c;
-  --message-notify: #490098;
-  --message-nick-hover: #004dff;
+  --message-me: #ae812b;
+  --message-notify:#e2c7a5;
+  --message-nick-hover: #7aa9dc;
 
   // messages links vcards:
   --vcard-background: #353535;
@@ -96,15 +96,16 @@ body.dark {
 
   // page about
   --page-about-bg: #0e0e0e;
+  --page-about-popup-bg: #1b1b1bed;
   --page-about-header-border: #272e36;
   --page-about-header-color: #dcdcdc;
   --page-about-color: #7a7f83;
-  --page-about-link: #4bb91e;
+  --page-about-link: #a0591b;
   --page-about-regards-bg: #0e0e0e;
-  --page-about-button-bg: #363d45;
+  --page-about-button-bg: #0e0e0e;
   --page-about-button-color: #c5c5c5;
   --page-about-button-icon: #1e2125;
-  --page-about-button-icon-hover: #4bb91e;
+  --page-about-button-icon-hover: #a0591b;
   --page-about-proximamente-bg: #0e0e0e;
   --page-about-proximamente-color: #ccccce;
 
@@ -132,9 +133,9 @@ body.dark {
   --chat-footer-button-icon-color: #96979c;
   --chat-color: #948f86;
 
-  --privmsg-error-bg: pink;
-  --privmsg-error-border: #770000;
-  --privmsg-error-color: #770000;
+  --privmsg-error-bg: #4e080830;
+  --privmsg-error-border: #ad0000;
+  --privmsg-error-color: #ad0000;
 
   // page server:
   --server-background:#282828;
@@ -156,11 +157,11 @@ body.dark {
   --user-form-bg: rgb(27 27 27 / 93%);
   --user-form-header-border: #272e36;
   --user-form-header-color: #dcdcdc;
-  --user-error-color: #8a0000;
-  --user-error-bg: #ffc3cd;
-  --user-error-border: #8a0000;
+  --user-error-color: #ad0000;
+  --user-error-bg: #4e080830;
+  --user-error-border: #ad0000;
   --user-label-color: #7a7f83;
-  --user-label-optional: #4bb91e;
+  --user-label-optional: #a0591b;
   --user-input-border: black;
   --user-input-bg: #0e0e0e;
   --user-input-color: #c5c5c5;

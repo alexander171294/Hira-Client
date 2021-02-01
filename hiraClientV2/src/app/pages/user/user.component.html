@@ -67,8 +67,8 @@
     <header>
       Accede al chat ingresando tu nick
     </header>
-    <p class="error">
-      Error de conexión
+    <p class="error" *ngIf="error">
+      {{error}}
     </p>
     <div id="apodo">
       <label>
@@ -78,7 +78,9 @@
       <input type="text" [(ngModel)]="nick"/>
     </div>
     <footer>
-      <button>Conectar</button>
+      <button (click)="connect()" *ngIf="!error && !connected">Conectar</button>
+      <button (click)="connect()" *ngIf="error && !connected">Reconectar</button>
+      <button (click)="changeNick()" *ngIf="connected">Cambiar nick</button>
     </footer>
   </section>
 </main>

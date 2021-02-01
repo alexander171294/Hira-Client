@@ -9,7 +9,7 @@ main {
   align-items: center;
   section {
     min-width: 450px;
-    background: rgb(28 34 41 / 95%);
+    background: var(--page-about-popup-bg);
     border-radius: 3px;
     font-family: helvetica;
     box-shadow: 0px 0px 5px;
