@@ -30,6 +30,10 @@ export class AppComponent {
     } else if(ParamParse.parametria['skin'] === 'dark') {
       document.body.classList.add('dark');
     }
+    if(localStorage.getItem('skinSelected')) {
+      const skin = localStorage.getItem('skinSelected');
+      document.body.classList.add(skin);
+    }
   }
 
   accept(nick: string) {

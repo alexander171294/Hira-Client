@@ -2,6 +2,7 @@ import { IRCoreService } from 'src/app/IRCore/IRCore.service';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ConnectionStatus, ConnectionStatusData, WebSocketUtil } from 'src/app/IRCore/utils/WebSocket.util';
+import { UserInfoService } from 'src/app/IRCore/services/user-info.service';
 
 @Component({
   selector: 'app-nav',
@@ -14,7 +15,11 @@ export class NavComponent implements OnInit {
   public error: boolean;
   public timmer: any;
 
-  constructor(private router: Router, private ircSrv: IRCoreService) { }
+  public popupOpened: boolean = false;
+  public nick: string;
+  public skin: string;
+
+  constructor(private router: Router, private ircSrv: IRCoreService, private uiSrv: UserInfoService) { }
 
   ngOnInit(): void {
     WebSocketUtil.statusChanged.subscribe((status: ConnectionStatusData<any>) => {
@@ -32,6 +37,32 @@ export class NavComponent implements OnInit {
         clearInterval(this.timmer);
       }
     });
+    if(localStorage.getItem('skinSelected')) {
+      this.skin = localStorage.getItem('skinSelected');
+    } else {
+      this.skin = 'light';
+    }
+  }
+
+  openPopup() {
+    this.nick = this.uiSrv.getNick();
+    this.popupOpened = !this.popupOpened;
+    setTimeout(() => {
+      document.getElementById('popupNick').focus();
+    }, 75);
+  }
+
+  kp(event) {
+    if(event.keyCode == 13) {
+      this.ircSrv.setNick(this.nick);
+      this.popupOpened = false;
+    }
+  }
+
+  changeSkin() {
+    document.body.classList.remove('dark');
+    document.body.classList.add(this.skin);
+    localStorage.setItem('skinSelected', this.skin);
   }
 
 }

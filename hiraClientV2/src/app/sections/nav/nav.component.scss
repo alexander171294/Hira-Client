@@ -79,6 +79,7 @@ nav {
       border-radius: 50%;
       overflow: hidden;
       box-shadow: 0px 0px 5px #000000a6;
+      cursor: pointer;
       img {
         width: 100%;
         border-radius: 50%;
@@ -99,6 +100,52 @@ nav {
       }
       &.error::after {
         background: var(--nav-error-marker);
+      }
+    }
+    .popup {
+      width: 200px;
+      background: #363d45;
+      position: absolute;
+      bottom: 13px;
+      left: 60px;
+      padding: 3px;
+      border-radius: 3px;
+      box-shadow: 0px 0px 5px black;
+      &::before {
+        content: "";
+        display: block;
+        width: 10px;
+        height: 10px;
+        background: #363d45;
+        transform: rotate(45deg);
+        position: absolute;
+        bottom: 4px;
+        left: -6px;
+        border-left: 1px solid #13171b;
+        border-bottom: 1px solid #12151a;
+      }
+      input {
+        width: 100%;
+        box-sizing: border-box;
+        border-radius: 3px;
+        border: none;
+        padding: 3px;
+        background: #14181d;
+        color: #7a7f83;
+        outline: none;
+        z-index: 1;
+        position: relative;
+      }
+      select {
+        width: 100%;
+        box-sizing: border-box;
+        margin-top: 5px;
+        background: #14181d;
+        color: #7a7f83;
+        outline: none;
+        padding: 3px;
+        z-index: 1;
+        position: relative;
       }
     }
   }
