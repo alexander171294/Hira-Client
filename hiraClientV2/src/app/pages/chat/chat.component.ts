@@ -1,3 +1,4 @@
+import { environment } from 'src/environments/environment';
 import { Subscription } from 'rxjs';
 import { IRCoreService } from 'src/app/IRCore/IRCore.service';
 import { Component, OnInit, OnDestroy, ViewChild, HostListener } from '@angular/core';
@@ -30,6 +31,7 @@ export class ChatComponent implements OnInit, OnDestroy {
   public altMenu: boolean;
   public imageLoading: boolean;
   public emotePopupOpened: boolean;
+  public timmer_whox: any;
 
   @ViewChild('infoPanel', {static: true}) appInfoPanel: InfoPanelComponent;
 
@@ -47,6 +49,9 @@ export class ChatComponent implements OnInit, OnDestroy {
         this.ngOnInit();
       }
     });
+    this.timmer_whox = setInterval(() => {
+      this.sendWHOX();
+    }, environment.intervalWHOX);
   }
 
   goDown() {
@@ -101,6 +106,7 @@ export class ChatComponent implements OnInit, OnDestroy {
         type: MenuType.CHANNEL,
         name: this.channelName
       });
+      this.sendWHOX();
       this.goDown();
     } else if(this.chanSrv.getChannels().length > 0) {
       this.router.navigateByUrl('/chat/' + this.chanSrv.getChannels()[0].name);
@@ -110,6 +116,10 @@ export class ChatComponent implements OnInit, OnDestroy {
     document.getElementById('messageInput').focus();
     this.appInfoPanel.recalcUsers(this.channel.users);
     this.autoGoDown();
+  }
+
+  sendWHOX() {
+    this.ircSrv.sendWhox(this.channelName);
   }
 
   quotear(q: Quote) {
@@ -160,6 +170,7 @@ export class ChatComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.routeSubscription.unsubscribe();
     this.messageSubscription.unsubscribe();
+    clearInterval(this.timmer_whox);
   }
 
   copyChat(evt) {

@@ -14,6 +14,9 @@ nav {
       color: var(--menu-list-item-color);
       padding: 7px 7px;
       border-radius: 7px;
+      &.away {
+        opacity: 0.4;
+      }
       cursor: pointer;
       .defaultImage, img {
         width: 25px;

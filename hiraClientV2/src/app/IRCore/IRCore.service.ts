@@ -61,6 +61,11 @@ export class IRCoreService {
     this.userSrv.setNick(nick);
   }
 
+  public sendWhox(channel) {
+    channel = channel[0] === '#' ? channel : '#' + channel;
+    this.sendRaw('WHO ' + channel);
+  }
+
   public join(channel: string) {
     if(channel[0] != '#') {
       channel = '#' + channel;

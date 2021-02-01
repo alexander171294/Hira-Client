@@ -3,5 +3,6 @@ export const environment = {
   version: '2.0.1',
   codename: 'B612',
   hiranaTools: 'https://thira.tandilserver.com',
-  maxCommandHistory: 50
+  maxCommandHistory: 50,
+  intervalWHOX: 10000
 };

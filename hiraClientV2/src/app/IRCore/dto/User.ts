@@ -4,6 +4,7 @@ export class User {
 
   public nick: string;
   public mode: UModes;
+  public away?: boolean;
 
   constructor(nick: string) {
     if (nick[0] === '~') {

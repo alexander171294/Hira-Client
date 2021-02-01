@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
+import { WhoStatusService } from 'src/app/IRCore/services/who-status.service';
 
 @Component({
   selector: 'app-menu-list',
@@ -13,9 +14,10 @@ export class ListComponent implements OnInit {
   @Input() closable: boolean;
   @Input() path: string;
   @Input() selected: string;
+  @Input() type: string;
   @Output() close: EventEmitter<ListElement> = new EventEmitter<ListElement>();
 
-  constructor(private router: Router) { }
+  constructor(private router: Router, public whoStatus: WhoStatusService) { }
 
   ngOnInit(): void {
   }
