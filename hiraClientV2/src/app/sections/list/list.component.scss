@@ -3,7 +3,7 @@ nav {
   h4 {
     text-transform: uppercase;
     font-family: helvetica;
-    color: #7a7f83;
+    color: var(--menu-list-header-color);
   }
   ul {
     list-style: none;
@@ -11,7 +11,7 @@ nav {
     li {
       position: relative;
       font-family: helvetica;
-      color: #7a7f83;
+      color: var(--menu-list-item-color);
       padding: 7px 7px;
       border-radius: 7px;
       cursor: pointer;
@@ -27,7 +27,7 @@ nav {
         display: none;
       }
       &:hover, &.active {
-        background: #343c45;
+        background: var(--menu-list-item-hover);
         .times {
           display: block;
         }
@@ -35,13 +35,13 @@ nav {
       .notify {
         width: 5px;
         height: 30px;
-        background: #4bb91e;
+        background: var(--menu-list-notify);
         position: absolute;
         top: 5px;
         left: -6px;
         border-radius: 5px;
         &.warn {
-          background: #d01010;
+          background: var(--menu-list-warn);
         }
       }
       .badges {
@@ -59,7 +59,7 @@ nav {
   }
   p {
     font-family: helvetica;
-    color: #676767;
+    color: var(--menu-list-text-color);
     text-align: center;
   }
 }

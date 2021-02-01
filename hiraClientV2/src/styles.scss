@@ -1,4 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
+@import 'styles.default.scss';
+@import 'styles.dark.scss';
 body {
   margin: 0px;
 
@@ -79,5 +81,5 @@ body, html {
 }
 
 b.ping {
-  color: #d01010;
+  color: var(--ping-color);
 }

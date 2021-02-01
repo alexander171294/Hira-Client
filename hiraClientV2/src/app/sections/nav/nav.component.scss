@@ -1,5 +1,5 @@
 nav {
-  background: linear-gradient(#1c2229, #1d232a);
+  background: var(--nav-background);
   width: 55px;
   height: 100%;
   display: inline-block;
@@ -7,7 +7,7 @@ nav {
   header {
     height: 75px;
     svg {
-      color: #dcdcdc;
+      color: var(--nav-logo-color);
       width: 70%;
       margin: 15%;
       margin-top: 2vh;
@@ -18,9 +18,9 @@ nav {
     padding: 0px;
     margin: 0px;
     li {
-      color: #96979c;
+      color: var(--nav-list-color);
       a {
-        color: #96979c;
+        color: var(--nav-list-color);
         display: block;
       }
       position: relative;
@@ -35,12 +35,12 @@ nav {
         position: absolute;
         top: 13px;
         left: calc(3vw - 4px);
-        background: black;
-        color: white;
+        background: var(--nav-label-background);
+        color: var(--nav-label-color);
         padding: 3px;
         border-radius: 3px;
         width: max-content;
-        box-shadow: 0px 0px 3px black;
+        box-shadow: 0px 0px 3px var(--nav-label-shadow);
         font-family: 'Chata Normal';
         &::after {
           content: "";
@@ -48,8 +48,7 @@ nav {
           width: 7px;
           height: 7px;
           position: absolute;
-          background: black;
-          background: #000000b8;
+          background: var(--nav-label-background);
           top: 8px;
           left: -5px;
           z-index: 0;
@@ -60,10 +59,10 @@ nav {
         span {
           display: block;
         }
-        background: #272e36;
+        background: var(--nav-item-hover);
       }
       &.active {
-        background: #272e36;
+        background: var(--nav-item-hover);
       }
     }
   }
@@ -93,13 +92,13 @@ nav {
         top: 5px;
         right: 5px;
         border-radius: 50px;
-        background: #325eaf;
+        background: var(--nav-offline-marker);
       }
       &.active::after {
-        background: #00ff72;
+        background: var(--nav-online-marker);
       }
       &.error::after {
-        background: #af3232;
+        background: var(--nav-error-marker);
       }
     }
   }

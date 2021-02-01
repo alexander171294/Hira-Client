@@ -1,0 +1,98 @@
+:root {
+  --ping-color: #d01010;
+  --face-emote-bg: transparent;
+
+  // footer colors:
+  --footer-bg: #2c333b;
+  --footer-color: #7a7f83;
+  --footer-shadow: #1c2229;
+  --footer-link-color: #4bb91e;
+
+  // popup de aviso de contacto en g-mode
+  --popup-bg: #bdd4cc;
+  --popup-border-color:#005a0f;
+  --popup-border-left: #005a0f;
+  --popup-color: black;
+  --popup-box-shadow: black;
+  --popup-nick-color: #005a0f;
+  --popup-button-color-bg: #04dbe8;
+  --popup-box-shadow-color: #000000ad;
+  --popup-color: #002700;
+  --popup-cancel-button-bg: #9a9a9a;
+  --popup-cancel-button-color: #000000;
+
+  // nav-izquierda:
+  --nav-background: linear-gradient(#1c2229, #1d232a);
+  --nav-logo-color: #dcdcdc;
+  --nav-list-color: #96979c;
+  --nav-item-hover: #272e36;
+  --nav-label-background: black;
+  --nav-label-color: white;
+  --nav-label-shadow: black;
+  --nav-offline-marker: #325eaf;
+  --nav-online-marker: #00ff72;
+  --nav-error-marker: #af3232;
+
+  // menu de canales:
+  --menu-background: linear-gradient(120deg, #282f37, #1d232a);
+  --menu-border-right: #1c2228;
+  --menu-separator-color: #30363e;
+  --menu-searcher-background: #363d45;
+  --menu-searcher-icon-color: #a7aaad;
+  --menu-searcher-text-color: #9fa2a5;
+
+  // global menu list:
+  --menu-list-header-color: #7a7f83;
+  --menu-list-item-color: #7a7f83;
+  --menu-list-item-hover: #343c45;
+  --menu-list-notify: #4bb91e;
+  --menu-list-warn: #d01010;
+  --menu-list-text-color: #676767;
+
+  // messages in chat box:
+  --message-color: #111519;
+  --message-quote-icon-color: gray;
+  --message-quote-bg: #fff;
+  --message-quote-border: #808080;
+  --message-quote-svg-color: #a7a7a7;
+  --message-me: #06af0c;
+  --message-notify: #490098;
+  --message-nick-hover: #004dff;
+
+  // messages links vcards:
+  --vcard-background: #2c333b;
+  --vcard-color: #96979c;
+  --vcard-loading-bg: #96979c;
+  --vcard-image-bg: #bdcad4a;
+
+  // info-panel connected users:
+  --infopanel-background: linear-gradient(120deg, #282f37, #1d232a);
+  --infopanel-border: #1c2228;
+  --infopanel-header-border: #30363e;
+  --infopanel-header-color: white;
+  --infopanel-header-icon: #7a7f83;
+  --infopanel-header-subtitle: #afb6bb;
+  --infopanel-header-option: gray;
+
+  // emote popup
+  --emote-popup-bg: #1c2229;
+  --emote-popup-border: black;
+  --emote-popup-nav-bg: rgb(0 0 0 / 0.23);
+  --emote-popup-nav-border: black;
+  --emote-popup-nav-color: wheat;
+  --emote-popup-nav-separator: black;
+  --emote-popup-nav-hover: rgb(0 0 0 / 0.3);
+  --emote-popup-list-item-border: black;
+  --emote-popup-list-item-color: wheat;
+  --emote-popup-list-item-hover: rgb(0 0 0 / 0.2);
+
+
+  // scrollbar:
+  --scrollbar-thumb-bg: #6c6d72;
+  --scrollbar-thumb-hover: #96979c;
+  --scrollbar-track-bg: #1c2229;
+  --scrollbar-track-border-left: black;
+  --scrollbar-track-border-right: black;
+
+
+}

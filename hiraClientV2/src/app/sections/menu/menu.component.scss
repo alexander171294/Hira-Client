@@ -1,15 +1,15 @@
 aside {
   width: 18vw;
-  background: linear-gradient(120deg, #282f37, #1d232a);
+  background: var(--menu-background);
   height: 100%;
-  border-right: 2px solid #1c2228;
+  border-right: 2px solid var(--menu-border-right);
   header {
-    border-bottom: 1px solid #30363e;
+    border-bottom: 1px solid var(--menu-separator-color);
     height: 75px;
     display: block;
     position: relative;
     .searcher {
-      background: #363d45;
+      background: var(--menu-searcher-background);
       border-radius: 50px;
       overflow: hidden;
       margin: 2vh 0px;
@@ -20,7 +20,7 @@ aside {
         width: 18px;
         position: absolute;
         margin: 8px;
-        color: #a7aaad;
+        color: var(--menu-searcher-icon-color);
         margin-left: 10px;
       }
       input {
@@ -28,7 +28,7 @@ aside {
         width: 100%;
         border: none;
         text-indent: 35px;
-        color: #9fa2a5;
+        color: var(--menu-searcher-text-color);
         outline: none;
         background: transparent;
       }

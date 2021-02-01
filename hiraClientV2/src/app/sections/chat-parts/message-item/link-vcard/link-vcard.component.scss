@@ -1,11 +1,11 @@
 a.vcard {
   display: block;
   width: 100%;
-  background: #2c333b;
+  background: var(--vcard-background);
   text-decoration: none;
   padding: 10px;
   border-radius: 5px;
-  color: #96979c;
+  color: var(--vcard-color);
   margin-top: 5px;
   position: relative;
   span {
@@ -29,7 +29,7 @@ a.vcard {
       content: "";
       width: 50px;
       height: 18px;
-      background: #96979c;
+      background: var(--vcard-loading-bg);
       display: block;
       position: absolute;
       animation: loadingTxt 3s linear infinite;
@@ -40,7 +40,7 @@ a.vcard {
     right: 10px;
     width: 32px;
     height: 32px;
-    background: #bdcad4;
+    background: var(--vcard-image-bg);
     border-radius: 3px;
     padding: 1px;
   }

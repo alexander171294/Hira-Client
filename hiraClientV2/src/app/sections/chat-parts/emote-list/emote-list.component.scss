@@ -5,19 +5,19 @@
   height: 50%;
   width: 363px;
   overflow-y: auto;
-  background: #1c2229;
-  border: 1px solid black;
+  background: var(--emote-popup-bg);
+  border: 1px solid var(--emote-popup-border);
   z-index: 1;
   &::-webkit-scrollbar-thumb {
-    background: #6c6d72;
+    background: var(--scrollbar-thumb-bg);
   }
   &::-webkit-scrollbar-thumb:hover {
-    background: #96979c;
+    background: var(--scrollbar-thumb-hover);
   }
   &::-webkit-scrollbar-track {
-    background: #1c2229;
-    border-left: 1px solid black;
-    border-right: 1px solid black;
+    background: var(--scrollbar-track-bg);
+    border-left: 1px solid var(--scrollbar-track-border-left);
+    border-right: 1px solid var(--scrollbar-track-border-right);
   }
   &::-webkit-scrollbar {
     width: 10px;
@@ -29,16 +29,16 @@
       float: left;
       width: 50%;
       text-align: center;
-      background: rgb(0 0 0 / 0.23);
-      border-bottom: 1px solid black;
-      color: wheat;
+      background: var(--emote-popup-nav-bg);
+      border-bottom: 1px solid var(--emote-popup-nav-border);
+      color: var(--emote-popup-nav-color);
       cursor: pointer;
       &:first-child {
         width: calc(50% - 1px);
-        border-right: 1px solid black;
+        border-right: 1px solid var(--emote-popup-nav-separator);
       }
       &:hover {
-        background: rgb(0 0 0 / 0.3);
+        background: var(--emote-popup-nav-hover);
       }
     }
   }
@@ -49,10 +49,10 @@
     &.memes {
       li {
         font-family: helvetica;
-        border-bottom: 1px dotted black;
+        border-bottom: 1px dotted var(--emote-popup-list-item-border);
         margin-bottom: 5px;
         padding-bottom: 5px;
-        color: wheat;
+        color: var(--emote-popup-list-item-color);
         cursor: pointer;
         span {
           display: block;
@@ -65,7 +65,7 @@
           display: block;
         }
         &:hover {
-          background: rgb(0 0 0 / 0.2);
+          background: var(--emote-popup-list-item-hover);
         }
       }
     }
@@ -73,11 +73,11 @@
       li {
         font-family: helvetica;
         width: 100px;
-        color: wheat;
+        color: var(--emote-popup-list-item-color);
         display: inline-block;
         margin: 2px;
         vertical-align: top;
-        border: 1px solid black;
+        border: 1px solid var(--emote-popup-list-item-border);
         padding: 5px;
         cursor: pointer;
         img {
@@ -94,7 +94,7 @@
           text-align: center;
         }
         &:hover {
-          background: rgb(0 0 0 / 0.2);
+          background: var(--emote-popup-list-item-hover);
         }
       }
     }

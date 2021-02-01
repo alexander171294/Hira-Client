@@ -1,22 +1,22 @@
 aside {
   width: 100%;
-  background: linear-gradient(120deg, #282f37, #1d232a);
+  background: var(--infopanel-background);
   height: 100%;
-  border-left: 2px solid #1c2228;
+  border-left: 2px solid var(--infopanel-border);
   font-family: Helvetica;
   header {
     width: 100%;
     height: 75px;
-    border-bottom: 1px solid #30363e;
+    border-bottom: 1px solid var(--infopanel-header-border);
     h3 {
       margin: 0px;
       padding: 1vh 2vw;
-      color: white;
+      color: var(--infopanel-header-color);
       font-family: helvetica;
       padding-bottom: 0px;
       svg {
         width: 25px;
-        color: #7a7f83;
+        color: var(--infopanel-header-icon);
         vertical-align: bottom;
         margin-right: 7px;
       }
@@ -24,7 +24,7 @@ aside {
     span {
       margin: 0px;
       padding: 1vh 2vw;
-      color: #afb6bb;
+      color: var(--infopanel-header-subtitle);
       font-family: monospace;
       margin-left: 2vw;
       display: block;
@@ -34,7 +34,7 @@ aside {
     }
     svg.options {
       width: 10px;
-      color: gray;
+      color: var(--infopanel-header-option);
       position: absolute;
       top: 2vh;
       right: 2vw;
