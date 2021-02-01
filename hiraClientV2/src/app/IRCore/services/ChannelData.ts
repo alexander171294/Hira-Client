@@ -20,6 +20,7 @@ export class GenericMessage {
   // post-loaded
   messageWithMetadata?: MessageWithMetadata;
   target?: string; // nombre del chat o conversación
+  fromHistory?: boolean;
 }
 
 export class Quote {

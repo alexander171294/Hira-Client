@@ -1,4 +1,4 @@
-<article class="user" *ngIf="!message.special && !message.notify">
+<article class="user" *ngIf="!message.special && !message.notify" [class.fromHistory]="message.fromHistory">
   <aside>
     <img [src]="message.author.image" />
   </aside>

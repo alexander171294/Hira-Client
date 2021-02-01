@@ -79,6 +79,7 @@ export class PrivmsgComponent implements OnInit {
       this.messageSubscription.unsubscribe();
     }
     this.messageSubscription = this.pmsgSrv.messagesReceived.subscribe(d => {
+
       if(d.author.user === this.nickTarget) {
         this.newMessages = false;
         if(this.autoDownLocked) {
@@ -106,6 +107,14 @@ export class PrivmsgComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    if(!this.privMsg.messages || this.privMsg.messages.length == 0) {
+      const msg = this.pmsgSrv.getHistory(this.privMsg.user);
+      if(msg) {
+        msg.forEach(m => {
+          this.privMsg.messages.push(m);
+        });
+      }
+    }
     if(this.nickTarget) {
       this.privMsg = this.pmsgSrv.getPrivate(this.nickTarget);
       MenuSelectorEvent.menuChange.emit({

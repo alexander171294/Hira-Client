@@ -16,13 +16,18 @@ export class PrivmsgService implements OnMessageReceived {
   public readonly closedPriv: EventEmitter<string> = new EventEmitter<string>();
   public privMsgs: { [key: string]: PrivmsgData } = {};
 
+  public history: { [key: string]: GenericMessage[] };
+
   constructor(private userSrv: UserInfoService) {
     MessageHandler.setHandler(this);
+    this.history = JSON.parse(localStorage.getItem('pv_history'));
+    if(!this.history) {
+      this.history = {};
+    }
   }
 
   onMessageReceived(message: IndividualMessage) {
     if(message.messageType == IndividualMessageTypes.PRIVMSG) {
-      console.log('PMSG', message);
       const msgAuthor = message.privateAuthor ? message.privateAuthor : message.author;
       const msg: GenericMessage = {
         message: (message.message as string),
@@ -41,7 +46,23 @@ export class PrivmsgService implements OnMessageReceived {
         this.privMsgs[message.author].messages.push(msg);
       }
       this.messagesReceived.emit(msg);
+      this.saveHistory(message.author, msg);
+
     }
+  }
+
+  saveHistory(author: string, msg: GenericMessage) {
+    if (!this.history[author]) {
+      this.history[author] = [];
+    }
+    const msC = Object.assign({}, msg);
+    msC.fromHistory = true;
+    this.history[author].push(msC);
+    localStorage.setItem('pv_history', JSON.stringify(this.history));
+  }
+
+  getHistory(author: string): GenericMessage[] {
+    return this.history[author];
   }
 
   getPrivate(nick: string): PrivmsgData {

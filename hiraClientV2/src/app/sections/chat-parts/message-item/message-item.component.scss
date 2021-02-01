@@ -3,6 +3,9 @@ article {
   font-family: helvetica;
   color: var(--message-color);
   padding: 2px;
+  &.fromHistory {
+    opacity: 0.3;
+  }
   aside {
     width: 6%;
     display: inline-flex;

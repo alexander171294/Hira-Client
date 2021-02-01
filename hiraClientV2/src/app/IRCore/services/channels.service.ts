@@ -40,6 +40,8 @@ export class ChannelsService implements OnJoin, OnPart, OnKick, OnUserList, OnCh
 
   private channels: ChannelData[] = [];
 
+  public history: { [key: string]: GenericMessage[] };
+
   constructor(private userSrv: UserInfoService) {
     // Subscribe to events
     JoinHandler.setHandler(this);
@@ -99,6 +101,24 @@ export class ChannelsService implements OnJoin, OnPart, OnKick, OnUserList, OnCh
         }
       }
     });
+    this.history = JSON.parse(localStorage.getItem('chan_history'));
+    if(!this.history) {
+      this.history = {};
+    }
+  }
+
+  saveHistory(channel: string, msg: GenericMessage) {
+    if (!this.history[channel]) {
+      this.history[channel] = [];
+    }
+    const msC = Object.assign({}, msg);
+    msC.fromHistory = true;
+    this.history[channel].push(msC);
+    localStorage.setItem('chan_history', JSON.stringify(this.history));
+  }
+
+  getHistory(author: string): GenericMessage[] {
+    return this.history[author];
   }
 
   onChannelList(user: string, channels: Channel[]) {
@@ -274,6 +294,7 @@ export class ChannelsService implements OnJoin, OnPart, OnKick, OnUserList, OnCh
       };
       chanObj.messages.push(msg);
       this.messagesReceived.emit(msg);
+      this.saveHistory(tgtChan, msg)
     }
   }
 }
