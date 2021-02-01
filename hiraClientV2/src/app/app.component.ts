@@ -19,12 +19,16 @@ export class AppComponent {
 
   constructor(private srvSrv: ServerMsgService, private ircoreSrv: IRCoreService) {
     GmodeHandler.onPrivateRequest.subscribe(d => {
-      console.log(d);
       this.requestNick = d;
     });
     ParamParse.parseHash(window.location.hash.slice(1));
     if(ParamParse.parametria['embedded'] && ParamParse.parametria['embedded'] == 'yes') {
       document.body.classList.add('embedded');
+    }
+    if(!ParamParse.parametria['skin'] || ParamParse.parametria['skin'] === 'light') {
+
+    } else if(ParamParse.parametria['skin'] === 'dark') {
+      document.body.classList.add('dark');
     }
   }
 
