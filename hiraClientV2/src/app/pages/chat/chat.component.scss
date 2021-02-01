@@ -2,24 +2,24 @@ main {
   width: calc(64vw - 57px);
   float: left;
   height: 100vh;
-  background:#bdcad4;
+  background: var(--chat-background);
   position: relative;
   &.full {
     width: calc(82vw - 55px);
   }
   header {
     height: 75px;
-    background: #2c333b;
+    background: var(--chat-header-bg);
     position: relative;
     h3 {
       margin: 0px;
       padding: 1vh 2vw;
-      color: white;
+      color: var(--chat-header-color);
       font-family: helvetica;
       padding-bottom: 0px;
       svg {
         width: 25px;
-        color: #7a7f83;
+        color: var(--chat-header-icon);
         vertical-align: bottom;
         margin-right: 7px;
       }
@@ -32,7 +32,7 @@ main {
     span {
       margin: 0px;
       padding: 1vh 2vw;
-      color: #afb6bb;
+      color: var(--chat-header-subtitle);
       font-family: monospace;
       margin-left: 2vw;
       display: block;
@@ -42,7 +42,7 @@ main {
     }
     svg.options {
       width: 10px;
-      color: gray;
+      color: var(--chat-header-options);
       position: absolute;
       top: 2vh;
       right: 2vw;
@@ -55,24 +55,24 @@ main {
       position: absolute;
       list-style: none;
       right: 0px;
-      background: white;
+      background: var(--chat-header-menu-bg);
       padding: 0px;
       border-radius: 3px;
-      border: 1px solid grey;
-      color: #1c2229;
+      border: 1px solid var(--chat-header-menu-border);
+      color: var(--chat-header-menu-color);
       box-shadow: 3px 3px 5px rgb(0 0 0 / 0.5);
       &::before {
         content: "";
         display: block;
         width: 16px;
         height: 16px;
-        background: white;
+        background: var(--chat-header-menu-bg);
         transform: rotate(45deg);
         position: absolute;
         top: -9px;
         right: calc(2vw - 5px);
-        border-top: 1px solid grey;
-        border-left: 1px solid grey;
+        border-top: 1px solid var(--chat-header-menu-border);
+        border-left: 1px solid var(--chat-header-menu-border);
       }
       &::after {
         content: "";
@@ -92,7 +92,7 @@ main {
         position: relative;
         z-index: 1;
         &:hover {
-          background: #d4d4d4;
+          background: var(--chat-header-menu-item-bg);
         }
         svg {
           width: 15px;
@@ -125,15 +125,15 @@ main {
         max-height: 100%;
         overflow-y: auto;
         &::-webkit-scrollbar-thumb {
-          background: #6c6d72;
+          background: var(--scrollbar-thumb-bg);
         }
         &::-webkit-scrollbar-thumb:hover {
-          background: #96979c;
+          background: var(--scrollbar-thumb-hover);
         }
         &::-webkit-scrollbar-track {
-          background: #1c2229;
-          border-left: 1px solid black;
-          border-right: 1px solid black;
+          background: var(--scrollbar-track-bg);
+          border-left: 1px solid var(--scrollbar-track-border-left);
+          border-right: 1px solid var(--scrollbar-track-border-right);
         }
         &::-webkit-scrollbar {
           width: 10px;
@@ -146,12 +146,12 @@ main {
   }
   footer {
     height: 65px;
-    background: #2c333b;
+    background: var(--chat-footer-bg);
     position: relative;
     q {
       display: block;
-      background: #fff;
-      border: 1px solid #808080;
+      background: var(--chat-footer-quote);
+      border: 1px solid var(--chat-footer-quote-border);
       border-radius: 3px;
       padding: 5px;
       margin: 5px 0;
@@ -159,7 +159,7 @@ main {
       position: absolute;
       top: -25px;
       margin-left: 18px;
-      box-shadow: 0px 0px 5px black;
+      box-shadow: 0px 0px 5px var(--chat-footer-quote-shadow);
       width: calc(100% - 130px - 38px);
       height: 20px;
       white-space: nowrap;
@@ -170,7 +170,7 @@ main {
       }
       svg.fa-quote-right {
         width: 20px;
-        color: #a7a7a7;
+        color: var(--chat-footer-quote-svg);
         margin-right: 5px;
         vertical-align: middle;
       }
@@ -185,11 +185,11 @@ main {
       width: calc(100% - 130px - 38px);
       margin: 18px;
       height: 28px;
-      border: 1px solid #3e4b5a;
+      border: 1px solid var(--chat-footer-input-border);
       border-radius: 3px;
-      background: #1c2229;
+      background: var(--chat-footer-input-bg);
       padding-left: 0.5vw;
-      color: white;
+      color: var(--chat-footer-input-color);
       display: inline-block;
       margin-right: 0px;
     }
@@ -199,14 +199,14 @@ main {
       padding: 0px;
       border-radius: 50%;
       border: none;
-      background: #1c2229;
+      background: var(--chat-footer-button-bg);
       vertical-align: middle;
       margin: 0px 7px;
       outline: none;
       cursor: pointer;
-      box-shadow: 2px 2px 5px #000000ad;
+      box-shadow: 2px 2px 5px var(--chat-footer-button-shadow);
       svg {
-        color: #96979c;
+        color: var(--chat-footer-button-icon-color);
         width: 17px;
         &.fa-spinner {
           margin-top: 4px;

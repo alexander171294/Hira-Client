@@ -94,5 +94,81 @@
   --scrollbar-track-border-left: black;
   --scrollbar-track-border-right: black;
 
+  // page about
+  --page-about-bg: #1c2229;
+  --page-about-header-border: #272e36;
+  --page-about-header-color: #dcdcdc;
+  --page-about-color: #7a7f83;
+  --page-about-link: #4bb91e;
+  --page-about-regards-bg: #343c45;
+  --page-about-button-bg: #363d45;
+  --page-about-button-color: white;
+  --page-about-button-icon: #1e2125;
+  --page-about-button-icon-hover: #4bb91e;
+  --page-about-proximamente-bg: #1c2229;
+  --page-about-proximamente-color: #ccccce;
+
+  // page chat/privmsg
+  --chat-background: #bdcad4;
+  --chat-header-bg: #2c333b;
+  --chat-header-color: white;
+  --chat-header-icon: #7a7f83;
+  --chat-header-subtitle: #afb6bb;
+  --chat-header-options: gray;
+  --chat-header-menu-bg: white;
+  --chat-header-menu-border: grey;
+  --chat-header-menu-color: #1c2229;
+  --chat-header-menu-item-bg: #d4d4d4;
+  --chat-footer-bg: #2c333b;
+  --chat-footer-quote: #fff;
+  --chat-footer-quote-border: #808080;
+  --chat-footer-quote-shadow: black;
+  --chat-footer-quote-svg: #a7a7a7;
+  --chat-footer-input-border: #3e4b5a;
+  --chat-footer-input-bg: #1c2229;
+  --chat-footer-input-color: white;
+  --chat-footer-button-bg: #1c2229;
+  --chat-footer-button-shadow: #000000ad;
+  --chat-footer-button-icon-color: #96979c;
+
+  --privmsg-error-bg: pink;
+  --privmsg-error-border: #770000;
+  --privmsg-error-color: #770000;
+
+  // page server:
+  --server-background: #bdcad4;
+  --server-header-bg: #2c333b;
+  --server-header-color: white;
+  --server-header-icon: #7a7f83;
+  --server-header-subtitle: #afb6bb;
+  --server-header-message-icon-color: #20262d;
+  --server-footer-bg: #2c333b;
+  --server-footer-input-border: #3e4b5a;
+  --server-footer-input-bg: #1c2229;
+  --server-footer-input-color: white;
+  --server-footer-button-bg: #1c2229;
+  --server-footer-button-shadow: #000000ad;
+  --server-footer-button-icon: #96979c;
+
+  // page user:
+  --user-background: #1c2229;
+  --user-form-bg: rgb(28 34 41 / 95%);
+  --user-form-header-border: #272e36;
+  --user-form-header-color: #dcdcdc;
+  --user-error-color: #8a0000;
+  --user-error-bg: #ffc3cd;
+  --user-error-border: #8a0000;
+  --user-label-color: #7a7f83;
+  --user-label-optional: #4bb91e;
+  --user-input-border: black;
+  --user-input-bg: #131619;
+  --user-input-color: white;
+  --user-buttons-svg: #5eb369;
+  --user-select-bg: #131619;
+  --user-select-color: gray;
+  --user-channels-bg: #343c45;
+  --user-channels-button-svg: #ff6a84;
+  --user-footer-button: #363d45;
+  --user-footer-color: white;
 
 }

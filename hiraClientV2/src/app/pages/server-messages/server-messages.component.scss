@@ -2,20 +2,20 @@ main {
   width: calc(82vw - 55px);
   float: left;
   height: 100vh;
-  background:#bdcad4;
+  background: var(--server-background);
   header {
     height: 75px;
-    background: #2c333b;
+    background: var(--server-header-bg);
     position: relative;
     h3 {
       margin: 0px;
       padding: 1vh 2vw;
-      color: white;
+      color: var(--server-header-color);
       font-family: helvetica;
       padding-bottom: 0px;
       svg {
         width: 25px;
-        color: #7a7f83;
+        color: var(--server-header-icon);
         vertical-align: bottom;
         margin-right: 7px;
       }
@@ -29,7 +29,7 @@ main {
     span {
       margin: 0px;
       padding: 1vh 2vw;
-      color: #afb6bb;
+      color: var(--server-header-subtitle);
       font-family: monospace;
       white-space: pre;
       margin-left: 2vw;
@@ -51,7 +51,7 @@ main {
         position: absolute;
         bottom: 0px;
         right: 15px;
-        color: #20262d;
+        color: var(--server-header-message-icon-color);
         cursor: pointer;
       }
       ul {
@@ -64,15 +64,15 @@ main {
         max-height: 100%;
         overflow-y: auto;
         &::-webkit-scrollbar-thumb {
-          background: #6c6d72;
+          background: var(--scrollbar-thumb-bg);
         }
         &::-webkit-scrollbar-thumb:hover {
-          background: #96979c;
+          background: var(--scrollbar-thumb-hover);
         }
         &::-webkit-scrollbar-track {
-          background: #1c2229;
-          border-left: 1px solid black;
-          border-right: 1px solid black;
+          background: var(--scrollbar-track-bg);
+          border-left: 1px solid var(--scrollbar-track-border-left);
+          border-right: 1px solid var(--scrollbar-track-border-right);
         }
         &::-webkit-scrollbar {
           width: 10px;
@@ -85,17 +85,17 @@ main {
   }
   footer {
     height: 65px;
-    background: #2c333b;
+    background: var(--server-footer-bg);
     position: relative;
     input {
       width: calc(100% - 130px - 38px);
       margin: 18px;
       height: 28px;
-      border: 1px solid #3e4b5a;
+      border: 1px solid var(--server-footer-input-border);
       border-radius: 3px;
-      background: #1c2229;
+      background: var(--server-footer-input-bg);
       padding-left: 0.5vw;
-      color: white;
+      color: var(--server-footer-input-color);
       display: inline-block;
       margin-right: 0px;
     }
@@ -105,14 +105,14 @@ main {
       padding: 0px;
       border-radius: 50%;
       border: none;
-      background: #1c2229;
+      background: var(--server-footer-button-bg);
       vertical-align: middle;
       margin: 0px 7px;
       outline: none;
       cursor: pointer;
-      box-shadow: 2px 2px 5px #000000ad;
+      box-shadow: 2px 2px 5px var(--server-footer-button-shadow);
       svg {
-        color: #96979c;
+        color: var(--server-footer-button-icon);
         width: 17px;
       }
     }
