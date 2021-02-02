@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Title } from '@angular/platform-browser';
 import { MenuSelectorEvent, MenuType } from 'src/app/sections/menu/menu-selector.event';
 import { environment } from 'src/environments/environment';
 
@@ -12,7 +13,7 @@ export class AboutComponent implements OnInit {
   codename = environment.codename;
   version = environment.version;
 
-  constructor() { }
+  constructor(private titleSrv: Title) { }
 
   ngOnInit(): void {
     // FIXME: mover a guard:
@@ -20,6 +21,7 @@ export class AboutComponent implements OnInit {
       type: MenuType.MENU,
       name: 'about'
     });
+    this.titleSrv.setTitle('Versiones | HiraClient');
   }
 
 }

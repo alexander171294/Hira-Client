@@ -12,6 +12,7 @@ import { Join } from 'src/app/IRCore/dto/Join';
 import { Router } from '@angular/router';
 import { ValidRegex } from 'src/app/IRCore/utils/validRegex';
 import { environment } from 'src/environments/environment';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-menu',
@@ -30,16 +31,19 @@ export class MenuComponent implements OnInit, OnDestroy {
 
   public lastSelected: MenuElement;
 
-  /**
-   * [
-    {name:'Alex', image: 'https://thira.tandilserver.com/avatar?usr=Alex'},
-    {name:'Zaratuxtra', image: 'https://thira.tandilserver.com/avatar?usr=Zaratuxtra'},
-    {name:'Gabriela-', notify: true, image: 'https://thira.tandilserver.com/avatar?usr=Gabriela-'},
-    {name:'Mendax', image: 'https://thira.tandilserver.com/avatar?usr=Mendax'}
-  ]
-   */
+  public pingsPrivate: number = 0;
+  public pingsChannel: number = 0;
+  public privPings: {[key:string]: number} = {};
+  public chanPings: {[key:string]: number} = {};
 
-  constructor(private cSrv: ChannelsService, private userSrv: UserInfoService, private router: Router, private ircoreSrv: IRCoreService, private pmsgSrv: PrivmsgService) {
+  constructor(
+    private cSrv: ChannelsService,
+    private userSrv: UserInfoService,
+    private router: Router,
+    private ircoreSrv: IRCoreService,
+    private pmsgSrv: PrivmsgService,
+    private titleSrv: Title
+  ) {
     this.joinSubscription = JoinHandler.joinResponse.subscribe((data: Join) => {
       if (data.user.nick === this.userSrv.getNick()) {
         this.router.navigateByUrl('/chat/' + data.channel.name);
@@ -62,10 +66,18 @@ export class MenuComponent implements OnInit, OnDestroy {
         this.channels.find(channel => channel.name == this.lastSelected.name).active = true;
         this.activeChannel = this.lastSelected.name;
         this.activePrivMsg = undefined;
+        if(this.chanPings[d.name] && this.chanPings[d.name] > 0) {
+          this.pingsChannel -= this.chanPings[d.name];
+          this.chanPings[d.name] = 0;
+        }
       } else if(this.lastSelected?.type === MenuType.PRIV_MSG) {
         this.privMsg.find(channel => channel.name == this.lastSelected.name).active = true;
         this.activePrivMsg = this.lastSelected.name;
         this.activeChannel = undefined;
+        if(this.privPings[d.name] && this.privPings[d.name] > 0) {
+          this.pingsPrivate -= this.privPings[d.name];
+          this.privPings[d.name] = 0;
+        }
       }
     });
     this.cSrv.messagesReceived.subscribe(d => {
@@ -75,7 +87,11 @@ export class MenuComponent implements OnInit, OnDestroy {
         const result = regex.exec(d.message);
         if(result) {
           channel.warn = true;
+          this.pingsChannel++;
+          this.showPings();
+          this.chanPings[d.target] = this.chanPings[d.target] ? this.chanPings[d.target]+1 : 1;
         } else if(!channel.warn) {
+          // ping en canal
           channel.notify = true;
         }
       }
@@ -88,10 +104,23 @@ export class MenuComponent implements OnInit, OnDestroy {
         if(result) {
           chat.warn = true;
         } else if(!chat.warn) {
+          // ping en privado
           chat.notify = true;
         }
+        this.pingsPrivate++;
+        this.showPings();
+        this.privPings[d.author.user] = this.privPings[d.author.user] ? this.privPings[d.author.user]+1 : 1;
       }
     });
+  }
+
+  showPings() {
+    const chanLabels = this.pingsChannel > 0 ? '#(' + this.pingsChannel + ') ' : '';
+    const privLabels = this.pingsPrivate > 0 ? '@(' + this.pingsPrivate + ') ' : '';
+
+    if(this.pingsChannel > 0 || this.pingsPrivate > 0) {
+      this.titleSrv.setTitle(chanLabels + privLabels + '| HiraClient');
+    }
   }
 
   closeChannel(elem: ListElement) {

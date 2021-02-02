@@ -4,6 +4,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ServerMsgService } from 'src/app/IRCore/services/server-msg.service';
 import { IRCMessage } from 'src/app/IRCore/utils/IRCMessage.util';
 import { MenuSelectorEvent, MenuType } from 'src/app/sections/menu/menu-selector.event';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-server-messages',
@@ -16,7 +17,7 @@ export class ServerMessagesComponent implements OnInit, OnDestroy {
   public serverCommand: string;
   public subscription: Subscription;
 
-  constructor(private srvSrv: ServerMsgService, private ircSrv: IRCoreService) {
+  constructor(private srvSrv: ServerMsgService, private ircSrv: IRCoreService, private titleSrv: Title) {
     this.messages = srvSrv.messages;
   }
 
@@ -30,6 +31,7 @@ export class ServerMessagesComponent implements OnInit, OnDestroy {
       type: MenuType.MENU,
       name: 'server'
     });
+    this.titleSrv.setTitle('Mensajes del servidor | HiraClient');
   }
 
   goDown() {

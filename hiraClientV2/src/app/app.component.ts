@@ -12,7 +12,6 @@ import { ParamParse } from './ParamsParse';
 })
 export class AppComponent {
 
-  title = 'hiraClientV2';
   codename = environment.codename;
   version = environment.version;
   requestNick = undefined;

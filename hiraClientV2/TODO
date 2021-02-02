@@ -3,6 +3,8 @@
 List
 Whois
 searcher
+notificacion en titulo
+sonido de mensaje
 
 ================================================
 
@@ -14,3 +16,6 @@ searcher
 . probar canales con doble numeral
 . bug del imagen con emote.
 
+================================================
+
+Dividir repos

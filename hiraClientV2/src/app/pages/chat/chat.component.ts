@@ -9,6 +9,7 @@ import { MenuSelectorEvent, MenuType } from 'src/app/sections/menu/menu-selector
 import { HistoryMessageCursorService } from '../utils/history-message-cursor.service';
 import { InfoPanelComponent } from 'src/app/sections/chat-parts/info-panel/info-panel.component';
 import { VcardGetterService } from 'src/app/sections/chat-parts/message-item/link-vcard/vcard-getter.service';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-chat',
@@ -41,7 +42,8 @@ export class ChatComponent implements OnInit, OnDestroy {
       private chanSrv: ChannelsService,
       private ircSrv: IRCoreService,
       private vcg: VcardGetterService,
-      private hmcSrv: HistoryMessageCursorService
+      private hmcSrv: HistoryMessageCursorService,
+      private titleSrv: Title
   ) {
     this.routeSubscription = this.router.events.subscribe(d => {
       if(this.channelName != route.snapshot.params.channel) {
@@ -101,6 +103,7 @@ export class ChatComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     if(this.channelName) {
       this.channel = this.chanSrv.getChannel(this.channelName);
+      this.titleSrv.setTitle('#' + this.channelName + ' | HiraClient');
       if(!this.channel.messages || this.channel.messages.length == 0) {
         const msg = this.chanSrv.getHistory(this.channelName);
         if(msg) {

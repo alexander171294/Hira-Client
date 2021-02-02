@@ -14,6 +14,7 @@ import { environment } from 'src/environments/environment';
 import { AwayHandler } from 'src/app/IRCore/handlers/Away.handler';
 import { Away } from 'src/app/IRCore/dto/Away';
 import { IgnoreHandler } from 'src/app/IRCore/handlers/Ignore.Handler';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-privmsg',
@@ -50,7 +51,8 @@ export class PrivmsgComponent implements OnInit {
     private ircSrv: IRCoreService,
     private hmcSrv: HistoryMessageCursorService,
     private vcg: VcardGetterService,
-    private uis: UserInfoService
+    private uis: UserInfoService,
+    private titleSrv: Title
 ) {
   this.routeSubscription = this.router.events.subscribe(d => {
     if(this.nickTarget != route.snapshot.params.nick) {
@@ -107,16 +109,17 @@ export class PrivmsgComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if(!this.privMsg.messages || this.privMsg.messages.length == 0) {
-      const msg = this.pmsgSrv.getHistory(this.privMsg.user);
-      if(msg) {
-        msg.forEach(m => {
-          this.privMsg.messages.push(m);
-        });
-      }
-    }
     if(this.nickTarget) {
       this.privMsg = this.pmsgSrv.getPrivate(this.nickTarget);
+      this.titleSrv.setTitle('@' + this.nickTarget + ' | HiraClient');
+      if(!this.privMsg.messages || this.privMsg.messages.length == 0) {
+        const msg = this.pmsgSrv.getHistory(this.privMsg.user);
+        if(msg) {
+          msg.forEach(m => {
+            this.privMsg.messages.push(m);
+          });
+        }
+      }
       MenuSelectorEvent.menuChange.emit({
         type: MenuType.PRIV_MSG,
         name: this.nickTarget

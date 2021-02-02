@@ -8,6 +8,7 @@ import { MotdHandler } from 'src/app/IRCore/handlers/Motd.handler';
 import { IRCMessage } from 'src/app/IRCore/utils/IRCMessage.util';
 import { Router } from '@angular/router';
 import { MenuSelectorEvent, MenuType } from 'src/app/sections/menu/menu-selector.event';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-user',
@@ -31,7 +32,7 @@ export class UserComponent implements OnInit, AfterViewInit, OnDestroy {
   private subscription_status: Subscription;
 
 
-  constructor(private ircSrv: IRCoreService, private router: Router) {
+  constructor(private ircSrv: IRCoreService, private router: Router, private titleSrv: Title) {
 
   }
 
@@ -52,6 +53,7 @@ export class UserComponent implements OnInit, AfterViewInit, OnDestroy {
       type: MenuType.MENU,
       name: 'user'
     });
+    this.titleSrv.setTitle('Usuario | HiraClient');
   }
 
   ngAfterViewInit(): void {
