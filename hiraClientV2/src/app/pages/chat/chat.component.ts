@@ -100,7 +100,7 @@ export class ChatComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     if(this.channelName) {
-
+      this.channel = this.chanSrv.getChannel(this.channelName);
       if(!this.channel.messages || this.channel.messages.length == 0) {
         const msg = this.chanSrv.getHistory(this.channelName);
         if(msg) {
@@ -109,8 +109,6 @@ export class ChatComponent implements OnInit, OnDestroy {
           });
         }
       }
-
-      this.channel = this.chanSrv.getChannel(this.channelName);
       // FIXME: mover a guard:
       MenuSelectorEvent.menuChange.emit({
         type: MenuType.CHANNEL,
