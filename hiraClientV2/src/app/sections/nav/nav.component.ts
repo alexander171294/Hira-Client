@@ -65,6 +65,7 @@ export class NavComponent implements OnInit {
     document.body.classList.remove('dark');
     document.body.classList.add(this.skin);
     localStorage.setItem('skinSelected', this.skin);
+    this.popupOpened = false;
   }
 
 }
