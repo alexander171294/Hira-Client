@@ -13,6 +13,7 @@ import { Router } from '@angular/router';
 import { ValidRegex } from 'src/app/IRCore/utils/validRegex';
 import { environment } from 'src/environments/environment';
 import { Title } from '@angular/platform-browser';
+import { AudioService } from 'src/app/utils/audio.service';
 
 @Component({
   selector: 'app-menu',
@@ -42,7 +43,8 @@ export class MenuComponent implements OnInit, OnDestroy {
     private router: Router,
     private ircoreSrv: IRCoreService,
     private pmsgSrv: PrivmsgService,
-    private titleSrv: Title
+    private titleSrv: Title,
+    private audioSrv: AudioService
   ) {
     this.joinSubscription = JoinHandler.joinResponse.subscribe((data: Join) => {
       if (data.user.nick === this.userSrv.getNick()) {
@@ -90,6 +92,7 @@ export class MenuComponent implements OnInit, OnDestroy {
           this.pingsChannel++;
           this.showPings();
           this.chanPings[d.target] = this.chanPings[d.target] ? this.chanPings[d.target]+1 : 1;
+          this.audioSrv.playNotify();
         } else if(!channel.warn) {
           // ping en canal
           channel.notify = true;
@@ -110,6 +113,7 @@ export class MenuComponent implements OnInit, OnDestroy {
         this.pingsPrivate++;
         this.showPings();
         this.privPings[d.author.user] = this.privPings[d.author.user] ? this.privPings[d.author.user]+1 : 1;
+        this.audioSrv.playNotify();
       }
     });
   }

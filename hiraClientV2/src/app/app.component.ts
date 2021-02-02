@@ -3,7 +3,7 @@ import { environment } from './../environments/environment';
 import { Component } from '@angular/core';
 import { ServerMsgService } from './IRCore/services/server-msg.service';
 import { IRCoreService } from './IRCore/IRCore.service';
-import { ParamParse } from './ParamsParse';
+import { ParamParse } from './utils/ParamsParse';
 
 @Component({
   selector: 'app-root',

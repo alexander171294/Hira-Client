@@ -1,4 +1,4 @@
-import { ParamParse } from './../../ParamsParse';
+import { ParamParse } from '../../utils/ParamsParse';
 import { IRCoreService } from 'src/app/IRCore/IRCore.service';
 import { AfterViewChecked, AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core'
 import { ConnectionStatus, ConnectionStatusData, WebSocketUtil } from 'src/app/IRCore/utils/WebSocket.util';

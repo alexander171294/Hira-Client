@@ -1,3 +1,4 @@
+import { AudioService } from 'src/app/utils/audio.service';
 import { IRCoreService } from 'src/app/IRCore/IRCore.service';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
@@ -19,7 +20,7 @@ export class NavComponent implements OnInit {
   public nick: string;
   public skin: string;
 
-  constructor(private router: Router, private ircSrv: IRCoreService, private uiSrv: UserInfoService) { }
+  constructor(private router: Router, private ircSrv: IRCoreService, private uiSrv: UserInfoService, private audioSrv: AudioService) { }
 
   ngOnInit(): void {
     WebSocketUtil.statusChanged.subscribe((status: ConnectionStatusData<any>) => {
@@ -35,6 +36,7 @@ export class NavComponent implements OnInit {
         this.connected = false;
         this.router.navigateByUrl('/user');
         clearInterval(this.timmer);
+        this.audioSrv.playError();
       }
     });
     if(localStorage.getItem('skinSelected')) {
