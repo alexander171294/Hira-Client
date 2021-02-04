@@ -189,14 +189,12 @@ export class IRCParserV2 {
 
     if (parsedMessage.code === '433') { // nick already in use
       // TODO: obtener nick anterior.
-      console.log(parsedMessage);
       StatusHandler.onNickAlreadyInUse('');
       return;
     }
 
     if (parsedMessage.code === '474') {
       // TODO: obtener canal.
-      console.log(parsedMessage);
       StatusHandler.onBanned('');
       return;
     }

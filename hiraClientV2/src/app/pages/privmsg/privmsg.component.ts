@@ -129,7 +129,6 @@ export class PrivmsgComponent implements OnInit {
     document.getElementById('messageInput').focus();
     this.autoGoDown();
     this.awaySubscription = AwayHandler.awayResponse.subscribe((d: Away) => {
-      console.log(d);
       if(d.author == this.nickTarget) {
         this.awayMessage = d.message;
         setTimeout(d => {

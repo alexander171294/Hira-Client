@@ -194,14 +194,14 @@ export class ChatComponent implements OnInit, OnDestroy {
       chat += msg.date + ' <' + msg.author.user + '> ' + msg.message + '\r\n';
     });
     navigator.clipboard.writeText(chat).then(d => {
-      console.log('copied');
+
     });
   }
 
   copyLinkChat(evt) {
     const url = window.location.protocol + '//' + window.location.host + '/user#chat=' + this.channelName;
     navigator.clipboard.writeText(url).then(d => {
-      console.log('copied');
+
     });
   }
 
