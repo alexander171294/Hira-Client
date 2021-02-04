@@ -57,6 +57,7 @@ export class ChatComponent implements OnInit, OnDestroy {
   }
 
   goDown() {
+    console.log('GoDown');
     const elem = document.getElementById('listMessages');
     this.autoDownLocked = false;
     this.newMessages = false;
@@ -76,6 +77,7 @@ export class ChatComponent implements OnInit, OnDestroy {
     this.messageSubscription = this.chanSrv.messagesReceived.subscribe(d => {
       if(d.target === this.channelName) {
         this.newMessages = false;
+        console.log('NM', this.autoDownLocked);
         if(this.autoDownLocked) {
           this.newMessages = true;
           return;
@@ -95,6 +97,7 @@ export class ChatComponent implements OnInit, OnDestroy {
       return;
     }
     this.autoDownLocked = evt.srcElement.scrollTop + evt.srcElement.clientHeight != evt.srcElement.scrollHeight;
+    console.log('on scroll', this.autoDownLocked, evt.srcElement.scrollTop + evt.srcElement.clientHeight, evt.srcElement.scrollHeight);
     if(!this.autoDownLocked) {
       this.newMessages = false;
     }
