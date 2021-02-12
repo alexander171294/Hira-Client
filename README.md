@@ -1,3 +1,21 @@
+# DEPRECATED STATUS
+
+La nueva versión del cliente se encuentra aquí:
+
+https://github.com/hirananet/HiraClient
+
+El nucleo del cliente (todo el parser de IRC) se encuentra aquí:
+
+https://github.com/hirananet/IRCore
+
+La versión mobile se encuentra aquí:
+
+https://github.com/hirananet/Hirana
+
+Ante cualquier otra duda por favor revisar la web de nuestra red:
+
+https://www.hirana.net/
+
 # Hira-Client
 
 IRC Client for Hira network and others 
